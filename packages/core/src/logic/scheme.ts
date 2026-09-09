@@ -20,5 +20,6 @@ export function isTimeScheme(scheme: string | undefined): boolean {
 export function fmtLast(set: LoggedSet | undefined, weighted: boolean, timeBased: boolean): string {
   if (!set) return '';
   if (!weighted) return timeBased ? `${set.r || '–'}s` : `${set.r || '–'}`;
-  return `${set.w || '–'}×${set.r || '–'}`;
+  // Show the unit so it's obvious which number is weight vs reps: "8kg × 12".
+  return `${set.w || '–'}kg × ${set.r || '–'}`;
 }

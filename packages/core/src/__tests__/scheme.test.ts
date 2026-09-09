@@ -28,8 +28,8 @@ describe('isTimeScheme', () => {
 });
 
 describe('fmtLast', () => {
-  it('formats a weighted set as weight×reps', () => {
-    expect(fmtLast({ w: '40', r: '8' }, true, false)).toBe('40×8');
+  it('formats a weighted set as weight (with unit) × reps', () => {
+    expect(fmtLast({ w: '40', r: '8' }, true, false)).toBe('40kg × 8');
   });
 
   it('formats a bodyweight set as just reps', () => {
