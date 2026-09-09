@@ -15,7 +15,23 @@ import { useAuth } from '../auth/AuthContext';
 import { BODYWEIGHT_KEY, PREFS_KEY, queryKeys } from './queryKeys';
 
 // What the UI falls back to before the user has ever saved prefs (no row yet).
-export const DEFAULT_PREFS: UserPrefs = { units: 'kg', defaultPlan: 'gym', restSeconds: 90 };
+export const DEFAULT_PREFS: UserPrefs = {
+  units: 'kg',
+  defaultPlan: 'gym',
+  restSeconds: 90,
+  displayName: null,
+  sex: null,
+  birthYear: null,
+  heightCm: null,
+  goalWeightKg: null,
+  goal: 'muscle',
+  focusMuscles: [],
+  experience: 'intermediate',
+  daysPerWeek: 4,
+  sessionMin: 60,
+  equipment: 'full_gym',
+  onboarded: false,
+};
 
 function useUserId(): string | undefined {
   const { session } = useAuth();
