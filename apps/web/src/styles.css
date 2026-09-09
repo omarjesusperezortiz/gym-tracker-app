@@ -18,6 +18,16 @@ html,body,#root{min-height:100dvh}
 #root{background:var(--bg)}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-settings:"cv01","ss03";
   -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+/* Offline / sync status strip */
+.offlinebar{position:fixed;top:0;left:0;right:0;z-index:60;padding:calc(env(safe-area-inset-top) + 7px) 14px 7px;
+  background:rgba(255,184,77,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,184,77,.3);color:var(--ink);font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;text-align:center}
+.offlinebar.syncing{background:rgba(198,242,78,.12);border-bottom-color:rgba(198,242,78,.3)}
+.offdot{width:8px;height:8px;border-radius:50%;background:var(--warn);flex:none}
+.offdot.syncing{background:var(--acc);animation:offpulse 1s ease-in-out infinite}
+@keyframes offpulse{0%,100%{opacity:1}50%{opacity:.3}}
+
 header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:calc(env(safe-area-inset-top) + 10px)}
 /* Screen title, standing in for the removed top bar on screens that don't

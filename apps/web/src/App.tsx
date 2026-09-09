@@ -1,10 +1,13 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { AuthProvider } from './auth/AuthContext';
 import { AuthGate } from './auth/AuthGate';
 import { createQueryClient } from './lib/queryClient';
+import { registerMutationDefaults } from './lib/mutationDefaults';
 import { AppStateProvider, useAppState } from './state/AppState';
 import { ToastProvider } from './components/Toast';
 import { Nav } from './components/Nav';
+import { OfflineBar } from './components/OfflineBar';
 import { OnboardingGate } from './onboarding/OnboardingGate';
 import { TodayView } from './views/TodayView';
 import { HomeView } from './views/HomeView';
@@ -52,21 +55,43 @@ function Shell() {
 }
 
 const queryClient = createQueryClient();
+registerMutationDefaults(queryClient);
+
+// Persist the cache to localStorage so the app opens instantly with the last
+// data — and works offline. Paused (offline) mutations are persisted too and
+// resume on reconnect/reload.
+const persister = createSyncStoragePersister({
+  storage: window.localStorage,
+  key: 'gym-tracker-cache',
+});
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister,
+        maxAge: 24 * 60 * 60_000,
+        // Bump when cache shape changes to invalidate old persisted data.
+        buster: 'v1',
+      }}
+      onSuccess={() => {
+        // Once the persisted cache is restored, replay anything queued offline.
+        void queryClient.resumePausedMutations();
+      }}
+    >
       <AuthProvider>
         <ToastProvider>
           <AuthGate>
             <AppStateProvider>
               <OnboardingGate>
+                <OfflineBar />
                 <Shell />
               </OnboardingGate>
             </AppStateProvider>
           </AuthGate>
         </ToastProvider>
       </AuthProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }

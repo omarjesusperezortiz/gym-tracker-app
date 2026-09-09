@@ -1,10 +1,13 @@
 // Workout writes, each with an optimistic cache patch so the UI reflects the
 // change on the next paint instead of after the round-trip, and a rollback if
-// the server rejects it.
+// the server rejects it. Each carries a mutationKey so that, when made OFFLINE,
+// the mutation is paused + persisted and replays after reconnect/reload (the
+// mutationFn is re-attached by key in mutationDefaults.ts).
 import { useMutation, useQueryClient, type QueryKey } from '@tanstack/react-query';
-import { finishWorkout, updateWorkout, type FinishedWorkout, type UpdateWorkout } from '@gym-tracker/core';
-import { logDayMarker, removeWorkout, type LoggedWorkout } from './workouts';
+import { type FinishedWorkout, type UpdateWorkout } from '@gym-tracker/core';
+import { type LoggedWorkout } from './workouts';
 import { WORKOUTS_KEY } from './queryKeys';
+import { MUT } from './mutationDefaults';
 
 // Placeholder id for a row the server hasn't assigned a uuid to yet. It only
 // lives until onSettled's refetch swaps in the real row.
@@ -22,14 +25,16 @@ interface Rollback {
 
 // Patches every cached ['workouts', userId] entry — the mutation doesn't need to
 // know which user is signed in, and rollback restores exactly what was replaced.
+// The mutationFn comes from the registered defaults (keyed), so paused-offline
+// mutations can replay after a reload.
 function useOptimisticWorkoutMutation<TVars>(
-  mutationFn: (vars: TVars) => Promise<unknown>,
+  mutationKey: readonly unknown[],
   patch: (history: LoggedWorkout[], vars: TVars) => LoggedWorkout[]
 ) {
   const queryClient = useQueryClient();
 
   return useMutation<unknown, Error, TVars, Rollback>({
-    mutationFn,
+    mutationKey: mutationKey as unknown[],
     onMutate: async (vars) => {
       // Stop in-flight refetches from overwriting the optimistic patch.
       await queryClient.cancelQueries({ queryKey: WORKOUTS_KEY });
@@ -42,15 +47,15 @@ function useOptimisticWorkoutMutation<TVars>(
     onError: (_err, _vars, context) => {
       context?.previous.forEach(([key, history]) => queryClient.setQueryData(key, history));
     },
-    onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: WORKOUTS_KEY });
-    },
+    // Note: the invalidate-on-settle lives at the MutationCache level (see
+    // queryClient.ts) so it also runs for offline mutations resumed after a
+    // reload. Adding it here too would double-refetch.
   });
 }
 
 // Finishing a session: shows up in Calendar/Home/Progress before the RPC returns.
 export function useFinishWorkout() {
-  return useOptimisticWorkoutMutation<FinishedWorkout>(finishWorkout, (history, entry) =>
+  return useOptimisticWorkoutMutation<FinishedWorkout>(MUT.finishWorkout, (history, entry) =>
     newestFirst([
       {
         id: `${OPTIMISTIC_ID}${entry.date}`,
@@ -68,7 +73,7 @@ export function useFinishWorkout() {
 
 // Editing a past workout in place — same row, new slots, original id/date kept.
 export function useUpdateWorkout() {
-  return useOptimisticWorkoutMutation<UpdateWorkout>(updateWorkout, (history, entry) =>
+  return useOptimisticWorkoutMutation<UpdateWorkout>(MUT.updateWorkout, (history, entry) =>
     history.map((w) =>
       w.id === entry.id ? { ...w, plan: entry.plan, sess: entry.sess, name: entry.name, slots: entry.slots } : w
     )
@@ -77,20 +82,17 @@ export function useUpdateWorkout() {
 
 // Logging a rest day from the Calendar day sheet.
 export function useLogRestDay() {
-  return useOptimisticWorkoutMutation<{ date: string }>(
-    ({ date }) => logDayMarker(date, 'rest'),
-    (history, { date }) =>
-      newestFirst([
-        { id: `${OPTIMISTIC_ID}${date}`, date, plan: 'gym', sess: null, name: 'Rest', type: 'rest', slots: [] },
-        ...history,
-      ])
+  return useOptimisticWorkoutMutation<{ date: string }>(MUT.logRestDay, (history, { date }) =>
+    newestFirst([
+      { id: `${OPTIMISTIC_ID}${date}`, date, plan: 'gym', sess: null, name: 'Rest', type: 'rest', slots: [] },
+      ...history,
+    ])
   );
 }
 
 // Deleting a row — used to un-log a rest day.
 export function useRemoveWorkout() {
-  return useOptimisticWorkoutMutation<{ id: string }>(
-    ({ id }) => removeWorkout(id),
-    (history, { id }) => history.filter((w) => w.id !== id)
+  return useOptimisticWorkoutMutation<{ id: string }>(MUT.removeWorkout, (history, { id }) =>
+    history.filter((w) => w.id !== id)
   );
 }
