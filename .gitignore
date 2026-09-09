@@ -1,0 +1,9 @@
+node_modules/
+.turbo/
+dist/
+dist-web/
+coverage/
+.expo/
+*.log
+.DS_Store
+TASK_*.md
