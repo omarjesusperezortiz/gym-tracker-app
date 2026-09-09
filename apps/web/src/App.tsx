@@ -5,6 +5,7 @@ import { createQueryClient } from './lib/queryClient';
 import { AppStateProvider, useAppState } from './state/AppState';
 import { ToastProvider } from './components/Toast';
 import { Nav } from './components/Nav';
+import { OnboardingGate } from './onboarding/OnboardingGate';
 import { TodayView } from './views/TodayView';
 import { HomeView } from './views/HomeView';
 import { TrainView } from './views/TrainView';
@@ -59,7 +60,9 @@ export default function App() {
         <ToastProvider>
           <AuthGate>
             <AppStateProvider>
-              <Shell />
+              <OnboardingGate>
+                <Shell />
+              </OnboardingGate>
             </AppStateProvider>
           </AuthGate>
         </ToastProvider>

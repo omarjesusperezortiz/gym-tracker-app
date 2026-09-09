@@ -358,6 +358,68 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .today-cta svg{width:17px;height:17px;flex:none}
 .today-meta{font-size:11.5px;color:var(--mut);text-align:center;margin-top:14px}
 
+/* ---------- Onboarding wizard ---------- */
+.onb{min-height:100dvh;display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 16px) 18px calc(env(safe-area-inset-bottom) + 18px)}
+.onb-top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex:none}
+.onb-logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc-d));
+  display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px rgba(198,242,78,.28)}
+.onb-logo svg{width:18px;height:18px;stroke:#0a0b0e}
+.onb-steps{flex:1;display:flex;gap:5px;align-items:center}
+.onb-dot{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .3s}
+.onb-dot.done{background:rgba(198,242,78,.45)}
+.onb-dot.active{background:var(--acc);box-shadow:0 0 10px rgba(198,242,78,.4)}
+.onb-count{font-family:var(--mono);font-size:11px;color:var(--mut);flex:none}
+
+.onb-card{flex:1;overflow-y:auto;animation:onbin .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes onbin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.onb-title{font-size:26px;font-weight:800;letter-spacing:-.7px;line-height:1.2;margin:6px 0 8px}
+.onb-sub{font-size:13.5px;color:var(--mut);line-height:1.55;margin:0 0 22px}
+
+.onb-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.onb-field span{font-size:12px;font-weight:600;color:var(--ink2)}
+.onb-field input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:13px;
+  color:var(--ink);padding:14px 15px;font-size:16px;font-family:var(--font)}
+.onb-field input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.14)}
+.onb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.onb-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.onb-row + .onb-row{border-top:1px solid var(--line)}
+.onb-row-label{font-size:13px;font-weight:600;color:var(--ink2);flex:none}
+
+.onb-foot{display:flex;align-items:center;gap:10px;padding-top:16px;flex:none}
+.onb-back,.onb-back-spacer{width:46px;height:46px;flex:none}
+.onb-back{border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--ink2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.onb-back:active{transform:scale(.94)}
+.onb-back svg{width:20px;height:20px}
+.onb-skip{background:none;border:none;color:var(--mut);font-size:13px;font-weight:600;cursor:pointer;padding:10px 4px;flex:none}
+.onb-next{flex:1;margin-top:0;padding:16px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.onb-next svg{width:17px;height:17px}
+.onb-next:disabled{opacity:.6}
+
+/* Goal cards + muscle chips (shared with Profile) */
+.goal-grid{display:flex;flex-direction:column;gap:9px}
+.goal-card{display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
+  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line2);
+  border-radius:15px;padding:14px 15px;color:var(--ink);
+  transition:transform .16s cubic-bezier(.2,.7,.3,1),background .2s,border-color .2s,box-shadow .2s}
+.goal-card:active{transform:scale(.98)}
+.goal-card.active{background:linear-gradient(160deg,rgba(198,242,78,.18),rgba(198,242,78,.04));border-color:var(--acc);
+  box-shadow:0 6px 20px rgba(198,242,78,.14),inset 0 0 0 1px rgba(198,242,78,.3)}
+.goal-emoji{font-size:23px;line-height:1;flex:none}
+.goal-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.goal-label{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.goal-blurb{font-size:11.5px;color:var(--mut)}
+.goal-card.active .goal-blurb{color:var(--acc-d)}
+
+.chip-grid{display:flex;flex-wrap:wrap;gap:8px}
+.mchip{padding:11px 16px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--ink2);
+  transition:transform .16s cubic-bezier(.2,.7,.3,1),background .2s,border-color .2s,color .2s}
+.mchip:active{transform:scale(.94)}
+.mchip.on{background:linear-gradient(135deg,var(--acc),var(--acc-d));border-color:var(--acc);color:var(--acc-ink);
+  box-shadow:0 3px 12px rgba(198,242,78,.28)}
+
 /* ---------- Profile ---------- */
 .profile{padding:6px 16px 16px}
 .pcard{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line2);
