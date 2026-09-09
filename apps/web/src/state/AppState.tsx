@@ -28,7 +28,7 @@ export function keyOf(plan: string, sess: string | null, slot: string): string {
   return `${plan}|${sess ?? ''}|${slot}`;
 }
 
-interface State {
+export interface State {
   plan: PlanKey;
   view: View;
   cur: string | null;
@@ -56,7 +56,7 @@ type Action =
   | { type: 'EDIT_ENTRY'; plan: PlanKey; sess: string; entryId: string; live: LiveMap }
   | { type: 'CANCEL_EDIT'; keys: string[] };
 
-function reducer(state: State, action: Action): State {
+export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SET_PLAN':
       return { ...state, plan: action.plan, cur: null };
@@ -104,12 +104,25 @@ function reducer(state: State, action: Action): State {
       if (!cur || !cur.sets) return state;
       const sets = cur.sets.slice();
       sets[action.index] = { ...sets[action.index], [action.field]: action.value };
+      // Type once, apply to the rest: editing the FIRST set propagates that field
+      // to any later set still empty in that field. Sets you've customized are left
+      // alone (they already have a value there).
+      if (action.index === 0 && action.value) {
+        for (let i = 1; i < sets.length; i++) {
+          if (!sets[i][action.field]) {
+            sets[i] = { ...sets[i], [action.field]: action.value };
+          }
+        }
+      }
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'ADD_SET': {
       const cur = state.live[action.key];
       if (!cur) return state;
-      const sets = [...(cur.sets ?? []), { w: '', r: '', last: '' }];
+      // Copy weight+reps from the last set so the user doesn't retype the same
+      // numbers — most people do the same load across sets. Empty last set → empty new.
+      const prev = cur.sets && cur.sets.length ? cur.sets[cur.sets.length - 1] : null;
+      const sets = [...(cur.sets ?? []), { w: prev?.w ?? '', r: prev?.r ?? '', last: '' }];
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'CLEAR_SLOTS': {
