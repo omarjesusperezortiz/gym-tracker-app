@@ -12,7 +12,7 @@ export function Header() {
           </div>
           <div>
             <div className="htitle">Trainer</div>
-            <div className="hsub">Grow strong · skate flexible</div>
+            <div className="hsub">Grow strong · stay consistent</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>

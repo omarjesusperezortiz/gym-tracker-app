@@ -8,7 +8,7 @@ import { Sheet } from '../components/Sheet';
 import { useAppState, keyOf, type LiveMap } from '../state/AppState';
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
-import { IconChev, IconRest, IconSkate } from '../lib/icons';
+import { IconChev, IconRest } from '../lib/icons';
 
 const DAY_NAMES = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -34,15 +34,15 @@ export function CalendarView() {
   const monthCount = Object.keys(byDay).filter((k) => k.slice(0, 7) === `${y}-${String(m + 1).padStart(2, '0')}`).length;
   const streak = calcStreak(byDay);
 
-  async function toggleDayType(key: string, type: 'skate' | 'rest') {
+  async function toggleDayType(key: string, type: 'rest') {
     const existing = (byDay[key] || []).find((e) => e.type === type);
     try {
       if (existing) {
         await removeWorkout(existing.id);
-        toast(`${type === 'skate' ? 'Skate' : 'Rest'} removed`);
+        toast('Rest removed');
       } else {
         await logDayMarker(`${key}T12:00:00`, type);
-        toast(`${type === 'skate' ? 'Skate' : 'Rest'} logged`);
+        toast('Rest logged');
       }
       await refetch();
     } catch (err) {
@@ -128,7 +128,6 @@ export function CalendarView() {
       </div>
       <div className="cal-legend">
         <i className="lg" style={{ background: 'var(--acc)' }} /> workout &nbsp;
-        <i className="lg" style={{ background: 'var(--blue)' }} /> skate &nbsp;
         <i className="lg" style={{ background: 'var(--mut2)' }} /> rest
       </div>
 
@@ -154,20 +153,18 @@ function DaySheetContent({
 }: {
   day: string;
   events: LoggedWorkout[];
-  onToggle: (key: string, type: 'skate' | 'rest') => void;
+  onToggle: (key: string, type: 'rest') => void;
   onEdit: (entry: LoggedWorkout) => void;
   onClose: () => void;
 }) {
   const d = new Date(`${day}T00:00:00`);
   const workouts = events.filter((e) => e.type === 'workout');
-  const skated = events.some((e) => e.type === 'skate');
   const rested = events.some((e) => e.type === 'rest');
   return (
     <>
       <h2>{d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</h2>
       <div className="sh-sub">
         {workouts.length ? `${workouts.length} workout${workouts.length !== 1 ? 's' : ''}` : 'nothing logged yet'}
-        {skated ? ' · skated' : ''}
         {rested ? ' · rest' : ''}
       </div>
       {workouts.map((e) => {
@@ -206,11 +203,8 @@ function DaySheetContent({
         Log for this day
       </div>
       <div className="quicklog">
-        <button className={`ql skate${skated ? ' on' : ''}`} onClick={() => onToggle(day, 'skate')}>
-          <IconSkate /> Skate
-        </button>
         <button className={`ql rest${rested ? ' on' : ''}`} onClick={() => onToggle(day, 'rest')}>
-          <IconRest /> Rest
+          <IconRest /> Rest day
         </button>
       </div>
       <button className="btn acc" onClick={onClose} style={{ marginTop: 12 }}>

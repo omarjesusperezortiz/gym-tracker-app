@@ -90,14 +90,6 @@ export const IconClose = (): JSX.Element => (
   </svg>
 );
 
-export const IconSkate = (): JSX.Element => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 17h13a3 3 0 000-6H9a3 3 0 010-6h9" />
-    <circle cx="6" cy="19" r="2" />
-    <circle cx="18" cy="19" r="2" />
-  </svg>
-);
-
 export const IconRest = (): JSX.Element => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />

@@ -32,7 +32,6 @@ export function hueOf(e: HuedEntry | null | undefined): string {
 }
 
 export function dotColor(type: string | undefined, e: HuedEntry): string {
-  if (type === 'skate') return 'var(--blue)';
   if (type === 'rest') return 'var(--mut2)';
   return hueOf(e);
 }

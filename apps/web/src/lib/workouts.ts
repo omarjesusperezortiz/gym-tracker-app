@@ -1,4 +1,4 @@
-// Full workout history (including skate/rest markers), queried directly against
+// Full workout history (including rest markers), queried directly against
 // Supabase via core's getSupabase(). core's own fetchHistory() only returns a flat
 // per-slot view for the "last time" lookup — the Calendar, Home stats, and Progress
 // screens need whole workouts (id, date, type, name, slots+sets), so we query for that
@@ -12,7 +12,7 @@ export interface LoggedWorkout {
   plan: string;
   sess: string | null;
   name: string;
-  type: 'workout' | 'skate' | 'rest';
+  type: 'workout' | 'rest';
   slots: LoggedSlot[];
 }
 
@@ -81,10 +81,10 @@ export function toHistorySlotEntries(history: LoggedWorkout[]): HistorySlotEntry
   return out;
 }
 
-export async function logDayMarker(date: string, type: 'skate' | 'rest'): Promise<void> {
+export async function logDayMarker(date: string, type: 'rest'): Promise<void> {
   const { error } = await getSupabase()
     .from('workouts')
-    .insert({ date, type, name: type === 'skate' ? 'Skate' : 'Rest', plan: 'gym' });
+    .insert({ date, type, name: 'Rest', plan: 'gym' });
   if (error) throw error;
 }
 
