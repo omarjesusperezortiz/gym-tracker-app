@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
+import { usePrefs } from '../lib/useProfileData';
 import { fetchRecommendation, localRecoFallback, relTime, type FetchedRecommendation } from '../lib/reco';
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
@@ -13,6 +14,9 @@ function isPlanKey(pk: string): pk is PlanKey {
 export function TodayView() {
   const { dispatch } = useAppState();
   const { history } = useWorkouts();
+  // Focus muscles + goal steer the local fallback (the server recommendation,
+  // when there is one, already accounts for them).
+  const prefs = usePrefs().data ?? undefined;
   const [reco, setReco] = useState<FetchedRecommendation | null>(null);
   const [isFallback, setIsFallback] = useState(true);
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +36,7 @@ export function TodayView() {
     };
   }, []);
 
-  const active: FetchedRecommendation = reco ?? localRecoFallback(history);
+  const active: FetchedRecommendation = reco ?? localRecoFallback(history, prefs);
   const today = new Date().toISOString().slice(0, 10);
   const stale = !!(active.date && active.date !== today);
   const updated = relTime(active.generatedAt);
@@ -64,7 +68,7 @@ export function TodayView() {
           <button
             className="btn sec today-cta"
             onClick={() => {
-              const fb = localRecoFallback(history);
+              const fb = localRecoFallback(history, prefs);
               openSession(fb.plan, fb.session);
             }}
           >
