@@ -1,7 +1,6 @@
-import { useState, type FormEvent } from 'react';
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { catalog } from '@gym-tracker/core';
-import type { BodyweightEntry, UserPrefs } from '@gym-tracker/core';
+import type { BodyweightEntry, Equipment, Experience, UserPrefs } from '@gym-tracker/core';
 import { useAuth } from '../auth/AuthContext';
 import { useToast } from '../components/Toast';
 import {
@@ -12,8 +11,18 @@ import {
   usePrefs,
   useSavePrefs,
 } from '../lib/useProfileData';
+import {
+  DAYS_OPTIONS,
+  EQUIPMENT,
+  EXPERIENCES,
+  GoalPicker,
+  MuscleChips,
+  SESSION_OPTIONS,
+  SEXES,
+  Segmented,
+} from '../components/PrefControls';
 import { makeYScale, smoothPath } from '../lib/chart';
-import { IconEmpty, IconSignOut } from '../lib/icons';
+import { IconEdit, IconEmpty, IconSignOut } from '../lib/icons';
 
 const KG_PER_LB = 0.45359237;
 const REST_PRESETS = [60, 90, 120, 180];
@@ -27,7 +36,7 @@ function dateLabel(iso: string): string {
   return new Date(`${iso.slice(0, 10)}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-// The log is stored in kg; prefs only change how it's shown and entered.
+// Weights are stored in kg; prefs only change how they're shown and entered.
 function fromKg(kg: number, units: UserPrefs['units']): number {
   return units === 'lb' ? kg / KG_PER_LB : kg;
 }
@@ -57,6 +66,12 @@ export function ProfileView() {
   const [date, setDate] = useState(todayInput);
   const [weight, setWeight] = useState('');
 
+  function updatePrefs(patch: Partial<UserPrefs>) {
+    savePrefs.mutate(patch, {
+      onError: (err) => toast(err.message || 'Could not save preferences'),
+    });
+  }
+
   function submitWeighIn(e: FormEvent) {
     e.preventDefault();
     const value = parseFloat(weight);
@@ -76,21 +91,105 @@ export function ProfileView() {
     );
   }
 
-  function updatePrefs(patch: Partial<UserPrefs>) {
-    savePrefs.mutate(patch, {
-      onError: (err) => toast(err.message || 'Could not save preferences'),
-    });
-  }
-
   const prs = (prsQuery.data ?? [])
     .filter((p) => p.bestWeight != null && p.bestWeight > 0)
     .sort((a, b) => (b.bestWeight ?? 0) - (a.bestWeight ?? 0))
     .slice(0, 8);
 
+  const age = prefs.birthYear ? new Date().getFullYear() - prefs.birthYear : null;
+
   return (
     <div className="profile">
-      <div className="view-title">Profile</div>
-      <div className="view-sub">Your body, your settings, your records.</div>
+      <div className="view-title">{prefs.displayName ? `Hey, ${prefs.displayName}` : 'Profile'}</div>
+      <div className="view-sub">
+        {age ? `${age} · ` : ''}
+        Everything here saves as you change it.
+      </div>
+
+      <div className="sec-label">About you</div>
+      <div className="pcard">
+        <InlinePref
+          label="Name"
+          value={prefs.displayName ?? ''}
+          placeholder="Your name"
+          onCommit={(v) => updatePrefs({ displayName: v.trim() || null })}
+        />
+        <div className="prow">
+          <div className="plabel">Sex</div>
+          <Segmented value={prefs.sex ?? ''} options={SEXES} onChange={(v) => updatePrefs({ sex: v })} ariaLabel="Sex" />
+        </div>
+        <InlinePref
+          label="Birth year"
+          value={prefs.birthYear ? String(prefs.birthYear) : ''}
+          placeholder="1995"
+          numeric
+          onCommit={(v) => updatePrefs({ birthYear: v ? Number(v) : null })}
+        />
+        <InlinePref
+          label="Height (cm)"
+          value={prefs.heightCm ? String(prefs.heightCm) : ''}
+          placeholder="178"
+          numeric
+          onCommit={(v) => updatePrefs({ heightCm: v ? Number(v) : null })}
+        />
+        <InlinePref
+          label={`Goal weight (${units})`}
+          value={prefs.goalWeightKg ? fmt(fromKg(prefs.goalWeightKg, units)) : ''}
+          placeholder={units === 'lb' ? '185' : '84'}
+          numeric
+          onCommit={(v) => updatePrefs({ goalWeightKg: v ? toKg(Number(v), units) : null })}
+        />
+      </div>
+
+      <div className="sec-label">Goal &amp; focus</div>
+      <div className="pcard">
+        <GoalPicker value={prefs.goal} onChange={(goal) => updatePrefs({ goal })} />
+        <div className="pdivide">
+          <div className="plabel">Focus muscles</div>
+          <div className="phint">Prioritised in your daily recommendation.</div>
+          <MuscleChips value={prefs.focusMuscles} onChange={(focusMuscles) => updatePrefs({ focusMuscles })} />
+        </div>
+      </div>
+
+      <div className="sec-label">Training</div>
+      <div className="pcard">
+        <div className="prow">
+          <div className="plabel">Experience</div>
+          <Segmented
+            value={prefs.experience}
+            options={EXPERIENCES}
+            onChange={(v) => updatePrefs({ experience: v as Experience })}
+            ariaLabel="Experience"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Days / week</div>
+          <Segmented
+            value={String(prefs.daysPerWeek)}
+            options={DAYS_OPTIONS.map((d) => ({ value: String(d), label: String(d) }))}
+            onChange={(v) => updatePrefs({ daysPerWeek: Number(v) })}
+            ariaLabel="Days per week"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Session</div>
+          <Segmented
+            value={String(prefs.sessionMin)}
+            options={SESSION_OPTIONS.map((m) => ({ value: String(m), label: `${m}m` }))}
+            onChange={(v) => updatePrefs({ sessionMin: Number(v) })}
+            ariaLabel="Session length"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Equipment</div>
+          <Segmented
+            value={prefs.equipment}
+            options={EQUIPMENT}
+            onChange={(v) => updatePrefs({ equipment: v as Equipment })}
+            ariaLabel="Equipment"
+          />
+        </div>
+      </div>
 
       <div className="sec-label">Bodyweight</div>
       <div className="pcard">
@@ -156,7 +255,7 @@ export function ProfileView() {
         )}
       </div>
 
-      <div className="sec-label">Goals &amp; preferences</div>
+      <div className="sec-label">App preferences</div>
       <div className="pcard">
         <div className="prow">
           <div className="plabel">Units</div>
@@ -167,6 +266,7 @@ export function ProfileView() {
               { value: 'lb', label: 'lb' },
             ]}
             onChange={(v) => updatePrefs({ units: v as UserPrefs['units'] })}
+            ariaLabel="Units"
           />
         </div>
         <div className="prow">
@@ -175,6 +275,7 @@ export function ProfileView() {
             value={prefs.defaultPlan}
             options={Object.entries(catalog.plans).map(([key, plan]) => ({ value: key, label: plan.label }))}
             onChange={(v) => updatePrefs({ defaultPlan: v })}
+            ariaLabel="Default plan"
           />
         </div>
         <div className="prow">
@@ -183,6 +284,7 @@ export function ProfileView() {
             value={String(prefs.restSeconds)}
             options={REST_PRESETS.map((s) => ({ value: String(s), label: `${s}s` }))}
             onChange={(v) => updatePrefs({ restSeconds: Number(v) })}
+            ariaLabel="Rest timer"
           />
         </div>
       </div>
@@ -212,6 +314,11 @@ export function ProfileView() {
 
       <div className="sec-label">Account</div>
       <div className="pcard">
+        {/* Flipping onboarded back off sends you through the wizard again, with
+            your current answers pre-filled. */}
+        <button className="btn sec profile-redo" onClick={() => updatePrefs({ onboarded: false })}>
+          <IconEdit /> Redo onboarding
+        </button>
         <button className="btn sec profile-signout" onClick={() => void signOut()}>
           <IconSignOut /> Log out
         </button>
@@ -220,32 +327,48 @@ export function ProfileView() {
   );
 }
 
-// Same look as the Train screen's equipment switcher (.seg), on Radix
-// ToggleGroup for keyboard/aria support.
-function Segmented({
+// Text/number pref that commits on blur (or Enter) instead of on every
+// keystroke, so typing a height doesn't fire a write per digit.
+function InlinePref({
+  label,
   value,
-  options,
-  onChange,
+  placeholder,
+  numeric,
+  onCommit,
 }: {
+  label: string;
   value: string;
-  options: { value: string; label: string }[];
-  onChange: (value: string) => void;
+  placeholder?: string;
+  numeric?: boolean;
+  onCommit: (value: string) => void;
 }) {
+  const ref = useRef<HTMLInputElement>(null);
+  const [draft, setDraft] = useState(value);
+  // Re-sync when the saved value changes underneath (the prefs query resolving,
+  // or an edit elsewhere) — but never while this field has focus, or a slow
+  // fetch landing mid-word would overwrite what's being typed.
+  useEffect(() => {
+    if (document.activeElement !== ref.current) setDraft(value);
+  }, [value]);
+
   return (
-    <ToggleGroup.Root
-      type="single"
-      className="seg seg-inline"
-      value={value}
-      // Single-select deselects when you tap the active item; a setting always
-      // has exactly one value, so an empty change is ignored.
-      onValueChange={(next) => next && onChange(next)}
-    >
-      {options.map((o) => (
-        <ToggleGroup.Item key={o.value} value={o.value} className={`segi${o.value === value ? ' active' : ''}`}>
-          {o.label}
-        </ToggleGroup.Item>
-      ))}
-    </ToggleGroup.Root>
+    <div className="prow">
+      <div className="plabel">{label}</div>
+      <input
+        ref={ref}
+        className="pinput"
+        aria-label={label}
+        type={numeric ? 'number' : 'text'}
+        inputMode={numeric ? 'decimal' : undefined}
+        placeholder={placeholder}
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => draft !== value && onCommit(draft)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
+        }}
+      />
+    </div>
   );
 }
 
