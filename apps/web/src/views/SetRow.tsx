@@ -15,19 +15,17 @@ export function SetRow({ index, set, weighted, timeBased, ghostW, ghostR, onChan
   const repPlaceholder = timeBased ? 'sec' : 'reps';
   return (
     <div className={`setrow${weighted ? '' : ' noweight'}`}>
-      <div className="sl">SET {index + 1}</div>
+      <div className="sl">{index + 1}</div>
+      <div className="prev">{set.last || '–'}</div>
       {weighted && (
-        <>
-          <input
-            inputMode="decimal"
-            placeholder={ghostW || 'kg'}
-            aria-label={`Set ${index + 1} weight`}
-            value={set.w}
-            className={set.w ? 'filled' : ghostW ? 'ghost' : ''}
-            onChange={(e) => onChange('w', e.target.value)}
-          />
-          <span className="x">×</span>
-        </>
+        <input
+          inputMode="decimal"
+          placeholder={ghostW || 'kg'}
+          aria-label={`Set ${index + 1} weight`}
+          value={set.w}
+          className={set.w ? 'filled' : ghostW ? 'ghost' : ''}
+          onChange={(e) => onChange('w', e.target.value)}
+        />
       )}
       <input
         inputMode="numeric"
@@ -37,7 +35,6 @@ export function SetRow({ index, set, weighted, timeBased, ghostW, ghostR, onChan
         className={set.r ? 'filled' : ghostR ? 'ghost' : ''}
         onChange={(e) => onChange('r', e.target.value)}
       />
-      <div className="last">{set.last || ''}</div>
     </div>
   );
 }

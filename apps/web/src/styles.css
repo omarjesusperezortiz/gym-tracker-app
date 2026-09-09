@@ -102,15 +102,18 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .force-note{display:none;align-items:center;gap:8px;background:rgba(255,184,77,.08);border:1px solid rgba(255,184,77,.25);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2)}
 .force-note.show{display:flex}.force-note b{color:var(--warn)}
 .sets{display:flex;flex-direction:column;gap:8px}
-.setrow{display:grid;grid-template-columns:52px 1fr auto 1fr 66px;align-items:center;gap:8px}
-.setrow.noweight{grid-template-columns:52px 1fr 66px}
-.setrow .sl{font-size:11px;color:var(--mut);font-weight:600;font-family:var(--mono)}
+.sets-head{display:grid;grid-template-columns:40px 1fr 1fr 1fr;align-items:center;gap:8px;padding:0 2px 2px;font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--mut2);text-align:center}
+.sets-head.noweight{grid-template-columns:40px 1fr 1fr}
+.sets-head .sl,.sets-head .prev{text-align:left}
+.setrow{display:grid;grid-template-columns:40px 1fr 1fr 1fr;align-items:center;gap:8px}
+.setrow.noweight{grid-template-columns:40px 1fr 1fr}
+.setrow .sl{font-size:14px;color:var(--ink2);font-weight:700;font-family:var(--mono);text-align:center}
+.setrow .prev{font-size:12px;color:var(--mut);font-family:var(--mono);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .setrow input{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 8px;font-size:16px;text-align:center;font-weight:600;font-family:var(--mono);transition:.15s;min-width:0}
 .setrow input::placeholder{color:var(--mut2);font-weight:400}
 .setrow input.ghost::placeholder{color:var(--mut);font-weight:600;opacity:.65}
 .setrow input:focus{outline:none;border-color:var(--acc);background:var(--surf3);box-shadow:0 0 0 3px rgba(198,242,78,.12)}
 .setrow input.filled{border-color:rgba(198,242,78,.35)}
-.setrow .x{color:var(--mut2);text-align:center}
 .setrow .last{font-size:11px;color:var(--ok);text-align:right;font-family:var(--mono);opacity:.85}
 .addset{margin-top:10px;width:100%;background:transparent;border:1px dashed var(--line2);color:var(--mut);border-radius:10px;padding:10px;font-size:12px;font-weight:600;cursor:pointer}
 

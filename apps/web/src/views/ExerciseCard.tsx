@@ -105,6 +105,12 @@ export function ExerciseCard({
           </div>
         )}
         <div className="sets">
+          <div className={`sets-head${weighted ? '' : ' noweight'}`}>
+            <div className="sl">SET</div>
+            <div className="prev">PREVIOUS</div>
+            {weighted && <div>{timeBased ? 'SEC' : 'KG'}</div>}
+            <div>{timeBased ? 'TIME' : 'REPS'}</div>
+          </div>
           {(sets ?? []).map((set, j) => (
             <SetRow
               key={j}

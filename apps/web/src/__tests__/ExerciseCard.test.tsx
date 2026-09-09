@@ -64,9 +64,9 @@ describe('ExerciseCard', () => {
 
   it('adds a new set row', async () => {
     const user = userEvent.setup();
-    render(<Harness />);
-    expect(screen.getAllByText(/^SET \d/)).toHaveLength(1);
+    const { container } = render(<Harness />);
+    expect(container.querySelectorAll('.setrow')).toHaveLength(1);
     await user.click(screen.getByText('+ Add set'));
-    expect(screen.getAllByText(/^SET \d/)).toHaveLength(2);
+    expect(container.querySelectorAll('.setrow')).toHaveLength(2);
   });
 });
