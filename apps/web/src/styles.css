@@ -274,8 +274,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .cal-legend .lg{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
 
 /* month grid — compact squares, minimal empty days, crisp today ring */
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cell{aspect-ratio:auto;height:40px;border-radius:9px;background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;cursor:pointer;transition:.14s;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:44px;gap:4px}
+.cell{height:100%;border-radius:9px;background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;cursor:pointer;transition:.14s;overflow:hidden}
 .cell.empty{cursor:default}
 .cell.has{background:rgba(255,255,255,.05);border-color:var(--line2)}
 .cell.today{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
