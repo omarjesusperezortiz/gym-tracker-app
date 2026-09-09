@@ -28,18 +28,16 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
   const addable = useMemo(() => addableExercises(plan, session), [plan, session]);
   const term = query.trim().toLowerCase();
   const matches = term ? addable.filter((a) => a.slot.toLowerCase().includes(term)) : addable;
-  // Anything typed that isn't already an option can be added as a custom name.
-  const canAddCustom = !!term && !addable.some((a) => a.slot.toLowerCase() === term) && !session.slots.some((s) => s[0].toLowerCase() === term);
 
-  function add(slot: string, custom = false) {
-    onAdd({ slot, scheme: DEFAULT_SCHEME, ...(custom ? { custom: true } : {}) }, scope);
+  function add(slot: string) {
+    onAdd({ slot, scheme: DEFAULT_SCHEME }, scope);
     setQuery('');
   }
 
   return (
     <Sheet open={open} onClose={onClose} title="Add exercise">
       <h2>Add exercise</h2>
-      <div className="sh-sub">Pick a movement, or type your own.</div>
+      <div className="sh-sub">Pick a movement to add to this session.</div>
 
       <Segmented
         value={scope}
@@ -65,15 +63,6 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
         onChange={(e) => setQuery(e.target.value)}
       />
 
-      {canAddCustom && (
-        <button className="add-custom" onClick={() => add(query.trim(), true)} disabled={busy}>
-          <span className="add-custom-plus">+</span>
-          <span>
-            Add “<b>{query.trim()}</b>” as a custom exercise
-          </span>
-        </button>
-      )}
-
       <div className="add-list">
         {matches.map((a) => (
           <button key={a.slot} className="add-row" onClick={() => add(a.slot)} disabled={busy}>
@@ -97,8 +86,10 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
             </span>
           </button>
         ))}
-        {!matches.length && !canAddCustom && (
-          <div className="pempty">Everything in the catalog is already in this session.</div>
+        {!matches.length && (
+          <div className="pempty">
+            {term ? 'No matching exercises.' : 'Everything in the catalog is already in this session.'}
+          </div>
         )}
       </div>
     </Sheet>

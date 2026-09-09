@@ -83,8 +83,8 @@ describe('TrainView with a session overlay', () => {
     expect(renderedSlots(container).slice(0, 2)).toEqual([BASE_SLOTS[2], BASE_SLOTS[1]]);
   });
 
-  it('renders a custom exercise with sets but no equipment tabs', async () => {
-    overlay = { ...EMPTY_OVERLAY, added: [{ slot: 'Sled push', scheme: '3 × 8–12', custom: true }] };
+  it('renders gracefully if a slot has no catalog variation (defensive)', async () => {
+    overlay = { ...EMPTY_OVERLAY, added: [{ slot: 'Sled push', scheme: '3 × 8–12' }] };
     const { container } = renderTrain();
 
     await waitFor(() => expect(renderedSlots(container)).toContain('Sled push'));
@@ -211,14 +211,14 @@ describe('AddExerciseSheet', () => {
     expect(names).toContain('Chest dip');
   });
 
-  it('offers a name that is not in the catalog as a custom exercise', async () => {
+  it('shows an empty state for a search with no catalog match (no custom names)', async () => {
     const user = userEvent.setup();
     renderSheet();
 
     await user.type(screen.getByLabelText('Search exercises'), 'Sled push');
-    await user.click(screen.getByText(/as a custom exercise/));
 
-    expect(onAdd).toHaveBeenCalledWith({ slot: 'Sled push', scheme: '3 × 8–12', custom: true }, 'today');
+    expect(screen.getByText(/No matching exercises/i)).toBeInTheDocument();
+    expect(onAdd).not.toHaveBeenCalled();
   });
 
   it('passes the chosen scope through', async () => {

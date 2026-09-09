@@ -472,12 +472,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .add-search{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:12px;color:var(--ink);
   padding:12px 14px;font-size:15px;font-family:var(--font);margin-bottom:12px}
 .add-search:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.12)}
-.add-custom{width:100%;display:flex;align-items:center;gap:10px;padding:13px 14px;margin-bottom:12px;cursor:pointer;
-  background:linear-gradient(160deg,rgba(198,242,78,.16),rgba(198,242,78,.04));border:1px solid var(--acc);
-  border-radius:13px;color:var(--ink);font-size:13.5px;text-align:left}
-.add-custom b{font-weight:700}
-.add-custom-plus{width:24px;height:24px;flex:none;border-radius:8px;background:var(--acc);color:var(--acc-ink);
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
 .add-list{display:flex;flex-direction:column;gap:8px;padding-bottom:4px}
 .add-row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;cursor:pointer;text-align:left;
   background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:13px;color:var(--ink);transition:.15s}

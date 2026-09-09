@@ -77,8 +77,8 @@ export function TrainView() {
       // was"); otherwise the first available variation.
       const validKinds = P.variations[slot] || {};
       const remembered = lastKindFor(historyEntries, slot);
-      // A custom (free-typed) exercise has no catalog variations, so there are no
-      // equipment tabs to pick from — assume a weighted movement.
+      // Every exercise comes from the catalog (which has variations); the 'bar'
+      // fallback is just defensive in case a slot lacks a variations entry.
       const fallback: Kind = Object.keys(validKinds).length ? firstKind(validKinds) : 'bar';
       const kind =
         state.pref[`${state.plan}|${slot}`] ||

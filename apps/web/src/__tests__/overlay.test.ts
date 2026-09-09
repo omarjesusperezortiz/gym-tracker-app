@@ -89,7 +89,7 @@ describe('moveSlot', () => {
 describe('withOneOffs', () => {
   it('merges today-only slots on top of the stored overlay for rendering', () => {
     const stored = addSlot(EMPTY_OVERLAY, { slot: 'Chest dip', scheme: '3 × 8–12' });
-    const merged = withOneOffs(stored, [{ slot: 'Sled push', scheme: '3 × 8–12', custom: true }]);
+    const merged = withOneOffs(stored, [{ slot: 'Sled push', scheme: '3 × 8–12' }]);
     expect(merged.added.map((a) => a.slot)).toEqual(['Chest dip', 'Sled push']);
     // The stored overlay is untouched — one-offs never get persisted.
     expect(stored.added.map((a) => a.slot)).toEqual(['Chest dip']);
