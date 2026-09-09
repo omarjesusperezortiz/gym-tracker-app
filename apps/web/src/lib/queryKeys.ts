@@ -5,6 +5,7 @@ export const WORKOUTS_KEY = ['workouts'] as const;
 export const PREFS_KEY = ['prefs'] as const;
 export const BODYWEIGHT_KEY = ['bodyweight'] as const;
 export const PRS_KEY = ['personalRecords'] as const;
+export const CUSTOMIZATIONS_KEY = ['customizations'] as const;
 
 export const queryKeys = {
   // Every view calls useWorkouts(), so they all share this one cache entry —
@@ -13,4 +14,5 @@ export const queryKeys = {
   prefs: (userId: string | undefined) => [...PREFS_KEY, userId] as const,
   bodyweight: (userId: string | undefined) => [...BODYWEIGHT_KEY, userId] as const,
   personalRecords: (userId: string | undefined) => [...PRS_KEY, userId] as const,
+  customizations: (userId: string | undefined) => [...CUSTOMIZATIONS_KEY, userId] as const,
 };

@@ -3,8 +3,8 @@
 // globals, persisted to localStorage so a reload never loses unsaved sets.
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { catalog } from '@gym-tracker/core';
-import type { Kind, PlanKey } from '@gym-tracker/core';
-import { LS_DRAFT, LS_PLAN, LS_PREF, readJSON, writeJSON } from '../lib/storage';
+import type { AddedSlot, Kind, PlanKey } from '@gym-tracker/core';
+import { LS_DRAFT, LS_ONEOFF, LS_PLAN, LS_PREF, readJSON, writeJSON } from '../lib/storage';
 
 export type View = 'today' | 'home' | 'train' | 'calendar' | 'progress' | 'meals' | 'profile';
 
@@ -23,6 +23,10 @@ export interface LiveSlotState {
 
 export type LiveMap = Record<string, LiveSlotState>;
 export type PrefMap = Record<string, Kind>;
+/** Exercises added for TODAY only, keyed `${plan}|${sess}`. Merged into the
+ *  session for rendering and saved with the workout, but never written to the
+ *  session_customizations overlay. */
+export type OneOffMap = Record<string, AddedSlot[]>;
 
 export function keyOf(plan: string, sess: string | null, slot: string): string {
   return `${plan}|${sess ?? ''}|${slot}`;
@@ -34,6 +38,7 @@ export interface State {
   cur: string | null;
   live: LiveMap;
   pref: PrefMap;
+  oneOff: OneOffMap;
   // Set while re-opening a PAST, already-finished workout for editing (Calendar's
   // "Continue / edit this workout"). editingKey is `${plan}|${sess}` — Finish updates
   // that workout row instead of inserting a new one only while it still matches.
@@ -52,9 +57,11 @@ type Action =
   | { type: 'SET_KIND'; key: string; planSlotKey: string; kind: Kind; sets: LiveSet[] | null }
   | { type: 'UPDATE_SET'; key: string; index: number; field: 'w' | 'r'; value: string }
   | { type: 'ADD_SET'; key: string }
-  | { type: 'CLEAR_SLOTS'; keys: string[] }
+  | { type: 'CLEAR_SLOTS'; keys: string[]; sessionKey?: string }
   | { type: 'EDIT_ENTRY'; plan: PlanKey; sess: string; entryId: string; live: LiveMap }
-  | { type: 'CANCEL_EDIT'; keys: string[] };
+  | { type: 'CANCEL_EDIT'; keys: string[]; sessionKey?: string }
+  | { type: 'ADD_LIVE_SLOT'; sessionKey: string; slot: AddedSlot }
+  | { type: 'REMOVE_LIVE_SLOT'; sessionKey: string; slot: string; key: string };
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -116,10 +123,11 @@ export function reducer(state: State, action: Action): State {
     }
     case 'CLEAR_SLOTS': {
       // Always called right after a successful Finish (insert or update) for the
-      // CURRENT session, so it also exits any edit mode that session was in.
+      // CURRENT session, so it also exits any edit mode that session was in and
+      // drops today's one-off additions — they were for that workout only.
       const live = { ...state.live };
       action.keys.forEach((k) => delete live[k]);
-      return { ...state, live, editingId: null, editingKey: null };
+      return { ...state, live, oneOff: clearOneOff(state.oneOff, action.sessionKey), editingId: null, editingKey: null };
     }
     case 'EDIT_ENTRY':
       return {
@@ -134,23 +142,49 @@ export function reducer(state: State, action: Action): State {
     case 'CANCEL_EDIT': {
       const live = { ...state.live };
       action.keys.forEach((k) => delete live[k]);
-      return { ...state, live, editingId: null, editingKey: null };
+      return { ...state, live, oneOff: clearOneOff(state.oneOff, action.sessionKey), editingId: null, editingKey: null };
+    }
+    case 'ADD_LIVE_SLOT': {
+      const existing = state.oneOff[action.sessionKey] ?? [];
+      if (existing.some((a) => a.slot === action.slot.slot)) return state;
+      return { ...state, oneOff: { ...state.oneOff, [action.sessionKey]: [...existing, action.slot] } };
+    }
+    case 'REMOVE_LIVE_SLOT': {
+      const existing = state.oneOff[action.sessionKey] ?? [];
+      const live = { ...state.live };
+      delete live[action.key];
+      return {
+        ...state,
+        live,
+        oneOff: { ...state.oneOff, [action.sessionKey]: existing.filter((a) => a.slot !== action.slot) },
+      };
     }
     default:
       return state;
   }
 }
 
+function clearOneOff(oneOff: OneOffMap, sessionKey: string | undefined): OneOffMap {
+  if (!sessionKey || !oneOff[sessionKey]) return oneOff;
+  const next = { ...oneOff };
+  delete next[sessionKey];
+  return next;
+}
+
 function initialState(): State {
   const plan = readJSON<PlanKey>(LS_PLAN, 'gym');
   const pref = readJSON<PrefMap>(LS_PREF, {});
   const live = readJSON<LiveMap>(LS_DRAFT, {});
+  // Persisted alongside the draft: without it a reload would drop the added
+  // exercise while its typed sets stayed in `live`, orphaned and unsaveable.
+  const oneOff = readJSON<OneOffMap>(LS_ONEOFF, {});
   return {
     plan: catalog.plans[plan] ? plan : 'gym',
     view: 'today',
     cur: null,
     live,
     pref,
+    oneOff,
     editingId: null,
     editingKey: null,
   };
@@ -169,6 +203,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => writeJSON(LS_PLAN, state.plan), [state.plan]);
   useEffect(() => writeJSON(LS_PREF, state.pref), [state.pref]);
   useEffect(() => writeJSON(LS_DRAFT, state.live), [state.live]);
+  useEffect(() => writeJSON(LS_ONEOFF, state.oneOff), [state.oneOff]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

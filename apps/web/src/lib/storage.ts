@@ -4,6 +4,7 @@
 export const LS_PLAN = 'gt_web_plan_v1';
 export const LS_PREF = 'gt_web_pref_v1';
 export const LS_DRAFT = 'gt_web_draft_v1';
+export const LS_ONEOFF = 'gt_web_oneoff_v1';
 
 export function readJSON<T>(key: string, fallback: T): T {
   try {
