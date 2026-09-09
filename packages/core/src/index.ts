@@ -7,3 +7,5 @@ export * from './logic/scheme';
 export * from './supabase/client';
 export * from './supabase/history';
 export * from './supabase/prefs';
+export * from './supabase/customizations';
+export * from './logic/addable';
