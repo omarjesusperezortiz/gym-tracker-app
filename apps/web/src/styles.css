@@ -13,6 +13,9 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
+html{background:var(--bg);min-height:100%}
+html,body,#root{min-height:100dvh}
+#root{background:var(--bg)}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-settings:"cv01","ss03";
   -webkit-font-smoothing:antialiased;padding-bottom:calc(150px + env(safe-area-inset-bottom));overscroll-behavior-y:none}
 header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
