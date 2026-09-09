@@ -3,6 +3,7 @@ import { isTimeScheme, KIND_LABEL } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
+import { ghostFor } from '../lib/ghost';
 import { IconCheck } from '../lib/icons';
 
 export interface ExerciseCardProps {
@@ -105,7 +106,16 @@ export function ExerciseCard({
         )}
         <div className="sets">
           {(sets ?? []).map((set, j) => (
-            <SetRow key={j} index={j} set={set} weighted={weighted} timeBased={timeBased} onChange={(field, value) => onSetChange(j, field, value)} />
+            <SetRow
+              key={j}
+              index={j}
+              set={set}
+              weighted={weighted}
+              timeBased={timeBased}
+              ghostW={ghostFor(sets ?? [], j, 'w')}
+              ghostR={ghostFor(sets ?? [], j, 'r')}
+              onChange={(field, value) => onSetChange(j, field, value)}
+            />
           ))}
         </div>
         <button className="addset" onClick={onAddSet}>

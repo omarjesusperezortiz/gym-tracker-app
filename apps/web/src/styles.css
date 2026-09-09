@@ -107,6 +107,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .setrow .sl{font-size:11px;color:var(--mut);font-weight:600;font-family:var(--mono)}
 .setrow input{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 8px;font-size:16px;text-align:center;font-weight:600;font-family:var(--mono);transition:.15s;min-width:0}
 .setrow input::placeholder{color:var(--mut2);font-weight:400}
+.setrow input.ghost::placeholder{color:var(--mut);font-weight:600;opacity:.65}
 .setrow input:focus{outline:none;border-color:var(--acc);background:var(--surf3);box-shadow:0 0 0 3px rgba(198,242,78,.12)}
 .setrow input.filled{border-color:rgba(198,242,78,.35)}
 .setrow .x{color:var(--mut2);text-align:center}

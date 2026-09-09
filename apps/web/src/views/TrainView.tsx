@@ -5,6 +5,7 @@ import { keyOf, useAppState, type LiveSet, type LiveSlotState } from '../state/A
 import { useWorkouts } from '../lib/useWorkouts';
 import { useFinishWorkout, useUpdateWorkout } from '../lib/useWorkoutMutations';
 import { toHistorySlotEntries } from '../lib/workouts';
+import { effectiveValue } from '../lib/ghost';
 import { useToast } from '../components/Toast';
 import { Dock } from '../components/Dock';
 import { Lightbox } from '../components/Lightbox';
@@ -87,7 +88,12 @@ export function TrainView() {
       const key = keyOf(state.plan, cur, slot);
       const st = state.live[key];
       if (!st) return;
-      const sets = (st.sets ?? []).filter((x) => x.w !== '' || x.r !== '').map((x) => ({ w: x.w, r: x.r }));
+      const liveSets = st.sets ?? [];
+      // A set counts as logged if it has a typed value OR inherits a ghost from a
+      // filled set above. Persist the ghost's effective value (what the user saw).
+      const sets = liveSets
+        .map((_, j) => ({ w: effectiveValue(liveSets, j, 'w'), r: effectiveValue(liveSets, j, 'r') }))
+        .filter((x) => x.w !== '' || x.r !== '');
       if (sets.length || st.done) slots.push({ slot, kind: st.kind, done: st.done, force: !!st.force, sets });
     });
     if (!slots.length) {
