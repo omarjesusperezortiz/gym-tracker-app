@@ -1,5 +1,5 @@
 import { useAppState, type View } from '../state/AppState';
-import { IconToday, IconHome, IconCal, IconProgress, IconMeal } from '../lib/icons';
+import { IconToday, IconHome, IconCal, IconProgress, IconMeal, IconProfile } from '../lib/icons';
 
 const NAVS: { v: View; label: string; Icon: () => JSX.Element }[] = [
   { v: 'today', label: 'Today', Icon: IconToday },
@@ -7,6 +7,7 @@ const NAVS: { v: View; label: string; Icon: () => JSX.Element }[] = [
   { v: 'calendar', label: 'Calendar', Icon: IconCal },
   { v: 'progress', label: 'Progress', Icon: IconProgress },
   { v: 'meals', label: 'Meals', Icon: IconMeal },
+  { v: 'profile', label: 'Profile', Icon: IconProfile },
 ];
 
 export function Nav() {

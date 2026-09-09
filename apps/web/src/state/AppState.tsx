@@ -6,7 +6,7 @@ import { catalog } from '@gym-tracker/core';
 import type { Kind, PlanKey } from '@gym-tracker/core';
 import { LS_DRAFT, LS_PLAN, LS_PREF, readJSON, writeJSON } from '../lib/storage';
 
-export type View = 'today' | 'home' | 'train' | 'calendar' | 'progress' | 'meals';
+export type View = 'today' | 'home' | 'train' | 'calendar' | 'progress' | 'meals' | 'profile';
 
 export interface LiveSet {
   w: string;

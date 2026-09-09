@@ -112,10 +112,14 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:45;
   width:auto;max-width:calc(100% - 24px);background:rgba(20,22,28,.72);backdrop-filter:blur(22px) saturate(1.5);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);border:1px solid var(--glass-brd);border-radius:26px;
-  display:flex;gap:2px;padding:7px 8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 30px rgba(0,0,0,.5)}
-.nav .ni{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 11px;border-radius:18px;
-  color:var(--mut);cursor:pointer;transition:.18s cubic-bezier(.2,.7,.3,1);font-size:9.5px;font-weight:600;position:relative}
-.nav .ni svg{width:21px;height:21px}
+  display:flex;gap:1px;padding:6px 7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 30px rgba(0,0,0,.5)}
+/* Six tabs have to fit a 390px iPhone: tighter item padding + a slightly
+   smaller label, icons kept at 20px. flex-shrink stays on with min-width:0 so
+   an even narrower phone squeezes the items instead of overflowing the pill. */
+.nav .ni{flex:0 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 7px;border-radius:16px;
+  color:var(--mut);cursor:pointer;transition:.18s cubic-bezier(.2,.7,.3,1);font-size:9px;font-weight:600;letter-spacing:-.2px;position:relative}
+.nav .ni span{white-space:nowrap}
+.nav .ni svg{width:20px;height:20px;flex:none}
 .nav .ni.active{color:var(--acc);background:rgba(198,242,78,.14)}
 .nav .ni.active svg{filter:drop-shadow(0 0 6px rgba(198,242,78,.4))}
 /* Finish bar sits above nav on Train view */
@@ -328,6 +332,48 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .today-cta{padding:15px 16px;margin-top:22px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:15px}
 .today-cta svg{width:17px;height:17px;flex:none}
 .today-meta{font-size:11.5px;color:var(--mut);text-align:center;margin-top:14px}
+
+/* ---------- Profile ---------- */
+.profile{padding:6px 16px 16px}
+.pcard{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line2);
+  border-radius:16px;padding:16px;margin-bottom:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.pempty{color:var(--mut);font-size:12.5px;line-height:1.6;text-align:center;padding:10px 4px 14px}
+.pempty svg{width:22px;height:22px;opacity:.7}
+
+.bw-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.bw-now{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
+.bw-unit{font-size:14px;font-weight:600;color:var(--mut);margin-left:5px;letter-spacing:0}
+.bw-meta{font-size:11.5px;color:var(--mut);margin-top:6px}
+.bw-meta .up{color:var(--warn)}
+.bw-meta .down{color:var(--ok)}
+.bw-spark{width:108px;height:40px;flex:none}
+.bw-form{display:flex;gap:8px}
+.bw-form input{flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:11px;
+  color:var(--ink);padding:11px 12px;font-size:13px;font-family:var(--mono)}
+.bw-form input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.12)}
+.bw-form input[type="number"]{max-width:88px;text-align:center}
+.bw-form .bw-add{width:auto;flex:none;margin-top:0;padding:11px 18px}
+.bw-list{display:flex;flex-direction:column;gap:2px;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.bw-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);padding:3px 0}
+.bw-row b{color:var(--ink2);font-family:var(--mono);font-weight:600}
+
+.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}
+.prow + .prow{border-top:1px solid var(--line)}
+.plabel{font-size:13px;font-weight:600;color:var(--ink2);flex:none}
+/* .seg is built for the Train card (outer margins); inline it inside a row. */
+.seg.seg-inline{margin:0;flex:1;max-width:210px}
+.seg.seg-inline .segi{padding:7px 4px;font-size:11.5px}
+
+.pr-list{display:flex;flex-direction:column}
+.pr-row{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:13.5px}
+.pr-row + .pr-row{border-top:1px solid var(--line)}
+.pr-rank{width:20px;height:20px;border-radius:6px;background:var(--surf3);color:var(--mut);font-family:var(--mono);
+  font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.pr-slot{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr-val{font-family:var(--mono);color:var(--acc);font-weight:700;flex:none}
+
+.profile-signout{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:0;color:var(--danger)}
+.profile-signout svg{width:16px;height:16px}
 
 /* ---------- Auth gate (new for the web app) ---------- */
 .auth-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:22px}

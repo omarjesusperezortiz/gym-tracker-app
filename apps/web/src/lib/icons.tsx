@@ -96,6 +96,13 @@ export const IconRest = (): JSX.Element => (
   </svg>
 );
 
+export const IconProfile = (): JSX.Element => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1" />
+  </svg>
+);
+
 export const IconSignOut = (): JSX.Element => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />

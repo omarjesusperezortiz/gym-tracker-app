@@ -11,6 +11,7 @@ import { TrainView } from './views/TrainView';
 import { CalendarView } from './views/CalendarView';
 import { ProgressView } from './views/ProgressView';
 import { MealsView } from './views/MealsView';
+import { ProfileView } from './views/ProfileView';
 
 function Screens() {
   const { state } = useAppState();
@@ -27,6 +28,8 @@ function Screens() {
       return <ProgressView />;
     case 'meals':
       return <MealsView />;
+    case 'profile':
+      return <ProfileView />;
     default:
       return null;
   }
