@@ -58,7 +58,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .ring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--surf)}
 .ring b{position:relative;font-size:12px;font-weight:700}
 .prog .pl{font-size:13px;font-weight:600}.prog .ps{font-size:12px;color:var(--mut);margin-top:2px}
-.wrap{padding:0 14px}
+.wrap{padding:0 14px calc(96px + env(safe-area-inset-bottom))}
 
 .ex{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s}
 .ex.done{border-color:rgba(61,220,151,.4)}
