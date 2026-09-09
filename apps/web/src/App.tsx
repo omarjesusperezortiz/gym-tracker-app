@@ -4,7 +4,6 @@ import { AuthGate } from './auth/AuthGate';
 import { createQueryClient } from './lib/queryClient';
 import { AppStateProvider, useAppState } from './state/AppState';
 import { ToastProvider } from './components/Toast';
-import { Header } from './components/Header';
 import { Nav } from './components/Nav';
 import { TodayView } from './views/TodayView';
 import { HomeView } from './views/HomeView';
@@ -35,10 +34,12 @@ function Screens() {
 
 function Shell() {
   const { state } = useAppState();
+  // Train brings its own sticky bar (which carries the notch padding), so only
+  // the other screens need .wrap to reserve the safe-area inset at the top.
+  const inTrain = state.view === 'train';
   return (
     <>
-      {state.view !== 'train' && <Header />}
-      <div className="wrap">
+      <div className={`wrap${inTrain ? ' wrap-train' : ''}`}>
         <Screens />
       </div>
       <Nav />

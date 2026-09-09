@@ -17,6 +17,9 @@ export function MealsView() {
 
   return (
     <div className="meals">
+      <div className="view-title">Nutrition</div>
+      <div className="view-sub">Eat for the work you're putting in.</div>
+
       <div className="target-card">
         <div className="tg">
           <div className="ti">

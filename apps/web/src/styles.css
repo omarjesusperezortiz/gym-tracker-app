@@ -20,13 +20,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-
   -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
-.hbar{padding:11px 18px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc-d));
-  display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px rgba(198,242,78,.28)}
-.logo svg{width:20px;height:20px}
-.htitle{font-weight:600;font-size:16px;letter-spacing:-.3px;line-height:1.1}
-.hsub{font-size:11px;color:var(--mut);margin-top:1px}
+/* Screen title, standing in for the removed top bar on screens that don't
+   already open with a heading of their own. */
+.view-title{font-size:21px;font-weight:700;letter-spacing:-.5px;margin:2px 2px 4px}
+.view-sub{font-size:12.5px;color:var(--mut);margin:0 2px 16px}
 .iconbtn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);
   color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;transition:.15s;position:relative}
 .iconbtn:active{transform:scale(.92)}
@@ -58,7 +55,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .ring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--surf)}
 .ring b{position:relative;font-size:12px;font-weight:700}
 .prog .pl{font-size:13px;font-weight:600}.prog .ps{font-size:12px;color:var(--mut);margin-top:2px}
-.wrap{padding:0 14px calc(96px + env(safe-area-inset-bottom))}
+/* No top bar any more, so the scroll container itself keeps content out from
+   under the status bar / notch. Train opts out — its sticky bar does that. */
+.wrap{padding:calc(env(safe-area-inset-top) + 8px) 14px calc(96px + env(safe-area-inset-bottom))}
+.wrap-train{padding-top:0}
 
 .ex{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s}
 .ex.done{border-color:rgba(61,220,151,.4)}
@@ -340,7 +340,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .auth-switch{text-align:center;font-size:12.5px;color:var(--mut);margin-top:16px}
 .auth-switch button{background:none;border:none;color:var(--acc);font-weight:600;cursor:pointer;font-size:12.5px;padding:0;margin-left:4px}
 .auth-loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px}
-.signout-icon svg{width:18px;height:18px}
 
 /* ---------- Meals target grid tweak for 4 items ---------- */
 .tg.four .ti{flex:1}
