@@ -17,10 +17,10 @@ html{background:var(--bg);min-height:100%}
 html,body,#root{min-height:100dvh}
 #root{background:var(--bg)}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-settings:"cv01","ss03";
-  -webkit-font-smoothing:antialiased;padding-bottom:calc(150px + env(safe-area-inset-bottom));overscroll-behavior-y:none}
+  -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
-.hbar{padding:11px 18px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hbar{padding:11px 18px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc-d));
   display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px rgba(198,242,78,.28)}
@@ -352,11 +352,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
    ambient background glow so the glass has something to refract.
    ============================================================ */
 :root{
-  --glass:rgba(255,255,255,.055);
-  --glass-2:rgba(255,255,255,.085);
-  --glass-brd:rgba(255,255,255,.14);
-  --glass-hi:rgba(255,255,255,.22);
-  --glass-blur:saturate(1.6) blur(16px);
+  --glass:rgba(255,255,255,.10);
+  --glass-2:rgba(255,255,255,.15);
+  --glass-brd:rgba(255,255,255,.20);
+  --glass-hi:rgba(255,255,255,.30);
+  --glass-blur:saturate(1.7) blur(20px);
 }
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)){
 
@@ -364,9 +364,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
   body::before{
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(60% 42% at 78% -6%, rgba(198,242,78,.14), transparent 60%),
-      radial-gradient(52% 40% at 8% 8%, rgba(90,169,255,.12), transparent 60%),
-      radial-gradient(60% 46% at 50% 108%, rgba(155,140,255,.12), transparent 62%);
+      radial-gradient(58% 40% at 82% -4%, rgba(198,242,78,.22), transparent 60%),
+      radial-gradient(52% 40% at 4% 10%, rgba(90,169,255,.20), transparent 60%),
+      radial-gradient(64% 48% at 50% 106%, rgba(155,140,255,.20), transparent 62%);
   }
 
   /* Header + bottom nav = frosted glass with a bright top hairline */
