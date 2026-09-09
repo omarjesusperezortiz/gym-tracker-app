@@ -1,18 +1,7 @@
-import { test, type Page } from '@playwright/test';
+import { test } from '@playwright/test';
+import { signIn } from './helpers';
 
-const EMAIL = process.env.E2E_EMAIL || 'rn-roundtrip-1788951465051@gmail.com';
-const PASSWORD = process.env.E2E_PASSWORD || 'TestPass123!';
 
-async function signIn(page: Page) {
-  await page.goto('./');
-  const e = page.locator('#email');
-  if (await e.isVisible().catch(() => false)) {
-    await e.fill(EMAIL);
-    await page.locator('#password').fill(PASSWORD);
-    await page.getByRole('button', { name: /sign in/i }).click();
-    await page.locator('.nav').waitFor({ state: 'visible', timeout: 15_000 });
-  }
-}
 
 test('viewport shot scrolled to bottom of Today (real nav overlap check)', async ({ page }) => {
   await signIn(page);

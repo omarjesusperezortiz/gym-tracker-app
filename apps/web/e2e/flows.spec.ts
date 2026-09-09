@@ -1,21 +1,7 @@
-import { test, expect, type Page } from '@playwright/test';
-
-// Test account (email-confirmation is OFF on the Supabase project).
-const EMAIL = process.env.E2E_EMAIL || 'rn-roundtrip-1788951465051@gmail.com';
-const PASSWORD = process.env.E2E_PASSWORD || 'TestPass123!';
-
-async function signIn(page: Page) {
-  await page.goto('./');
-  // Auth gate shows the sign-in form when not authed.
-  const emailInput = page.locator('#email');
-  if (await emailInput.isVisible().catch(() => false)) {
-    await emailInput.fill(EMAIL);
-    await page.locator('#password').fill(PASSWORD);
-    await page.getByRole('button', { name: /sign in/i }).click();
-    // wait for the app shell (bottom nav) to appear
-    await expect(page.locator('.nav')).toBeVisible({ timeout: 15_000 });
-  }
-}
+import { test, expect } from '@playwright/test';
+// Test account (email-confirmation is OFF on the Supabase project). signIn also
+// stubs prefs as onboarded, or the wizard would gate the app.
+import { signIn } from './helpers';
 
 test.describe('Gym Tracker — core flows', () => {
   test('sign in and land on the app', async ({ page }) => {

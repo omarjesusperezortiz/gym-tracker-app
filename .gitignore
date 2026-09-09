@@ -7,3 +7,5 @@ coverage/
 *.log
 .DS_Store
 TASK_*.md
+test-results/
+playwright-report/

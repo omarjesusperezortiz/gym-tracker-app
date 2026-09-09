@@ -1,21 +1,8 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import { signIn } from './helpers';
 
 // The floating pill has to hold six tabs on a 390px iPhone without overflowing
 // or clipping a label.
-const EMAIL = process.env.E2E_EMAIL || 'rn-roundtrip-1788951465051@gmail.com';
-const PASSWORD = process.env.E2E_PASSWORD || 'TestPass123!';
-
-async function signIn(page: Page) {
-  await page.goto('./');
-  const email = page.locator('#email');
-  if (await email.isVisible().catch(() => false)) {
-    await email.fill(EMAIL);
-    await page.locator('#password').fill(PASSWORD);
-    await page.getByRole('button', { name: /sign in/i }).click();
-  }
-  await page.locator('.nav').waitFor({ state: 'visible', timeout: 20_000 });
-}
-
 test('six-tab nav fits the viewport with no clipped labels', async ({ page }) => {
   await signIn(page);
 
