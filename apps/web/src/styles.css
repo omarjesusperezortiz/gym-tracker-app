@@ -58,7 +58,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 /* No top bar any more, so the scroll container itself keeps content out from
    under the status bar / notch. Train opts out — its sticky bar does that. */
 .wrap{padding:calc(env(safe-area-inset-top) + 12px) 14px calc(96px + env(safe-area-inset-bottom))}
-.wrap-train{padding-top:calc(env(safe-area-inset-top) + 10px);padding-bottom:calc(170px + env(safe-area-inset-bottom))}
+/* Train's header is position:fixed full-bleed (see header/.trainbar), so the
+   train scroll container drops its own top padding and instead reserves room
+   for that fixed bar. */
+.wrap-train{padding-top:calc(env(safe-area-inset-top) + 74px);padding-bottom:calc(170px + env(safe-area-inset-bottom))}
 
 .ex{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s}
 .ex.done{border-color:rgba(61,220,151,.4)}
@@ -209,6 +212,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .resume .rplay{width:34px;height:34px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:flex;align-items:center;justify-content:center;font-size:13px;flex:none;box-shadow:0 3px 10px rgba(198,242,78,.3)}
 
 /* Train slim header (shown only in train view) */
+.wrap-train > header{position:fixed;left:0;right:0;top:0;margin:0}
 .trainbar{display:none;align-items:center;gap:12px;padding:10px 16px 12px}
 .trainbar.show{display:flex}
 .backbtn{width:38px;height:38px;border-radius:11px;background:var(--surf);border:1px solid var(--line);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
