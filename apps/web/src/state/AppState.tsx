@@ -34,6 +34,11 @@ interface State {
   cur: string | null;
   live: LiveMap;
   pref: PrefMap;
+  // Set while re-opening a PAST, already-finished workout for editing (Calendar's
+  // "Continue / edit this workout"). editingKey is `${plan}|${sess}` — Finish updates
+  // that workout row instead of inserting a new one only while it still matches.
+  editingId: string | null;
+  editingKey: string | null;
 }
 
 type Action =
@@ -47,7 +52,9 @@ type Action =
   | { type: 'SET_KIND'; key: string; planSlotKey: string; kind: Kind; sets: LiveSet[] | null }
   | { type: 'UPDATE_SET'; key: string; index: number; field: 'w' | 'r'; value: string }
   | { type: 'ADD_SET'; key: string }
-  | { type: 'CLEAR_SLOTS'; keys: string[] };
+  | { type: 'CLEAR_SLOTS'; keys: string[] }
+  | { type: 'EDIT_ENTRY'; plan: PlanKey; sess: string; entryId: string; live: LiveMap }
+  | { type: 'CANCEL_EDIT'; keys: string[] };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -55,8 +62,19 @@ function reducer(state: State, action: Action): State {
       return { ...state, plan: action.plan, cur: null };
     case 'SET_VIEW':
       return { ...state, view: action.view };
-    case 'OPEN_SESSION':
-      return { ...state, plan: action.plan, cur: action.sess, view: 'train' };
+    case 'OPEN_SESSION': {
+      // Opening a different session than the one being edited drops the stale edit
+      // context — Finish must never silently update an unrelated past workout.
+      const staleEdit = state.editingKey != null && state.editingKey !== `${action.plan}|${action.sess}`;
+      return {
+        ...state,
+        plan: action.plan,
+        cur: action.sess,
+        view: 'train',
+        editingId: staleEdit ? null : state.editingId,
+        editingKey: staleEdit ? null : state.editingKey,
+      };
+    }
     case 'GO_HOME':
       return { ...state, view: 'home' };
     case 'ENSURE_SLOT':
@@ -95,9 +113,26 @@ function reducer(state: State, action: Action): State {
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'CLEAR_SLOTS': {
+      // Always called right after a successful Finish (insert or update) for the
+      // CURRENT session, so it also exits any edit mode that session was in.
       const live = { ...state.live };
       action.keys.forEach((k) => delete live[k]);
-      return { ...state, live };
+      return { ...state, live, editingId: null, editingKey: null };
+    }
+    case 'EDIT_ENTRY':
+      return {
+        ...state,
+        plan: action.plan,
+        cur: action.sess,
+        view: 'train',
+        live: { ...state.live, ...action.live },
+        editingId: action.entryId,
+        editingKey: `${action.plan}|${action.sess}`,
+      };
+    case 'CANCEL_EDIT': {
+      const live = { ...state.live };
+      action.keys.forEach((k) => delete live[k]);
+      return { ...state, live, editingId: null, editingKey: null };
     }
     default:
       return state;
@@ -108,7 +143,15 @@ function initialState(): State {
   const plan = readJSON<PlanKey>(LS_PLAN, 'gym');
   const pref = readJSON<PrefMap>(LS_PREF, {});
   const live = readJSON<LiveMap>(LS_DRAFT, {});
-  return { plan: catalog.plans[plan] ? plan : 'gym', view: 'today', cur: null, live, pref };
+  return {
+    plan: catalog.plans[plan] ? plan : 'gym',
+    view: 'today',
+    cur: null,
+    live,
+    pref,
+    editingId: null,
+    editingKey: null,
+  };
 }
 
 interface AppStateContextValue {

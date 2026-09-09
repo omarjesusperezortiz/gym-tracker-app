@@ -336,3 +336,13 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 /* ---------- Meals target grid tweak for 4 items ---------- */
 .tg.four .ti{flex:1}
 
+/* ---------- Calendar: SVG icons in place of the original's emoji markers ---------- */
+.wmi{color:var(--blue);display:flex;align-items:center;justify-content:center}
+.wmi svg,.wmr svg{width:13px;height:13px}
+.quicklog .ql{display:flex;align-items:center;justify-content:center;gap:6px}
+.quicklog .ql svg{width:15px;height:15px;flex:none}
+.hentry .btn{display:flex;align-items:center;justify-content:center;gap:7px}
+.hentry .btn svg{width:15px;height:15px;flex:none}
+.editbadge{gap:5px}
+.editbadge svg{width:12px;height:12px;flex:none}
+

@@ -3,12 +3,12 @@ import { catalog, finishWorkout, fmtLast, isTimeScheme, lastFor, parseTarget } f
 import type { Kind, Variation } from '@gym-tracker/core';
 import { keyOf, useAppState, type LiveSet, type LiveSlotState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
-import { toHistorySlotEntries } from '../lib/workouts';
+import { toHistorySlotEntries, updateWorkout } from '../lib/workouts';
 import { useToast } from '../components/Toast';
 import { Dock } from '../components/Dock';
 import { Lightbox } from '../components/Lightbox';
 import { ExerciseCard } from './ExerciseCard';
-import { IconBack } from '../lib/icons';
+import { IconBack, IconClose, IconEdit } from '../lib/icons';
 
 function firstKind(variations: Partial<Record<Kind, Variation>> | undefined): Kind {
   const keys = variations ? (Object.keys(variations) as Kind[]) : [];
@@ -54,12 +54,20 @@ export function TrainView() {
   const total = session.slots.length;
   const pct = total ? Math.round((done / total) * 100) : 0;
 
+  const isEditingCurrent = state.editingId != null && state.editingKey === `${state.plan}|${cur}`;
+
   function goHome() {
     dispatch({ type: 'GO_HOME' });
   }
 
   function handleSave() {
     toast('Progress saved 💾');
+  }
+
+  function cancelEdit() {
+    dispatch({ type: 'CANCEL_EDIT', keys: session.slots.map((sl) => keyOf(state.plan, cur, sl[0])) });
+    toast('Edit discarded');
+    goHome();
   }
 
   async function handleFinish() {
@@ -77,9 +85,14 @@ export function TrainView() {
       return;
     }
     try {
-      await finishWorkout({ date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots });
+      if (isEditingCurrent && state.editingId) {
+        await updateWorkout(state.editingId, { plan: state.plan, sess: cur, name: session.name, slots });
+        toast(`${session.name} updated ✏️`);
+      } else {
+        await finishWorkout({ date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots });
+        toast(`${session.name} finished! 🎉`);
+      }
       dispatch({ type: 'CLEAR_SLOTS', keys: session.slots.map((sl) => keyOf(state.plan, cur, sl[0])) });
-      toast(`${session.name} finished! 🎉`);
       goHome();
       void refetch();
     } catch (err) {
@@ -99,6 +112,11 @@ export function TrainView() {
               {session.emoji} {session.name}
             </div>
             <div className="tm">
+              {isEditingCurrent && (
+                <span className="editbadge" onClick={cancelEdit}>
+                  <IconEdit /> editing · exit <IconClose />
+                </span>
+              )}{' '}
               {P.icon} {P.label} · {session.muscles}
             </div>
           </div>

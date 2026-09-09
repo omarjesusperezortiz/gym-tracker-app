@@ -5,13 +5,21 @@ import { dotColor, hueOf } from '../lib/colors';
 import { calcStreak, dayKey, groupByDay } from '../lib/stats';
 import { useToast } from '../components/Toast';
 import { Sheet } from '../components/Sheet';
+import { useAppState, keyOf, type LiveMap } from '../state/AppState';
 import { catalog } from '@gym-tracker/core';
+import type { PlanKey } from '@gym-tracker/core';
+import { IconChev, IconRest, IconSkate } from '../lib/icons';
 
 const DAY_NAMES = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+function isPlanKey(pk: string | null): pk is PlanKey {
+  return !!pk && pk in catalog.plans;
+}
 
 export function CalendarView() {
   const { history, refetch } = useWorkouts();
   const { toast } = useToast();
+  const { dispatch } = useAppState();
   const [calMonth, setCalMonth] = useState(() => new Date());
   const [sheetDay, setSheetDay] = useState<string | null>(null);
 
@@ -45,12 +53,35 @@ export function CalendarView() {
         toast(`${type === 'skate' ? 'Skate' : 'Rest'} removed`);
       } else {
         await logDayMarker(`${key}T12:00:00`, type);
-        toast(`${type === 'skate' ? '🛹 Skate' : '😴 Rest'} logged`);
+        toast(`${type === 'skate' ? 'Skate' : 'Rest'} logged`);
       }
       await refetch();
     } catch (err) {
       toast(err instanceof Error ? err.message : 'Could not update this day');
     }
+  }
+
+  // Mirrors the original app's editLogEntry: reopen a past, already-finished
+  // workout in TrainView with its sets prefilled, so Finish updates it in place.
+  function editEntry(entry: LoggedWorkout) {
+    if (!isPlanKey(entry.plan) || !entry.sess || !catalog.plans[entry.plan].sessions[entry.sess]) {
+      toast("Couldn't open that workout");
+      return;
+    }
+    const plan = entry.plan;
+    const sess = entry.sess;
+    const live: LiveMap = {};
+    entry.slots.forEach((s) => {
+      live[keyOf(plan, sess, s.slot)] = {
+        kind: s.kind,
+        done: s.done,
+        force: s.force,
+        sets: s.sets.map((x) => ({ w: x.w, r: x.r, last: '' })),
+      };
+    });
+    dispatch({ type: 'EDIT_ENTRY', plan, sess, entryId: entry.id, live });
+    setSheetDay(null);
+    toast('Editing this workout ✏️');
   }
 
   const sheetEvents = sheetDay ? byDay[sheetDay] || [] : [];
@@ -68,8 +99,18 @@ export function CalendarView() {
           const gym = evs.filter((e) => e.type === 'workout');
           let mark: ReactNode = null;
           if (gym.length) mark = <span className="wm" style={{ background: dotColor(gym[0].type, gym[0]) }} />;
-          else if (evs.some((e) => e.type === 'skate')) mark = <span className="wmi">🛹</span>;
-          else if (evs.some((e) => e.type === 'rest')) mark = <span className="wmr">·</span>;
+          else if (evs.some((e) => e.type === 'skate'))
+            mark = (
+              <span className="wmi">
+                <IconSkate />
+              </span>
+            );
+          else if (evs.some((e) => e.type === 'rest'))
+            mark = (
+              <span className="wmr">
+                <IconRest />
+              </span>
+            );
           return (
             <div
               key={key}
@@ -140,7 +181,9 @@ export function CalendarView() {
       </div>
 
       <Sheet open={!!sheetDay} onClose={() => setSheetDay(null)}>
-        {sheetDay && <DaySheetContent day={sheetDay} events={sheetEvents} onToggle={toggleDayType} onClose={() => setSheetDay(null)} />}
+        {sheetDay && (
+          <DaySheetContent day={sheetDay} events={sheetEvents} onToggle={toggleDayType} onEdit={editEntry} onClose={() => setSheetDay(null)} />
+        )}
       </Sheet>
     </div>
   );
@@ -150,11 +193,13 @@ function DaySheetContent({
   day,
   events,
   onToggle,
+  onEdit,
   onClose,
 }: {
   day: string;
   events: LoggedWorkout[];
   onToggle: (key: string, type: 'skate' | 'rest') => void;
+  onEdit: (entry: LoggedWorkout) => void;
   onClose: () => void;
 }) {
   const d = new Date(`${day}T00:00:00`);
@@ -166,11 +211,12 @@ function DaySheetContent({
       <h2>{d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</h2>
       <div className="sh-sub">
         {workouts.length ? `${workouts.length} workout${workouts.length !== 1 ? 's' : ''}` : 'nothing logged yet'}
-        {skated ? ' · 🛹 skated' : ''}
+        {skated ? ' · skated' : ''}
         {rested ? ' · rest' : ''}
       </div>
       {workouts.map((e) => {
         const pl = e.plan ? catalog.plans[e.plan as keyof typeof catalog.plans] : undefined;
+        const canRepeat = isPlanKey(e.plan) && !!e.sess && !!catalog.plans[e.plan].sessions[e.sess];
         return (
           <div className="hentry" key={e.id}>
             <div className="hd">
@@ -192,6 +238,11 @@ function DaySheetContent({
                 );
               })}
             </div>
+            {canRepeat && (
+              <button className="btn sec" style={{ marginTop: 10 }} onClick={() => onEdit(e)}>
+                <IconChev /> Continue / edit this workout
+              </button>
+            )}
           </div>
         );
       })}
@@ -200,10 +251,10 @@ function DaySheetContent({
       </div>
       <div className="quicklog">
         <button className={`ql skate${skated ? ' on' : ''}`} onClick={() => onToggle(day, 'skate')}>
-          🛹 Skate
+          <IconSkate /> Skate
         </button>
         <button className={`ql rest${rested ? ' on' : ''}`} onClick={() => onToggle(day, 'rest')}>
-          😴 Rest
+          <IconRest /> Rest
         </button>
       </div>
       <button className="btn acc" onClick={onClose} style={{ marginTop: 12 }}>
