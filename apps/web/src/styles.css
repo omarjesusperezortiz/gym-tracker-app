@@ -126,32 +126,12 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 
 /* Calendar */
 .cal{padding:16px 16px}
-.cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cal-hd .mtitle{font-size:18px;font-weight:600;letter-spacing:-.3px}
-.cal-nav{display:flex;gap:8px}
-.cal-nav button{width:36px;height:36px;border-radius:10px;background:var(--surf);border:1px solid var(--line);color:var(--ink2);font-size:16px;cursor:pointer}
-.cal-stats{display:flex;gap:10px;margin-bottom:16px}
-.stat{flex:1;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px}
-.stat .sv{font-size:24px;font-weight:700;letter-spacing:-.5px}
-.stat .sl{font-size:11px;color:var(--mut);margin-top:2px}
-.stat .sv.acc{color:var(--acc)}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.gh{text-align:center;font-size:10px;color:var(--mut2);font-weight:600;padding:4px 0;text-transform:uppercase}
-.cell{aspect-ratio:1;border-radius:10px;background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:.12s}
-.cell.empty{background:transparent;border:none;cursor:default}
-.cell.today{border-color:var(--acc)}
-.cell.has{background:var(--surf2)}
-.cell .dn{font-size:13px;font-weight:600;color:var(--ink2)}
-.cell.other .dn{color:var(--mut2)}
-.cell .dots{display:flex;gap:2px;margin-top:3px;height:5px}
-.cell .dots i{width:5px;height:5px;border-radius:50%}
-.cell:active{transform:scale(.94)}
-
-
-.cal-legend{margin-top:16px;font-size:12px;color:var(--mut);text-align:center;line-height:1.5}
-.cell.has{background:var(--surf2);border-color:var(--line2)}
-.cell.today{border-color:var(--acc);border-width:1.5px}
-.cell.has:active{transform:scale(.92)}
+.cal-nav{display:flex;gap:6px}
+.cal-nav button{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--ink2);font-size:16px;cursor:pointer;transition:.14s}
+.cal-nav button:active{transform:scale(.9);background:rgba(255,255,255,.1)}
+.gh{text-align:center;font-size:9.5px;color:var(--mut2);font-weight:700;padding:2px 0 6px;text-transform:uppercase;letter-spacing:.3px}
 
 /* Meals */
 .meals{padding:16px}
@@ -256,34 +236,44 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast svg{width:16px;height:16px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* Week bar */
-.weekbar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:18px}
-.wday{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:9px 2px 7px;text-align:center;cursor:pointer;transition:.12s;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px}
-.wday:active{transform:scale(.94)}
-.wday.today{border-color:var(--acc)}
-.wday.active{background:var(--surf2)}
-.wday .wdl{font-size:10px;font-weight:700;color:var(--mut2);text-transform:uppercase}
-.wday .wdn{font-size:15px;font-weight:600;color:var(--ink2)}
-.wday.today .wdn{color:var(--acc)}
-.wday .wmk{height:16px;display:flex;align-items:center;justify-content:center}
-.wm{width:8px;height:8px;border-radius:50%;display:inline-block}
-.wmi{font-size:12px}
-.wmr{color:var(--mut2);font-size:16px;line-height:1}
-/* stats: prevent wrap breakage */
-.cal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.stat{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
-.stat .sv{font-size:22px;font-weight:700;letter-spacing:-.5px;line-height:1}
+/* Week bar — slim, compact */
+.weekbar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:20px}
+.wday{background:transparent;border:none;border-radius:12px;padding:6px 0 5px;text-align:center;cursor:pointer;transition:.14s;display:flex;flex-direction:column;align-items:center;gap:5px}
+.wday:active{transform:scale(.92)}
+.wday .wdl{font-size:9.5px;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.3px}
+.wday .wdn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--ink2);border-radius:50%;transition:.14s}
+.wday.active .wdn{background:rgba(255,255,255,.08);color:var(--ink)}
+.wday.today .wdn{background:var(--acc);color:var(--acc-ink);box-shadow:0 3px 10px rgba(198,242,78,.3)}
+.wday .wmk{height:6px;display:flex;align-items:center;justify-content:center}
+.wm{width:6px;height:6px;border-radius:50%;display:inline-block}
+.wmi{color:var(--blue);font-size:11px;display:flex}
+.wmi svg{width:11px;height:11px}
+.wmr{color:var(--mut2);font-size:11px;display:flex}
+.wmr svg{width:11px;height:11px}
+
+/* stats */
+.cal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.stat{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line2);border-radius:16px;padding:14px 8px;text-align:center}
+.stat .sv{font-size:23px;font-weight:700;letter-spacing:-.5px;line-height:1}
 .stat .sv.acc{color:var(--acc)}
-.stat .sl{font-size:10.5px;color:var(--mut);margin-top:4px;white-space:nowrap}
+.stat .sl{font-size:10.5px;color:var(--mut);margin-top:5px;white-space:nowrap}
+
 /* legend */
-.cal-legend{margin-top:14px;font-size:11.5px;color:var(--mut);text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px}
-.cal-legend .lg{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
-/* grid cells: ensure min height + no overflow */
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.cell{aspect-ratio:1;min-height:0;border-radius:10px;background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:.12s;overflow:hidden}
-.cell .dn{font-size:13px;font-weight:600;color:var(--ink2)}
-.cell .dots{display:flex;gap:2px;margin-top:3px;height:5px}
+.cal-legend{margin-top:16px;font-size:11.5px;color:var(--mut);text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3px 4px}
+.cal-legend .lg{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* month grid — compact squares, minimal empty days, crisp today ring */
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cell{aspect-ratio:1;min-height:0;border-radius:9px;background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;cursor:pointer;transition:.14s;overflow:hidden}
+.cell.empty{cursor:default}
+.cell.has{background:rgba(255,255,255,.05);border-color:var(--line2)}
+.cell.today{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.cell .dn{font-size:12.5px;font-weight:600;color:var(--mut)}
+.cell.has .dn{color:var(--ink2)}
+.cell.today .dn{color:var(--acc);font-weight:700}
+.cell .dots{display:flex;gap:2px;height:5px;align-items:center}
 .cell .dots i{width:5px;height:5px;border-radius:50%}
+.cell:active{transform:scale(.9)}
 /* quick log */
 .quicklog{display:flex;gap:10px;margin-bottom:4px}
 .quicklog .ql{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surf);color:var(--ink2);font-weight:600;font-size:14px;cursor:pointer}
@@ -375,14 +365,19 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
   .nav{background:rgba(12,14,19,.62);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
     border-top:1px solid var(--glass-brd);box-shadow:inset 0 1px 0 var(--glass-hi)}
 
-  /* Card-like surfaces become translucent glass */
-  .ex,.daycard,.prog,.today-card,.mcard,.target-card,.hentry,.cell,.wday,.tg .ti{
-    background:var(--glass);
+  /* Card-like surfaces become translucent glass.
+     Gradient tint (not just backdrop-filter) so the glassy look is visible
+     even where backdrop-filter is weak, and always has a light top edge. */
+  .ex,.daycard,.prog,.today-card,.mcard,.target-card,.hentry,.tg .ti{
+    background:
+      linear-gradient(160deg, rgba(255,255,255,.14), rgba(255,255,255,.04) 42%, rgba(255,255,255,.02));
     backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
     border:1px solid var(--glass-brd);
-    box-shadow:inset 0 1px 0 var(--glass-hi),0 8px 24px rgba(0,0,0,.28);
+    box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 0 0 1px rgba(255,255,255,.02),0 10px 28px rgba(0,0,0,.34);
   }
-  .daycard.active,.ex.done{background:var(--glass-2)}
+  .daycard.active,.ex.done{
+    background:linear-gradient(160deg, rgba(255,255,255,.20), rgba(255,255,255,.06) 45%, rgba(255,255,255,.03));
+  }
 
   /* Sheet (bottom drawer) = deeper glass */
   .sheet{background:rgba(16,18,22,.72);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
