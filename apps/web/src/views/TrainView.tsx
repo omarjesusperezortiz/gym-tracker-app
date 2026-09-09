@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { catalog, fmtLast, isTimeScheme, lastFor, parseTarget } from '@gym-tracker/core';
+import { catalog, fmtLast, isTimeScheme, lastFor, lastKindFor, kindsLoggedFor, parseTarget } from '@gym-tracker/core';
 import type { Kind, Variation } from '@gym-tracker/core';
 import { keyOf, useAppState, type LiveSet, type LiveSlotState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
@@ -38,7 +38,14 @@ export function TrainView() {
       const [slot, scheme] = sl;
       const key = keyOf(state.plan, cur, slot);
       if (state.live[key]) return;
-      const kind = state.pref[`${state.plan}|${slot}`] || firstKind(P.variations[slot]);
+      // Which equipment tab to open on: explicit user choice for this slot wins;
+      // otherwise the kind from the most recent logged workout ("remember where I
+      // was"); otherwise the first available variation.
+      const validKinds = P.variations[slot] || {};
+      const remembered = lastKindFor(historyEntries, slot);
+      const kind =
+        state.pref[`${state.plan}|${slot}`] ||
+        (remembered && validKinds[remembered] ? remembered : firstKind(validKinds));
       const weighted = kind !== 'bw';
       const timeBased = isTimeScheme(scheme);
       const lp = lastFor(historyEntries, slot, kind);
@@ -158,6 +165,7 @@ export function TrainView() {
             slotDef={sl}
             plan={P}
             state={st}
+            loggedKinds={kindsLoggedFor(historyEntries, sl[0])}
             onToggleDone={() => dispatch({ type: 'TOGGLE_DONE', key })}
             onToggleForce={() => dispatch({ type: 'TOGGLE_FORCE', key })}
             onKindChange={(kind) => {

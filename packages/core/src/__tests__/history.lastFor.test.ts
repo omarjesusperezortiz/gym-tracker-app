@@ -1,4 +1,4 @@
-import { lastFor, type HistorySlotEntry } from '../supabase/history';
+import { lastFor, lastKindFor, kindsLoggedFor, type HistorySlotEntry } from '../supabase/history';
 
 function entry(overrides: Partial<HistorySlotEntry>): HistorySlotEntry {
   return {
@@ -48,5 +48,36 @@ describe('lastFor', () => {
       entry({ date: '2024-03-01', sets: [{ w: '40', r: '8' }] }),
     ];
     expect(lastFor(history, 'Flat chest press', 'bar')).toEqual([{ w: '55', r: '5' }]);
+  });
+});
+
+describe('lastKindFor', () => {
+  it('returns the kind from the most recent entry for the slot', () => {
+    const history: HistorySlotEntry[] = [
+      entry({ kind: 'bar', date: '2024-01-01' }),
+      entry({ kind: 'machine', date: '2024-05-01' }),
+      entry({ kind: 'db', date: '2024-03-01' }),
+    ];
+    expect(lastKindFor(history, 'Flat chest press')).toBe('machine');
+  });
+
+  it('returns null when the slot was never logged', () => {
+    expect(lastKindFor([entry({ slot: 'Lat pulldown' })], 'Flat chest press')).toBeNull();
+  });
+});
+
+describe('kindsLoggedFor', () => {
+  it('collects every distinct kind the slot was logged with', () => {
+    const history: HistorySlotEntry[] = [
+      entry({ kind: 'bar' }),
+      entry({ kind: 'machine' }),
+      entry({ kind: 'bar' }),
+      entry({ slot: 'Lat pulldown', kind: 'cable' }),
+    ];
+    expect(kindsLoggedFor(history, 'Flat chest press')).toEqual(new Set(['bar', 'machine']));
+  });
+
+  it('is empty for a slot with no history', () => {
+    expect(kindsLoggedFor([], 'Flat chest press').size).toBe(0);
   });
 });

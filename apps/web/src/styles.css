@@ -80,7 +80,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .check.on{background:var(--ok);border-color:var(--ok)}.check.on svg{opacity:1;stroke:#062a1c}
 .check:active{transform:scale(.9)}
 .seg{display:flex;gap:4px;margin:0 16px 14px;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:12px;padding:4px}
-.seg .segi{flex:1;text-align:center;padding:9px 4px;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer;border-radius:9px;transition:.18s cubic-bezier(.2,.7,.3,1);border:none;background:transparent;white-space:nowrap}
+.seg .segi{flex:1;text-align:center;padding:9px 4px;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer;border-radius:9px;transition:.18s cubic-bezier(.2,.7,.3,1);border:none;background:transparent;white-space:nowrap;position:relative}
+.seg .segi .segi-dot{position:absolute;top:5px;right:6px;width:5px;height:5px;border-radius:50%;background:var(--acc)}
+.seg .segi.active .segi-dot{background:var(--acc-ink)}
 .seg .segi:hover{color:var(--ink2)}
 .seg .segi:active{transform:scale(.95)}
 .seg .segi.active{color:var(--acc-ink);background:linear-gradient(135deg,var(--acc),var(--acc-d));box-shadow:0 2px 8px rgba(198,242,78,.3)}

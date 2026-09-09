@@ -10,6 +10,7 @@ export interface ExerciseCardProps {
   slotDef: Slot;
   plan: Plan;
   state: LiveSlotState;
+  loggedKinds?: Set<Kind>;
   onToggleDone: () => void;
   onToggleForce: () => void;
   onKindChange: (kind: Kind) => void;
@@ -23,6 +24,7 @@ export function ExerciseCard({
   slotDef,
   plan,
   state,
+  loggedKinds,
   onToggleDone,
   onToggleForce,
   onKindChange,
@@ -73,6 +75,7 @@ export function ExerciseCard({
           {kinds.map((kk) => (
             <ToggleGroup.Item key={kk} value={kk} className={`segi${kk === kind ? ' active' : ''}`}>
               {KIND_LABEL[kk] || kk}
+              {loggedKinds?.has(kk) && <span className="segi-dot" aria-label="previously logged" />}
             </ToggleGroup.Item>
           ))}
         </ToggleGroup.Root>

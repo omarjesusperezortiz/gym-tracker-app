@@ -64,6 +64,31 @@ export function lastFor(history: HistorySlotEntry[], slot: string, kind: Kind): 
   return bestSame || bestAny;
 }
 
+// The equipment kind used in the MOST RECENT logged entry for this slot (any
+// session/plan), or null if never logged. Used to reopen a workout on the same
+// equipment tab the user last trained — "remember where I was".
+export function lastKindFor(history: HistorySlotEntry[], slot: string): Kind | null {
+  let best: Kind | null = null;
+  let bestT = -1;
+  for (const e of history) {
+    if (e.slot !== slot) continue;
+    const t = Date.parse(e.date) || 0;
+    if (t > bestT) {
+      bestT = t;
+      best = e.kind;
+    }
+  }
+  return best;
+}
+
+// Every equipment kind this slot has EVER been logged with — for badging the
+// tabs that carry history.
+export function kindsLoggedFor(history: HistorySlotEntry[], slot: string): Set<Kind> {
+  const out = new Set<Kind>();
+  for (const e of history) if (e.slot === slot) out.add(e.kind);
+  return out;
+}
+
 export interface FinishedWorkout {
   clientId?: number;
   date: string;
