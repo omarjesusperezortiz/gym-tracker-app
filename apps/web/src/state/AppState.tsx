@@ -12,6 +12,11 @@ export interface LiveSet {
   w: string;
   r: string;
   last: string;
+  // Sets below the first "mirror" set 1 until the user edits them directly.
+  // wAuto/rAuto === false means that field was manually set on this row, so it
+  // stops following set 1. Undefined/true = still linked. (UI-only, not saved.)
+  wAuto?: boolean;
+  rAuto?: boolean;
 }
 
 export interface LiveSlotState {
@@ -103,26 +108,33 @@ export function reducer(state: State, action: Action): State {
       const cur = state.live[action.key];
       if (!cur || !cur.sets) return state;
       const sets = cur.sets.slice();
-      sets[action.index] = { ...sets[action.index], [action.field]: action.value };
-      // Type once, apply to the rest: editing the FIRST set propagates that field
-      // to any later set still empty in that field. Sets you've customized are left
-      // alone (they already have a value there).
-      if (action.index === 0 && action.value) {
+      const autoKey = action.field === 'w' ? 'wAuto' : 'rAuto';
+      if (action.index === 0) {
+        // Editing set 1 propagates to every later set still LINKED for this field
+        // (wAuto/rAuto !== false). Because linked sets are never marked manual,
+        // multi-digit typing re-applies the full current value each keystroke.
+        sets[0] = { ...sets[0], [action.field]: action.value };
         for (let i = 1; i < sets.length; i++) {
-          if (!sets[i][action.field]) {
+          if (sets[i][autoKey] !== false) {
             sets[i] = { ...sets[i], [action.field]: action.value };
           }
         }
+      } else {
+        // Editing a later set directly unlinks that field so it keeps its own value.
+        sets[action.index] = { ...sets[action.index], [action.field]: action.value, [autoKey]: false };
       }
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'ADD_SET': {
       const cur = state.live[action.key];
       if (!cur) return state;
-      // Copy weight+reps from the last set so the user doesn't retype the same
-      // numbers — most people do the same load across sets. Empty last set → empty new.
-      const prev = cur.sets && cur.sets.length ? cur.sets[cur.sets.length - 1] : null;
-      const sets = [...(cur.sets ?? []), { w: prev?.w ?? '', r: prev?.r ?? '', last: '' }];
+      // New set copies set 1's values and stays LINKED, so it keeps mirroring set 1
+      // until edited directly. Falls back to the last set when there's no set 1 yet.
+      const first = cur.sets && cur.sets.length ? cur.sets[0] : null;
+      const sets = [
+        ...(cur.sets ?? []),
+        { w: first?.w ?? '', r: first?.r ?? '', last: '', wAuto: true, rAuto: true },
+      ];
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'CLEAR_SLOTS': {

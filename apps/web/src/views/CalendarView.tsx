@@ -64,7 +64,7 @@ export function CalendarView() {
         kind: s.kind,
         done: s.done,
         force: s.force,
-        sets: s.sets.map((x) => ({ w: x.w, r: x.r, last: '' })),
+        sets: s.sets.map((x) => ({ w: x.w, r: x.r, last: '', wAuto: false, rAuto: false })),
       };
     });
     dispatch({ type: 'EDIT_ENTRY', plan, sess, entryId: entry.id, live });
