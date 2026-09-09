@@ -4,7 +4,7 @@ import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
 import { ghostFor } from '../lib/ghost';
-import { IconCheck } from '../lib/icons';
+import { IconArrowDown, IconArrowUp, IconCheck, IconTrash } from '../lib/icons';
 
 export interface ExerciseCardProps {
   index: number;
@@ -18,6 +18,15 @@ export interface ExerciseCardProps {
   onSetChange: (index: number, field: 'w' | 'r', value: string) => void;
   onAddSet: () => void;
   onZoom: (src: string) => void;
+  /** Session-edit mode: reveals the reorder/remove controls. */
+  editing?: boolean;
+  /** Not part of the catalog session — added by the user. */
+  addedTag?: 'added' | 'today' | null;
+  canMoveUp?: boolean;
+  canMoveDown?: boolean;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+  onRemove?: () => void;
 }
 
 export function ExerciseCard({
@@ -32,6 +41,13 @@ export function ExerciseCard({
   onSetChange,
   onAddSet,
   onZoom,
+  editing,
+  addedTag,
+  canMoveUp,
+  canMoveDown,
+  onMoveUp,
+  onMoveDown,
+  onRemove,
 }: ExerciseCardProps) {
   const [slot, scheme, force] = slotDef;
   const { kind, done, sets } = state;
@@ -48,7 +64,10 @@ export function ExerciseCard({
       <div className="head">
         <div className="num">{done ? <IconCheck stroke="#062a1c" /> : index + 1}</div>
         <div className="hmeta">
-          <div className="hname">{slot}</div>
+          <div className="hname">
+            {slot}
+            {addedTag && <span className={`addtag${addedTag === 'today' ? ' today' : ''}`}>{addedTag === 'today' ? 'today' : 'added'}</span>}
+          </div>
           <div className="hscheme">
             <span className="scheme-pill">{state.force && force ? force : scheme}</span>
             {force && (
@@ -62,6 +81,20 @@ export function ExerciseCard({
           <IconCheck stroke="#062a1c" />
         </div>
       </div>
+
+      {editing && (
+        <div className="ex-edit">
+          <button className="exbtn" onClick={onMoveUp} disabled={!canMoveUp} aria-label={`Move ${slot} up`}>
+            <IconArrowUp />
+          </button>
+          <button className="exbtn" onClick={onMoveDown} disabled={!canMoveDown} aria-label={`Move ${slot} down`}>
+            <IconArrowDown />
+          </button>
+          <button className="exbtn danger" onClick={onRemove} aria-label={`Remove ${slot}`}>
+            <IconTrash /> Remove
+          </button>
+        </div>
+      )}
 
       {kinds.length > 1 && (
         <ToggleGroup.Root

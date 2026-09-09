@@ -436,6 +436,62 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .mchip.on{background:linear-gradient(135deg,var(--acc),var(--acc-d));border-color:var(--acc);color:var(--acc-ink);
   box-shadow:0 3px 12px rgba(198,242,78,.28)}
 
+/* ---------- Custom sessions: add / edit exercises ---------- */
+/* Understated until used: the edit toggle is a quiet icon button in the train
+   bar, and the controls only appear once it's on. */
+.tedit{width:32px;height:32px;flex:none;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line2);
+  color:var(--mut);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.tedit svg{width:15px;height:15px}
+.tedit:active{transform:scale(.92)}
+.tedit.on{background:rgba(198,242,78,.16);border-color:var(--acc);color:var(--acc)}
+
+.addtag{margin-left:7px;font-size:9.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;vertical-align:middle;
+  color:var(--acc-d);background:rgba(198,242,78,.14);border:1px solid rgba(198,242,78,.3);padding:2px 6px;border-radius:6px}
+.addtag.today{color:var(--warn);background:rgba(255,184,77,.13);border-color:rgba(255,184,77,.3)}
+
+.ex-edit{display:flex;align-items:center;gap:8px;margin:0 16px 12px;padding-top:2px}
+.exbtn{display:flex;align-items:center;justify-content:center;gap:6px;height:34px;min-width:34px;padding:0 10px;
+  border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--ink2);
+  font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.exbtn svg{width:15px;height:15px}
+.exbtn:active{transform:scale(.94)}
+.exbtn:disabled{opacity:.35;cursor:default}
+.exbtn.danger{margin-left:auto;color:var(--danger);border-color:rgba(255,95,107,.3);background:rgba(255,95,107,.08)}
+
+.addex{width:100%;margin:2px 0 12px;padding:14px;border-radius:14px;cursor:pointer;
+  background:rgba(255,255,255,.04);border:1px dashed var(--line2);color:var(--mut);
+  font-size:13.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:.16s}
+.addex svg{width:16px;height:16px}
+.addex:active{transform:scale(.985);background:rgba(198,242,78,.08);border-color:var(--acc);color:var(--acc)}
+.resetplan{width:100%;margin-bottom:14px;padding:12px;border-radius:12px;background:none;border:1px solid rgba(255,95,107,.25);
+  color:var(--danger);font-size:12.5px;font-weight:600;cursor:pointer}
+.resetplan:active{transform:scale(.985)}
+
+/* Picker sheet */
+.add-scope-note{font-size:11.5px;color:var(--mut);line-height:1.5;margin:10px 2px 14px}
+.add-search{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:12px;color:var(--ink);
+  padding:12px 14px;font-size:15px;font-family:var(--font);margin-bottom:12px}
+.add-search:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.12)}
+.add-custom{width:100%;display:flex;align-items:center;gap:10px;padding:13px 14px;margin-bottom:12px;cursor:pointer;
+  background:linear-gradient(160deg,rgba(198,242,78,.16),rgba(198,242,78,.04));border:1px solid var(--acc);
+  border-radius:13px;color:var(--ink);font-size:13.5px;text-align:left}
+.add-custom b{font-weight:700}
+.add-custom-plus{width:24px;height:24px;flex:none;border-radius:8px;background:var(--acc);color:var(--acc-ink);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.add-list{display:flex;flex-direction:column;gap:8px;padding-bottom:4px}
+.add-row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;cursor:pointer;text-align:left;
+  background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:13px;color:var(--ink);transition:.15s}
+.add-row:active{transform:scale(.985);border-color:var(--acc)}
+.add-thumb{width:44px;height:36px;flex:none;border-radius:9px;object-fit:cover;background:#fff}
+.add-thumb-empty{background:rgba(255,255,255,.06)}
+.add-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.add-name{font-size:14px;font-weight:600;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.add-kinds{display:flex;flex-wrap:wrap;gap:4px}
+.add-kind{font-size:9.5px;font-weight:600;color:var(--mut);background:rgba(255,255,255,.06);border:1px solid var(--line);
+  padding:2px 6px;border-radius:5px}
+.add-go{color:var(--mut2);display:flex;flex:none}
+.add-go svg{width:16px;height:16px}
+
 /* ---------- Profile ---------- */
 .profile{padding:6px 16px 16px}
 .pcard{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line2);

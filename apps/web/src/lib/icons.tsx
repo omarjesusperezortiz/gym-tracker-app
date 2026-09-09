@@ -96,6 +96,30 @@ export const IconRest = (): JSX.Element => (
   </svg>
 );
 
+export const IconPlus = (): JSX.Element => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+);
+
+export const IconTrash = (): JSX.Element => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" />
+  </svg>
+);
+
+export const IconArrowUp = (): JSX.Element => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 19V5M6 11l6-6 6 6" />
+  </svg>
+);
+
+export const IconArrowDown = (): JSX.Element => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 5v14M6 13l6 6 6-6" />
+  </svg>
+);
+
 export const IconProfile = (): JSX.Element => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4" />
