@@ -19,7 +19,7 @@ html,body,#root{min-height:100dvh}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-settings:"cv01","ss03";
   -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
-  -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:calc(env(safe-area-inset-top) + 10px)}
 /* Screen title, standing in for the removed top bar on screens that don't
    already open with a heading of their own. */
 .view-title{font-size:21px;font-weight:700;letter-spacing:-.5px;margin:2px 2px 4px}
@@ -370,6 +370,12 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .onb-dot.done{background:rgba(198,242,78,.45)}
 .onb-dot.active{background:var(--acc);box-shadow:0 0 10px rgba(198,242,78,.4)}
 .onb-count{font-family:var(--mono);font-size:11px;color:var(--mut);flex:none}
+.onb-x{width:30px;height:30px;flex:none;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--mut);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.onb-x:active{transform:scale(.9)}
+.onb-x svg{width:16px;height:16px}
+.onb-skipall{margin:12px auto 0;display:block;background:none;border:none;color:var(--mut);font-size:12.5px;font-weight:600;cursor:pointer;padding:6px 10px;flex:none}
+.onb-skipall:active{opacity:.6}
+.onb-skipall:disabled{opacity:.4}
 
 .onb-card{flex:1;overflow-y:auto;display:flex;flex-direction:column;justify-content:safe center;animation:onbin .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes onbin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}

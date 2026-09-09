@@ -12,6 +12,14 @@ export function OnboardingGate({ children }: { children: ReactNode }) {
   // A prefs read that failed shouldn't trap someone in onboarding — let them in
   // and let Profile sort it out.
   if (isError) return <>{children}</>;
-  if (!data?.onboarded) return <Onboarding />;
+  // "X" during onboarding sets a session flag: let them into the app now WITHOUT
+  // creating a profile. onboarded stays false, so next launch we ask again.
+  let dismissed = false;
+  try {
+    dismissed = sessionStorage.getItem('onb_dismissed') === '1';
+  } catch {
+    /* ignore */
+  }
+  if (!data?.onboarded && !dismissed) return <Onboarding />;
   return <>{children}</>;
 }

@@ -15,7 +15,7 @@ import {
   SEXES,
   Segmented,
 } from '../components/PrefControls';
-import { IconBack, IconCheck, IconTrain } from '../lib/icons';
+import { IconBack, IconCheck, IconClose, IconTrain } from '../lib/icons';
 
 interface Draft {
   displayName: string;
@@ -78,6 +78,33 @@ export function Onboarding() {
 
   const last = step === STEPS.length - 1;
 
+  // "Skip setup" — enter the app now with defaults, mark onboarded so we don't
+  // ask again. Everything is editable later in Profile.
+  function skipWithDefaults() {
+    savePrefs.mutate(
+      { onboarded: true },
+      {
+        onSuccess: () => {
+          dispatch({ type: 'SET_VIEW', view: 'home' });
+          toast('You can finish your profile any time in Profile');
+        },
+        onError: (err) => toast(err.message || 'Could not skip'),
+      }
+    );
+  }
+
+  // X — bail WITHOUT creating the profile. onboarded stays false, nothing is
+  // saved; a session flag lets them into the app, and they'll be prompted again
+  // next launch. Consumed by OnboardingGate.
+  function dismissWithoutSaving() {
+    try {
+      sessionStorage.setItem('onb_dismissed', '1');
+    } catch {
+      /* ignore */
+    }
+    dispatch({ type: 'SET_VIEW', view: 'home' });
+  }
+
   function finish() {
     const weight = num(draft.currentWeight);
     savePrefs.mutate(
@@ -122,6 +149,9 @@ export function Onboarding() {
         <div className="onb-count">
           {step + 1}/{STEPS.length}
         </div>
+        <button className="onb-x" onClick={dismissWithoutSaving} aria-label="Close setup for now">
+          <IconClose />
+        </button>
       </div>
 
       {/* Keyed so each step animates in rather than swapping abruptly. */}
@@ -162,6 +192,9 @@ export function Onboarding() {
           )}
         </button>
       </div>
+      <button className="onb-skipall" onClick={skipWithDefaults} disabled={savePrefs.isPending}>
+        Skip setup — use defaults
+      </button>
     </div>
   );
 }
