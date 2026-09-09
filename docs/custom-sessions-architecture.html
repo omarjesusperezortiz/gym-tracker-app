@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How Custom Workouts Stay Clean · Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0b0e;
+    --surface: #16181d;
+    --surface-2: #1e2128;
+    --accent: #c6f24e;
+    --accent-dark: #a8d63e;
+    --ink-on-accent: #0a0b0e;
+    --ink: #f5f7fa;
+    --muted: #8b90a0;
+    --faint: #5a5f6e;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.16);
+    --radius-lg: 26px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --danger: #ff6b6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Ambient radial glow */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(900px 600px at 78% -8%, rgba(198,242,78,0.10), transparent 60%),
+      radial-gradient(700px 500px at 8% 12%, rgba(198,242,78,0.05), transparent 55%),
+      radial-gradient(1000px 800px at 50% 120%, rgba(198,242,78,0.06), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 72px 0; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 120px 0 84px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(198,242,78,0.08);
+    border: 1px solid rgba(198,242,78,0.24);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    margin-bottom: 22px;
+  }
+  .hero h1 .hl {
+    color: var(--accent);
+  }
+  .hero p.lede {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    color: var(--muted);
+    max-width: 620px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+  .hero .scroll-cue {
+    margin-top: 48px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faint);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .scroll-cue .arrow {
+    width: 1px; height: 34px;
+    background: linear-gradient(var(--faint), transparent);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head { margin-bottom: 40px; max-width: 720px; }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .sec-head h2 {
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    margin-bottom: 14px;
+  }
+  .sec-head p {
+    color: var(--muted);
+    font-size: 1.08rem;
+    max-width: 640px;
+  }
+  .sec-head .accent-txt { color: var(--accent); }
+
+  /* ---------- GLASS CARD ---------- */
+  .card {
+    background: linear-gradient(160deg, rgba(30,33,40,0.82), rgba(22,24,29,0.78));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 24px 60px -30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  /* ---------- PROBLEM: base session visual ---------- */
+  .prob-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .session-card {
+    background: linear-gradient(160deg, rgba(30,33,40,0.9), rgba(22,24,29,0.85));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    box-shadow: 0 20px 50px -28px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .session-card .sc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .session-card .sc-title { font-weight: 700; font-size: 1.15rem; }
+  .badge-code {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: rgba(198,242,78,0.09);
+    border: 1px solid rgba(198,242,78,0.22);
+    padding: 4px 9px;
+    border-radius: 6px;
+  }
+  .ex-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 12px;
+    border-radius: 11px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 8px;
+  }
+  .ex-row:last-child { margin-bottom: 0; }
+  .ex-thumb {
+    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(198,242,78,0.22), rgba(168,214,62,0.08));
+    border: 1px solid rgba(198,242,78,0.18);
+    display: grid; place-items: center;
+    font-size: 15px;
+  }
+  .ex-name { font-size: 0.95rem; font-weight: 500; }
+  .ex-meta { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-left: auto; }
+  .prob-note {
+    font-size: 1.05rem; color: var(--muted);
+  }
+  .prob-note strong { color: var(--ink); font-weight: 600; }
+  .prob-note .who {
+    color: var(--accent); font-weight: 600;
+  }
+
+  /* ---------- BEFORE / AFTER centerpiece ---------- */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .ba-panel {
+    border-radius: var(--radius-lg);
+    padding: 28px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ba-panel.trap {
+    background: linear-gradient(160deg, rgba(40,24,26,0.55), rgba(22,17,18,0.6));
+    border: 1px solid rgba(255,107,107,0.22);
+  }
+  .ba-panel.clean {
+    background: linear-gradient(160deg, rgba(28,36,22,0.55), rgba(18,22,16,0.6));
+    border: 1px solid rgba(198,242,78,0.28);
+    box-shadow: 0 0 0 1px rgba(198,242,78,0.06), 0 30px 70px -34px rgba(198,242,78,0.14);
+  }
+  .ba-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; font-weight: 600;
+  }
+  .ba-tag.bad { color: var(--danger); background: rgba(255,107,107,0.10); border: 1px solid rgba(255,107,107,0.28); }
+  .ba-tag.good { color: var(--accent); background: rgba(198,242,78,0.10); border: 1px solid rgba(198,242,78,0.3); }
+  .ba-panel h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .ba-panel .sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 24px; }
+
+  /* diagram primitives */
+  .dbox {
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+  .dbox .dlabel {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--faint); display: block; margin-bottom: 4px;
+  }
+  .dbox .dtitle { font-weight: 600; font-size: 0.95rem; }
+  .dbox.code-src { border-color: rgba(198,242,78,0.28); background: rgba(198,242,78,0.05); }
+  .dbox.code-src .dlabel { color: var(--accent); }
+  .dbox.db-copy { border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.05); }
+  .dbox.db-copy .dlabel { color: var(--danger); }
+  .dbox.overlay-src { border-color: rgba(198,242,78,0.22); background: rgba(198,242,78,0.035); }
+
+  .arrow-v {
+    display: flex; flex-direction: column; align-items: center;
+    color: var(--faint); font-family: var(--mono); font-size: 11px;
+    padding: 8px 0; gap: 2px;
+  }
+  .arrow-v .line { font-size: 16px; line-height: 1; color: var(--faint); }
+  .arrow-v.bad .line { color: rgba(255,107,107,0.6); }
+  .arrow-v.good .line { color: var(--accent); }
+
+  /* trap divergence */
+  .diverge {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;
+  }
+  .diverge .dbox { text-align: center; }
+  .diverge-caption {
+    margin-top: 16px; font-size: 0.85rem; color: var(--danger);
+    font-family: var(--mono); text-align: center; letter-spacing: 0.02em;
+  }
+  .strike { position: relative; }
+  .strike::after {
+    content: "✕ never syncs"; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-6deg);
+    font-family: var(--mono); font-size: 11px; color: var(--danger);
+    background: rgba(10,11,14,0.85); padding: 2px 8px; border-radius: 6px;
+    border: 1px solid rgba(255,107,107,0.4);
+  }
+
+  /* clean merge */
+  .merge-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .merge-fn {
+    margin: 14px 0;
+    text-align: center;
+    font-family: var(--mono); font-size: 0.8rem;
+    color: var(--accent);
+    background: rgba(198,242,78,0.06);
+    border: 1px dashed rgba(198,242,78,0.35);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .merge-result {
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    background: linear-gradient(160deg, rgba(198,242,78,0.14), rgba(168,214,62,0.05));
+    border: 1px solid rgba(198,242,78,0.4);
+  }
+  .merge-result .dlabel { color: var(--ink-on-accent); background: var(--accent); display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; }
+  .merge-result .mr-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .merge-result .mr-item {
+    font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+  }
+  .pill {
+    font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 5px; letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .pill.base { background: rgba(139,144,160,0.16); color: var(--muted); }
+  .pill.added { background: rgba(198,242,78,0.2); color: var(--accent); }
+
+  /* ---------- BENEFITS checklist ---------- */
+  .benefits {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+  .benefit {
+    display: flex; gap: 14px; padding: 20px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .benefit:hover { border-color: rgba(198,242,78,0.3); transform: translateY(-2px); }
+  .benefit .check {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(198,242,78,0.12); border: 1px solid rgba(198,242,78,0.3);
+    color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 15px;
+  }
+  .benefit .b-body h4 { font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
+  .benefit .b-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+  .benefit code { font-family: var(--mono); font-size: 0.82em; color: var(--accent); background: rgba(198,242,78,0.08); padding: 1px 5px; border-radius: 4px; }
+
+  /* ---------- CODE BLOCK ---------- */
+  .codeblock {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    background: #0d0f13;
+  }
+  .cb-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+  }
+  .cb-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .cb-dot.r { background: #ff5f57; } .cb-dot.y { background: #febc2e; } .cb-dot.g { background: #28c840; }
+  .cb-name { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-left: 8px; }
+  .cb-body {
+    padding: 22px 24px;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    line-height: 1.85;
+    overflow-x: auto;
+  }
+  .cb-body .kw { color: #c6a5f2; }
+  .cb-body .fn { color: var(--accent); }
+  .cb-body .ty { color: #7fd6ff; }
+  .cb-body .cm { color: var(--faint); font-style: italic; }
+  .cb-body .st { color: #ffcf7a; }
+  .cb-body .arg { color: var(--ink); }
+
+  /* ---------- ONE-OFF vs PERMANENT ---------- */
+  .scope-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  }
+  .scope-card {
+    border-radius: var(--radius-lg);
+    padding: 28px 26px;
+    background: linear-gradient(160deg, rgba(30,33,40,0.82), rgba(22,24,29,0.78));
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .scope-card.permanent { border-color: rgba(198,242,78,0.28); }
+  .scope-card .s-tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--faint); display: block; margin-bottom: 10px;
+  }
+  .scope-card.permanent .s-tag { color: var(--accent); }
+  .scope-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .scope-card > p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
+  .scope-attr { display: flex; flex-direction: column; gap: 12px; }
+  .attr-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; }
+  .attr-row .k { color: var(--faint); font-family: var(--mono); font-size: 11px; width: 96px; flex-shrink: 0; padding-top: 2px; letter-spacing: 0.04em; }
+  .attr-row .v { color: var(--ink); }
+  .attr-row .v .em { color: var(--accent); }
+  .build-chip {
+    display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+    padding: 4px 10px; border-radius: 999px; margin-top: 20px;
+  }
+  .build-chip.small { color: var(--accent); background: rgba(198,242,78,0.1); border: 1px solid rgba(198,242,78,0.28); }
+  .build-chip.med { color: #ffcf7a; background: rgba(255,207,122,0.09); border: 1px solid rgba(255,207,122,0.26); }
+
+  .shared-ui {
+    margin-top: 24px;
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px;
+    border-radius: var(--radius-md);
+    background: rgba(198,242,78,0.05);
+    border: 1px dashed rgba(198,242,78,0.3);
+  }
+  .shared-ui .toggle-vis {
+    flex-shrink: 0;
+    display: flex; background: rgba(10,11,14,0.6); border: 1px solid var(--border); border-radius: 999px; padding: 3px;
+    font-family: var(--mono); font-size: 11px;
+  }
+  .toggle-vis span { padding: 6px 12px; border-radius: 999px; color: var(--muted); }
+  .toggle-vis span.on { background: var(--accent); color: var(--ink-on-accent); font-weight: 600; }
+  .shared-ui p { font-size: 0.92rem; color: var(--muted); }
+  .shared-ui p strong { color: var(--ink); }
+
+  /* ---------- PHASES ---------- */
+  .phases { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .phase {
+    border-radius: var(--radius-lg); padding: 28px 26px; position: relative;
+    background: linear-gradient(160deg, rgba(30,33,40,0.82), rgba(22,24,29,0.78));
+    border: 1px solid var(--border);
+  }
+  .phase .p-num {
+    font-family: var(--mono); font-weight: 700; font-size: 2rem;
+    color: var(--accent); opacity: 0.85; line-height: 1; margin-bottom: 14px;
+  }
+  .phase h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+  .phase .p-when { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-bottom: 16px; letter-spacing: 0.04em; }
+  .phase ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .phase li { font-size: 0.92rem; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+  .phase li::before { content: "→"; color: var(--accent); flex-shrink: 0; font-family: var(--mono); }
+  .phase.a { border-color: rgba(198,242,78,0.24); }
+
+  /* ---------- RECOMMENDATION banner ---------- */
+  .rec {
+    text-align: center;
+    padding: 48px 40px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(160deg, rgba(198,242,78,0.1), rgba(168,214,62,0.03));
+    border: 1px solid rgba(198,242,78,0.3);
+    box-shadow: 0 30px 80px -40px rgba(198,242,78,0.25);
+  }
+  .rec .r-eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .rec h2 { font-size: clamp(1.5rem, 3.6vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .rec p { color: var(--muted); max-width: 560px; margin: 0 auto; font-size: 1.05rem; }
+  .rec p .hl { color: var(--ink); font-weight: 600; }
+
+  footer {
+    text-align: center; padding: 60px 24px 48px;
+    color: var(--faint); font-family: var(--mono); font-size: 12px;
+    border-top: 1px solid var(--border); margin-top: 40px;
+  }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 780px) {
+    .prob-grid, .ba-grid, .benefits, .scope-grid, .phases { grid-template-columns: 1fr; }
+    .shared-ui { flex-direction: column; align-items: flex-start; }
+    section { padding: 52px 0; }
+    .hero { padding: 84px 0 56px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span> Architecture Decision · Gym Tracker</span>
+  <h1>How custom workouts<br>stay <span class="hl">clean</span>.</h1>
+  <p class="lede">Let users add their own exercises to a session — without ever creating a maintenance mess. One decision, explained visually.</p>
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <span class="arrow"></span>
+  </div>
+</header>
+
+<!-- 1. THE PROBLEM -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">01 · THE PROBLEM</span>
+    <h2>Base sessions live in code. <span class="accent-txt">Leon wants to change his.</span></h2>
+    <p>Every base workout — "Push day", "Full Upper" — is defined in <code style="font-family:var(--mono);color:var(--accent)">catalog.ts</code>: versioned, shared by all users, and improved over time. So what happens when one user wants to add an exercise?</p>
+  </div>
+
+  <div class="prob-grid">
+    <div class="session-card">
+      <div class="sc-head">
+        <span class="sc-title">Push day</span>
+        <span class="badge-code">catalog.ts · shared</span>
+      </div>
+      <div class="ex-row"><span class="ex-thumb">🏋️</span><span class="ex-name">Bench Press</span><span class="ex-meta">4 × 8</span></div>
+      <div class="ex-row"><span class="ex-thumb">💪</span><span class="ex-name">Overhead Press</span><span class="ex-meta">3 × 10</span></div>
+      <div class="ex-row"><span class="ex-thumb">🔻</span><span class="ex-name">Triceps Pushdown</span><span class="ex-meta">3 × 12</span></div>
+    </div>
+    <div class="prob-note">
+      <p><span class="who">Leon</span> loves this session — but he wants to add <strong>Incline Dumbbell Press</strong> to <em>his</em> Push day.</p>
+      <p style="margin-top:16px">The naïve fix is to copy the whole session into the database so he can edit his own version. That one shortcut is where things quietly break. ↓</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. BEFORE / AFTER -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">02 · THE FORK IN THE ROAD</span>
+    <h2>Two ways to let users customize.</h2>
+    <p>One creates a second source of truth that drifts forever. The other keeps a single source of truth and stores only what changed.</p>
+  </div>
+
+  <div class="ba-grid">
+    <!-- TRAP -->
+    <div class="ba-panel trap">
+      <span class="ba-tag bad">✕ The Trap · copy everything</span>
+      <h3>Copy each session into the DB</h3>
+      <p class="sub">Every user gets a full editable copy of every base session.</p>
+
+      <div class="dbox code-src">
+        <span class="dlabel">Source of truth #1 · code</span>
+        <span class="dtitle">Push day (catalog.ts)</span>
+      </div>
+      <div class="arrow-v bad"><span class="line">↓ copied per user</span></div>
+      <div class="dbox db-copy">
+        <span class="dlabel">Source of truth #2 · database</span>
+        <span class="dtitle">Leon's full copy of Push day</span>
+      </div>
+
+      <div style="margin-top:22px" class="strike">
+        <div class="diverge">
+          <div class="dbox code-src">
+            <span class="dlabel">Team improves code ✨</span>
+            new cues + images
+          </div>
+          <div class="dbox db-copy">
+            <span class="dlabel">Leon's DB copy</span>
+            stuck on the old version
+          </div>
+        </div>
+      </div>
+      <div class="diverge-caption">two sources of truth → divergence hell + bloat</div>
+    </div>
+
+    <!-- CLEAN -->
+    <div class="ba-panel clean">
+      <span class="ba-tag good">✓ Base + Overlay · the recommendation</span>
+      <h3>Keep base in code, store only deltas</h3>
+      <p class="sub">Base stays read-only & shared. A thin overlay holds just the changes.</p>
+
+      <div class="merge-row">
+        <div class="dbox code-src">
+          <span class="dlabel">Base · code (read-only)</span>
+          Push day
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:6px">Bench · OHP · Pushdown</div>
+        </div>
+        <div class="dbox overlay-src">
+          <span class="dlabel" style="color:var(--accent)">Overlay · tiny DB row</span>
+          Leon's deltas
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:6px">+ Incline DB Press</div>
+        </div>
+      </div>
+
+      <div class="merge-fn">effectiveSession(base, overlay) →</div>
+
+      <div class="merge-result">
+        <span class="dlabel">What Leon actually trains</span>
+        <div class="mr-list">
+          <div class="mr-item"><span class="pill base">BASE</span> Bench Press</div>
+          <div class="mr-item"><span class="pill base">BASE</span> Overhead Press</div>
+          <div class="mr-item"><span class="pill base">BASE</span> Triceps Pushdown</div>
+          <div class="mr-item"><span class="pill added">+ ADDED</span> Incline DB Press</div>
+        </div>
+      </div>
+      <div class="diverge-caption" style="color:var(--accent)">one source of truth → improve base once, everyone benefits</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. BENEFITS -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">03 · WHY IT STAYS CLEAN</span>
+    <h2>Six things the overlay buys you.</h2>
+  </div>
+  <div class="benefits">
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>One source of truth</h4><p>Base content lives in code. Improve "Push day" once — every user gets it instantly.</p></div></div>
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>The overlay is tiny</h4><p>Only the deltas are stored: added, hidden, reordered. No full-session copies, no bloat.</p></div></div>
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>Merge is a pure function</h4><p><code>effectiveSession(base, overlay)</code> — deterministic, trivially unit-testable, no side effects.</p></div></div>
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>"Reset to default" is free</h4><p>Just delete the overlay row. The user snaps back to the pristine base — no cleanup logic.</p></div></div>
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>Reuse the catalog</h4><p>Added exercises can reuse existing catalog entries (images + cues) or be a custom typed name.</p></div></div>
+    <div class="benefit"><div class="check">✓</div><div class="b-body"><h4>Logging just works</h4><p>Workouts already save arbitrary exercise slots, so logging an added exercise needs zero new plumbing.</p></div></div>
+  </div>
+</section>
+
+<!-- 4. SCHEMA -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">04 · THE OVERLAY TABLE</span>
+    <h2>The whole thing is one small table.</h2>
+    <p>One row per <code style="font-family:var(--mono);color:var(--accent)">(user, session)</code>. An empty row means pure base. Protected per-user with row-level security.</p>
+  </div>
+  <div class="codeblock">
+    <div class="cb-head">
+      <span class="cb-dot r"></span><span class="cb-dot y"></span><span class="cb-dot g"></span>
+      <span class="cb-name">session_customizations.sql</span>
+    </div>
+    <div class="cb-body">
+<span class="cm">-- one row per (user, session). empty row = pure base.</span><br>
+<span class="kw">table</span> <span class="fn">session_customizations</span> (<br>
+&nbsp;&nbsp;<span class="arg">user_id</span>&nbsp;&nbsp;<span class="ty">uuid</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">-- who owns this overlay</span><br>
+&nbsp;&nbsp;<span class="arg">plan</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ty">text</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">-- which plan template</span><br>
+&nbsp;&nbsp;<span class="arg">sess</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ty">text</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">-- which session (e.g. "push")</span><br>
+&nbsp;&nbsp;<span class="arg">added</span>&nbsp;&nbsp;&nbsp;<span class="ty">jsonb[]</span>&nbsp;&nbsp;<span class="cm">-- exercises Leon added</span><br>
+&nbsp;&nbsp;<span class="arg">hidden</span>&nbsp;&nbsp;<span class="ty">text[]</span>&nbsp;&nbsp;&nbsp;<span class="cm">-- base exercises he removed</span><br>
+&nbsp;&nbsp;<span class="arg">order</span>&nbsp;&nbsp;&nbsp;<span class="ty">text[]</span>&nbsp;&nbsp;&nbsp;<span class="cm">-- optional reordering</span><br>
+)<br>
+<span class="cm">-- 🔒 row-level security: a user only sees their own rows</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ONE-OFF vs PERMANENT -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">05 · THE DECISION FOR YOU</span>
+    <h2>One-off, or permanent? <span class="accent-txt">Same UI, one toggle.</span></h2>
+    <p>Both scopes use the exact same "Add exercise" picker. The only difference is where the change is written.</p>
+  </div>
+
+  <div class="scope-grid">
+    <div class="scope-card">
+      <span class="s-tag">Scope A</span>
+      <h3>Just today</h3>
+      <p>Add an extra exercise to <strong style="color:var(--ink)">today's workout only</strong>.</p>
+      <div class="scope-attr">
+        <div class="attr-row"><span class="k">writes to</span><span class="v">nothing — appended to the live in-memory session</span></div>
+        <div class="attr-row"><span class="k">saved with</span><span class="v">that one workout log</span></div>
+        <div class="attr-row"><span class="k">template</span><span class="v">unchanged — tomorrow is pure base again</span></div>
+        <div class="attr-row"><span class="k">needs</span><span class="v"><span class="em">no schema</span></span></div>
+      </div>
+      <span class="build-chip small">● SMALL BUILD</span>
+    </div>
+
+    <div class="scope-card permanent">
+      <span class="s-tag">Scope B</span>
+      <h3>Add permanently</h3>
+      <p>The exercise <strong style="color:var(--ink)">sticks on that session forever</strong>.</p>
+      <div class="scope-attr">
+        <div class="attr-row"><span class="k">writes to</span><span class="v">the <span class="em">overlay</span> row</span></div>
+        <div class="attr-row"><span class="k">applied by</span><span class="v"><span class="em">effectiveSession()</span> every future time</span></div>
+        <div class="attr-row"><span class="k">template</span><span class="v">Leon's Push day now includes it, always</span></div>
+        <div class="attr-row"><span class="k">needs</span><span class="v">the overlay table</span></div>
+      </div>
+      <span class="build-chip med">●● MEDIUM BUILD</span>
+    </div>
+  </div>
+
+  <div class="shared-ui">
+    <div class="toggle-vis">
+      <span class="on">Just today</span>
+      <span>Add permanently</span>
+    </div>
+    <p><strong>One picker, one toggle.</strong> This is exactly how Hevy-style apps do it — the user never sees the architectural difference underneath.</p>
+  </div>
+</section>
+
+<!-- 6. PHASES -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">06 · RECOMMENDED BUILD ORDER</span>
+    <h2>Ship value fast, add the depth second.</h2>
+  </div>
+  <div class="phases">
+    <div class="phase a">
+      <div class="p-num">A</div>
+      <h3>The picker + one-off add</h3>
+      <p class="p-when">ships fast · no schema</p>
+      <ul>
+        <li>Build the "Add exercise" picker (reuses the catalog)</li>
+        <li>Append to the live in-memory session</li>
+        <li>Save it with that workout log</li>
+        <li>Users get "add to today" immediately</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="p-num">B</div>
+      <h3>Overlay + permanent</h3>
+      <p class="p-when">medium · needs the table</p>
+      <ul>
+        <li>Add the <code style="font-family:var(--mono);color:var(--accent)">session_customizations</code> table</li>
+        <li>Write the <code style="font-family:var(--mono);color:var(--accent)">effectiveSession()</code> merge</li>
+        <li>Flip on the "permanently" toggle</li>
+        <li>Add remove / reorder + reset-to-default</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATION -->
+<section class="wrap reveal">
+  <div class="rec">
+    <div class="r-eyebrow">◆ THE RECOMMENDATION</div>
+    <h2>Base + Overlay. Start with Phase A.</h2>
+    <p>Keep <span class="hl">one source of truth</span> in code, store only the <span class="hl">deltas</span> in a thin overlay, and merge them at read time. Ship the <span class="hl">one-off picker first</span> — then layer in the permanent overlay when you're ready. No divergence, no bloat, no regrets.</p>
+  </div>
+</section>
+
+<footer>
+  gym-tracker · custom sessions architecture · base + overlay
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

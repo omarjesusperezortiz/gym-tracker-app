@@ -9,3 +9,4 @@ export * from './supabase/history';
 export * from './supabase/prefs';
 export * from './supabase/customizations';
 export * from './logic/addable';
+export * from './logic/exercise-id';

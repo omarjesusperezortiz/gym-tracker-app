@@ -3,7 +3,7 @@
 // per-slot view for the "last time" lookup — the Calendar, Home stats, and Progress
 // screens need whole workouts (id, date, type, name, slots+sets), so we query for that
 // shape here instead of duplicating/forking core's lastFor logic.
-import { getSupabase } from '@gym-tracker/core';
+import { getSupabase, exerciseId } from '@gym-tracker/core';
 import type { HistorySlotEntry, Kind, LoggedSlot } from '@gym-tracker/core';
 
 export interface LoggedWorkout {
@@ -75,7 +75,7 @@ export function toHistorySlotEntries(history: LoggedWorkout[]): HistorySlotEntry
     if (w.type !== 'workout') continue;
     for (const s of w.slots) {
       if (!s.sets.length) continue;
-      out.push({ slot: s.slot, kind: s.kind, date: w.date, sets: s.sets });
+      out.push({ slot: s.slot, slotId: exerciseId(s.slot), kind: s.kind, date: w.date, sets: s.sets });
     }
   }
   return out;

@@ -1,8 +1,11 @@
 import { lastFor, lastKindFor, kindsLoggedFor, type HistorySlotEntry } from '../supabase/history';
+import { exerciseId } from '../logic/exercise-id';
 
 function entry(overrides: Partial<HistorySlotEntry>): HistorySlotEntry {
+  const slot = overrides.slot ?? 'Flat chest press';
   return {
-    slot: 'Flat chest press',
+    slot,
+    slotId: overrides.slotId ?? exerciseId(slot),
     kind: 'bar',
     date: '2024-01-01',
     sets: [{ w: '40', r: '8' }],

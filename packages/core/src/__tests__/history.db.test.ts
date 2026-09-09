@@ -55,6 +55,7 @@ describe('fetchHistory', () => {
     expect(result).toEqual([
       {
         slot: 'Flat chest press',
+        slotId: 'flat_chest_press',
         kind: 'bar',
         date: '2024-02-01',
         sets: [
@@ -102,6 +103,7 @@ describe('finishWorkout', () => {
         slots: [
           {
             slot: 'Flat chest press',
+            slot_id: 'flat_chest_press',
             kind: 'bar',
             done: true,
             force: false,
@@ -110,7 +112,7 @@ describe('finishWorkout', () => {
               { weight: '42', reps: '8', rpe: null },
             ],
           },
-          { slot: 'Lateral raise', kind: 'db', done: true, force: false, sets: [] },
+          { slot: 'Lateral raise', slot_id: 'lateral_raise', kind: 'db', done: true, force: false, sets: [] },
         ],
       },
     });
