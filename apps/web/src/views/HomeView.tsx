@@ -31,6 +31,13 @@ function inProgressSessions(live: ReturnType<typeof useAppState>['state']['live'
   return Object.values(map);
 }
 
+function greeting(): string {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 18) return 'Good afternoon';
+  return 'Good evening';
+}
+
 export function HomeView() {
   const { state, dispatch } = useAppState();
   const { history } = useWorkouts();
@@ -44,8 +51,8 @@ export function HomeView() {
   const ip = inProgressSessions(state.live);
   const keys = Object.keys(P.sessions);
   const groups: [string, string][] = [
-    ['broad', '⚡ Quick picks — broad sessions'],
-    ['focused', '🎯 Focused — one area'],
+    ['broad', 'Quick picks'],
+    ['focused', 'Focused'],
   ];
 
   function openSession(pk: PlanKey, sk: string) {
@@ -54,12 +61,14 @@ export function HomeView() {
 
   return (
     <div className="dash">
-      <div className="dash-h">Let's train 💪</div>
-      <div className="dash-sub">Pick your mode, then today's focus.</div>
+      <div className="dash-h">{greeting()}</div>
+      <div className="dash-sub">
+        {P.icon} {P.label} mode · pick today's session below.
+      </div>
 
       {ip.length > 0 && (
         <>
-          <div className="sec-label">▶ Continue where you left off</div>
+          <div className="sec-label">Continue where you left off</div>
           {ip.map((x) => {
             const s = catalog.plans[x.plan].sessions[x.day];
             const col = dayColor(x.plan, x.day);
@@ -81,18 +90,19 @@ export function HomeView() {
         </>
       )}
 
-      <div className="week-strip">
-        <div className="wk">
-          <div className="wv acc">{wc}</div>
-          <div className="wl">this week</div>
+      {/* Same glass stat tiles the Calendar uses, so the two screens match. */}
+      <div className="cal-stats">
+        <div className="stat">
+          <div className="sv acc">{wc}</div>
+          <div className="sl">this week</div>
         </div>
-        <div className="wk">
-          <div className="wv">{total}</div>
-          <div className="wl">total workouts</div>
+        <div className="stat">
+          <div className="sv">{total}</div>
+          <div className="sl">total</div>
         </div>
-        <div className="wk">
-          <div className="wv">{streak}</div>
-          <div className="wl">day streak 🔥</div>
+        <div className="stat">
+          <div className="sv">{streak}</div>
+          <div className="sl">streak 🔥</div>
         </div>
       </div>
 

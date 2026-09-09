@@ -48,7 +48,16 @@ export function ProgressView() {
   const volume = useMemo(() => volumeSeries(history), [history]);
   const balance = useMemo(() => muscleBalance(history), [history]);
   const [selected, setSelected] = useState<string | null>(null);
-  const progExercise = selected && names.includes(selected) ? selected : names[0] ?? null;
+  // Default to the lift with the most sessions behind it — opening on whatever
+  // sorts first alphabetically usually means a chart with a single dot in it.
+  const mostLogged = useMemo(
+    () =>
+      names
+        .map((name) => ({ name, points: exerciseSeries(history, name).length }))
+        .sort((a, b) => b.points - a.points)[0]?.name ?? null,
+    [names, history]
+  );
+  const progExercise = selected && names.includes(selected) ? selected : mostLogged;
 
   const prs = (prsQuery.data ?? [])
     .filter((p) => p.bestWeight != null && p.bestWeight > 0)
@@ -275,12 +284,18 @@ function ExerciseDetail({ series, name }: { series: ExercisePoint[]; name: strin
 
           <line x1={padX} x2={W - padX} y1={y(domainMax)} y2={y(domainMax)} className="prog-grid" />
           <line x1={padX} x2={W - padX} y1={baselineY} y2={baselineY} className="prog-grid" />
-          <text x={padX} y={y(domainMax) - 4} className="prog-axis-label">
-            {Math.round(domainMax)}kg
-          </text>
-          <text x={padX} y={baselineY - 4} className="prog-axis-label">
-            {Math.round(domainMin)}kg
-          </text>
+          {/* A single session has no range to label — both bounds round to the
+              same number, which just looks broken. */}
+          {n > 1 && (
+            <>
+              <text x={padX} y={y(domainMax) - 4} className="prog-axis-label">
+                {Math.round(domainMax)}kg
+              </text>
+              <text x={padX} y={baselineY - 4} className="prog-axis-label">
+                {Math.round(domainMin)}kg
+              </text>
+            </>
+          )}
 
           {points.length > 1 && <path d={areaPath(points, baselineY)} fill="url(#progFill)" stroke="none" />}
           {points.length > 1 && (

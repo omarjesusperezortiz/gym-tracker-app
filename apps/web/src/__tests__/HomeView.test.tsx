@@ -20,7 +20,22 @@ describe('HomeView', () => {
     for (const session of gymSessions) {
       expect(screen.getByText(session.name)).toBeInTheDocument();
     }
-    expect(screen.getByText('⚡ Quick picks — broad sessions')).toBeInTheDocument();
+    expect(screen.getByText('Quick picks')).toBeInTheDocument();
+    expect(screen.getByText('Focused')).toBeInTheDocument();
+  });
+
+  it('greets the user and shows the active mode plus the glass stat tiles', () => {
+    const { container } = render(
+      <AppStateProvider>
+        <HomeView />
+      </AppStateProvider>
+    );
+
+    expect(screen.getByText(/^Good (morning|afternoon|evening)$/)).toBeInTheDocument();
+    expect(screen.getByText(/mode · pick today's session below\./)).toBeInTheDocument();
+    // Same .cal-stats/.stat tiles the Calendar uses.
+    expect(container.querySelectorAll('.cal-stats .stat')).toHaveLength(3);
+    expect(screen.getByText('this week')).toBeInTheDocument();
   });
 
   it('shows the plan picker for every plan in the catalog', () => {
