@@ -58,7 +58,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 /* No top bar any more, so the scroll container itself keeps content out from
    under the status bar / notch. Train opts out — its sticky bar does that. */
 .wrap{padding:calc(env(safe-area-inset-top) + 12px) 14px calc(96px + env(safe-area-inset-bottom))}
-.wrap-train{padding-top:0}
+.wrap-train{padding-top:calc(env(safe-area-inset-top) + 10px);padding-bottom:calc(170px + env(safe-area-inset-bottom))}
 
 .ex{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s}
 .ex.done{border-color:rgba(61,220,151,.4)}
