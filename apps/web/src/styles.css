@@ -346,3 +346,73 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .editbadge{gap:5px}
 .editbadge svg{width:12px;height:12px;flex:none}
 
+/* ============================================================
+   LIQUID GLASS — iOS 26-inspired polish layer (appended last).
+   Translucent surfaces + backdrop blur + specular top edge +
+   ambient background glow so the glass has something to refract.
+   ============================================================ */
+:root{
+  --glass:rgba(255,255,255,.055);
+  --glass-2:rgba(255,255,255,.085);
+  --glass-brd:rgba(255,255,255,.14);
+  --glass-hi:rgba(255,255,255,.22);
+  --glass-blur:saturate(1.6) blur(16px);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)){
+
+  /* Ambient glow behind everything so blur reads as real glass */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(60% 42% at 78% -6%, rgba(198,242,78,.14), transparent 60%),
+      radial-gradient(52% 40% at 8% 8%, rgba(90,169,255,.12), transparent 60%),
+      radial-gradient(60% 46% at 50% 108%, rgba(155,140,255,.12), transparent 62%);
+  }
+
+  /* Header + bottom nav = frosted glass with a bright top hairline */
+  header{background:rgba(12,14,19,.6);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border-bottom:1px solid var(--glass-brd)}
+  .nav{background:rgba(12,14,19,.62);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border-top:1px solid var(--glass-brd);box-shadow:inset 0 1px 0 var(--glass-hi)}
+
+  /* Card-like surfaces become translucent glass */
+  .ex,.daycard,.prog,.today-card,.mcard,.target-card,.hentry,.cell,.wday,.tg .ti{
+    background:var(--glass);
+    backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-brd);
+    box-shadow:inset 0 1px 0 var(--glass-hi),0 8px 24px rgba(0,0,0,.28);
+  }
+  .daycard.active,.ex.done{background:var(--glass-2)}
+
+  /* Sheet (bottom drawer) = deeper glass */
+  .sheet{background:rgba(16,18,22,.72);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    box-shadow:inset 0 1px 0 var(--glass-hi),0 -12px 40px rgba(0,0,0,.5)}
+
+  /* Plan chips + icon buttons get the same frost */
+  .planchip:not(.active),.iconbtn{background:var(--glass);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-brd)}
+}
+
+/* Specular sheen sweeping across the accent/primary buttons */
+.btn.acc,.primary,.planchip.active,.savebtn{position:relative;overflow:hidden}
+.btn.acc::after,.primary::after,.planchip.active::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35) 47%,transparent 62%);
+  transform:translateX(-120%);transition:none;
+}
+.btn.acc:active::after,.primary:active::after{transform:translateX(120%);transition:transform .6s ease}
+
+/* Micro-interactions: gentle press feedback everywhere tappable */
+.ex,.daycard,.planchip,.cell,.wday,.ni,.today-ex,.hentry{transition:transform .16s cubic-bezier(.2,.7,.3,1),background .2s,border-color .2s,box-shadow .2s}
+.daycard:active,.planchip:active,.cell:active,.wday:active,.today-ex:active{transform:scale(.97)}
+.ni:active{transform:scale(.9)}
+
+/* Smooth view fade-in when switching tabs */
+.wrap{animation:viewin .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes viewin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion: reduce){
+  .wrap{animation:none}
+  *{transition:none!important}
+}
+
