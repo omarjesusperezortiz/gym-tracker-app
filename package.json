@@ -16,5 +16,33 @@
   },
   "devDependencies": {
     "turbo": "^2.5.8"
+  },
+  "overrides": {
+    "@radix-ui/react-collection": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-compose-refs": { "react": "18.3.1" },
+    "@radix-ui/react-context": { "react": "18.3.1" },
+    "@radix-ui/react-dialog": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-direction": { "react": "18.3.1" },
+    "@radix-ui/react-dismissable-layer": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-focus-guards": { "react": "18.3.1" },
+    "@radix-ui/react-focus-scope": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-id": { "react": "18.3.1" },
+    "@radix-ui/react-portal": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-presence": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-primitive": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-roving-focus": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-slot": { "react": "18.3.1" },
+    "@radix-ui/react-toggle": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-toggle-group": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "@radix-ui/react-use-callback-ref": { "react": "18.3.1" },
+    "@radix-ui/react-use-controllable-state": { "react": "18.3.1" },
+    "@radix-ui/react-use-effect-event": { "react": "18.3.1" },
+    "@radix-ui/react-use-is-hydrated": { "react": "18.3.1" },
+    "@radix-ui/react-use-layout-effect": { "react": "18.3.1" },
+    "react-remove-scroll": { "react": "18.3.1" },
+    "react-remove-scroll-bar": { "react": "18.3.1" },
+    "react-style-singleton": { "react": "18.3.1", "react-dom": "18.3.1" },
+    "use-callback-ref": { "react": "18.3.1" },
+    "use-sidecar": { "react": "18.3.1" }
   }
 }

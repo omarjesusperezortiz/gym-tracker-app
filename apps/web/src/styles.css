@@ -107,14 +107,18 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .setrow .last{font-size:11px;color:var(--ok);text-align:right;font-family:var(--mono);opacity:.85}
 .addset{margin-top:10px;width:100%;background:transparent;border:1px dashed var(--line2);color:var(--mut);border-radius:10px;padding:10px;font-size:12px;font-weight:600;cursor:pointer}
 
-/* Bottom nav */
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(10,11,14,.92);backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
-.nav .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;color:var(--mut);cursor:pointer;transition:.15s;font-size:10px;font-weight:600}
-.nav .ni svg{width:22px;height:22px}
-.nav .ni.active{color:var(--acc)}
+/* Bottom nav — floating pill (modern mobile app style) */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:45;
+  width:auto;max-width:calc(100% - 24px);background:rgba(20,22,28,.72);backdrop-filter:blur(22px) saturate(1.5);
+  -webkit-backdrop-filter:blur(22px) saturate(1.5);border:1px solid var(--glass-brd);border-radius:26px;
+  display:flex;gap:2px;padding:7px 8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 30px rgba(0,0,0,.5)}
+.nav .ni{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 11px;border-radius:18px;
+  color:var(--mut);cursor:pointer;transition:.18s cubic-bezier(.2,.7,.3,1);font-size:9.5px;font-weight:600;position:relative}
+.nav .ni svg{width:21px;height:21px}
+.nav .ni.active{color:var(--acc);background:rgba(198,242,78,.14)}
+.nav .ni.active svg{filter:drop-shadow(0 0 6px rgba(198,242,78,.4))}
 /* Finish bar sits above nav on Train view */
-.dock{position:fixed;left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom));z-index:44;padding:0 14px 10px;display:flex;gap:10px}
+.dock{position:fixed;left:0;right:0;bottom:calc(88px + env(safe-area-inset-bottom));z-index:44;padding:0 14px 10px;display:flex;gap:10px}
 .dock.hide{display:none}
 .dock .primary{flex:1.6;padding:15px;border-radius:16px;border:none;font-weight:700;font-size:15px;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc-d));color:var(--acc-ink);box-shadow:0 6px 20px rgba(198,242,78,.32);display:flex;align-items:center;justify-content:center;gap:8px}
 .dock .primary:active{transform:translateY(2px)}
@@ -209,10 +213,15 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .resume .rtag.edit{background:rgba(255,184,77,.14);border-color:rgba(255,184,77,.3);color:var(--warn)}
 .trainbar .tprog{font-size:12px;font-weight:600;color:var(--acc);font-family:var(--mono);background:var(--surf);border:1px solid var(--line);padding:5px 10px;border-radius:10px;flex:none}
 
-.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:none;align-items:flex-end}
-.modal.show{display:flex;animation:fade .2s}@keyframes fade{from{opacity:0}}
-.sheet{background:var(--panel);border-radius:22px 22px 0 0;width:100%;max-height:86vh;overflow:auto;padding:20px 18px calc(30px + env(safe-area-inset-bottom));border-top:1px solid var(--line2);animation:slideup .28s cubic-bezier(.2,.8,.2,1)}
+/* Radix Dialog renders Overlay + Content as siblings (not parent/child), so
+   .sheet now anchors itself to the viewport bottom instead of relying on a
+   flex-aligned .modal parent. Radix only mounts these while open, so there's
+   no .show class to toggle any more — the entrance animation always plays. */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:101;background:var(--panel);border-radius:22px 22px 0 0;width:100%;max-height:86vh;overflow:auto;padding:20px 18px calc(30px + env(safe-area-inset-bottom));border-top:1px solid var(--line2);animation:slideup .28s cubic-bezier(.2,.8,.2,1);outline:none}
 @keyframes slideup{from{transform:translateY(30px)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .grab{width:38px;height:4px;border-radius:2px;background:var(--surf3);margin:0 auto 16px;position:relative;cursor:grab;touch-action:none}
 /* invisible >=44px hit area around the little handle, for drag-to-dismiss */
 .grab::after{content:"";position:absolute;left:-60px;right:-60px;top:-22px;bottom:-22px}
@@ -362,8 +371,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
   /* Header + bottom nav = frosted glass with a bright top hairline */
   header{background:rgba(12,14,19,.6);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
     border-bottom:1px solid var(--glass-brd)}
-  .nav{background:rgba(12,14,19,.62);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
-    border-top:1px solid var(--glass-brd);box-shadow:inset 0 1px 0 var(--glass-hi)}
 
   /* Card-like surfaces become translucent glass.
      Gradient tint (not just backdrop-filter) so the glassy look is visible

@@ -132,7 +132,11 @@ export function CalendarView() {
         <i className="lg" style={{ background: 'var(--mut2)' }} /> rest
       </div>
 
-      <Sheet open={!!sheetDay} onClose={() => setSheetDay(null)}>
+      <Sheet
+        open={!!sheetDay}
+        onClose={() => setSheetDay(null)}
+        title={sheetDay ? new Date(`${sheetDay}T00:00:00`).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }) : 'Day details'}
+      >
         {sheetDay && (
           <DaySheetContent day={sheetDay} events={sheetEvents} onToggle={toggleDayType} onEdit={editEntry} onClose={() => setSheetDay(null)} />
         )}

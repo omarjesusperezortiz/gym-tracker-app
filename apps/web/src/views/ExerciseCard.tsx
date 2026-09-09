@@ -1,3 +1,4 @@
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { isTimeScheme, KIND_LABEL } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
@@ -61,14 +62,22 @@ export function ExerciseCard({
       </div>
 
       {kinds.length > 1 && (
-        <div className="seg">
+        <ToggleGroup.Root
+          type="single"
+          className="seg"
+          value={kind}
+          // Single-select ToggleGroup deselects (value: '') when you click the
+          // already-active item — this switcher must always keep exactly one
+          // equipment kind selected, so an empty value is simply ignored.
+          onValueChange={(value) => value && onKindChange(value as Kind)}
+        >
           <div className="thumb" style={{ width: `calc((100% - 6px)/${kinds.length})`, transform: `translateX(${kIdx * 100}%)` }} />
           {kinds.map((kk) => (
-            <div key={kk} className={`segi${kk === kind ? ' active' : ''}`} onClick={() => onKindChange(kk)}>
+            <ToggleGroup.Item key={kk} value={kk} className={`segi${kk === kind ? ' active' : ''}`}>
               {KIND_LABEL[kk] || kk}
-            </div>
+            </ToggleGroup.Item>
           ))}
-        </div>
+        </ToggleGroup.Root>
       )}
 
       <div className="detail">
