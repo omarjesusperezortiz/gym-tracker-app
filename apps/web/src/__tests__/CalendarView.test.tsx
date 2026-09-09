@@ -62,9 +62,9 @@ describe('CalendarView', () => {
     const user = userEvent.setup();
     const { container } = renderCalendar();
 
-    const todayWeekTile = container.querySelector('.wday.today');
-    expect(todayWeekTile).not.toBeNull();
-    await user.click(todayWeekTile!);
+    const todayCell = container.querySelector('.cell.today');
+    expect(todayCell).not.toBeNull();
+    await user.click(todayCell!);
 
     expect(await screen.findByText(/Flat chest press/)).toBeInTheDocument();
     const editBtn = screen.getByText(/Continue \/ edit this workout/);

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { useWorkouts } from '../lib/useWorkouts';
 import { logDayMarker, removeWorkout, type LoggedWorkout } from '../lib/workouts';
 import { dotColor, hueOf } from '../lib/colors';
@@ -33,17 +33,6 @@ export function CalendarView() {
   const monthName = calMonth.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
   const monthCount = Object.keys(byDay).filter((k) => k.slice(0, 7) === `${y}-${String(m + 1).padStart(2, '0')}`).length;
   const streak = calcStreak(byDay);
-
-  const now = new Date();
-  const wd = (now.getDay() + 6) % 7;
-  const monday = new Date(now);
-  monday.setHours(0, 0, 0, 0);
-  monday.setDate(now.getDate() - wd);
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const dd = new Date(monday);
-    dd.setDate(monday.getDate() + i);
-    return dd;
-  });
 
   async function toggleDayType(key: string, type: 'skate' | 'rest') {
     const existing = (byDay[key] || []).find((e) => e.type === type);
@@ -88,43 +77,6 @@ export function CalendarView() {
 
   return (
     <div className="cal">
-      <div className="sec-h" style={{ margin: '2px 2px 10px' }}>
-        This week
-      </div>
-      <div className="weekbar">
-        {weekDays.map((dd, i) => {
-          const key = dayKey(dd);
-          const evs = byDay[key] || [];
-          const isToday = key === today;
-          const gym = evs.filter((e) => e.type === 'workout');
-          let mark: ReactNode = null;
-          if (gym.length) mark = <span className="wm" style={{ background: dotColor(gym[0].type, gym[0]) }} />;
-          else if (evs.some((e) => e.type === 'skate'))
-            mark = (
-              <span className="wmi">
-                <IconSkate />
-              </span>
-            );
-          else if (evs.some((e) => e.type === 'rest'))
-            mark = (
-              <span className="wmr">
-                <IconRest />
-              </span>
-            );
-          return (
-            <div
-              key={key}
-              className={`wday${isToday ? ' today' : ''}${evs.length ? ' active' : ''}`}
-              onClick={() => setSheetDay(key)}
-            >
-              <div className="wdl">{DAY_NAMES[i]}</div>
-              <div className="wdn">{dd.getDate()}</div>
-              <div className="wmk">{mark}</div>
-            </div>
-          );
-        })}
-      </div>
-
       <div className="cal-stats">
         <div className="stat">
           <div className="sv acc">{monthCount}</div>
