@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { catalog, finishWorkout, updateWorkout, fmtLast, isTimeScheme, lastFor, parseTarget } from '@gym-tracker/core';
+import { catalog, fmtLast, isTimeScheme, lastFor, parseTarget } from '@gym-tracker/core';
 import type { Kind, Variation } from '@gym-tracker/core';
 import { keyOf, useAppState, type LiveSet, type LiveSlotState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
+import { useFinishWorkout, useUpdateWorkout } from '../lib/useWorkoutMutations';
 import { toHistorySlotEntries } from '../lib/workouts';
 import { useToast } from '../components/Toast';
 import { Dock } from '../components/Dock';
@@ -17,9 +18,11 @@ function firstKind(variations: Partial<Record<Kind, Variation>> | undefined): Ki
 
 export function TrainView() {
   const { state, dispatch } = useAppState();
-  const { history, loading, refetch } = useWorkouts();
+  const { history, loading } = useWorkouts();
   const { toast } = useToast();
   const [zoom, setZoom] = useState<string | null>(null);
+  const finishMutation = useFinishWorkout();
+  const updateMutation = useUpdateWorkout();
 
   const historyEntries = useMemo(() => toHistorySlotEntries(history), [history]);
   const P = catalog.plans[state.plan];
@@ -70,7 +73,7 @@ export function TrainView() {
     goHome();
   }
 
-  async function handleFinish() {
+  function handleFinish() {
     const slots: { slot: string; kind: Kind; done: boolean; force: boolean; sets: { w: string; r: string }[] }[] = [];
     session.slots.forEach((sl) => {
       const slot = sl[0];
@@ -84,19 +87,27 @@ export function TrainView() {
       toast('Log something first 💪');
       return;
     }
-    try {
-      if (isEditingCurrent && state.editingId) {
-        await updateWorkout({ id: state.editingId, plan: state.plan, sess: cur, name: session.name, slots });
-        toast(`${session.name} updated ✏️`);
-      } else {
-        await finishWorkout({ date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots });
-        toast(`${session.name} finished! 🎉`);
-      }
+
+    // The cache is patched optimistically, so Home/Calendar already show this
+    // workout — but the draft is only cleared once the save actually lands, so a
+    // failed write leaves the logged sets (and any edit context) untouched.
+    const settle = (message: string) => {
+      toast(message);
       dispatch({ type: 'CLEAR_SLOTS', keys: session.slots.map((sl) => keyOf(state.plan, cur, sl[0])) });
       goHome();
-      void refetch();
-    } catch (err) {
-      toast(err instanceof Error ? err.message : 'Could not save workout');
+    };
+    const onError = (err: Error) => toast(err.message || 'Could not save workout');
+
+    if (isEditingCurrent && state.editingId) {
+      updateMutation.mutate(
+        { id: state.editingId, plan: state.plan, sess: cur, name: session.name, slots },
+        { onSuccess: () => settle(`${session.name} updated ✏️`), onError }
+      );
+    } else {
+      finishMutation.mutate(
+        { date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots },
+        { onSuccess: () => settle(`${session.name} finished! 🎉`), onError }
+      );
     }
   }
 
@@ -166,7 +177,7 @@ export function TrainView() {
         );
       })}
 
-      <Dock onSave={handleSave} onFinish={() => void handleFinish()} hidden={false} />
+      <Dock onSave={handleSave} onFinish={handleFinish} hidden={false} />
       <Lightbox src={zoom} onClose={() => setZoom(null)} />
     </>
   );

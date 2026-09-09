@@ -1,5 +1,7 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './auth/AuthContext';
 import { AuthGate } from './auth/AuthGate';
+import { createQueryClient } from './lib/queryClient';
 import { AppStateProvider, useAppState } from './state/AppState';
 import { ToastProvider } from './components/Toast';
 import { Header } from './components/Header';
@@ -44,16 +46,20 @@ function Shell() {
   );
 }
 
+const queryClient = createQueryClient();
+
 export default function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <AuthGate>
-          <AppStateProvider>
-            <Shell />
-          </AppStateProvider>
-        </AuthGate>
-      </ToastProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ToastProvider>
+          <AuthGate>
+            <AppStateProvider>
+              <Shell />
+            </AppStateProvider>
+          </AuthGate>
+        </ToastProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

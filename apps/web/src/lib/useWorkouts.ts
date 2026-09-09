@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthContext';
 import { fetchWorkouts, type LoggedWorkout } from './workouts';
+import { queryKeys } from './queryKeys';
 
 export interface UseWorkouts {
   history: LoggedWorkout[];
@@ -9,28 +10,31 @@ export interface UseWorkouts {
   refetch: () => Promise<void>;
 }
 
+// Stable reference so `history` doesn't change identity between renders while
+// the first fetch is in flight (TrainView memoises off it).
+const EMPTY: LoggedWorkout[] = [];
+
+// One shared, cached copy of the workout history for every view. Previously each
+// view held its own useState + useEffect fetch, so Today → Home → Calendar →
+// Progress meant four full round-trips; now they all read the same query.
 export function useWorkouts(): UseWorkouts {
   const { session } = useAuth();
-  const [history, setHistory] = useState<LoggedWorkout[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const userId = session?.user.id;
 
-  const refetch = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await fetchWorkouts();
-      setHistory(data);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load history');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { data, isPending, error, refetch } = useQuery({
+    queryKey: queryKeys.workouts(userId),
+    queryFn: fetchWorkouts,
+    enabled: !!userId,
+  });
 
-  useEffect(() => {
-    if (session) void refetch();
-  }, [session, refetch]);
-
-  return { history, loading, error, refetch };
+  return {
+    history: data ?? EMPTY,
+    // Stays true while signed out (query disabled), matching the old hook, which
+    // never flipped `loading` off until a fetch resolved.
+    loading: isPending,
+    error: error ? (error instanceof Error ? error.message : 'Failed to load history') : null,
+    refetch: async () => {
+      await refetch();
+    },
+  };
 }

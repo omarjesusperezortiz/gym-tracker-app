@@ -39,6 +39,7 @@
     "@radix-ui/react-use-effect-event": { "react": "18.3.1" },
     "@radix-ui/react-use-is-hydrated": { "react": "18.3.1" },
     "@radix-ui/react-use-layout-effect": { "react": "18.3.1" },
+    "@tanstack/react-query": { "react": "18.3.1" },
     "react-remove-scroll": { "react": "18.3.1" },
     "react-remove-scroll-bar": { "react": "18.3.1" },
     "react-style-singleton": { "react": "18.3.1", "react-dom": "18.3.1" },

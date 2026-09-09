@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { AppStateProvider, useAppState } from '../state/AppState';
 import { ToastProvider } from '../components/Toast';
 import { CalendarView } from '../views/CalendarView';
+import { withQueryClient } from '../test/queryClient';
 import type { LoggedWorkout } from '../lib/workouts';
 
 const TODAY_ENTRY: LoggedWorkout = {
@@ -40,12 +41,14 @@ function ViewProbe() {
 
 function renderCalendar() {
   return render(
-    <AppStateProvider>
-      <ToastProvider>
-        <CalendarView />
-        <ViewProbe />
-      </ToastProvider>
-    </AppStateProvider>
+    withQueryClient(
+      <AppStateProvider>
+        <ToastProvider>
+          <CalendarView />
+          <ViewProbe />
+        </ToastProvider>
+      </AppStateProvider>
+    )
   );
 }
 

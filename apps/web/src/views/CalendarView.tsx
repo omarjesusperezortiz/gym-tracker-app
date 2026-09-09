@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useWorkouts } from '../lib/useWorkouts';
-import { logDayMarker, removeWorkout, type LoggedWorkout } from '../lib/workouts';
+import { useLogRestDay, useRemoveWorkout } from '../lib/useWorkoutMutations';
+import { type LoggedWorkout } from '../lib/workouts';
 import { dotColor, hueOf } from '../lib/colors';
 import { calcStreak, dayKey, groupByDay } from '../lib/stats';
 import { useToast } from '../components/Toast';
@@ -17,9 +18,11 @@ function isPlanKey(pk: string | null): pk is PlanKey {
 }
 
 export function CalendarView() {
-  const { history, refetch } = useWorkouts();
+  const { history } = useWorkouts();
   const { toast } = useToast();
   const { dispatch } = useAppState();
+  const logRestDay = useLogRestDay();
+  const removeEntry = useRemoveWorkout();
   const [calMonth, setCalMonth] = useState(() => new Date());
   const [sheetDay, setSheetDay] = useState<string | null>(null);
 
@@ -34,19 +37,15 @@ export function CalendarView() {
   const monthCount = Object.keys(byDay).filter((k) => k.slice(0, 7) === `${y}-${String(m + 1).padStart(2, '0')}`).length;
   const streak = calcStreak(byDay);
 
-  async function toggleDayType(key: string, type: 'rest') {
+  // Fire-and-forget: the optimistic cache patch paints the dot immediately and
+  // rolls back if the write fails, so there's nothing to await here.
+  function toggleDayType(key: string, type: 'rest') {
     const existing = (byDay[key] || []).find((e) => e.type === type);
-    try {
-      if (existing) {
-        await removeWorkout(existing.id);
-        toast('Rest removed');
-      } else {
-        await logDayMarker(`${key}T12:00:00`, type);
-        toast('Rest logged');
-      }
-      await refetch();
-    } catch (err) {
-      toast(err instanceof Error ? err.message : 'Could not update this day');
+    const onError = (err: Error) => toast(err.message || 'Could not update this day');
+    if (existing) {
+      removeEntry.mutate({ id: existing.id }, { onSuccess: () => toast('Rest removed'), onError });
+    } else {
+      logRestDay.mutate({ date: `${key}T12:00:00` }, { onSuccess: () => toast('Rest logged'), onError });
     }
   }
 
