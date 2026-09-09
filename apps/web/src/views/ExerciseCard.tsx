@@ -39,7 +39,6 @@ export function ExerciseCard({
   const vr = variationsForSlot[kind] || Object.values(variationsForSlot)[0];
   const cue = vr ? plan.cues[vr.name] || '' : '';
   const kinds = Object.keys(variationsForSlot) as Kind[];
-  const kIdx = Math.max(0, kinds.indexOf(kind));
 
   return (
     <div className={`ex${done ? ' done' : ''}`}>
@@ -71,7 +70,6 @@ export function ExerciseCard({
           // equipment kind selected, so an empty value is simply ignored.
           onValueChange={(value) => value && onKindChange(value as Kind)}
         >
-          <div className="thumb" style={{ width: `calc((100% - 6px)/${kinds.length})`, transform: `translateX(${kIdx * 100}%)` }} />
           {kinds.map((kk) => (
             <ToggleGroup.Item key={kk} value={kk} className={`segi${kk === kind ? ' active' : ''}`}>
               {KIND_LABEL[kk] || kk}

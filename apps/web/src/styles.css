@@ -76,10 +76,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .check svg{width:16px;height:16px;opacity:0}
 .check.on{background:var(--ok);border-color:var(--ok)}.check.on svg{opacity:1;stroke:#062a1c}
 .check:active{transform:scale(.9)}
-.seg{display:flex;margin:0 16px 12px;background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:3px;position:relative}
-.seg .segi{flex:1;text-align:center;padding:8px 4px;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer;border-radius:8px;transition:color .2s;position:relative;z-index:2}
-.seg .segi.active{color:var(--acc-ink)}
-.seg .thumb{position:absolute;top:3px;bottom:3px;background:var(--acc);border-radius:8px;transition:transform .22s cubic-bezier(.2,.8,.2,1);z-index:1}
+.seg{display:flex;gap:4px;margin:0 16px 14px;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:12px;padding:4px}
+.seg .segi{flex:1;text-align:center;padding:9px 4px;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer;border-radius:9px;transition:.18s cubic-bezier(.2,.7,.3,1);border:none;background:transparent;white-space:nowrap}
+.seg .segi:hover{color:var(--ink2)}
+.seg .segi:active{transform:scale(.95)}
+.seg .segi.active{color:var(--acc-ink);background:linear-gradient(135deg,var(--acc),var(--acc-d));box-shadow:0 2px 8px rgba(198,242,78,.3)}
 .detail{padding:0 16px 16px}
 .exvarname{font-size:14px;font-weight:600;letter-spacing:-.2px;margin-bottom:8px}
 .cue{font-size:12.5px;color:var(--mut);line-height:1.55;margin-bottom:12px}
