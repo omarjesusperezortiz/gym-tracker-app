@@ -32,19 +32,21 @@ export function MealsView() {
             <div className="tl">water</div>
           </div>
         </div>
-        <div style={{ fontSize: 12.5, color: 'var(--ink2)', lineHeight: 1.5 }}>{M.targets.note}</div>
+        <div className="target-note">{M.targets.note}</div>
       </div>
 
-      <div className="sec-h">Principles</div>
-      {M.principles.map((p, i) => (
-        <div className="midea" style={{ margin: '0 6px 8px', color: 'var(--ink2)' }} key={i}>
-          {p}
+      <div className="sec-label">Principles</div>
+      <div className="mcard">
+        <div className="mideas">
+          {M.principles.map((p, i) => (
+            <div className="midea" key={i}>
+              {p}
+            </div>
+          ))}
         </div>
-      ))}
-
-      <div className="sec-h" style={{ marginTop: 16 }}>
-        Daily meals
       </div>
+
+      <div className="sec-label">Daily meals</div>
       {M.meals.map((mm, i) => (
         <div className="mcard" key={i}>
           <div className="mtitle2">
@@ -61,9 +63,7 @@ export function MealsView() {
         </div>
       ))}
 
-      <div className="sec-h" style={{ marginTop: 16 }}>
-        Go-to protein foods
-      </div>
+      <div className="sec-label">Go-to protein foods</div>
       <div className="mcard">
         <div className="chips">
           {M.protein_foods.map((f, i) => (

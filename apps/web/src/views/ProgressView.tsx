@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useWorkouts } from '../lib/useWorkouts';
 import { allExerciseNames, exerciseSeries, type ExercisePoint } from '../lib/stats';
-import { IconEmpty } from '../lib/icons';
+import { IconChev, IconEmpty } from '../lib/icons';
 
 export function ProgressView() {
   const { history } = useWorkouts();
@@ -29,16 +29,40 @@ export function ProgressView() {
   return (
     <div className="progress-view">
       <div className="sec-label">Progress</div>
-      <select className="prog-select" value={progExercise ?? ''} onChange={(e) => setSelected(e.target.value)}>
-        {names.map((n) => (
-          <option key={n} value={n}>
-            {n}
-          </option>
-        ))}
-      </select>
+      <div className="prog-select-wrap">
+        <select className="prog-select" value={progExercise ?? ''} onChange={(e) => setSelected(e.target.value)}>
+          {names.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
+        <span className="prog-select-chev">
+          <IconChev />
+        </span>
+      </div>
       <ProgressChart series={series} name={progExercise!} />
     </div>
   );
+}
+
+// Catmull-Rom -> cubic Bézier, so the line reads as a smooth curve instead of
+// straight segments between sessions.
+function smoothPath(points: { x: number; y: number }[]): string {
+  if (points.length < 2) return '';
+  let d = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i === 0 ? i : i - 1];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
+    const c1x = p1.x + (p2.x - p0.x) / 6;
+    const c1y = p1.y + (p2.y - p0.y) / 6;
+    const c2x = p2.x - (p3.x - p1.x) / 6;
+    const c2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+  }
+  return d;
 }
 
 function ProgressChart({ series, name }: { series: ExercisePoint[]; name: string }) {
@@ -55,50 +79,93 @@ function ProgressChart({ series, name }: { series: ExercisePoint[]; name: string
   const prev = series.length > 1 ? series[series.length - 2].top : null;
   const delta = prev != null ? +(last - prev).toFixed(1) : null;
   const best = Math.max(...series.map((p) => p.top));
-  const maxV = best * 1.15 || 1;
+  const worst = Math.min(...series.map((p) => p.top));
+
   const W = 320;
-  const H = 160;
-  const pad = 8;
+  const H = 170;
+  const padX = 10;
+  const padTop = 16;
+  const padBottom = 26;
   const n = series.length;
-  const slot = (W - pad * 2) / n;
-  const bw = Math.max(6, slot - 6);
+  // A little headroom above the PR and below the worst session so the curve
+  // never touches the chart edges, with a floor so a flat series doesn't
+  // divide by ~0.
+  const span = Math.max(best - worst, best * 0.08, 1);
+  const domainMin = worst - span * 0.25;
+  const domainMax = best + span * 0.25;
+  const yOf = (v: number) => padTop + (1 - (v - domainMin) / (domainMax - domainMin)) * (H - padTop - padBottom);
+  const xOf = (i: number) => (n === 1 ? W / 2 : padX + (i / (n - 1)) * (W - padX * 2));
+  const points = series.map((p, i) => ({ x: xOf(i), y: yOf(p.top), v: p.top }));
+  const baselineY = H - padBottom;
+
+  const linePath = smoothPath(points);
+  const areaPath = points.length > 1 ? `${linePath} L ${points[n - 1].x.toFixed(1)} ${baselineY} L ${points[0].x.toFixed(1)} ${baselineY} Z` : '';
+
   const dateLabel = (d: string) => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 
   return (
     <>
-      <div className="prog-stats">
-        <div className="pstat">
-          <div className="pv">{best}kg</div>
-          <div className="pl">PR best</div>
+      <div className="cal-stats prog-stats">
+        <div className="stat">
+          <div className="sv acc">{best}kg</div>
+          <div className="sl">PR best</div>
         </div>
-        <div className="pstat">
-          <div className="pv">{last}kg</div>
-          <div className="pl">last top set</div>
+        <div className="stat">
+          <div className="sv">{last}kg</div>
+          <div className="sl">last top set</div>
         </div>
-        <div className="pstat">
-          <div className={`pv${delta == null ? '' : delta > 0 ? ' up' : delta < 0 ? ' down' : ''}`}>
+        <div className="stat">
+          <div className={`sv${delta == null ? '' : delta > 0 ? ' up' : delta < 0 ? ' down' : ''}`}>
             {delta == null ? '—' : `${delta > 0 ? '+' : ''}${delta}kg`}
           </div>
-          <div className="pl">vs last time</div>
+          <div className="sl">vs last time</div>
         </div>
       </div>
+
       <div className="prog-chart">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${name} top set progress`}>
-          {series.map((p, i) => {
-            const x = pad + i * slot;
-            const bh = Math.max(2, (p.top / maxV) * (H - 30));
-            const y = H - 20 - bh;
+          <defs>
+            <linearGradient id="progFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" style={{ stopColor: 'var(--acc)', stopOpacity: 0.32 }} />
+              <stop offset="100%" style={{ stopColor: 'var(--acc)', stopOpacity: 0 }} />
+            </linearGradient>
+          </defs>
+
+          {/* Gridlines at the PR and the floor, with weight labels. */}
+          <line x1={padX} x2={W - padX} y1={yOf(domainMax)} y2={yOf(domainMax)} className="prog-grid" />
+          <line x1={padX} x2={W - padX} y1={baselineY} y2={baselineY} className="prog-grid" />
+          <text x={padX} y={yOf(domainMax) - 4} className="prog-axis-label">
+            {Math.round(domainMax)}kg
+          </text>
+          <text x={padX} y={baselineY - 4} className="prog-axis-label">
+            {Math.round(domainMin)}kg
+          </text>
+
+          {areaPath && <path d={areaPath} fill="url(#progFill)" stroke="none" />}
+          {linePath && <path d={linePath} fill="none" stroke="var(--acc)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />}
+
+          {points.map((p, i) => {
             const isLast = i === n - 1;
-            const showLabel = i === 0 || i === n - 1 || n <= 6;
             return (
-              <g key={i}>
-                <rect x={x.toFixed(1)} y={y.toFixed(1)} width={bw.toFixed(1)} height={bh.toFixed(1)} rx={3} fill={isLast ? 'var(--acc)' : 'var(--surf3)'} />
-                {showLabel && (
-                  <text x={(x + bw / 2).toFixed(1)} y={H - 6} fontSize={9} textAnchor="middle" fill="var(--mut)">
-                    {p.top}
-                  </text>
-                )}
-              </g>
+              <circle
+                key={i}
+                cx={p.x.toFixed(1)}
+                cy={p.y.toFixed(1)}
+                r={isLast ? 5 : 3}
+                fill={isLast ? 'var(--acc)' : 'var(--bg)'}
+                stroke="var(--acc)"
+                strokeWidth={isLast ? 0 : 2}
+              />
+            );
+          })}
+
+          {points.map((p, i) => {
+            const showLabel = i === 0 || i === n - 1 || n <= 6;
+            if (!showLabel) return null;
+            return (
+              <text key={`l${i}`} x={p.x.toFixed(1)} y={H - 8} className="prog-x-label" textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>
+                {dateLabel(series[i].date)}
+              </text>
             );
           })}
         </svg>

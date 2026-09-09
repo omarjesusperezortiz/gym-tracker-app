@@ -4,6 +4,7 @@ import { useWorkouts } from '../lib/useWorkouts';
 import { fetchRecommendation, localRecoFallback, relTime, type FetchedRecommendation } from '../lib/reco';
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
+import { IconChev } from '../lib/icons';
 
 function isPlanKey(pk: string): pk is PlanKey {
   return pk in catalog.plans;
@@ -61,14 +62,14 @@ export function TodayView() {
           <div className="today-title">{active.title || 'Rest day'}</div>
           <div className="today-reason">{active.reason || 'Take it easy today — recovery matters.'}</div>
           <button
-            className="btn sec"
-            style={{ padding: 14 }}
+            className="btn sec today-cta"
             onClick={() => {
               const fb = localRecoFallback(history);
               openSession(fb.plan, fb.session);
             }}
           >
             Do a light session anyway
+            <IconChev />
           </button>
         </div>
       ) : (
@@ -90,8 +91,9 @@ export function TodayView() {
               ))}
             </div>
           )}
-          <button className="btn acc" style={{ padding: 14 }} onClick={() => openSession(active.plan, active.session)}>
+          <button className="btn acc today-cta" onClick={() => openSession(active.plan, active.session)}>
             Start this workout
+            <IconChev />
           </button>
         </div>
       )}
