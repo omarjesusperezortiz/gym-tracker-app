@@ -65,35 +65,75 @@ export function lastFor(history: HistorySlotEntry[], slot: string, kind: Kind): 
 }
 
 export interface FinishedWorkout {
+  clientId?: number;
   date: string;
+  plan: string;
+  sess: string;
+  name: string;
+  type?: 'workout' | 'rest';
+  slots: LoggedSlot[];
+}
+
+// Saves a whole workout in ONE round-trip via the save_workout() RPC.
+// Upserts on (user_id, client_id): passing the same clientId edits in place
+// instead of creating a duplicate. Returns the workout id.
+export async function finishWorkout(entry: FinishedWorkout): Promise<string> {
+  const payload = {
+    client_id: entry.clientId ?? null,
+    date: entry.date,
+    plan: entry.plan,
+    sess: entry.sess,
+    name: entry.name,
+    type: entry.type ?? 'workout',
+    slots: entry.slots.map((sl) => ({
+      slot: sl.slot,
+      kind: sl.kind,
+      done: sl.done,
+      force: sl.force,
+      sets: sl.sets.map((s) => ({
+        weight: s.w,
+        reps: s.r,
+        rpe: (s as LoggedSet & { rpe?: number }).rpe ?? null,
+      })),
+    })),
+  };
+  const { data, error } = await getSupabase().rpc('save_workout', { payload });
+  if (error) throw error;
+  return data as string;
+}
+
+// Edit an existing workout in place by its id (Calendar "continue/edit a past
+// workout"). Same one-round-trip RPC, keeps the original id/date.
+export interface UpdateWorkout {
+  id: string;
+  date?: string;
   plan: string;
   sess: string;
   name: string;
   slots: LoggedSlot[];
 }
 
-export async function finishWorkout(entry: FinishedWorkout): Promise<string> {
-  const { data: workout, error: workoutErr } = await getSupabase()
-    .from('workouts')
-    .insert({ date: entry.date, plan: entry.plan, sess: entry.sess, name: entry.name, type: 'workout' })
-    .select('id')
-    .single();
-  if (workoutErr) throw workoutErr;
-  const workoutId: string = workout.id;
-
-  for (let i = 0; i < entry.slots.length; i++) {
-    const sl = entry.slots[i];
-    const { data: slotRow, error: slotErr } = await getSupabase()
-      .from('workout_slots')
-      .insert({ workout_id: workoutId, position: i, slot: sl.slot, kind: sl.kind, done: sl.done, force: sl.force })
-      .select('id')
-      .single();
-    if (slotErr) throw slotErr;
-    if (sl.sets.length) {
-      const setsPayload = sl.sets.map((s, j) => ({ slot_id: slotRow.id, position: j, weight: s.w, reps: s.r }));
-      const { error: setsErr } = await getSupabase().from('workout_sets').insert(setsPayload);
-      if (setsErr) throw setsErr;
-    }
-  }
-  return workoutId;
+export async function updateWorkout(entry: UpdateWorkout): Promise<string> {
+  const payload = {
+    id: entry.id,
+    date: entry.date,
+    plan: entry.plan,
+    sess: entry.sess,
+    name: entry.name,
+    type: 'workout',
+    slots: entry.slots.map((sl) => ({
+      slot: sl.slot,
+      kind: sl.kind,
+      done: sl.done,
+      force: sl.force,
+      sets: sl.sets.map((s) => ({
+        weight: s.w,
+        reps: s.r,
+        rpe: (s as LoggedSet & { rpe?: number }).rpe ?? null,
+      })),
+    })),
+  };
+  const { data, error } = await getSupabase().rpc('save_workout', { payload });
+  if (error) throw error;
+  return data as string;
 }

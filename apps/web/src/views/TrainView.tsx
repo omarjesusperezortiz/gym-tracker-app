@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { catalog, finishWorkout, fmtLast, isTimeScheme, lastFor, parseTarget } from '@gym-tracker/core';
+import { catalog, finishWorkout, updateWorkout, fmtLast, isTimeScheme, lastFor, parseTarget } from '@gym-tracker/core';
 import type { Kind, Variation } from '@gym-tracker/core';
 import { keyOf, useAppState, type LiveSet, type LiveSlotState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
-import { toHistorySlotEntries, updateWorkout } from '../lib/workouts';
+import { toHistorySlotEntries } from '../lib/workouts';
 import { useToast } from '../components/Toast';
 import { Dock } from '../components/Dock';
 import { Lightbox } from '../components/Lightbox';
@@ -86,7 +86,7 @@ export function TrainView() {
     }
     try {
       if (isEditingCurrent && state.editingId) {
-        await updateWorkout(state.editingId, { plan: state.plan, sess: cur, name: session.name, slots });
+        await updateWorkout({ id: state.editingId, plan: state.plan, sess: cur, name: session.name, slots });
         toast(`${session.name} updated ✏️`);
       } else {
         await finishWorkout({ date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots });

@@ -75,7 +75,7 @@ security invoker
 as $$
 declare
   v_user   uuid := auth.uid();
-  v_wid    uuid;
+  v_wid    uuid := nullif(payload->>'id','')::uuid;
   v_client bigint := nullif(payload->>'client_id','')::bigint;
   v_slot   jsonb;
   v_set    jsonb;
@@ -87,8 +87,12 @@ begin
     raise exception 'not authenticated';
   end if;
 
-  -- upsert the workout by client_id (dedupe / edit-in-place)
-  if v_client is not null then
+  -- resolve the target workout: explicit id (edit-in-place) wins, else client_id
+  if v_wid is not null then
+    -- verify ownership (RLS also enforces, but fail clearly)
+    perform 1 from public.workouts where id = v_wid and user_id = v_user;
+    if not found then v_wid := null; end if;
+  elsif v_client is not null then
     select id into v_wid from public.workouts
       where user_id = v_user and client_id = v_client;
   end if;

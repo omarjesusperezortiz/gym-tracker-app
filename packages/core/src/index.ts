@@ -6,3 +6,4 @@ export { catalog } from './catalog';
 export * from './logic/scheme';
 export * from './supabase/client';
 export * from './supabase/history';
+export * from './supabase/prefs';
