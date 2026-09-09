@@ -1,10 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode, type PointerEvent } from 'react';
 
 // Bottom drawer used by Calendar's day-detail view (and any future sheet).
 // Radix Dialog gives us a real focus trap, Esc-to-close, scroll lock, and
-// aria wiring for free; the visual bottom-sheet look/slide-up animation is
-// unchanged — it's still just the .modal/.sheet CSS underneath.
+// aria wiring for free. On top of that we add native-feeling swipe-down-to-close
+// dragging on the grab handle / sheet, so it behaves like a real mobile sheet.
 export function Sheet({
   open,
   onClose,
@@ -16,13 +16,46 @@ export function Sheet({
   title?: string;
   children: ReactNode;
 }) {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const startY = useRef<number | null>(null);
+  const [dragY, setDragY] = useState(0);
+
+  function onPointerDown(e: PointerEvent<HTMLDivElement>) {
+    startY.current = e.clientY;
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }
+  function onPointerMove(e: PointerEvent<HTMLDivElement>) {
+    if (startY.current == null) return;
+    const dy = e.clientY - startY.current;
+    if (dy > 0) setDragY(dy); // only allow dragging downward
+  }
+  function onPointerUp() {
+    if (startY.current == null) return;
+    if (dragY > 110) {
+      onClose();
+    }
+    startY.current = null;
+    setDragY(0);
+  }
+
   return (
     <Dialog.Root open={open} onOpenChange={(next) => !next && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="modal" />
-        <Dialog.Content className="sheet" aria-describedby={undefined}>
+        <Dialog.Content
+          ref={contentRef}
+          className="sheet"
+          aria-describedby={undefined}
+          style={dragY ? { transform: `translateY(${dragY}px)`, transition: 'none' } : undefined}
+        >
           <Dialog.Title className="sr-only">{title}</Dialog.Title>
-          <div className="grab" />
+          <div
+            className="grab"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+          />
           {children}
         </Dialog.Content>
       </Dialog.Portal>
