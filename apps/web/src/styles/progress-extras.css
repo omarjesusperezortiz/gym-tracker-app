@@ -16,25 +16,43 @@
   place-items: center;
 }
 .mmap-svg {
-  width: 128px;
+  width: 150px;
   height: auto;
+}
+/* Body silhouette outline behind the muscles */
+.mmap-svg .mm-body {
+  fill: rgba(255, 255, 255, 0.045);
+  stroke: var(--line2);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
 }
 .mmap-svg .mm-base {
   fill: rgba(255, 255, 255, 0.05);
-  stroke: var(--line2);
-  stroke-width: 1.5;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 0.75;
   transition: fill 0.3s ease;
 }
-.mmap-svg .mm-heavy {
+/* Muscle regions share a faint stroke so shapes stay legible when dim */
+.mmap-svg [class^="mm-"]:not(.mm-body):not(.mm-base),
+.mmap-svg [class^="mm-"]:not(.mm-body):not(.mm-base) * {
+  stroke: rgba(0, 0, 0, 0.25);
+  stroke-width: 0.5;
+  transition: fill 0.3s ease, opacity 0.3s ease;
+}
+.mmap-svg .mm-heavy,
+.mmap-svg .mm-heavy * {
   fill: var(--acc);
-  opacity: 0.92;
+  opacity: 0.95;
 }
-.mmap-svg .mm-light {
+.mmap-svg .mm-light,
+.mmap-svg .mm-light * {
   fill: var(--warn);
-  opacity: 0.85;
+  opacity: 0.88;
 }
-.mmap-svg .mm-none {
-  fill: rgba(255, 255, 255, 0.05);
+.mmap-svg .mm-none,
+.mmap-svg .mm-none * {
+  fill: rgba(255, 255, 255, 0.06);
+  opacity: 1;
 }
 
 .mmap-legend {

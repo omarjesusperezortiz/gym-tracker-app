@@ -9,11 +9,11 @@ import {
   type MuscleIntensity,
 } from '@gym-tracker/core';
 
-// A hand-built front-body silhouette. Each trainable region is a path/shape
-// tagged with the muscle it represents; the fill class is driven by training
-// intensity (heavy = lime, light = amber, none = dim). It doesn't aim to be
-// anatomically perfect — just clearly readable at a glance, matching the design
-// reference's concept.
+// Anatomical front-body muscle map. A smooth body silhouette with muscle-shaped
+// regions (pecs, deltoid caps, an ab grid, obliques, quads/hamstrings, calves)
+// filled by training intensity: heavy = lime, light = amber, none = dim.
+// Paths are hand-tuned to read as a real physique at a glance, matching the
+// premium design reference — not the earlier blocky placeholder.
 export function MuscleMap({ history }: { history: MuscleHistoryEntry[] }) {
   const { intensity, worked } = useMemo(() => {
     const volumes = muscleSetCounts(history);
@@ -33,49 +33,67 @@ export function MuscleMap({ history }: { history: MuscleHistoryEntry[] }) {
       <div className="mmap-fig">
         <svg
           className="mmap-svg"
-          viewBox="0 0 130 250"
+          viewBox="0 0 220 380"
           role="img"
           aria-label="Muscles worked, shaded by training volume"
         >
-          {/* head + neck (never a muscle target) */}
-          <circle className="mm-base" cx="65" cy="20" r="14" />
-          <rect className="mm-base" x="59" y="32" width="12" height="8" rx="3" />
+          {/* ---- Body silhouette (single smooth outline behind everything) ---- */}
+          <path
+            className="mm-body"
+            d="M110 20
+               c-13 0-22 9-22 22 0 7 3 13 7 17-6 2-12 5-17 9-9 6-15 14-19 25l-9 28c-2 7 6 12 10 6l7-19 3 30c-1 10-3 22-3 33 0 9 1 19 4 30l5 40c1 11 1 22-1 33l-4 30c-1 8 10 10 12 2l8-38 4 26c1 9 2 19 2 28 0 8 11 8 12 0 0-9 1-19 2-28l4-26 8 38c2 8 13 6 12-2l-4-30c-2-11-2-22-1-33l5-40c3-11 4-21 4-30 0-11-2-23-3-33l3-30 7 19c4 6 12 1 10-6l-9-28c-4-11-10-19-19-25-5-4-11-7-17-9 4-4 7-10 7-17 0-13-9-22-22-22z"
+          />
 
-          {/* torso outline */}
-          <path className="mm-base" d="M40 42 Q65 36 90 42 L94 104 Q65 112 36 104 Z" />
+          {/* ---- Neck ---- */}
+          <path className="mm-base" d="M101 40 q9 6 18 0 l-2 10 q-7 4 -14 0z" />
 
-          {/* chest */}
-          <path className={cls('chest')} d="M46 52 Q65 48 84 52 L82 72 Q65 79 48 72 Z" />
-          {/* shoulders / delts */}
-          <circle className={cls('delts')} cx="40" cy="50" r="10" />
-          <circle className={cls('delts')} cx="90" cy="50" r="10" />
-          {/* abs / core */}
-          <rect className={cls('abs')} x="54" y="80" width="22" height="26" rx="5" />
+          {/* ---- Chest / pecs ---- */}
+          <path className={cls('chest')} d="M108 62 q-20 -3 -28 5 q-4 9 1 17 q13 7 26 3 l1 -25z" />
+          <path className={cls('chest')} d="M112 62 q20 -3 28 5 q4 9 -1 17 q-13 7 -26 3 l-1 -25z" />
 
-          {/* upper arms */}
-          <path className="mm-base" d="M31 50 Q22 76 26 112 L35 112 Q35 78 41 56 Z" />
-          <path className="mm-base" d="M99 50 Q108 76 104 112 L95 112 Q95 78 89 56 Z" />
-          {/* biceps */}
-          <ellipse className={cls('biceps')} cx="31" cy="72" rx="5.5" ry="11" />
-          <ellipse className={cls('biceps')} cx="99" cy="72" rx="5.5" ry="11" />
-          {/* triceps (outer arm) */}
-          <ellipse className={cls('triceps')} cx="24" cy="74" rx="4" ry="10" />
-          <ellipse className={cls('triceps')} cx="106" cy="74" rx="4" ry="10" />
-          {/* back (shown as flanks behind the torso) */}
-          <path className={cls('back')} d="M40 60 L46 60 L44 96 L38 96 Z" />
-          <path className={cls('back')} d="M90 60 L84 60 L86 96 L92 96 Z" />
+          {/* ---- Shoulders / deltoid caps ---- */}
+          <path className={cls('delts')} d="M80 58 q-15 1 -21 15 q-2 8 1 15 q9 -11 22 -16 q1 -8 -2 -14z" />
+          <path className={cls('delts')} d="M140 58 q15 1 21 15 q2 8 -1 15 q-9 -11 -22 -16 q-1 -8 2 -14z" />
 
-          {/* hips / glutes */}
-          <path className={cls('glutes')} d="M42 106 Q65 100 88 106 L86 122 Q65 128 44 122 Z" />
-          {/* quads */}
-          <path className={cls('quads')} d="M44 124 L62 124 L60 184 L48 184 Z" />
-          <path className={cls('quads')} d="M86 124 L68 124 L70 184 L82 184 Z" />
-          {/* hamstrings (inner strip, reads as posterior thigh) */}
-          <path className={cls('hamstrings')} d="M56 126 L62 126 L60 182 L56 182 Z" />
-          <path className={cls('hamstrings')} d="M74 126 L68 126 L70 182 L74 182 Z" />
-          {/* calves */}
-          <path className={cls('calves')} d="M48 188 L60 188 L58 232 L50 232 Z" />
-          <path className={cls('calves')} d="M82 188 L70 188 L72 232 L80 232 Z" />
+          {/* ---- Biceps (front upper arm, tucked to torso) ---- */}
+          <path className={cls('biceps')} d="M60 76 q-8 15 -6 32 q6 3 11 0 q1 -17 5 -30 q-5 -4 -10 -2z" />
+          <path className={cls('biceps')} d="M160 76 q8 15 6 32 q-6 3 -11 0 q-1 -17 -5 -30 q5 -4 10 -2z" />
+
+          {/* ---- Triceps (outer edge of arm) ---- */}
+          <path className={cls('triceps')} d="M55 78 q-6 16 -5 32 q4 2 7 0 q0 -17 4 -31 q-3 -3 -6 -1z" />
+          <path className={cls('triceps')} d="M165 78 q6 16 5 32 q-4 2 -7 0 q0 -17 -4 -31 q3 -3 6 -1z" />
+
+          {/* ---- Back (upper flanks / lats hint) ---- */}
+          <path className={cls('back')} d="M82 86 q-7 4 -9 18 l3 16 q6 -5 9 -14 z" />
+          <path className={cls('back')} d="M138 86 q7 4 9 18 l-3 16 q-6 -5 -9 -14 z" />
+
+          {/* ---- Abs (6-pack grid, below the pecs) ---- */}
+          <g className={cls('abs')}>
+            <rect x="99" y="94" width="9" height="10" rx="3" />
+            <rect x="112" y="94" width="9" height="10" rx="3" />
+            <rect x="99" y="107" width="9" height="10" rx="3" />
+            <rect x="112" y="107" width="9" height="10" rx="3" />
+            <rect x="99" y="120" width="9" height="11" rx="3" />
+            <rect x="112" y="120" width="9" height="11" rx="3" />
+            {/* obliques */}
+            <path d="M95 96 q-5 15 -2 35 q4 -2 6 -7 l-1 -28z" />
+            <path d="M125 96 q5 15 2 35 q-4 -2 -6 -7 l1 -28z" />
+          </g>
+
+          {/* ---- Glutes / hips ---- */}
+          <path className={cls('glutes')} d="M86 138 q24 -8 48 0 q3 12 -2 22 q-22 8 -44 0 q-5 -10 -2 -22z" />
+
+          {/* ---- Quads ---- */}
+          <path className={cls('quads')} d="M90 164 q-6 32 -2 66 q9 4 16 0 q3 -34 1 -66 q-8 -4 -15 0z" />
+          <path className={cls('quads')} d="M130 164 q6 32 2 66 q-9 4 -16 0 q-3 -34 -1 -66 q8 -4 15 0z" />
+
+          {/* ---- Hamstrings (inner posterior strip) ---- */}
+          <path className={cls('hamstrings')} d="M104 168 q-3 30 -1 60 q4 2 7 0 q1 -30 0 -60 q-3 -2 -6 0z" />
+          <path className={cls('hamstrings')} d="M116 168 q3 30 1 60 q-4 2 -7 0 q-1 -30 0 -60 q3 -2 6 0z" />
+
+          {/* ---- Calves ---- */}
+          <path className={cls('calves')} d="M92 240 q-4 24 0 46 q7 3 12 0 q3 -24 0 -46 q-6 -3 -12 0z" />
+          <path className={cls('calves')} d="M128 240 q4 24 0 46 q-7 3 -12 0 q-3 -24 0 -46 q6 -3 12 0z" />
         </svg>
       </div>
 
