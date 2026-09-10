@@ -7,6 +7,7 @@ import {
   fetchPersonalRecords,
   fetchPrefs,
   logBodyweight,
+  deleteBodyweight,
   savePrefs,
   type BodyweightEntry,
   type UserPrefs,
@@ -106,6 +107,28 @@ export function useLogBodyweight() {
       return { previous };
     },
     onError: (_err, _entry, context) => {
+      context?.previous.forEach(([key, log]) => queryClient.setQueryData(key, log));
+    },
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: BODYWEIGHT_KEY });
+    },
+  });
+}
+
+export function useDeleteBodyweight() {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, string, { previous: [readonly unknown[], BodyweightEntry[] | undefined][] }>({
+    mutationFn: (id) => deleteBodyweight(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: BODYWEIGHT_KEY });
+      const previous = queryClient.getQueriesData<BodyweightEntry[]>({ queryKey: BODYWEIGHT_KEY });
+      previous.forEach(([key, log]) => {
+        if (!log) return;
+        queryClient.setQueryData<BodyweightEntry[]>(key, log.filter((e) => e.id !== id));
+      });
+      return { previous };
+    },
+    onError: (_err, _id, context) => {
       context?.previous.forEach(([key, log]) => queryClient.setQueryData(key, log));
     },
     onSettled: () => {

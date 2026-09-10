@@ -48,6 +48,26 @@ export function TrainView() {
   const [editing, setEditing] = useState(false);
   const [restSeconds, setRestSeconds] = useState<number | null>(null);
   const [restNonce, setRestNonce] = useState(0);
+  // "Auto-fill suggested weight" preference — persisted to localStorage. When on,
+  // empty sets show the SUGGESTED next weight as a gray ghost (still display-only,
+  // never written until the user types) instead of last time's numbers.
+  const [autofill, setAutofill] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('autofillSuggested') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const toggleAutofill = () =>
+    setAutofill((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem('autofillSuggested', next ? '1' : '0');
+      } catch {
+        /* ignore storage failures (private mode etc.) */
+      }
+      return next;
+    });
   const startRest = () => {
     setRestSeconds(restPref);
     setRestNonce((n) => n + 1);
@@ -365,6 +385,8 @@ export function TrainView() {
             canMoveDown={i < session.slots.length - 1}
             suggestion={suggestion}
             lastSets={lastSets ? lastSets.map((s) => ({ w: s.w ?? '', r: s.r ?? '' })) : null}
+            autofill={autofill}
+            onToggleAutofill={toggleAutofill}
             onRest={() => startRest()}
             onMoveUp={() => handleMove(sl[0], -1)}
             onMoveDown={() => handleMove(sl[0], 1)}
@@ -383,6 +405,7 @@ export function TrainView() {
             }}
             onSetChange={(idx, field, value) => dispatch({ type: 'UPDATE_SET', key, index: idx, field, value })}
             onAddSet={() => dispatch({ type: 'ADD_SET', key })}
+            onDeleteSet={(index) => dispatch({ type: 'REMOVE_SET', key, index })}
             onZoom={setZoom}
           />
         );

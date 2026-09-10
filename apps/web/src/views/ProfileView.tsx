@@ -10,6 +10,7 @@ import {
   DEFAULT_PREFS,
   useBodyweight,
   useLogBodyweight,
+  useDeleteBodyweight,
   usePersonalRecords,
   usePrefs,
   useSavePrefs,
@@ -61,6 +62,7 @@ export function ProfileView() {
   const prsQuery = usePersonalRecords();
   const savePrefs = useSavePrefs();
   const logWeighIn = useLogBodyweight();
+  const deleteWeighIn = useDeleteBodyweight();
   const { history } = useWorkouts();
 
   const prefs = prefsQuery.data ?? DEFAULT_PREFS;
@@ -73,6 +75,7 @@ export function ProfileView() {
   const [date, setDate] = useState(todayInput);
   const [weight, setWeight] = useState('');
   const [showWeighIn, setShowWeighIn] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   function updatePrefs(patch: Partial<UserPrefs>) {
     savePrefs.mutate(patch, {
@@ -224,10 +227,28 @@ export function ProfileView() {
                   .slice(0, 5)
                   .map((e) => (
                     <div className="bw-row" key={e.id}>
-                      <span>{dateLabel(e.date)}</span>
-                      <b>
-                        {fmt(fromKg(e.weightKg, units))} {units}
-                      </b>
+                      <button
+                        type="button"
+                        className="bw-row-edit"
+                        onClick={() => {
+                          setDate(e.date.slice(0, 10));
+                          setWeight(fmt(fromKg(e.weightKg, units)));
+                        }}
+                        aria-label={`Edit weigh-in on ${dateLabel(e.date)}`}
+                      >
+                        <span>{dateLabel(e.date)}</span>
+                        <b>
+                          {fmt(fromKg(e.weightKg, units))} {units}
+                        </b>
+                      </button>
+                      <button
+                        type="button"
+                        className="bw-row-del"
+                        onClick={() => setConfirmDelete(e.id)}
+                        aria-label={`Delete weigh-in on ${dateLabel(e.date)}`}
+                      >
+                        ×
+                      </button>
                     </div>
                   ))}
               </div>
@@ -378,6 +399,33 @@ export function ProfileView() {
           <IconSignOut /> Log out <span className="prow-chev">›</span>
         </button>
       </div>
+
+      {confirmDelete && (
+        <div className="pf-modal-overlay" onClick={() => setConfirmDelete(null)}>
+          <div className="pf-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="pf-modal-title">Delete this weigh-in?</div>
+            <div className="pf-modal-body">This can't be undone.</div>
+            <div className="pf-modal-actions">
+              <button className="btn sec" onClick={() => setConfirmDelete(null)}>
+                Cancel
+              </button>
+              <button
+                className="btn danger"
+                onClick={() => {
+                  const id = confirmDelete;
+                  setConfirmDelete(null);
+                  deleteWeighIn.mutate(id, {
+                    onSuccess: () => toast('Weigh-in deleted'),
+                    onError: (err) => toast(err.message || 'Could not delete that weigh-in'),
+                  });
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,12 +9,14 @@ export interface SetRowProps {
   ghostW: string;
   ghostR: string;
   onChange: (field: 'w' | 'r', value: string) => void;
+  /** Remove this set (shown as a trailing × when provided). */
+  onDelete?: () => void;
 }
 
-export function SetRow({ index, set, weighted, timeBased, ghostW, ghostR, onChange }: SetRowProps) {
+export function SetRow({ index, set, weighted, timeBased, ghostW, ghostR, onChange, onDelete }: SetRowProps) {
   const repPlaceholder = timeBased ? 'sec' : 'reps';
   return (
-    <div className={`setrow${weighted ? '' : ' noweight'}`}>
+    <div className={`setrow${weighted ? '' : ' noweight'}${onDelete ? ' deletable' : ''}`}>
       <div className="sl">{index + 1}</div>
       <div className="prev">{set.last || '–'}</div>
       {weighted && (
@@ -35,6 +37,11 @@ export function SetRow({ index, set, weighted, timeBased, ghostW, ghostR, onChan
         className={set.r ? 'filled' : ghostR ? 'ghost' : ''}
         onChange={(e) => onChange('r', e.target.value)}
       />
+      {onDelete && (
+        <button type="button" className="setrow-del" onClick={onDelete} aria-label={`Delete set ${index + 1}`}>
+          ×
+        </button>
+      )}
     </div>
   );
 }

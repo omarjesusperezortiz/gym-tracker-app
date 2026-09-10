@@ -166,3 +166,96 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Editable weigh-in rows: tap the row to edit, × to delete */
+.profile-v2 .bw-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+.profile-v2 .bw-row-edit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  padding: 9px 2px;
+  text-align: left;
+}
+.profile-v2 .bw-row-edit:active {
+  opacity: 0.6;
+}
+.profile-v2 .bw-row-del {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--mut);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.profile-v2 .bw-row-del:active {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.4);
+}
+
+/* Confirm-delete modal */
+.pf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: pf-fade 0.15s ease;
+}
+@keyframes pf-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pf-modal {
+  width: 100%;
+  max-width: 320px;
+  background: var(--surf2, #1e2128);
+  border: 1px solid var(--line2, rgba(255, 255, 255, 0.13));
+  border-radius: 16px;
+  padding: 20px;
+  animation: pf-reveal 0.18s ease;
+}
+.pf-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pf-modal-body {
+  font-size: 13px;
+  color: var(--mut);
+  margin-top: 6px;
+}
+.pf-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+.pf-modal-actions .btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pf-modal-actions .btn.danger {
+  background: #ff5a5a;
+  color: #2a0000;
+  border: none;
+}

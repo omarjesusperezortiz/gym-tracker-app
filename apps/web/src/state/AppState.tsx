@@ -57,6 +57,7 @@ type Action =
   | { type: 'SET_KIND'; key: string; planSlotKey: string; kind: Kind; sets: LiveSet[] | null }
   | { type: 'UPDATE_SET'; key: string; index: number; field: 'w' | 'r'; value: string }
   | { type: 'ADD_SET'; key: string }
+  | { type: 'REMOVE_SET'; key: string; index: number }
   | { type: 'CLEAR_SLOTS'; keys: string[]; sessionKey?: string }
   | { type: 'EDIT_ENTRY'; plan: PlanKey; sess: string; entryId: string; live: LiveMap }
   | { type: 'CANCEL_EDIT'; keys: string[]; sessionKey?: string }
@@ -119,6 +120,16 @@ export function reducer(state: State, action: Action): State {
       // Only stores what the user types — an added set is empty and shows the
       // cascading "ghost" of the set above as a placeholder (see effectiveSets).
       const sets = [...(cur.sets ?? []), { w: '', r: '', last: '' }];
+      return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
+    }
+    case 'REMOVE_SET': {
+      const cur = state.live[action.key];
+      if (!cur) return state;
+      // Keep at least one set — you can clear a set's values but not remove the
+      // last row (an exercise with zero sets makes no sense to log).
+      const existing = cur.sets ?? [];
+      if (existing.length <= 1) return state;
+      const sets = existing.filter((_, i) => i !== action.index);
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'CLEAR_SLOTS': {

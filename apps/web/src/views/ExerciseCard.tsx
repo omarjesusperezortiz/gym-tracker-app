@@ -18,6 +18,7 @@ export interface ExerciseCardProps {
   onKindChange: (kind: Kind) => void;
   onSetChange: (index: number, field: 'w' | 'r', value: string) => void;
   onAddSet: () => void;
+  onDeleteSet?: (index: number) => void;
   onZoom: (src: string) => void;
   /** Session-edit mode: reveals the reorder/remove controls. */
   editing?: boolean;
@@ -32,6 +33,10 @@ export interface ExerciseCardProps {
   suggestion?: ProgressionSuggestion | null;
   /** Last session's per-set values — shown as the default gray ghost placeholder. */
   lastSets?: { w: string; r: string }[] | null;
+  /** When on, empty sets ghost the SUGGESTED next weight (gray) instead of last time's. */
+  autofill?: boolean;
+  /** Flip the "auto-fill suggested weight" preference. */
+  onToggleAutofill?: () => void;
   /** Start a rest countdown for this exercise. */
   onRest?: () => void;
 }
@@ -47,6 +52,7 @@ export function ExerciseCard({
   onKindChange,
   onSetChange,
   onAddSet,
+  onDeleteSet,
   onZoom,
   editing,
   addedTag,
@@ -57,6 +63,8 @@ export function ExerciseCard({
   onRemove,
   suggestion,
   lastSets,
+  autofill,
+  onToggleAutofill,
   onRest,
 }: ExerciseCardProps) {
   const [slot, scheme, force] = slotDef;
@@ -179,15 +187,20 @@ export function ExerciseCard({
             </div>
           )}
           {(sets ?? []).map((set, j) => {
-            // Ghost placeholder priority: (1) cascade from a filled set above,
-            // (2) last session's value for THIS set index. Both render gray via
-            // SetRow and are display-only until the user types — never written
-            // to state unless the set is actually logged.
+            // Ghost placeholder priority (all render GRAY via SetRow, display-only
+            // until the user types — never written to state unless the set is logged):
+            //   1. cascade from a filled set above
+            //   2. if auto-fill is ON → the SUGGESTED next weight (progression target)
+            //   3. otherwise → last session's value for this set index
             const cascadeW = ghostFor(sets ?? [], j, 'w');
             const cascadeR = ghostFor(sets ?? [], j, 'r');
             const lastW = lastSets?.[j]?.w ?? '';
             const lastR = lastSets?.[j]?.r ?? '';
-            const ghostW = cascadeW || (weighted ? lastW : '');
+            const suggestedW =
+              autofill && weighted && suggestion?.suggestedWeight != null
+                ? String(suggestion.suggestedWeight)
+                : '';
+            const ghostW = cascadeW || suggestedW || (weighted ? lastW : '');
             const ghostR = cascadeR || lastR;
             return (
               <SetRow
@@ -199,10 +212,26 @@ export function ExerciseCard({
                 ghostW={ghostW}
                 ghostR={ghostR}
                 onChange={(field, value) => onSetChange(j, field, value)}
+                onDelete={(sets ?? []).length > 1 ? () => onDeleteSet?.(j) : undefined}
               />
             );
           })}
         </div>
+        {suggestion?.suggestedWeight != null && onToggleAutofill && (
+          <div className="autofill-row">
+            <span className="af-label">Auto-fill suggested weight</span>
+            <button
+              type="button"
+              className={`af-switch${autofill ? ' on' : ''}`}
+              role="switch"
+              aria-checked={!!autofill}
+              aria-label="Auto-fill suggested weight"
+              onClick={onToggleAutofill}
+            >
+              <span className="af-knob" />
+            </button>
+          </div>
+        )}
         <div className="ex-actions">
           <button className="addset" onClick={onAddSet}>
             + Add set

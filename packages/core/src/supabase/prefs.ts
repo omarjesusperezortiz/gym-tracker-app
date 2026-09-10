@@ -112,6 +112,12 @@ export async function logBodyweight(date: string, weightKg: number, note?: strin
   if (error) throw error;
 }
 
+// Delete a single weigh-in by its row id (RLS scopes it to the current user).
+export async function deleteBodyweight(id: string): Promise<void> {
+  const { error } = await getSupabase().from('bodyweight_log').delete().eq('id', id);
+  if (error) throw error;
+}
+
 // ── Personal records (from the personal_records view) ─────────
 export interface PersonalRecord {
   slot: string;
