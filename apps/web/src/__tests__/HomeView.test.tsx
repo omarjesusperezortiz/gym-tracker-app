@@ -33,9 +33,9 @@ describe('HomeView', () => {
 
     expect(screen.getByText(/^Good (morning|afternoon|evening)$/)).toBeInTheDocument();
     expect(screen.getByText(/mode · pick today's session below\./)).toBeInTheDocument();
-    // Same .cal-stats/.stat tiles the Calendar uses.
-    expect(container.querySelectorAll('.cal-stats .stat')).toHaveLength(3);
-    expect(screen.getByText('this week')).toBeInTheDocument();
+    // Weekly stats now live in the WeeklyRecap card (the duplicate .cal-stats
+    // tile row was removed); the empty-state recap shows a "this week" prompt.
+    expect(container.querySelectorAll('.cal-stats .stat')).toHaveLength(0);
   });
 
   it('shows the plan picker for every plan in the catalog', () => {

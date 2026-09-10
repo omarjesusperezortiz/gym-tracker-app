@@ -121,37 +121,6 @@ export function ProgressView() {
     <div className="progress-view">
       <PageHeader title="Progress" subtitle="Your lifts, volume and balance over time." />
 
-      <div className="sec-label">Personal records</div>
-      {prs.length ? (
-        <div className="pr-board">
-          {prs.map((pr) => (
-            <div className="prb" key={pr.slot}>
-              <div className="prb-val">{Math.round(pr.bestWeight ?? 0)}<span>kg</span></div>
-              <div className="prb-slot">{pr.slot}</div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="pcard pempty">Log a weighted set to set your first record.</div>
-      )}
-
-      <div className="sec-label">Training volume</div>
-      <div className="cal-stats prog-stats">
-        <div className="stat">
-          <div className="sv acc">{fmtVolume(thisWeek)}</div>
-          <div className="sl">this week</div>
-        </div>
-        <div className="stat">
-          <div className="sv">{fmtVolume(perSession)}</div>
-          <div className="sl">per session</div>
-        </div>
-        <div className="stat">
-          <div className="sv">{fmtVolume(allTime)}</div>
-          <div className="sl">lifted total</div>
-        </div>
-      </div>
-      <VolumeChart series={volume} />
-
       <div className="sec-label">Muscles worked</div>
       <div className="pcard">
         {balance.some((b) => b.sets > 0) ? (
@@ -179,6 +148,37 @@ export function ProgressView() {
           <div className="pempty">No sets logged yet.</div>
         )}
       </div>
+
+      <div className="sec-label">Training volume</div>
+      <div className="cal-stats prog-stats">
+        <div className="stat">
+          <div className="sv acc">{fmtVolume(thisWeek)}</div>
+          <div className="sl">this week</div>
+        </div>
+        <div className="stat">
+          <div className="sv">{fmtVolume(perSession)}</div>
+          <div className="sl">per session</div>
+        </div>
+        <div className="stat">
+          <div className="sv">{fmtVolume(allTime)}</div>
+          <div className="sl">lifted total</div>
+        </div>
+      </div>
+      <VolumeChart series={volume} />
+
+      <div className="sec-label">Personal records</div>
+      {prs.length ? (
+        <div className="pr-board">
+          {prs.map((pr) => (
+            <div className="prb" key={pr.slot}>
+              <div className="prb-val">{Math.round(pr.bestWeight ?? 0)}<span>kg</span></div>
+              <div className="prb-slot">{pr.slot}</div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="pcard pempty">Log a weighted set to set your first record.</div>
+      )}
 
       {progExercise && (
         <>

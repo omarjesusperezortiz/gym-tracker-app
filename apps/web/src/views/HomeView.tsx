@@ -7,7 +7,6 @@ import { WeeklyRecapCard } from '../components/WeeklyRecap';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { dayColor } from '../lib/colors';
-import { weekCount, calcStreak, groupByDay } from '../lib/stats';
 import { IconChev } from '../lib/icons';
 
 interface InProgress {
@@ -48,9 +47,7 @@ export function HomeView() {
   const { plan } = state;
   const P = catalog.plans[plan];
 
-  const wc = weekCount(history);
   const total = history.length;
-  const streak = calcStreak(groupByDay(history));
 
   const ip = inProgressSessions(state.live);
   const keys = Object.keys(P.sessions);
@@ -92,22 +89,6 @@ export function HomeView() {
           })}
         </>
       )}
-
-      {/* Same glass stat tiles the Calendar uses, so the two screens match. */}
-      <div className="cal-stats">
-        <div className="stat">
-          <div className="sv acc">{wc}</div>
-          <div className="sl">this week</div>
-        </div>
-        <div className="stat">
-          <div className="sv">{total}</div>
-          <div className="sl">total</div>
-        </div>
-        <div className="stat">
-          <div className="sv">{streak}</div>
-          <div className="sl">streak 🔥</div>
-        </div>
-      </div>
 
       {total === 0 && (
         <div className="empty" style={{ marginBottom: 4 }}>
