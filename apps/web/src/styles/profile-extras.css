@@ -29,16 +29,22 @@
 /* Slim, contained segmented controls (no oversized glow overflowing the track) */
 .profile-v2 .seg {
   margin: 0;
-  padding: 3px;
-  border-radius: 10px;
-  background: var(--bg);
+  padding: 4px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
   max-width: 232px;
+  align-items: stretch;
+  overflow: hidden; /* guarantee the active pill can't poke past the track */
 }
 .profile-v2 .seg .segi {
-  min-height: 34px;
-  padding: 6px 10px;
+  min-height: 30px;
+  padding: 5px 10px;
   font-size: 12.5px;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .profile-v2 .seg .segi.active {
   box-shadow: none; /* kill the glow that broke the track bounds */
