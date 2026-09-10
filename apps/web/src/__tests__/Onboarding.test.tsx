@@ -135,12 +135,22 @@ describe('Onboarding wizard', () => {
     expect(screen.getByText('About you')).toBeInTheDocument();
     expect(screen.getByText('2/5')).toBeInTheDocument();
 
-    // Body details are optional.
-    await user.click(screen.getByRole('button', { name: 'Skip for now' }));
+    // Advance past the optional body step.
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText('What are you training for?')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Previous step' }));
     expect(screen.getByText('About you')).toBeInTheDocument();
+  });
+
+  it('Skip for now finishes onboarding with defaults so the wizard never reappears', async () => {
+    const user = userEvent.setup();
+    renderWizard();
+
+    await user.click(screen.getByRole('button', { name: 'Skip for now' }));
+
+    await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1));
+    expect(vi.mocked(core.savePrefs).mock.calls[0][0]).toMatchObject({ onboarded: true });
   });
 
   it('saves every answer with onboarded:true on Finish', async () => {

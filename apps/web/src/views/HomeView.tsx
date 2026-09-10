@@ -106,6 +106,16 @@ export function HomeView() {
         </div>
       </div>
 
+      {total === 0 && (
+        <div className="empty" style={{ marginBottom: 4 }}>
+          No workouts yet — your week, total and streak fill in once you finish your first.
+          <br />
+          <button className="btn acc" style={{ marginTop: 12 }} onClick={() => dispatch({ type: 'SET_VIEW', view: 'today' })}>
+            Start your first workout
+          </button>
+        </div>
+      )}
+
       <div className="sec-label">Mode</div>
       <div className="plan-grid">
         {(Object.keys(catalog.plans) as PlanKey[]).map((pk) => {
@@ -141,7 +151,7 @@ export function HomeView() {
                     <div className="dnum">{s.emoji}</div>
                     <div className="dinfo">
                       <div className="dname">{s.name}</div>
-                      <div className="dmus">{s.muscles}</div>
+                      <div className="dmus" title={s.muscles}>{s.muscles}</div>
                     </div>
                     <div className="dcount">{s.slots.length} ex</div>
                     <div className="dgo">

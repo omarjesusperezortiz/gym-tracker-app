@@ -15,7 +15,7 @@ import {
   SEXES,
   Segmented,
 } from '../components/PrefControls';
-import { IconBack, IconCheck, IconClose, IconTrain } from '../lib/icons';
+import { IconBack, IconCheck, IconTrain } from '../lib/icons';
 
 interface Draft {
   displayName: string;
@@ -55,8 +55,6 @@ const num = (v: string): number | null => {
 };
 
 const STEPS = ['Welcome', 'About you', 'Your goal', 'Focus', 'Training'];
-// Body details and focus muscles are nice-to-have — the app works without them.
-const SKIPPABLE = [false, true, false, true, false];
 
 function todayInput(): string {
   const d = new Date();
@@ -78,9 +76,10 @@ export function Onboarding() {
 
   const last = step === STEPS.length - 1;
 
-  // "Skip setup" — enter the app now with defaults, mark onboarded so we don't
-  // ask again. Everything is editable later in Profile.
-  function skipWithDefaults() {
+  // "Skip for now" — the single escape hatch. Enter the app now with whatever's
+  // been entered plus sensible defaults, and mark onboarded so we never nag
+  // again. Everything is editable later in Profile.
+  function skipForNow() {
     savePrefs.mutate(
       { onboarded: true },
       {
@@ -91,18 +90,6 @@ export function Onboarding() {
         onError: (err) => toast(err.message || 'Could not skip'),
       }
     );
-  }
-
-  // X — bail WITHOUT creating the profile. onboarded stays false, nothing is
-  // saved; a session flag lets them into the app, and they'll be prompted again
-  // next launch. Consumed by OnboardingGate.
-  function dismissWithoutSaving() {
-    try {
-      sessionStorage.setItem('onb_dismissed', '1');
-    } catch {
-      /* ignore */
-    }
-    dispatch({ type: 'SET_VIEW', view: 'home' });
   }
 
   function finish() {
@@ -149,9 +136,6 @@ export function Onboarding() {
         <div className="onb-count">
           {step + 1}/{STEPS.length}
         </div>
-        <button className="onb-x" onClick={dismissWithoutSaving} aria-label="Close setup for now">
-          <IconClose />
-        </button>
       </div>
 
       {/* Keyed so each step animates in rather than swapping abruptly. */}
@@ -173,11 +157,6 @@ export function Onboarding() {
         ) : (
           <span className="onb-back-spacer" />
         )}
-        {SKIPPABLE[step] && !last && (
-          <button className="onb-skip" onClick={() => setStep(step + 1)}>
-            Skip for now
-          </button>
-        )}
         <button
           className="btn acc onb-next"
           disabled={savePrefs.isPending}
@@ -192,8 +171,10 @@ export function Onboarding() {
           )}
         </button>
       </div>
-      <button className="onb-skipall" onClick={skipWithDefaults} disabled={savePrefs.isPending}>
-        Skip setup — use defaults
+      {/* The single, clearly-labelled escape hatch: leave now with sensible
+          defaults, marked onboarded so the wizard never reappears. */}
+      <button className="onb-skipall" onClick={skipForNow} disabled={savePrefs.isPending}>
+        Skip for now
       </button>
     </div>
   );
@@ -331,7 +312,7 @@ function TrainingStep({ draft, set }: { draft: Draft; set: <K extends keyof Draf
         />
       </div>
       <div className="onb-row">
-        <span className="onb-row-label">Session</span>
+        <span className="onb-row-label">Session length</span>
         <Segmented
           value={String(draft.sessionMin)}
           options={SESSION_OPTIONS.map((m) => ({ value: String(m), label: `${m}m` }))}

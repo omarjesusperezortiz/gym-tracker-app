@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ProgressView } from '../views/ProgressView';
+import { AppStateProvider } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { withQueryClient } from '../test/queryClient';
 import type { LoggedWorkout } from '../lib/workouts';
@@ -48,7 +49,7 @@ const mockedUseWorkouts = vi.mocked(useWorkouts);
 
 function renderProgress(history: LoggedWorkout[]) {
   mockedUseWorkouts.mockReturnValue({ history, loading: false, error: null, refetch: vi.fn() });
-  return render(withQueryClient(<ProgressView />));
+  return render(withQueryClient(<AppStateProvider><ProgressView /></AppStateProvider>));
 }
 
 beforeEach(() => {

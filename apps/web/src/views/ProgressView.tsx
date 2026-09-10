@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePersonalRecords } from '../lib/useProfileData';
 import {
@@ -42,6 +43,7 @@ function fmtVolume(kg: number): string {
 }
 
 export function ProgressView() {
+  const { dispatch } = useAppState();
   const { history } = useWorkouts();
   const prsQuery = usePersonalRecords();
   const names = useMemo(() => allExerciseNames(history), [history]);
@@ -72,11 +74,29 @@ export function ProgressView() {
         <div className="view-title">Progress</div>
         <div className="view-sub">Your lifts, volume and balance over time.</div>
         <div className="empty">
-          <IconEmpty />
+          <svg
+            viewBox="0 0 24 24"
+            width={44}
+            height={44}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ opacity: 0.9 }}
+            aria-hidden="true"
+          >
+            <path d="M3 3v18h18" />
+            <path d="M18 9l-5 5-4-4-3 3" />
+          </svg>
           <br />
           Nothing to chart yet.
           <br />
           Finish a workout with kg × reps and this fills in.
+          <br />
+          <button className="btn acc" style={{ marginTop: 12 }} onClick={() => dispatch({ type: 'SET_VIEW', view: 'today' })}>
+            Start your first workout
+          </button>
         </div>
       </div>
     );

@@ -47,7 +47,7 @@ export const catalog = {
     },
     "push": {
      "name": "Push",
-     "emoji": "🔴",
+     "emoji": "🙌",
      "group": "broad",
      "muscles": "chest·shoulders·triceps + core",
      "slots": [
@@ -85,7 +85,7 @@ export const catalog = {
     },
     "pull": {
      "name": "Pull",
-     "emoji": "🔵",
+     "emoji": "🧲",
      "group": "broad",
      "muscles": "back·biceps·rear delts",
      "slots": [
@@ -986,7 +986,7 @@ export const catalog = {
     },
     "push": {
      "name": "Push",
-     "emoji": "🔴",
+     "emoji": "🙌",
      "group": "broad",
      "muscles": "chest·shoulders·triceps + core",
      "slots": [
@@ -1024,7 +1024,7 @@ export const catalog = {
     },
     "pull": {
      "name": "Pull",
-     "emoji": "🔵",
+     "emoji": "🧲",
      "group": "broad",
      "muscles": "back·biceps·rear delts",
      "slots": [
@@ -1599,7 +1599,7 @@ export const catalog = {
     },
     "push": {
      "name": "Push",
-     "emoji": "🔴",
+     "emoji": "🙌",
      "group": "broad",
      "muscles": "chest·shoulders·triceps + core",
      "slots": [
@@ -1637,7 +1637,7 @@ export const catalog = {
     },
     "pull": {
      "name": "Pull",
-     "emoji": "🔵",
+     "emoji": "🧲",
      "group": "broad",
      "muscles": "back·biceps·rear delts",
      "slots": [

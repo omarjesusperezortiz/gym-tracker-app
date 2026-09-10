@@ -82,21 +82,31 @@ export function CalendarView() {
           <div className="sl">this month</div>
         </div>
         <div className="stat">
-          <div className="sv">{streak}</div>
-          <div className="sl">streak 🔥</div>
-        </div>
-        <div className="stat">
           <div className="sv">{history.length}</div>
           <div className="sl">total</div>
         </div>
+        <div className="stat">
+          <div className="sv">{streak}</div>
+          <div className="sl">streak 🔥</div>
+        </div>
       </div>
+
+      {history.length === 0 && (
+        <div className="empty" style={{ marginBottom: 4 }}>
+          Nothing logged yet — finish your first workout and it'll show up here.
+          <br />
+          <button className="btn acc" style={{ marginTop: 12 }} onClick={() => dispatch({ type: 'SET_VIEW', view: 'today' })}>
+            Start your first workout
+          </button>
+        </div>
+      )}
 
       <div className="cal-hd">
         <div className="mtitle">{monthName}</div>
         <div className="cal-nav">
-          <button onClick={() => setCalMonth(new Date(y, m - 1, 1))}>‹</button>
-          <button onClick={() => setCalMonth(new Date())}>•</button>
-          <button onClick={() => setCalMonth(new Date(y, m + 1, 1))}>›</button>
+          <button onClick={() => setCalMonth(new Date(y, m - 1, 1))} aria-label="Previous month">‹</button>
+          <button onClick={() => setCalMonth(new Date())} aria-label="Jump to today" title="Today">•</button>
+          <button onClick={() => setCalMonth(new Date(y, m + 1, 1))} aria-label="Next month">›</button>
         </div>
       </div>
 

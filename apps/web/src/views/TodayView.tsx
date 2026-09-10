@@ -3,6 +3,7 @@ import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePrefs } from '../lib/useProfileData';
 import { fetchRecommendation, localRecoFallback, relTime, type FetchedRecommendation } from '../lib/reco';
+import { humanDate } from '../lib/dates';
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
 import { IconChev } from '../lib/icons';
@@ -59,8 +60,8 @@ export function TodayView() {
       {active.type === 'rest' ? (
         <div className="today-card rest">
           <div className="today-badge">
-            {isFallback ? 'Local suggestion' : 'Recommended'}
-            {stale ? ` · from ${active.date}` : ''}
+            {isFallback ? 'Suggested for today' : 'Recommended'}
+            {stale ? ` · from ${humanDate(active.date)}` : ''}
           </div>
           <div className="today-emoji">{active.emoji || '😴'}</div>
           <div className="today-title">{active.title || 'Rest day'}</div>
@@ -79,10 +80,9 @@ export function TodayView() {
       ) : (
         <div className="today-card">
           <div className="today-badge">
-            {isFallback ? 'Local suggestion' : 'Recommended'}
-            {stale ? ` · from ${active.date}` : ''}
+            {isFallback ? 'Suggested for today' : 'Recommended'}
+            {stale ? ` · from ${humanDate(active.date)}` : ''}
           </div>
-          <div className="today-emoji">{active.emoji || '💪'}</div>
           <div className="today-title">{active.title || `Today: ${active.sessionName || active.session || ''}`}</div>
           <div className="today-reason">{active.reason || ''}</div>
           {(active.exercises || []).length > 0 && (
@@ -105,7 +105,7 @@ export function TodayView() {
         <div className="today-meta">
           {updated ? `Updated ${updated}` : ''}
           {updated && active.date ? ' · ' : ''}
-          {active.date ? `for ${active.date}` : ''}
+          {active.date ? `for ${humanDate(active.date)}` : ''}
         </div>
       )}
     </div>
