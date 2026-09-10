@@ -66,7 +66,8 @@ describe('TodayView', () => {
   it('renders the recommended session, reason, and exercise list', async () => {
     renderToday();
 
-    expect(await screen.findByText('Today: Push 🔴')).toBeInTheDocument();
+    expect(await screen.findByText('Push')).toBeInTheDocument();
+    expect(screen.getByText('Day.')).toBeInTheDocument();
     expect(screen.getByText('Push was your least-recently trained session.')).toBeInTheDocument();
     expect(screen.getByText('Flat chest press')).toBeInTheDocument();
     expect(screen.getByText('Overhead press')).toBeInTheDocument();
