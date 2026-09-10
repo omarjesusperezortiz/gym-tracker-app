@@ -33,6 +33,9 @@ vi.mock('@gym-tracker/core', async (importOriginal) => {
 
 const core = await import('@gym-tracker/core');
 
+// The loader auto-finishes after ~1.5s, so async assertions get extra headroom.
+const FINISH_TIMEOUT = { timeout: 4000 };
+
 function renderWizard() {
   return render(
     withQueryClient(
@@ -59,23 +62,25 @@ function renderGate() {
   );
 }
 
-// Walks the five steps, filling in what each test cares about.
+// Walks the five screens (Goal → Body → Height → Weight → Loading), filling in
+// what each test cares about. The loader finishes on its own.
 async function completeWizard(user: ReturnType<typeof userEvent.setup>, opts: { weight?: string } = {}) {
-  await user.type(screen.getByLabelText('Your name'), 'Sam');
-  await user.click(screen.getByRole('button', { name: 'Continue' }));
+  // 1: Goal
+  await user.click(screen.getByRole('button', { name: /Get Stronger/ }));
+  await user.click(screen.getByRole('button', { name: /Continue/ }));
 
-  if (opts.weight) await user.type(screen.getByLabelText('Current weight in kg'), opts.weight);
+  // 2: Body
+  await user.type(screen.getByLabelText('Name'), 'Sam');
+  await user.click(screen.getByRole('button', { name: /Continue/ }));
+
+  // 3: Height
   await user.type(screen.getByLabelText('Height in cm'), '178');
-  await user.click(screen.getByRole('button', { name: 'Continue' }));
+  await user.click(screen.getByRole('button', { name: /Continue/ }));
 
-  await user.click(screen.getByText('Get stronger'));
-  await user.click(screen.getByRole('button', { name: 'Continue' }));
-
-  await user.click(screen.getByRole('button', { name: 'Chest' }));
-  await user.click(screen.getByRole('button', { name: 'Arms' }));
-  await user.click(screen.getByRole('button', { name: 'Continue' }));
-
-  await user.click(screen.getByRole('button', { name: 'Finish' }));
+  // 4: Weight
+  if (opts.weight) await user.type(screen.getByLabelText('Current weight in kg'), opts.weight);
+  await user.click(screen.getByRole('button', { name: /Finish Setup/ }));
+  // 5: Loading — auto-finishes.
 }
 
 beforeEach(() => {
@@ -87,21 +92,21 @@ beforeEach(() => {
 describe('Onboarding gating', () => {
   it('shows the wizard when the user has no prefs row yet', async () => {
     renderGate();
-    expect(await screen.findByText('Welcome 👋')).toBeInTheDocument();
+    expect(await screen.findByText("What's Your Fitness Goal?")).toBeInTheDocument();
     expect(screen.queryByText('The app')).not.toBeInTheDocument();
   });
 
   it('shows the wizard when prefs exist but onboarded is false', async () => {
     serverPrefs = { ...DEFAULT_PREFS, displayName: 'Sam', onboarded: false };
     renderGate();
-    expect(await screen.findByText('Welcome 👋')).toBeInTheDocument();
+    expect(await screen.findByText("What's Your Fitness Goal?")).toBeInTheDocument();
   });
 
   it('shows the app once onboarded is true', async () => {
     serverPrefs = { ...DEFAULT_PREFS, onboarded: true };
     renderGate();
     expect(await screen.findByText('The app')).toBeInTheDocument();
-    expect(screen.queryByText('Welcome 👋')).not.toBeInTheDocument();
+    expect(screen.queryByText("What's Your Fitness Goal?")).not.toBeInTheDocument();
   });
 
   it('lets the user in rather than trapping them when prefs fail to load', async () => {
@@ -113,34 +118,31 @@ describe('Onboarding gating', () => {
   it('swaps to the app after the wizard finishes', async () => {
     const user = userEvent.setup();
     renderGate();
-    await screen.findByText('Welcome 👋');
+    await screen.findByText("What's Your Fitness Goal?");
 
     await completeWizard(user);
 
-    expect(await screen.findByText('The app')).toBeInTheDocument();
+    expect(await screen.findByText('The app', undefined, FINISH_TIMEOUT)).toBeInTheDocument();
   });
 });
 
 describe('Onboarding wizard', () => {
-  it('starts on welcome and advances through the steps', async () => {
+  it('starts on the goal step and advances through the screens', async () => {
     const user = userEvent.setup();
     renderWizard();
 
-    expect(screen.getByText('Welcome 👋')).toBeInTheDocument();
-    expect(screen.getByText('1/5')).toBeInTheDocument();
+    expect(screen.getByText("What's Your Fitness Goal?")).toBeInTheDocument();
     // No way back from the first step.
     expect(screen.queryByRole('button', { name: 'Previous step' })).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText('About you')).toBeInTheDocument();
-    expect(screen.getByText('2/5')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Continue/ }));
+    expect(screen.getByText('Tell Us About Your Body')).toBeInTheDocument();
 
-    // Advance past the optional body step.
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText('What are you training for?')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Continue/ }));
+    expect(screen.getByText("What's Your Height?")).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Previous step' }));
-    expect(screen.getByText('About you')).toBeInTheDocument();
+    expect(screen.getByText('Tell Us About Your Body')).toBeInTheDocument();
   });
 
   it('Skip for now finishes onboarding with defaults so the wizard never reappears', async () => {
@@ -159,12 +161,11 @@ describe('Onboarding wizard', () => {
 
     await completeWizard(user, { weight: '82' });
 
-    await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1), FINISH_TIMEOUT);
     expect(vi.mocked(core.savePrefs).mock.calls[0][0]).toMatchObject({
       displayName: 'Sam',
       heightCm: 178,
       goal: 'strength',
-      focusMuscles: ['chest', 'arms'],
       onboarded: true,
     });
   });
@@ -175,7 +176,7 @@ describe('Onboarding wizard', () => {
 
     await completeWizard(user, { weight: '82' });
 
-    await waitFor(() => expect(core.logBodyweight).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(core.logBodyweight).toHaveBeenCalledTimes(1), FINISH_TIMEOUT);
     expect(vi.mocked(core.logBodyweight).mock.calls[0][1]).toBe(82);
   });
 
@@ -185,7 +186,7 @@ describe('Onboarding wizard', () => {
 
     await completeWizard(user);
 
-    await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1), FINISH_TIMEOUT);
     expect(core.logBodyweight).not.toHaveBeenCalled();
   });
 });

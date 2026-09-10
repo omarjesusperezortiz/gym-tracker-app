@@ -1,23 +1,17 @@
-// First-run wizard. Everything it collects is also editable later in Profile,
-// so this is a friendly head start rather than the only way to set it up.
-import { useState } from 'react';
+// First-run wizard — a premium 5-step flow matching the approved prototype
+// (/tmp/proto-onboarding-ref.html): Goal → Body → Height → Weight → Loading.
+// Everything it collects is also editable later in Profile, so this is a
+// friendly head start rather than the only way to set it up.
+import { useEffect, useRef, useState } from 'react';
+import { Dumbbell, Flame, HeartPulse, TrendingUp, Zap } from 'lucide-react';
 import type { Equipment, Experience, Goal, MuscleGroup, UserPrefs } from '@gym-tracker/core';
 import { useAppState } from '../state/AppState';
 import { useToast } from '../components/Toast';
 import { DEFAULT_PREFS, useLogBodyweight, usePrefs, useSavePrefs } from '../lib/useProfileData';
-import {
-  DAYS_OPTIONS,
-  EQUIPMENT,
-  EXPERIENCES,
-  GoalPicker,
-  MuscleChips,
-  SESSION_OPTIONS,
-  SEXES,
-  Segmented,
-} from '../components/PrefControls';
-import { IconBack, IconCheck, IconTrain } from '../lib/icons';
-import { RulerPicker } from '../components/RulerPicker';
-import { ScalePicker } from '../components/ScalePicker';
+import { EXPERIENCES, SEXES } from '../components/PrefControls';
+import { WheelPicker } from '../components/WheelPicker';
+import { HRulerPicker } from '../components/HRulerPicker';
+import '../styles/onboarding-extras.css';
 
 interface Draft {
   displayName: string;
@@ -32,6 +26,7 @@ interface Draft {
   daysPerWeek: number;
   sessionMin: number;
   equipment: Equipment;
+  units: 'kg' | 'lb';
 }
 
 function draftFrom(prefs: UserPrefs): Draft {
@@ -48,6 +43,7 @@ function draftFrom(prefs: UserPrefs): Draft {
     daysPerWeek: prefs.daysPerWeek,
     sessionMin: prefs.sessionMin,
     equipment: prefs.equipment,
+    units: prefs.units,
   };
 }
 
@@ -56,11 +52,28 @@ const num = (v: string): number | null => {
   return isNaN(n) || n <= 0 ? null : n;
 };
 
-const STEPS = ['Welcome', 'About you', 'Your goal', 'Focus', 'Training'];
+const PILLS = 4;
+const CURRENT_YEAR = new Date().getFullYear();
+
+// The four goals shown in the prototype, each with a real lucide icon.
+const GOAL_CARDS: { value: Goal; name: string; sub: string; Icon: typeof Dumbbell }[] = [
+  { value: 'muscle', name: 'Build Muscle', sub: 'Add size & strength', Icon: Dumbbell },
+  { value: 'fat_loss', name: 'Lose Weight', sub: 'Burn fat, lean out', Icon: Flame },
+  { value: 'maintain', name: 'Stay Fit', sub: 'Keep moving & healthy', Icon: HeartPulse },
+  { value: 'strength', name: 'Get Stronger', sub: 'Lift heavier over time', Icon: TrendingUp },
+];
 
 function todayInput(): string {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+// cm → 5'8" style label for the ft/in wheel display (storage stays in cm).
+function cmToFtIn(cm: number): string {
+  const totalIn = Math.round(cm / 2.54);
+  const ft = Math.floor(totalIn / 12);
+  const inch = totalIn % 12;
+  return `${ft}'${inch}"`;
 }
 
 export function Onboarding() {
@@ -74,9 +87,8 @@ export function Onboarding() {
   // isn't starting from scratch.
   const [draft, setDraft] = useState<Draft>(() => draftFrom(prefsQuery.data ?? DEFAULT_PREFS));
   const [step, setStep] = useState(0);
+  const [heightUnit, setHeightUnit] = useState<'cm' | 'ft'>('cm');
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => setDraft((d) => ({ ...d, [key]: value }));
-
-  const last = step === STEPS.length - 1;
 
   // "Skip for now" — the single escape hatch. Enter the app now with whatever's
   // been entered plus sensible defaults, and mark onboarded so we never nag
@@ -109,6 +121,7 @@ export function Onboarding() {
         daysPerWeek: draft.daysPerWeek,
         sessionMin: draft.sessionMin,
         equipment: draft.equipment,
+        units: draft.units,
         onboarded: true,
       },
       {
@@ -124,197 +137,383 @@ export function Onboarding() {
     if (weight) logWeighIn.mutate({ date: todayInput(), weightKg: weight });
   }
 
+  const loading = step === 4;
+  const filled = Math.min(step + 1, PILLS);
+
   return (
-    <div className="onb">
-      <div className="onb-top">
-        <div className="onb-logo">
-          <IconTrain />
-        </div>
-        <div className="onb-steps" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
-          {STEPS.map((label, i) => (
-            <span key={label} className={`onb-dot${i === step ? ' active' : ''}${i < step ? ' done' : ''}`} />
-          ))}
-        </div>
-        <div className="onb-count">
-          {step + 1}/{STEPS.length}
-        </div>
+    <div className="ob">
+      <div className="ob-prog" role="progressbar" aria-valuenow={filled} aria-valuemin={1} aria-valuemax={PILLS}>
+        {Array.from({ length: PILLS }, (_, i) => (
+          <i key={i} className={i < filled ? 'on' : ''} />
+        ))}
       </div>
 
-      {/* Keyed so each step animates in rather than swapping abruptly. */}
-      <div className="onb-card" key={step}>
-        {step === 0 && <WelcomeStep name={draft.displayName} onName={(v) => set('displayName', v)} />}
-        {step === 1 && <BodyStep draft={draft} set={set} />}
-        {step === 2 && <GoalStep goal={draft.goal} onGoal={(g) => set('goal', g)} />}
-        {step === 3 && <FocusStep value={draft.focusMuscles} onChange={(m) => set('focusMuscles', m)} />}
-        {step === 4 && <TrainingStep draft={draft} set={set} />}
-      </div>
-
-      <div className="onb-foot">
-        {/* "Previous step", not "Back" — the focus step has a muscle chip called
-            Back, and two buttons with the same name are a mess by screen reader. */}
-        {step > 0 ? (
-          <button className="onb-back" onClick={() => setStep(step - 1)} aria-label="Previous step">
-            <IconBack />
-          </button>
-        ) : (
-          <span className="onb-back-spacer" />
+      <div className="ob-body" key={step}>
+        {step === 0 && <GoalStep goal={draft.goal} onGoal={(g) => set('goal', g)} onNext={() => setStep(1)} />}
+        {step === 1 && (
+          <BodyStep
+            draft={draft}
+            set={set}
+            onBack={() => setStep(0)}
+            onNext={() => setStep(2)}
+          />
         )}
-        <button
-          className="btn acc onb-next"
-          disabled={savePrefs.isPending}
-          onClick={() => (last ? finish() : setStep(step + 1))}
-        >
-          {last ? (
-            <>
-              <IconCheck stroke="#0a0b0e" /> Finish
-            </>
-          ) : (
-            'Continue'
-          )}
-        </button>
+        {step === 2 && (
+          <HeightStep
+            value={draft.heightCm}
+            onChange={(v) => set('heightCm', v)}
+            unit={heightUnit}
+            onUnit={setHeightUnit}
+            onBack={() => setStep(1)}
+            onNext={() => setStep(3)}
+          />
+        )}
+        {step === 3 && (
+          <WeightStep
+            value={draft.currentWeight}
+            onChange={(v) => set('currentWeight', v)}
+            units={draft.units}
+            onUnits={(u) => set('units', u)}
+            onBack={() => setStep(2)}
+            onNext={() => setStep(4)}
+          />
+        )}
+        {loading && <LoadingStep onDone={finish} />}
       </div>
+
       {/* The single, clearly-labelled escape hatch: leave now with sensible
-          defaults, marked onboarded so the wizard never reappears. */}
-      <button className="onb-skipall" onClick={skipForNow} disabled={savePrefs.isPending}>
-        Skip for now
-      </button>
+          defaults, marked onboarded so the wizard never reappears. Hidden on the
+          final building screen, which is already committing. */}
+      {!loading && (
+        <button className="ob-skipall" onClick={skipForNow} disabled={savePrefs.isPending}>
+          Skip for now
+        </button>
+      )}
     </div>
   );
 }
 
-function StepHead({ title, sub }: { title: string; sub: string }) {
+// ── Step 1: Goal ────────────────────────────────────────────────
+function GoalStep({ goal, onGoal, onNext }: { goal: Goal; onGoal: (g: Goal) => void; onNext: () => void }) {
   return (
     <>
-      <h1 className="onb-title">{title}</h1>
-      <p className="onb-sub">{sub}</p>
+      <h1 className="ob-title">What's Your Fitness Goal?</h1>
+      <p className="ob-sub">Pick what you want to achieve. We'll build a personalized training system just for you.</p>
+      <div className="ob-goals">
+        {GOAL_CARDS.map(({ value, name, sub, Icon }) => (
+          <button
+            key={value}
+            type="button"
+            className={`ob-goal${value === goal ? ' sel' : ''}`}
+            aria-pressed={value === goal}
+            onClick={() => onGoal(value)}
+          >
+            <span className="ob-fig">
+              <Icon strokeWidth={2} />
+            </span>
+            <span className="ob-gname">{name}</span>
+            <span className="ob-gsub">{sub}</span>
+          </button>
+        ))}
+      </div>
+      <div className="ob-spacer" />
+      <div className="ob-foot">
+        <button className="ob-cont" onClick={onNext}>
+          Continue →
+        </button>
+      </div>
     </>
   );
 }
 
-function WelcomeStep({ name, onName }: { name: string; onName: (v: string) => void }) {
-  return (
-    <>
-      <StepHead title="Welcome 👋" sub="Let's set up your training in about a minute. You can change all of this later." />
-      <label className="onb-field">
-        <span>What should we call you?</span>
-        <input
-          autoFocus
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => onName(e.target.value)}
-          aria-label="Your name"
-        />
-      </label>
-    </>
-  );
-}
+// ── Step 2: Body ────────────────────────────────────────────────
+type Setter = <K extends keyof Draft>(k: K, v: Draft[K]) => void;
 
-function BodyStep({ draft, set }: { draft: Draft; set: <K extends keyof Draft>(k: K, v: Draft[K]) => void }) {
+function BodyStep({
+  draft,
+  set,
+  onBack,
+  onNext,
+}: {
+  draft: Draft;
+  set: Setter;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const [open, setOpen] = useState<'age' | 'gender' | 'experience' | null>(null);
+  const toggle = (k: 'age' | 'gender' | 'experience') => setOpen((o) => (o === k ? null : k));
+  const age = draft.birthYear ? String(CURRENT_YEAR - Number(draft.birthYear)) : '';
+  const sexLabel = SEXES.find((s) => s.value === draft.sex)?.label;
+  const expLabel = EXPERIENCES.find((e) => e.value === draft.experience)?.label;
+
   return (
     <>
-      <StepHead title="About you" sub="Used for your profile and weight trend. Every field is optional." />
-      <div className="onb-row">
-        <span className="onb-row-label">Sex</span>
-        <Segmented value={draft.sex ?? ''} options={SEXES} onChange={(v) => set('sex', v)} ariaLabel="Sex" />
-      </div>
-      <div className="onb-picker-field">
-        <span className="onb-picker-cap">Height</span>
-        <RulerPicker value={draft.heightCm} onChange={(v) => set('heightCm', v)} />
-      </div>
-      <div className="onb-picker-field">
-        <span className="onb-picker-cap">Weight now</span>
-        <ScalePicker value={draft.currentWeight} onChange={(v) => set('currentWeight', v)} />
-      </div>
-      <div className="onb-grid">
-        <label className="onb-field">
-          <span>Birth year</span>
+      <h1 className="ob-title">Tell Us About Your Body</h1>
+      <p className="ob-sub">This helps us build a plan that fits your body and adapts to your progress.</p>
+
+      <div className="ob-drow filled">
+        <label className="ob-namefield" style={{ width: '100%' }}>
           <input
-            type="number"
-            inputMode="numeric"
-            placeholder="1995"
-            value={draft.birthYear}
-            onChange={(e) => set('birthYear', e.target.value)}
-            aria-label="Birth year"
+            type="text"
+            placeholder="Your name"
+            value={draft.displayName}
+            onChange={(e) => set('displayName', e.target.value)}
+            aria-label="Name"
           />
         </label>
-        <label className="onb-field">
-          <span>Goal weight (kg)</span>
-          <input
-            type="number"
-            inputMode="decimal"
-            step="0.1"
-            placeholder="84"
-            value={draft.goalWeight}
-            onChange={(e) => set('goalWeight', e.target.value)}
-            aria-label="Goal weight in kg"
-          />
-        </label>
+      </div>
+
+      <div className={`ob-drow${age ? ' filled' : ''}`}>
+        <button type="button" className="ob-drow-head" onClick={() => toggle('age')} aria-expanded={open === 'age'}>
+          <span>How old are you?</span>
+          <span className={age ? 'ob-drow-val' : 'ob-chev'}>{age || '›'}</span>
+        </button>
+        {open === 'age' && (
+          <div className="ob-drow-expand">
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="27"
+              value={age}
+              onChange={(e) => {
+                const a = parseInt(e.target.value, 10);
+                set('birthYear', Number.isFinite(a) && a > 0 ? String(CURRENT_YEAR - a) : '');
+              }}
+              aria-label="Age"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className={`ob-drow${sexLabel ? ' filled' : ''}`}>
+        <button
+          type="button"
+          className="ob-drow-head"
+          onClick={() => toggle('gender')}
+          aria-expanded={open === 'gender'}
+        >
+          <span>What's your gender?</span>
+          <span className={sexLabel ? 'ob-drow-val' : 'ob-chev'}>{sexLabel || '›'}</span>
+        </button>
+        {open === 'gender' && (
+          <div className="ob-drow-expand ob-seg" role="group" aria-label="Gender">
+            {SEXES.map((s) => (
+              <button
+                key={s.value}
+                type="button"
+                className={draft.sex === s.value ? 'on' : ''}
+                aria-pressed={draft.sex === s.value}
+                onClick={() => set('sex', s.value)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className={`ob-drow${expLabel ? ' filled' : ''}`}>
+        <button
+          type="button"
+          className="ob-drow-head"
+          onClick={() => toggle('experience')}
+          aria-expanded={open === 'experience'}
+        >
+          <span>What's your experience?</span>
+          <span className={expLabel ? 'ob-drow-val' : 'ob-chev'}>{expLabel || '›'}</span>
+        </button>
+        {open === 'experience' && (
+          <div className="ob-drow-expand ob-seg" role="group" aria-label="Experience">
+            {EXPERIENCES.map((e) => (
+              <button
+                key={e.value}
+                type="button"
+                className={draft.experience === e.value ? 'on' : ''}
+                aria-pressed={draft.experience === e.value}
+                onClick={() => set('experience', e.value)}
+              >
+                {e.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="ob-spacer" />
+      <div className="ob-foot ob-navrow">
+        <button className="ob-back" onClick={onBack} aria-label="Previous step">
+          ‹
+        </button>
+        <button className="ob-cont" onClick={onNext}>
+          Continue →
+        </button>
       </div>
     </>
   );
 }
 
-function GoalStep({ goal, onGoal }: { goal: Goal; onGoal: (g: Goal) => void }) {
+// ── Step 3: Height ──────────────────────────────────────────────
+function HeightStep({
+  value,
+  onChange,
+  unit,
+  onUnit,
+  onBack,
+  onNext,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  unit: 'cm' | 'ft';
+  onUnit: (u: 'cm' | 'ft') => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
   return (
     <>
-      <StepHead title="What are you training for?" sub="This shapes the rep ranges we suggest." />
-      <GoalPicker value={goal} onChange={onGoal} />
-    </>
-  );
-}
-
-function FocusStep({ value, onChange }: { value: MuscleGroup[]; onChange: (m: MuscleGroup[]) => void }) {
-  return (
-    <>
-      <StepHead
-        title="Anything you want to prioritise?"
-        sub="We'll push these muscles up your daily recommendation. Pick as many as you like — or none."
+      <h1 className="ob-title ctr">What's Your Height?</h1>
+      <p className="ob-sub ctr">Scroll to set — helps us personalize your plan.</p>
+      <WheelPicker
+        value={value}
+        onChange={onChange}
+        min={120}
+        max={220}
+        step={1}
+        defaultValue={172}
+        unit={unit === 'cm' ? 'cm' : 'ft/in'}
+        ariaLabel="Height in cm"
+        formatValue={unit === 'ft' ? (v) => cmToFtIn(v) : undefined}
       />
-      <MuscleChips value={value} onChange={onChange} />
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="ob-unit" role="group" aria-label="Height unit">
+          <button className={unit === 'cm' ? 'on' : ''} onClick={() => onUnit('cm')}>
+            cm
+          </button>
+          <button className={unit === 'ft' ? 'on' : ''} onClick={() => onUnit('ft')}>
+            ft / in
+          </button>
+        </div>
+      </div>
+      <div className="ob-foot ob-navrow">
+        <button className="ob-back" onClick={onBack} aria-label="Previous step">
+          ‹
+        </button>
+        <button className="ob-cont" onClick={onNext}>
+          Continue →
+        </button>
+      </div>
     </>
   );
 }
 
-function TrainingStep({ draft, set }: { draft: Draft; set: <K extends keyof Draft>(k: K, v: Draft[K]) => void }) {
+// ── Step 4: Weight ──────────────────────────────────────────────
+function WeightStep({
+  value,
+  onChange,
+  units,
+  onUnits,
+  onBack,
+  onNext,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  units: 'kg' | 'lb';
+  onUnits: (u: 'kg' | 'lb') => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
   return (
     <>
-      <StepHead title="How do you train?" sub="So sessions match the time and kit you actually have." />
-      <div className="onb-row">
-        <span className="onb-row-label">Experience</span>
-        <Segmented
-          value={draft.experience}
-          options={EXPERIENCES}
-          onChange={(v) => set('experience', v as Experience)}
-          ariaLabel="Experience"
-        />
+      <h1 className="ob-title ctr">What's Your Current Weight?</h1>
+      <p className="ob-sub ctr">Slide to set — used to customize your journey.</p>
+      <div className="ob-spacer" style={{ maxHeight: 24 }} />
+      <HRulerPicker
+        value={value}
+        onChange={onChange}
+        min={35}
+        max={200}
+        step={0.5}
+        defaultValue={73.4}
+        unit="kg"
+        ariaLabel="Current weight in kg"
+        majorEvery={10}
+        decimals={1}
+      />
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="ob-unit" role="group" aria-label="Weight unit">
+          <button className={units === 'kg' ? 'on' : ''} onClick={() => onUnits('kg')}>
+            kg
+          </button>
+          <button className={units === 'lb' ? 'on' : ''} onClick={() => onUnits('lb')}>
+            lbs
+          </button>
+        </div>
       </div>
-      <div className="onb-row">
-        <span className="onb-row-label">Days / week</span>
-        <Segmented
-          value={String(draft.daysPerWeek)}
-          options={DAYS_OPTIONS.map((d) => ({ value: String(d), label: String(d) }))}
-          onChange={(v) => set('daysPerWeek', Number(v))}
-          ariaLabel="Days per week"
-        />
+      <div className="ob-spacer" />
+      <div className="ob-foot ob-navrow">
+        <button className="ob-back" onClick={onBack} aria-label="Previous step">
+          ‹
+        </button>
+        <button className="ob-cont" onClick={onNext}>
+          Finish Setup →
+        </button>
       </div>
-      <div className="onb-row">
-        <span className="onb-row-label">Session length</span>
-        <Segmented
-          value={String(draft.sessionMin)}
-          options={SESSION_OPTIONS.map((m) => ({ value: String(m), label: `${m}m` }))}
-          onChange={(v) => set('sessionMin', Number(v))}
-          ariaLabel="Session length"
-        />
-      </div>
-      <div className="onb-row">
-        <span className="onb-row-label">Equipment</span>
-        <Segmented
-          value={draft.equipment}
-          options={EQUIPMENT}
-          onChange={(v) => set('equipment', v as Equipment)}
-          ariaLabel="Equipment"
-        />
+    </>
+  );
+}
+
+// ── Step 5: Loading ─────────────────────────────────────────────
+const LOAD_STEPS = ['Analyzing your fitness profile…', 'Understanding your goals…', 'Building your plan…'];
+
+function LoadingStep({ onDone }: { onDone: () => void }) {
+  const [done, setDone] = useState(0);
+  const fired = useRef(false);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setDone(1), 500);
+    const t2 = setTimeout(() => setDone(2), 1000);
+    const t3 = setTimeout(() => {
+      setDone(3);
+      if (!fired.current) {
+        fired.current = true;
+        onDone();
+      }
+    }, 1500);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+    // onDone is stable enough for a one-shot; intentionally run once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <>
+      <h1 className="ob-title ctr">Creating Your Personalized Fitness System</h1>
+      <div className="ob-loadwrap">
+        <div className="ob-rings">
+          <div className="ob-ring ob-r1" />
+          <div className="ob-ring ob-r2" />
+          <div className="ob-ring ob-r3" />
+          <div className="ob-core">
+            <Zap fill="currentColor" strokeWidth={1.5} />
+          </div>
+        </div>
+        <div className="ob-checklist">
+          {LOAD_STEPS.map((label, i) => {
+            const complete = i < done;
+            return (
+              <div key={label} className={complete ? 'ok' : ''}>
+                {complete ? (
+                  <span className="ob-dot">✓</span>
+                ) : (
+                  <span className="ob-dotpending" />
+                )}
+                {label}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
