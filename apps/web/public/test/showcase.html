@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gym Tracker — full showcase</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.15);--ink:#f5f7fa;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-ink:#0a0b0e;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;font-family:Inter,system-ui,sans-serif;color:var(--ink);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:calc(env(safe-area-inset-top) + 16px) 12px 24px}
+.app{width:100%;max-width:420px;flex:1;display:flex;flex-direction:column;position:relative}
+.screen{flex:1;overflow-y:auto;padding-bottom:90px;-webkit-overflow-scrolling:touch}
+.screen::-webkit-scrollbar{display:none}
+.view{display:none}.view.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* header */
+.top{display:flex;align-items:center;gap:11px;padding:6px 4px 18px}
+.av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#3a3f47,#22262c);border:1px solid var(--line2);flex:none;display:flex;align-items:center;justify-content:center;font-size:17px}
+.hi{flex:1}.hi .wb{font-size:11px;color:var(--mut)}.hi .nm{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.bell{width:38px;height:38px;border-radius:11px;border:1px solid var(--line2);background:var(--surf);display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.bell::after{content:"";position:absolute;top:9px;right:10px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+
+.phase{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--acc);margin-bottom:4px}
+.htitle{font-size:26px;font-weight:900;letter-spacing:-.6px;font-style:italic;text-transform:uppercase;margin-bottom:16px}
+.htitle .hl{color:var(--acc)}
+
+/* today hero */
+.thero{background:linear-gradient(150deg,#20252c,#131619);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:18px}
+.thero .r{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:12px}
+.tstats{display:flex;gap:22px;margin-bottom:16px}
+.tstats .s b{font-size:20px;font-weight:800;display:block}.tstats .s span{font-size:11px;color:var(--mut)}
+.tstart{width:100%;background:var(--acc);color:var(--acc-ink);border:none;border-radius:13px;padding:14px;font-size:15px;font-weight:800;font-family:inherit}
+
+.seclbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:8px 2px 12px;display:flex;justify-content:space-between}
+.seclbl .a{color:var(--acc)}
+
+/* exercise list row */
+.exr{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:9px;margin-bottom:10px;cursor:pointer}
+.exr .th{width:58px;height:58px;border-radius:10px;background:#fff;flex:none;overflow:hidden}
+.exr .th img{width:100%;height:100%;object-fit:contain}
+.exr .m{flex:1;min-width:0}.exr .m .n{font-size:14px;font-weight:700;text-transform:capitalize}.exr .m .s{font-size:11px;color:var(--mut);margin-top:2px;text-transform:capitalize}
+.exr .sets{font-size:12px;color:var(--acc);font-family:ui-monospace,monospace;font-weight:600}
+
+/* train card */
+.excard{background:var(--surf);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px}
+.exhead{display:flex;align-items:center;gap:11px;padding:12px 14px}
+.exnum{width:28px;height:28px;border-radius:8px;background:var(--acc);color:var(--acc-ink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.exhn{font-size:15px;font-weight:800;flex:1;text-transform:capitalize}.exsc{font-size:11px;font-weight:700;color:var(--acc);font-family:ui-monospace,monospace;background:var(--surf2);border:1px solid var(--line);padding:4px 8px;border-radius:8px}
+.gifbig{margin:0 14px 12px;background:#fff;border-radius:12px;aspect-ratio:16/11;overflow:hidden;position:relative}
+.gifbig img{width:100%;height:100%;object-fit:contain}
+.gifbig .t{position:absolute;top:7px;left:7px;font-size:8.5px;font-weight:700;text-transform:uppercase;color:var(--acc-ink);background:var(--acc);padding:2px 7px;border-radius:20px}
+.setgrid{padding:0 14px 8px;font-size:11px}
+.sgh{display:grid;grid-template-columns:24px 1fr 1fr 1fr 24px;gap:7px;color:var(--faint);font-weight:700;text-transform:uppercase;font-size:9px;padding-bottom:6px}
+.sgr{display:grid;grid-template-columns:24px 1fr 1fr 1fr 24px;gap:7px;align-items:center;margin-bottom:6px}
+.sgr .n{font-family:ui-monospace,monospace;font-weight:700;color:var(--mut)}
+.sgr .prev{color:var(--faint);font-family:ui-monospace,monospace;font-size:10px}
+.sgr .inp{background:var(--surf2);border:1px solid var(--line);border-radius:8px;padding:8px 4px;text-align:center;font-family:ui-monospace,monospace;font-weight:600}
+.sgr .inp.g{color:var(--faint)}.sgr .inp.done{background:rgba(198,242,78,.14);border-color:rgba(198,242,78,.3);color:var(--acc)}
+.sgr .x{color:var(--faint);text-align:center;font-size:15px}
+.addset{width:100%;background:none;border:1px dashed var(--line2);color:var(--mut);border-radius:10px;padding:10px;font-size:12px;font-weight:600;font-family:inherit;margin:2px 0 12px}
+
+/* detail */
+.dtop{display:flex;align-items:center;gap:10px;padding:2px 2px 14px}
+.dback{width:36px;height:36px;border-radius:11px;border:1px solid var(--line2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:17px}
+.dgif{background:#fff;border-radius:18px;aspect-ratio:1;overflow:hidden;margin-bottom:16px}
+.dgif img{width:100%;height:100%;object-fit:contain}
+.dtags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.dtag{font-size:11px;font-weight:600;color:var(--mut);background:var(--surf2);border:1px solid var(--line);border-radius:20px;padding:5px 11px;text-transform:capitalize}
+.dtag.on{color:var(--acc-ink);background:var(--acc);border-color:var(--acc)}
+.dstep{display:flex;gap:11px;margin-bottom:12px;font-size:12.5px;color:var(--mut);line-height:1.45}
+.dstep b{color:var(--acc);flex:none;font-weight:800}
+
+/* picker sheet */
+.search{background:var(--surf2);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--mut);font-size:13px;margin-bottom:14px}
+.chips{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto}
+.chip{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--mut);white-space:nowrap}
+.chip.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.prow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.prow .th{width:48px;height:48px;border-radius:9px;background:#fff;flex:none;overflow:hidden}
+.prow .th img{width:100%;height:100%;object-fit:contain}
+.prow .m{flex:1}.prow .m .n{font-size:13.5px;font-weight:600;text-transform:capitalize}.prow .m .s{font-size:10.5px;color:var(--mut);text-transform:capitalize}
+.prow .add{width:30px;height:30px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+
+/* nav */
+.nav{position:absolute;left:0;right:0;bottom:0;height:62px;background:rgba(20,22,26,.94);
+  backdrop-filter:blur(14px);border:1px solid var(--line2);border-radius:20px;
+  display:flex;align-items:center;justify-content:space-around;padding:0 6px;margin:0 4px 4px}
+.nav .ni{color:var(--faint);font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 12px;border-radius:13px;cursor:pointer}
+.nav .ni .ic{font-size:17px}
+.nav .ni.on{color:var(--acc-ink);background:var(--acc)}
+</style></head>
+<body>
+<div class="app">
+  <div class="screen">
+
+    <!-- TODAY -->
+    <div class="view on" id="v-today">
+      <div class="top"><div class="av">🧑</div><div class="hi"><div class="wb">Welcome back</div><div class="nm">Omar</div></div><div class="bell">🔔</div></div>
+      <div class="phase">Today · Wednesday</div>
+      <div class="htitle">Full <span class="hl">Upper.</span></div>
+      <div class="thero">
+        <div class="r">Recommended · Gym mode</div>
+        <div class="tstats"><div class="s"><b>6</b><span>exercises</span></div><div class="s"><b>~45</b><span>minutes</span></div><div class="s"><b>🔥 2</b><span>day streak</span></div></div>
+        <button class="tstart" onclick="go('train')">Start workout →</button>
+      </div>
+      <div class="seclbl">What you'll do <span class="a">Edit</span></div>
+      <div id="today-list"></div>
+    </div>
+
+    <!-- TRAIN -->
+    <div class="view" id="v-train">
+      <div class="top"><div class="hi"><div class="phase">Training · Gym</div><div class="nm" style="font-size:22px;font-style:italic;text-transform:uppercase">Full Upper.</div></div><div class="bell">⏱</div></div>
+      <div id="train-cards"></div>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="view" id="v-detail">
+      <div class="dtop"><div class="dback" onclick="go('today')">‹</div><div class="nm" id="d-name" style="font-size:20px;text-transform:capitalize">Exercise</div></div>
+      <div class="dgif"><img id="d-gif" src=""></div>
+      <div class="dtags" id="d-tags"></div>
+      <div class="seclbl">How to do it</div>
+      <div id="d-steps"></div>
+    </div>
+
+    <!-- PICKER -->
+    <div class="view" id="v-picker">
+      <div class="top"><div class="hi"><div class="phase">Add exercise</div><div class="nm">Catalog</div></div></div>
+      <div class="search">🔍  Search exercises…</div>
+      <div class="chips"><div class="chip on">All</div><div class="chip">Chest</div><div class="chip">Back</div><div class="chip">Arms</div><div class="chip">Legs</div><div class="chip">Core</div></div>
+      <div id="picker-list"></div>
+    </div>
+
+  </div>
+  <div class="nav">
+    <div class="ni on" data-v="today" onclick="go('today')"><span class="ic">⚡</span>Today</div>
+    <div class="ni" data-v="train" onclick="go('train')"><span class="ic">🏋️</span>Train</div>
+    <div class="ni" data-v="picker" onclick="go('picker')"><span class="ic">＋</span>Add</div>
+    <div class="ni" data-v="detail" onclick="go('detail')"><span class="ic">📖</span>Detail</div>
+  </div>
+</div>
+
+<script>
+const BASE = './smooth';
+// our 6 upscaled smooth gifs mapped to demo exercises
+const EX=[
+ {id:'0CXGHya',n:'cable cross-over',eq:'cable',tm:'pectorals',sm:['deltoids','triceps'],
+  ins:['Adjust the cable pulleys to chest height.','Stand centered, one foot in front of the other.','Grasp the handles, arms extended out to the sides.','Bring the handles together in front of your chest, squeeze.'],sc:'3×12'},
+ {id:'0dCyly0',n:'barbell bradford press',eq:'barbell',tm:'delts',sm:['triceps'],
+  ins:['Sit with the barbell at shoulder height.','Press up just over your head.','Lower behind the head to the base of the neck.','Alternate front and back each rep.'],sc:'4×8'},
+ {id:'03lzqwk',n:'assisted hanging knee raise',eq:'assisted',tm:'abs',sm:['hip flexors'],
+  ins:['Hang from the bar with assist support.','Keep shoulders engaged.','Raise knees toward chest, curling the pelvis.','Lower under control.'],sc:'3×15'},
+ {id:'05Cf2v8',n:'impossible dips',eq:'body weight',tm:'triceps',sm:['chest'],
+  ins:['Support yourself on parallel bars.','Lower until elbows ~90°.','Lean slightly forward.','Press back up to lockout.'],sc:'3×10'},
+ {id:'0br45wL',n:'push-up inside leg kick',eq:'body weight',tm:'glutes',sm:['chest','core'],
+  ins:['Start in a push-up position.','Lower into a push-up.','As you press up, kick one leg through.','Alternate sides.'],sc:'3×12'},
+ {id:'01qpYSe',n:'upward facing dog',eq:'body weight',tm:'spine',sm:['shoulders','chest'],
+  ins:['Lie face down, hands by lower ribs.','Press hands down and straighten arms.','Lift torso and thighs off the floor.','Open the chest, gaze up.'],sc:'3×10'},
+];
+const cap=s=>(s||'').replace(/\b\w/g,c=>c.toUpperCase());
+const gif=id=>`${BASE}/${id}.gif`;
+
+// TODAY list
+document.getElementById('today-list').innerHTML = EX.map(e=>`
+ <div class="exr" onclick="openDetail('${e.id}')"><div class="th"><img src="${gif(e.id)}"></div>
+   <div class="m"><div class="n">${e.n}</div><div class="s">${cap(e.eq)} · ${cap(e.tm)}</div></div>
+   <div class="sets">${e.sc}</div></div>`).join('');
+
+// TRAIN cards (first 2 with set tables)
+document.getElementById('train-cards').innerHTML = EX.slice(0,2).map((e,i)=>{
+ const w=[22.5,20,17.5][i]||20;
+ return `<div class="excard">
+   <div class="exhead"><div class="exnum">${i+1}</div><div class="exhn">${e.n}</div><div class="exsc">${e.sc}</div></div>
+   <div class="gifbig"><span class="t">Demo</span><img src="${gif(e.id)}"></div>
+   <div class="setgrid">
+     <div class="sgh"><div>Set</div><div>Prev</div><div>Kg</div><div>Reps</div><div></div></div>
+     <div class="sgr"><div class="n">1</div><div class="prev">${w}×12</div><div class="inp done">${w}</div><div class="inp done">12</div><div class="x">✓</div></div>
+     <div class="sgr"><div class="n">2</div><div class="prev">${w}×12</div><div class="inp g">${w}</div><div class="inp g">12</div><div class="x">×</div></div>
+     <div class="sgr"><div class="n">3</div><div class="prev">${w}×12</div><div class="inp g">${w}</div><div class="inp g">12</div><div class="x">×</div></div>
+   </div>
+   <div style="padding:0 14px"><button class="addset">+ Add set</button></div>
+ </div>`;}).join('');
+
+// PICKER list
+document.getElementById('picker-list').innerHTML = EX.map(e=>`
+ <div class="prow"><div class="th"><img src="${gif(e.id)}"></div>
+   <div class="m"><div class="n">${e.n}</div><div class="s">${cap(e.eq)} · ${cap(e.tm)}</div></div>
+   <div class="add">+</div></div>`).join('');
+
+function openDetail(id){
+ const e=EX.find(x=>x.id===id);
+ document.getElementById('d-name').textContent=cap(e.n);
+ document.getElementById('d-gif').src=gif(e.id);
+ document.getElementById('d-tags').innerHTML=`<span class="dtag on">${cap(e.tm)}</span>`+e.sm.map(x=>`<span class="dtag">${cap(x)}</span>`).join('')+`<span class="dtag">${cap(e.eq)}</span>`;
+ document.getElementById('d-steps').innerHTML=e.ins.map((t,i)=>`<div class="dstep"><b>${i+1}</b><span>${t}</span></div>`).join('');
+ go('detail');
+}
+function go(v){
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+ document.getElementById('v-'+v).classList.add('on');
+ document.querySelectorAll('.nav .ni').forEach(n=>n.classList.toggle('on',n.dataset.v===v));
+ document.querySelector('.screen').scrollTop=0;
+}
+</script>
+</body></html>
