@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Everything We Shipped · Gym Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0b0e;
+    --surface: #16181d;
+    --surface-2: #1e2128;
+    --accent: #c6f24e;
+    --accent-dark: #a8d63e;
+    --ink-on-accent: #0a0b0e;
+    --ink: #f5f7fa;
+    --muted: #8b90a0;
+    --faint: #5a5f6e;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.16);
+    --radius-lg: 26px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --danger: #ff6b6b;
+    --warn: #ffcf7a;
+    --good: #7fe08a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(900px 600px at 78% -8%, rgba(198,242,78,0.10), transparent 60%),
+      radial-gradient(700px 500px at 8% 12%, rgba(198,242,78,0.05), transparent 55%),
+      radial-gradient(1000px 800px at 50% 120%, rgba(198,242,78,0.06), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 68px 0; }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 116px 0 72px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+    background: rgba(198,242,78,0.08); border: 1px solid rgba(198,242,78,0.24);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 28px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.04; margin-bottom: 22px;
+  }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p.lede {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem); color: var(--muted);
+    max-width: 660px; margin: 0 auto; font-weight: 400;
+  }
+  .hero p.lede .em { color: var(--ink); font-weight: 600; }
+  .hero .stance {
+    margin: 30px auto 0; max-width: 640px;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 20px; border-radius: 999px;
+    background: rgba(198,242,78,0.06); border: 1px solid rgba(198,242,78,0.24);
+    font-size: 0.95rem; color: var(--muted); text-align: left;
+  }
+  .hero .stance b { color: var(--accent); font-weight: 600; }
+  .hero .scroll-cue {
+    margin-top: 44px; font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint);
+    display: inline-flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .scroll-cue .arrow {
+    width: 1px; height: 34px;
+    background: linear-gradient(var(--faint), transparent);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ---------- BY THE NUMBERS ---------- */
+  .numbers {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 8px;
+  }
+  .num-tile {
+    border-radius: var(--radius-lg); padding: 26px 22px; text-align: center;
+    background: linear-gradient(160deg, rgba(30,33,40,0.82), rgba(22,24,29,0.78));
+    border: 1px solid var(--border);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 24px 60px -30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .num-tile:hover { border-color: rgba(198,242,78,0.3); transform: translateY(-3px); }
+  .num-tile .big {
+    font-family: var(--mono); font-weight: 700; letter-spacing: -0.02em;
+    font-size: clamp(1.7rem, 4vw, 2.4rem); color: var(--accent); line-height: 1;
+    margin-bottom: 10px;
+  }
+  .num-tile .big small { font-size: 0.5em; color: var(--muted); font-weight: 500; }
+  .num-tile .lbl {
+    font-size: 0.86rem; color: var(--muted); line-height: 1.4;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head { margin-bottom: 38px; max-width: 760px; }
+  .sec-num {
+    font-family: var(--mono); font-size: 12px; color: var(--accent);
+    letter-spacing: 0.16em; display: block; margin-bottom: 12px;
+  }
+  .sec-head h2 {
+    font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 14px;
+  }
+  .sec-head p { color: var(--muted); font-size: 1.08rem; max-width: 680px; }
+  .sec-head .accent-txt { color: var(--accent); }
+  code.inline { font-family: var(--mono); color: var(--accent); font-size: 0.9em; }
+
+  /* ---------- BEFORE / AFTER ROW ---------- */
+  .ba-row { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 12px; align-items: stretch; margin-bottom: 18px; }
+  .ba-row:last-child { margin-bottom: 0; }
+  .ba-cell {
+    border-radius: var(--radius-md); padding: 18px 20px; position: relative;
+  }
+  .ba-cell.before {
+    background: linear-gradient(160deg, rgba(40,24,26,0.42), rgba(22,17,18,0.46));
+    border: 1px solid rgba(255,107,107,0.20);
+  }
+  .ba-cell.after {
+    background: linear-gradient(160deg, rgba(28,36,22,0.5), rgba(18,22,16,0.55));
+    border: 1px solid rgba(198,242,78,0.28);
+    box-shadow: 0 0 0 1px rgba(198,242,78,0.05), 0 26px 60px -36px rgba(198,242,78,0.14);
+  }
+  .ba-cell .ba-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; font-weight: 600;
+  }
+  .ba-cell.before .ba-tag { color: var(--danger); background: rgba(255,107,107,0.10); border: 1px solid rgba(255,107,107,0.28); }
+  .ba-cell.after .ba-tag { color: var(--accent); background: rgba(198,242,78,0.10); border: 1px solid rgba(198,242,78,0.3); }
+  .ba-cell h4 { font-size: 1.02rem; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.01em; }
+  .ba-cell p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+  .ba-cell code { font-family: var(--mono); font-size: 0.82em; color: var(--accent); background: rgba(198,242,78,0.08); padding: 1px 5px; border-radius: 4px; }
+  .ba-cell.before code { color: var(--warn); background: rgba(255,207,122,0.09); }
+  .ba-arrow {
+    display: grid; place-items: center; color: var(--accent);
+    font-family: var(--mono); font-size: 1.3rem;
+  }
+  .ba-arrow span {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: rgba(198,242,78,0.1); border: 1px solid rgba(198,242,78,0.3);
+    font-size: 1rem;
+  }
+
+  /* ---------- WHY IT MATTERS ---------- */
+  .why {
+    margin-top: 22px; display: flex; gap: 14px; align-items: flex-start;
+    padding: 18px 22px; border-radius: var(--radius-md);
+    background: rgba(198,242,78,0.045); border: 1px dashed rgba(198,242,78,0.3);
+  }
+  .why .why-ic {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px;
+    background: var(--accent); color: var(--ink-on-accent);
+    display: grid; place-items: center; font-weight: 700; font-size: 14px;
+  }
+  .why p { font-size: 0.94rem; color: var(--muted); }
+  .why p b { color: var(--ink); font-weight: 600; }
+  .why p .em { color: var(--accent); font-weight: 600; }
+
+  /* ---------- FEATURE GRID (simple cards) ---------- */
+  .feat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .feat-grid.three { grid-template-columns: repeat(3, 1fr); }
+  .feat {
+    display: flex; gap: 14px; padding: 20px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .feat:hover { border-color: rgba(198,242,78,0.3); transform: translateY(-2px); }
+  .feat .check {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(198,242,78,0.12); border: 1px solid rgba(198,242,78,0.3);
+    color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 15px;
+  }
+  .feat .f-body h4 { font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
+  .feat .f-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+  .feat .f-body code { font-family: var(--mono); font-size: 0.82em; color: var(--accent); background: rgba(198,242,78,0.08); padding: 1px 5px; border-radius: 4px; }
+
+  /* ---------- SECTION CARD SHELL ---------- */
+  .sec-card {
+    background: linear-gradient(160deg, rgba(30,33,40,0.82), rgba(22,24,29,0.78));
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 24px 60px -30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+    padding: 30px 30px;
+  }
+  .sub-h {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 16px; display: block;
+  }
+
+  /* ---------- PROFILE NAV DIAGRAM ---------- */
+  .nav-demo { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 14px; align-items: center; }
+  .navbar {
+    border-radius: 999px; padding: 8px; display: flex; gap: 4px;
+    background: rgba(10,11,14,0.6); border: 1px solid var(--border);
+    justify-content: center; flex-wrap: wrap;
+  }
+  .navbar.flat { border-radius: var(--radius-sm); }
+  .nav-tab {
+    font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+    padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .navbar.flat .nav-tab { border-radius: 6px; }
+  .nav-tab.on { background: var(--accent); color: var(--ink-on-accent); font-weight: 700; }
+  .nav-tab.new { border: 1px dashed rgba(198,242,78,0.5); color: var(--accent); }
+
+  /* ---------- SET LOGGING TABLE ---------- */
+  .set-table {
+    font-family: var(--mono); font-size: 0.82rem;
+    border-radius: var(--radius-sm); overflow: hidden;
+    border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+  }
+  .set-table .st-head, .set-table .st-row {
+    display: grid; grid-template-columns: 44px 1fr 1fr 1fr; gap: 8px;
+    padding: 10px 14px; align-items: center;
+  }
+  .set-table .st-head {
+    color: var(--faint); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);
+  }
+  .set-table .st-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .set-table .st-row:last-child { border-bottom: none; }
+  .set-table .st-row .col-set { color: var(--accent); font-weight: 600; }
+  .set-table .st-row .prev { color: var(--faint); }
+  .set-table .st-row .real { color: var(--ink); }
+  .set-table .st-row .ghost { color: var(--faint); opacity: 0.55; }
+  .set-cap {
+    margin-top: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .set-cap .g-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); flex-shrink:0; }
+
+  /* ---------- BATCHED SAVES DIAGRAM ---------- */
+  .save-demo { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 14px; align-items: center; }
+  .calls-cluster { display: flex; flex-wrap: wrap; gap: 5px; }
+  .call-dot {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.3);
+    font-family: var(--mono); font-size: 8px; color: var(--danger);
+    display: grid; place-items: center;
+  }
+  .one-call {
+    border-radius: var(--radius-md); padding: 22px; text-align: center;
+    background: linear-gradient(160deg, rgba(198,242,78,0.14), rgba(168,214,62,0.05));
+    border: 1px solid rgba(198,242,78,0.4);
+    font-family: var(--mono);
+  }
+  .one-call .oc-big { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .one-call .oc-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.06em; }
+
+  /* ---------- PROGRESS DASHBOARD ---------- */
+  .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .dash-tile {
+    border-radius: var(--radius-md); padding: 16px 18px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    min-height: 100px; display: flex; flex-direction: column;
+  }
+  .dash-tile .dt-lbl {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 10px;
+  }
+  .dash-tile.wide { grid-column: span 2; }
+  /* mini area chart */
+  .spark { display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-top: auto; }
+  .spark span { flex: 1; background: linear-gradient(180deg, var(--accent), rgba(198,242,78,0.15)); border-radius: 3px 3px 0 0; }
+  /* muscle split bars */
+  .msplit { display: flex; flex-direction: column; gap: 7px; margin-top: auto; }
+  .msplit .mrow { display: grid; grid-template-columns: 46px 1fr; gap: 8px; align-items: center; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .msplit .mbar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.06); overflow: hidden; }
+  .msplit .mbar i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .msplit .mrow.low .mbar i { background: var(--warn); }
+  /* PR board */
+  .pr-list { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
+  .pr-item { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; }
+  .pr-item .pn { color: var(--muted); }
+  .pr-item .pv { color: var(--accent); font-weight: 600; }
+
+  /* ---------- ONBOARDING WIZARD STEPS ---------- */
+  .wiz { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .wiz-step {
+    border-radius: var(--radius-md); padding: 18px 14px; text-align: center;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    position: relative;
+  }
+  .wiz-step .ws-n {
+    width: 30px; height: 30px; border-radius: 9px; margin: 0 auto 12px;
+    display: grid; place-items: center; font-family: var(--mono); font-weight: 700; font-size: 0.95rem;
+    background: rgba(198,242,78,0.12); border: 1px solid rgba(198,242,78,0.3); color: var(--accent);
+  }
+  .wiz-step h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+  .wiz-step p { font-size: 0.76rem; color: var(--muted); line-height: 1.4; }
+
+  /* ---------- PIPELINE ROWS (offline / realtime) ---------- */
+  .flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .flow-node {
+    flex: 1; min-width: 120px;
+    border-radius: var(--radius-sm); padding: 14px 16px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .flow-node .fn-t { font-weight: 600; font-size: 0.9rem; margin-bottom: 2px; }
+  .flow-node .fn-s { font-family: var(--mono); font-size: 10px; color: var(--faint); }
+  .flow-node.accent { border-color: rgba(198,242,78,0.3); background: rgba(198,242,78,0.05); }
+  .flow-arrow { color: var(--accent); font-family: var(--mono); font-size: 1.1rem; flex-shrink: 0; }
+
+  .status-strip {
+    margin-top: 16px; display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px; color: var(--warn);
+    background: rgba(255,207,122,0.08); border: 1px solid rgba(255,207,122,0.26);
+    padding: 8px 14px; border-radius: 999px;
+  }
+  .status-strip .s-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+
+  /* ---------- CLOSING ---------- */
+  .rec-banner {
+    padding: 48px 44px; border-radius: var(--radius-lg);
+    background: linear-gradient(160deg, rgba(198,242,78,0.1), rgba(168,214,62,0.03));
+    border: 1px solid rgba(198,242,78,0.3);
+    box-shadow: 0 30px 80px -40px rgba(198,242,78,0.25);
+    text-align: center;
+  }
+  .rec-banner .r-eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .rec-banner h2 { font-size: clamp(1.5rem, 3.6vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 26px; }
+  .next-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 640px; margin: 0 auto 24px; }
+  .next-card {
+    border-radius: var(--radius-md); padding: 22px 20px; text-align: left;
+    background: rgba(10,11,14,0.4); border: 1px solid var(--border);
+  }
+  .next-card .nc-chip {
+    display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--warn); background: rgba(255,207,122,0.09); border: 1px solid rgba(255,207,122,0.26);
+    padding: 3px 9px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .next-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; }
+  .next-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .rec-reassure { color: var(--muted); max-width: 580px; margin: 0 auto; font-size: 1.02rem; }
+  .rec-reassure .hl { color: var(--ink); font-weight: 600; }
+
+  footer {
+    text-align: center; padding: 60px 24px 48px;
+    color: var(--faint); font-family: var(--mono); font-size: 12px;
+    border-top: 1px solid var(--border); margin-top: 40px;
+  }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px) {
+    .numbers { grid-template-columns: repeat(2, 1fr); }
+    .dash-grid { grid-template-columns: 1fr 1fr; }
+    .dash-tile.wide { grid-column: span 2; }
+    .wiz { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 780px) {
+    .ba-row, .nav-demo, .save-demo { grid-template-columns: 1fr; }
+    .ba-arrow { transform: rotate(90deg); margin: 2px 0; }
+    .feat-grid, .feat-grid.three { grid-template-columns: 1fr; }
+    .next-grid { grid-template-columns: 1fr; }
+    .sec-card { padding: 24px 20px; }
+    section { padding: 50px 0; }
+    .hero { padding: 84px 0 52px; }
+  }
+  @media (max-width: 500px) {
+    .numbers, .dash-grid, .wiz { grid-template-columns: 1fr; }
+    .dash-tile.wide { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span> Release Notes · Gym Trainer</span>
+  <h1>Everything<br>we <span class="hl">shipped</span>.</h1>
+  <p class="lede">One big work session — from <span class="em">UI polish</span> to a <span class="em">production-grade data layer</span>. Here's the whole thing at a glance, grouped and honest.</p>
+  <div class="stance">
+    <span>React + Vite + TypeScript · Supabase · GitHub Pages. Six themed tracks of work, <b>before → after</b>, no fake stats.</span>
+  </div>
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <span class="arrow"></span>
+  </div>
+</header>
+
+<!-- BY THE NUMBERS -->
+<section class="wrap reveal" style="padding-top:24px;">
+  <div class="numbers">
+    <div class="num-tile">
+      <div class="big">95<small> + 40</small></div>
+      <div class="lbl">web tests + core tests passing</div>
+    </div>
+    <div class="num-tile">
+      <div class="big">~25 → 1</div>
+      <div class="lbl">network calls per workout save</div>
+    </div>
+    <div class="num-tile">
+      <div class="big">5 → 6</div>
+      <div class="lbl">tab navigation, + Profile</div>
+    </div>
+    <div class="num-tile">
+      <div class="big">5-step</div>
+      <div class="lbl">onboarding wizard for new users</div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. UI / VISUAL POLISH -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">01 · UI / VISUAL POLISH</span>
+    <h2>It went from a <span class="accent-txt">personal project</span> to something that feels shipped.</h2>
+    <p>A pass over every surface: the chrome, the motion, the little bugs you only feel. General-purpose now — the personal <code class="inline">skate</code> tracker is gone, rest-day logging stayed.</p>
+  </div>
+
+  <div class="sec-card">
+    <div class="ba-row">
+      <div class="ba-cell before">
+        <span class="ba-tag">Before</span>
+        <h4>Flat edge-to-edge navbar</h4>
+        <p>A plain bar welded to the bottom edge.</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">After</span>
+        <h4>Floating glass pill</h4>
+        <p>Detached, rounded, frosted — with a lime active-tab highlight that slides.</p>
+      </div>
+    </div>
+    <div class="ba-row">
+      <div class="ba-cell before">
+        <span class="ba-tag">Before</span>
+        <h4>Buggy sliding-thumb switcher</h4>
+        <p>Equipment toggle's thumb sat <code>misaligned</code> under the labels.</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">After</span>
+        <h4>Lime segmented control</h4>
+        <p>Clean active-pill. No math, no drift — the pill <em>is</em> the selection.</p>
+      </div>
+    </div>
+    <div class="ba-row">
+      <div class="ba-cell before">
+        <span class="ba-tag">Before</span>
+        <h4>Train header floated & bled</h4>
+        <p>Indented card, content bleeding under it. Save icon dark & invisible.</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">After</span>
+        <h4>Full-bleed, safe-area top</h4>
+        <p>True top edge with safe-area padding, white Save icon, bottom padding clears the Finish dock.</p>
+      </div>
+    </div>
+
+    <div class="feat-grid three" style="margin-top:20px;">
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Liquid-Glass drawer</h4><p>Full slide-up, spring easing, swipe-down-to-close, bigger grab handle.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Calendar redesign</h4><p>Rebuilt grid — fixed the uneven row-gap bug so every week row is uniform.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>App icon + PWA manifest</h4><p>Lime dumbbell apple-touch-icon. "Add to Home Screen" now shows a real logo.</p></div></div>
+    </div>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> polish is the difference between "my hobby app" and something you'd hand a friend. Every rough edge you noticed daily is <span class="em">gone</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. STRUCTURE / NAVIGATION -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">02 · STRUCTURE / NAVIGATION</span>
+    <h2>Reclaimed the screen, then gave it a <span class="accent-txt">real home.</span></h2>
+    <p>The always-present top bar ate ~80px on every screen. It's gone — logout moved into a proper Profile tab, and Progress became a dashboard.</p>
+  </div>
+
+  <div class="sec-card">
+    <span class="sub-h">Navigation · 5 tabs → 6 tabs</span>
+    <div class="nav-demo">
+      <div>
+        <div class="navbar flat">
+          <span class="nav-tab on">Home</span>
+          <span class="nav-tab">Train</span>
+          <span class="nav-tab">Plan</span>
+          <span class="nav-tab">Log</span>
+          <span class="nav-tab">Progress</span>
+        </div>
+        <p style="font-family:var(--mono);font-size:10px;color:var(--faint);text-align:center;margin-top:10px;">+ a top bar stealing ~80px</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div>
+        <div class="navbar">
+          <span class="nav-tab on">Home</span>
+          <span class="nav-tab">Train</span>
+          <span class="nav-tab">Plan</span>
+          <span class="nav-tab">Log</span>
+          <span class="nav-tab">Progress</span>
+          <span class="nav-tab new">Profile</span>
+        </div>
+        <p style="font-family:var(--mono);font-size:10px;color:var(--accent);text-align:center;margin-top:10px;">no top bar · ~80px back on every screen</p>
+      </div>
+    </div>
+
+    <div class="feat-grid" style="margin-top:24px;">
+      <div class="feat"><div class="check">6</div><div class="f-body"><h4>New Profile tab</h4><p>Bodyweight log + weigh-in, goals &amp; prefs (units kg/lb, default plan, rest timer), PR board, and logout — all in one place.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Home refreshed</h4><p>Tighter hero, premium glass stat tiles, cleaner mode + session cards.</p></div></div>
+    </div>
+
+    <span class="sub-h" style="margin-top:26px;">Progress · one chart → a dashboard</span>
+    <div class="ba-row" style="margin-bottom:16px;">
+      <div class="ba-cell before">
+        <span class="ba-tag">Before</span>
+        <h4>One lonely chart</h4>
+        <p>A single per-exercise line, and nothing else to look at.</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">After</span>
+        <h4>A real dashboard</h4>
+        <p>Five ways to read your training at a glance.</p>
+      </div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-tile">
+        <span class="dt-lbl">PR Board</span>
+        <div class="pr-list">
+          <div class="pr-item"><span class="pn">Bench</span><span class="pv">80kg</span></div>
+          <div class="pr-item"><span class="pn">Squat</span><span class="pv">120kg</span></div>
+          <div class="pr-item"><span class="pn">Deadlift</span><span class="pv">150kg</span></div>
+        </div>
+      </div>
+      <div class="dash-tile wide">
+        <span class="dt-lbl">Training-volume trend ↗</span>
+        <div class="spark">
+          <span style="height:32%"></span><span style="height:40%"></span><span style="height:36%"></span>
+          <span style="height:52%"></span><span style="height:60%"></span><span style="height:56%"></span>
+          <span style="height:72%"></span><span style="height:85%"></span><span style="height:100%"></span>
+        </div>
+      </div>
+      <div class="dash-tile wide">
+        <span class="dt-lbl">Muscle balance · push / pull / legs / core</span>
+        <div class="msplit">
+          <div class="mrow"><span>Push</span><div class="mbar"><i style="width:82%"></i></div></div>
+          <div class="mrow"><span>Pull</span><div class="mbar"><i style="width:70%"></i></div></div>
+          <div class="mrow low"><span>Legs</span><div class="mbar"><i style="width:34%"></i></div></div>
+          <div class="mrow low"><span>Core</span><div class="mbar"><i style="width:28%"></i></div></div>
+        </div>
+      </div>
+      <div class="dash-tile">
+        <span class="dt-lbl">Bodyweight trend</span>
+        <div class="spark">
+          <span style="height:70%"></span><span style="height:66%"></span><span style="height:64%"></span>
+          <span style="height:60%"></span><span style="height:58%"></span><span style="height:54%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> the muscle-balance split <span class="em">instantly surfaces neglected areas</span> — you can see legs &amp; core lagging without doing the math. Plus a per-exercise drilldown for when you want detail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ONBOARDING & PERSONALIZATION -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">03 · ONBOARDING &amp; PERSONALIZATION</span>
+    <h2>New users get a <span class="accent-txt">5-step welcome</span> — and the app listens.</h2>
+    <p>A skippable wizard that turns a cold first-open into a workout that already knows what you're training for.</p>
+  </div>
+
+  <div class="sec-card">
+    <div class="wiz">
+      <div class="wiz-step"><div class="ws-n">1</div><h4>Welcome</h4><p>Say hi + your name</p></div>
+      <div class="wiz-step"><div class="ws-n">2</div><h4>Body</h4><p>Sex, age, height, weight, goal weight</p></div>
+      <div class="wiz-step"><div class="ws-n">3</div><h4>Goal</h4><p>Muscle / fat loss / strength / endurance / maintain</p></div>
+      <div class="wiz-step"><div class="ws-n">4</div><h4>Focus</h4><p>Multi-select target muscles</p></div>
+      <div class="wiz-step"><div class="ws-n">5</div><h4>Experience</h4><p>Level &amp; availability</p></div>
+    </div>
+
+    <div class="feat-grid" style="margin-top:22px;">
+      <div class="feat"><div class="check">✕</div><div class="f-body"><h4>Honest skip behaviour</h4><p><code>X</code> = leave without saving, re-prompts next time. <code>Skip setup</code> = enter with sensible defaults.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>It actually personalizes</h4><p>Your goal + focus muscles shape the daily recommendation — e.g. legs deprioritized if you didn't pick them, rep-range messaging tuned by goal.</p></div></div>
+    </div>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> the recommendation stops being generic. What you told the wizard <span class="em">changes what you see</span> the very first day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. SET LOGGING OVERHAUL -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">04 · SET LOGGING OVERHAUL</span>
+    <h2>Driven by real feedback from <span class="accent-txt">Leon</span> — logging that respects your thumbs.</h2>
+    <p>The core loop of the app is typing sets. So we rebuilt it Hevy-style: less typing, no ambiguity, and one nasty bug made structurally impossible.</p>
+  </div>
+
+  <div class="sec-card">
+    <span class="sub-h">The table + ghost model</span>
+    <div class="set-table">
+      <div class="st-head"><span>Set</span><span>Previous</span><span>kg</span><span>Reps</span></div>
+      <div class="st-row"><span class="col-set">1</span><span class="prev">20kg × 5</span><span class="real">24</span><span class="real">5</span></div>
+      <div class="st-row"><span class="col-set">2</span><span class="prev">20kg × 5</span><span class="ghost">24</span><span class="ghost">5</span></div>
+      <div class="st-row"><span class="col-set">3</span><span class="prev">—</span><span class="ghost">24</span><span class="ghost">5</span></div>
+    </div>
+    <div class="set-cap"><span class="g-dot"></span> Gray = ghost placeholder cascading from the set above · type to make it real · what you saw is what saves.</div>
+
+    <div class="ba-row" style="margin-top:24px;">
+      <div class="ba-cell before">
+        <span class="ba-tag">Before · the bug</span>
+        <h4>"Fill empties" model</h4>
+        <p>Typing <code>24</code> left later sets stuck at <code>2</code> — the second keystroke never reached them. Fragile by design.</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">After · the fix</span>
+        <h4>Store-what-you-type</h4>
+        <p>Save only real keystrokes; compute ghosts for display. The multi-digit bug became <em>impossible</em> — backed by keystroke-simulating tests.</p>
+      </div>
+    </div>
+
+    <div class="feat-grid" style="margin-top:20px;">
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>+ Add set copies down</h4><p>New set inherits weight + reps from the set above. No re-typing the same numbers.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Remember where I was</h4><p>Opening an exercise auto-selects the equipment tab you last logged; a lime dot badges every tab with history.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Unambiguous PREVIOUS</h4><p>Shows the unit — <code>20kg × 5</code> — so weight vs reps is never a guess.</p></div></div>
+      <div class="feat"><div class="check">✓</div><div class="f-body"><h4>Aligned columns</h4><p>SET / PREVIOUS / KG / REPS headers replace the cluttered inline row. (Per-set "done" checkbox dropped for now.)</p></div></div>
+    </div>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> this is where you spend every workout. Fewer taps, zero ambiguity, and a class of data-loss bug that <span class="em">can't come back</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. CUSTOM SESSIONS -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">05 · CUSTOM SESSIONS</span>
+    <h2>Add, remove, reorder — without breaking the <span class="accent-txt">shared catalog.</span></h2>
+    <p>Sessions are now yours to shape. A catalog picker adds exercises; a base+overlay architecture keeps it clean. <span style="color:var(--faint)">(Full explainer lives in <code class="inline">custom-sessions-architecture.html</code>.)</span></p>
+  </div>
+
+  <div class="sec-card">
+    <div class="feat-grid">
+      <div class="feat"><div class="check">+</div><div class="f-body"><h4>Catalog picker</h4><p>"+ Add exercise" opens search + equipment pills + thumbnails. Owner-controlled catalog — <b>no free-typed exercises</b>.</p></div></div>
+      <div class="feat"><div class="check">⇅</div><div class="f-body"><h4>Remove · reorder · reset</h4><p>Rearrange the session, drop what you don't do, or "Reset to default plan" anytime.</p></div></div>
+    </div>
+
+    <span class="sub-h" style="margin-top:26px;">Scope toggle</span>
+    <div class="ba-row">
+      <div class="ba-cell after" style="border-color:var(--border);background:rgba(255,255,255,0.025);box-shadow:none;">
+        <span class="ba-tag" style="color:var(--muted);background:rgba(139,144,160,0.12);border-color:rgba(139,144,160,0.24);">Just today</span>
+        <h4>One-off</h4>
+        <p>Saved with that workout only. The plan stays exactly as it was.</p>
+      </div>
+      <div class="ba-arrow" style="color:var(--faint);"><span style="background:rgba(255,255,255,0.04);border-color:var(--border);color:var(--muted);">/</span></div>
+      <div class="ba-cell after">
+        <span class="ba-tag">Always in &lt;Session&gt;</span>
+        <h4>Permanent</h4>
+        <p>Stored in your overlay. Shows up every time you run that session.</p>
+      </div>
+    </div>
+
+    <span class="sub-h" style="margin-top:26px;">Architecture · base + overlay</span>
+    <div class="flow">
+      <div class="flow-node"><div class="fn-t">Base session</div><div class="fn-s">in code · one source of truth</div></div>
+      <span class="flow-arrow">+</span>
+      <div class="flow-node accent"><div class="fn-t">Your overlay</div><div class="fn-s">added / hidden / order · RLS-protected</div></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node accent"><div class="fn-t">Merged at read time</div><div class="fn-s">your session, clean base</div></div>
+    </div>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> the base catalog stays improvable for everyone, while your tweaks ride along as a <span class="em">tiny per-user overlay</span> — no forked data, no mess.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. DATA / INFRASTRUCTURE -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="sec-num">06 · DATA / INFRASTRUCTURE</span>
+    <h2>The invisible work that makes it feel <span class="accent-txt">instant.</span></h2>
+    <p>You won't see most of this — you'll feel it. Batched saves, a shared cache, rename-safe IDs, offline-first, and live multi-device sync.</p>
+  </div>
+
+  <div class="sec-card">
+    <span class="sub-h">Batched saves · ~25 calls → 1 RPC</span>
+    <div class="save-demo">
+      <div>
+        <div class="calls-cluster">
+          <span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span>
+          <span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span>
+          <span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span>
+          <span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span>
+          <span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span><span class="call-dot">↑</span>
+        </div>
+        <p style="font-family:var(--mono);font-size:10px;color:var(--danger);margin-top:10px;">~25 sequential network calls on finish</p>
+      </div>
+      <div class="ba-arrow"><span>→</span></div>
+      <div class="one-call">
+        <div class="oc-big">1</div>
+        <div class="oc-lbl">RPC · feels instant</div>
+      </div>
+    </div>
+
+    <div class="feat-grid" style="margin-top:24px;">
+      <div class="feat"><div class="check">⚡</div><div class="f-body"><h4>Shared cache + optimistic UI</h4><p>TanStack Query cache across tabs — switches are instant, logging reflects immediately then syncs in the background, rolling back on error.</p></div></div>
+      <div class="feat"><div class="check">#</div><div class="f-body"><h4>Rename-safe exercise IDs</h4><p>Every catalog exercise got a stable slug. New writes store <code>id + name</code>; lookups match by id; old data bridged with <b>no migration</b>.</p></div></div>
+    </div>
+
+    <span class="sub-h" style="margin-top:26px;">Offline-first · queue &amp; replay</span>
+    <div class="flow">
+      <div class="flow-node"><div class="fn-t">Log offline</div><div class="fn-s">no connection</div></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node"><div class="fn-t">Queued locally</div><div class="fn-s">cache persisted to device</div></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node accent"><div class="fn-t">Replays on reconnect</div><div class="fn-s">back online</div></div>
+    </div>
+    <div class="status-strip"><span class="s-dot"></span> Offline · changes will sync when you're back</div>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:10px;">Verified: reloading with no connection still shows all your data.</p>
+
+    <span class="sub-h" style="margin-top:26px;">Realtime · multi-device sync</span>
+    <div class="flow">
+      <div class="flow-node accent"><div class="fn-t">📱 Phone</div><div class="fn-s">log a set</div></div>
+      <span class="flow-arrow">≈ 1s ⟶</span>
+      <div class="flow-node accent"><div class="fn-t">💻 Laptop</div><div class="fn-s">appears · no refresh</div></div>
+    </div>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:10px;">Verified live: a change on one device shows on another within ~a second.</p>
+
+    <div class="why">
+      <div class="why-ic">★</div>
+      <p><b>Why it matters:</b> this is the jump from "web app" to <span class="em">production-grade</span>. Instant saves, works on the subway, and your devices stay in lockstep.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="wrap reveal">
+  <div class="rec-banner">
+    <div class="r-eyebrow">What's next</div>
+    <h2>Two more, already queued.</h2>
+    <div class="next-grid">
+      <div class="next-card">
+        <span class="nc-chip">Queued</span>
+        <h4>PWA cold-start offline</h4>
+        <p>Open the installed app with zero connection and still land in your data — not just warm reloads.</p>
+      </div>
+      <div class="next-card">
+        <span class="nc-chip">Queued</span>
+        <h4>Google sign-in (Gmail)</h4>
+        <p>One-tap auth so getting in is as frictionless as everything else now is.</p>
+      </div>
+    </div>
+    <p class="rec-reassure">One session took Gym Trainer from a personal tracker to a <span class="hl">polished, offline-first, multi-device app</span> — with the tests to prove it.</p>
+  </div>
+</section>
+
+<footer>
+  gym-trainer · what we shipped · UI polish → structure → onboarding → set logging → custom sessions → data layer
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
