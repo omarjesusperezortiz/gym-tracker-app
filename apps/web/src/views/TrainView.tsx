@@ -328,7 +328,8 @@ export function TrainView() {
           </div>
           <div className="tinfo">
             <div className="tt">
-              {session.emoji} {session.name}
+              <span className="tt-emoji">{session.emoji}</span>
+              <span className="tt-name">{session.name}.</span>
             </div>
             <div className="tm">
               {isEditingCurrent && (

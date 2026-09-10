@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
+import { HeroTitle } from '../components/HeroTitle';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePrefs } from '../lib/useProfileData';
@@ -43,6 +44,14 @@ export function TodayView() {
   const stale = !!(active.date && active.date !== today);
   const updated = relTime(active.generatedAt);
 
+  // Small uppercase subtitle under the editorial hero = the session's muscles,
+  // pulled from the catalog when the recommendation points at a real session.
+  const musclesSub =
+    isPlanKey(active.plan) && catalog.plans[active.plan].sessions[active.session]
+      ? catalog.plans[active.plan].sessions[active.session].muscles
+      : undefined;
+  const heroName = active.sessionName || active.session || 'Today';
+
   function openSession(pk: string, sk: string) {
     if (!isPlanKey(pk) || !catalog.plans[pk].sessions[sk]) return;
     dispatch({ type: 'OPEN_SESSION', plan: pk, sess: sk });
@@ -66,7 +75,7 @@ export function TodayView() {
             {stale ? ` · from ${humanDate(active.date)}` : ''}
           </div>
           <div className="today-emoji">{active.emoji || '😴'}</div>
-          <div className="today-title">{active.title || 'Rest day'}</div>
+          <HeroTitle primary="Rest" accent="Day" className="today-hero" />
           <div className="today-reason">{active.reason || 'Take it easy today — recovery matters.'}</div>
           <button
             className="btn sec today-cta"
@@ -85,7 +94,7 @@ export function TodayView() {
             {isFallback ? 'Suggested for today' : 'Recommended'}
             {stale ? ` · from ${humanDate(active.date)}` : ''}
           </div>
-          <div className="today-title">{active.title || `Today: ${active.sessionName || active.session || ''}`}</div>
+          <HeroTitle primary={heroName} accent="Day" subtitle={musclesSub} className="today-hero" />
           <div className="today-reason">{active.reason || ''}</div>
           {(active.exercises || []).length > 0 && (
             <div className="today-exlist">
