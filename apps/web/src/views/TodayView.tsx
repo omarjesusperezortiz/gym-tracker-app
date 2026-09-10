@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { PageHeader } from '../components/PageHeader';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePrefs } from '../lib/useProfileData';
@@ -57,6 +58,7 @@ export function TodayView() {
 
   return (
     <div className="today-view">
+      <PageHeader title="Today" subtitle="Your recommended session for today." />
       {active.type === 'rest' ? (
         <div className="today-card rest">
           <div className="today-badge">

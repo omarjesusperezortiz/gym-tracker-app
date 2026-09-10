@@ -1,5 +1,6 @@
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
+import { PageHeader } from '../components/PageHeader';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { dayColor } from '../lib/colors';
@@ -61,10 +62,7 @@ export function HomeView() {
 
   return (
     <div className="dash">
-      <div className="dash-h">{greeting()}</div>
-      <div className="dash-sub">
-        {P.icon} {P.label} mode · pick today's session below.
-      </div>
+      <PageHeader title={greeting()} subtitle={`${P.icon} ${P.label} mode · pick today's session below.`} />
 
       {ip.length > 0 && (
         <>
