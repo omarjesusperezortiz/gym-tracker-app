@@ -28,7 +28,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);font-feature-
 .offdot.syncing{background:var(--acc);animation:offpulse 1s ease-in-out infinite}
 @keyframes offpulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-filter:blur(18px) saturate(1.4);
+header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.97);backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:calc(env(safe-area-inset-top) + 10px)}
 /* Screen title, standing in for the removed top bar on screens that don't
    already open with a heading of their own. */
@@ -133,7 +133,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 
 /* Bottom nav — floating pill (modern mobile app style) */
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:45;
-  width:auto;max-width:calc(100% - 24px);background:rgba(20,22,28,.72);backdrop-filter:blur(22px) saturate(1.5);
+  width:auto;max-width:calc(100% - 24px);background:rgba(18,20,26,.97);backdrop-filter:blur(22px) saturate(1.5);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);border:1px solid var(--glass-brd);border-radius:26px;
   display:flex;gap:1px;padding:6px 7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 30px rgba(0,0,0,.5)}
 /* Six tabs have to fit a 390px iPhone: tighter item padding + a slightly
@@ -150,7 +150,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
    body level, so :has scoped to the body catches any open dialog. */
 body:has(.modal) .nav{display:none}
 /* Finish bar sits above nav on Train view */
-.dock{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));z-index:44;padding:0 14px 10px;display:flex;gap:10px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:44;padding:10px 14px calc(14px + env(safe-area-inset-bottom));display:flex;gap:10px;background:linear-gradient(to top,var(--bg) 62%,transparent)}
 .dock.hide{display:none}
 .dock .primary{flex:1.6;padding:15px;border-radius:16px;border:none;font-weight:700;font-size:15px;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc-d));color:var(--acc-ink);box-shadow:0 6px 20px rgba(198,242,78,.32);display:flex;align-items:center;justify-content:center;gap:8px}
 .dock .primary:active{transform:translateY(2px)}
