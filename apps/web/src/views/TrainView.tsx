@@ -48,6 +48,26 @@ export function TrainView() {
   const [editing, setEditing] = useState(false);
   const [restSeconds, setRestSeconds] = useState<number | null>(null);
   const [restNonce, setRestNonce] = useState(0);
+  // Global "auto-fill suggested weight" preference — persisted to localStorage
+  // so it sticks across sessions. When on, empty sets ghost the suggested next
+  // weight (display-only; never written to state until the user types).
+  const [autofill, setAutofill] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('autofillSuggested') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const toggleAutofill = () =>
+    setAutofill((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem('autofillSuggested', next ? '1' : '0');
+      } catch {
+        /* ignore storage failures (private mode etc.) */
+      }
+      return next;
+    });
   const startRest = () => {
     setRestSeconds(restPref);
     setRestNonce((n) => n + 1);
@@ -385,6 +405,8 @@ export function TrainView() {
             canMoveDown={i < session.slots.length - 1}
             suggestion={suggestion}
             hasLast={!!(lastSets && lastSets.length)}
+            autofill={autofill}
+            onToggleAutofill={toggleAutofill}
             onUseLast={() => handleUseLast(sl[0], key, st)}
             onRest={() => startRest()}
             onMoveUp={() => handleMove(sl[0], -1)}

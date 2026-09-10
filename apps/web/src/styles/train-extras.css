@@ -2,16 +2,17 @@
  * hints, use-last. Owned solely by this file (styles.css is another agent's).
  * Reuses the existing tokens: --acc, --acc-ink, --surf, --ink, --mut, --mono. */
 
-/* ── Progression hint under an exercise's sets ─────────────────────────── */
+/* ── Progression hint — highlighted band ABOVE set 1 ───────────────────── */
+/* Lives as the first child of .sets (right under the SET/PREV/KG/REPS head),
+ * spanning the full table width as a subtle lime-tinted band. */
 .prog-hint {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 8px;
   padding: 8px 11px;
   border-radius: 10px;
-  background: rgba(198, 242, 78, 0.06);
-  border: 1px dashed rgba(198, 242, 78, 0.3);
+  background: rgba(198, 242, 78, 0.09);
+  border: 1px solid rgba(198, 242, 78, 0.22);
   font-family: var(--mono);
   font-size: 11px;
   color: var(--mut);
@@ -24,10 +25,12 @@
   border-radius: 6px;
   display: grid;
   place-items: center;
-  font-weight: 700;
-  font-size: 11px;
   background: var(--acc);
   color: var(--acc-ink);
+}
+.prog-hint .ph-ic svg {
+  width: 12px;
+  height: 12px;
 }
 .prog-hint .ph-txt b {
   color: var(--ink2, #c3c9d4);
@@ -39,6 +42,56 @@
 }
 .prog-hint .ph-alt {
   color: var(--mut);
+}
+
+/* ── Auto-fill suggested weight toggle (BELOW the set table) ────────────── */
+.autofill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 8px 4px 0;
+}
+.autofill-row .af-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink2, #c3c9d4);
+}
+.af-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid var(--line2, rgba(255, 255, 255, 0.11));
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.18s, border-color 0.18s;
+}
+.af-switch .af-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--mut, #8b94a3);
+  transition: transform 0.18s, background 0.18s;
+}
+.af-switch.on {
+  background: var(--acc);
+  border-color: var(--acc);
+}
+.af-switch.on .af-knob {
+  background: var(--acc-ink);
+  transform: translateX(18px);
+}
+.af-switch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(198, 242, 78, 0.25);
 }
 
 /* ── Exercise action row (Add set / Use last / Rest) ───────────────────── */
