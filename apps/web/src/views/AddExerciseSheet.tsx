@@ -3,6 +3,19 @@ import { addableExercises, KIND_LABEL, type AddedSlot, type Plan, type Session }
 import { Sheet } from '../components/Sheet';
 import { Segmented } from '../components/PrefControls';
 import { IconChev } from '../lib/icons';
+// Owns the .add-thumb-empty placeholder styling; importing here guarantees the
+// picker's polish applies wherever the sheet mounts, independent of Home.
+import '../styles/recap-extras.css';
+
+// Subtle lime dumbbell shown instead of a blank box when an exercise has no
+// preview image, so every row reads as a deliberate thumbnail.
+function DumbbellIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M6.5 6.5l11 11M2 6l4-4M18 22l4-4M3 3l1 1M20 20l1 1M3.5 9.5l6-6M14.5 20.5l6-6" />
+    </svg>
+  );
+}
 
 export type AddScope = 'today' | 'permanent';
 
@@ -69,7 +82,9 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
             {a.preview?.img ? (
               <img className="add-thumb" src={a.preview.img} alt="" loading="lazy" />
             ) : (
-              <span className="add-thumb add-thumb-empty" aria-hidden="true" />
+              <span className="add-thumb add-thumb-empty" aria-hidden="true">
+                <DumbbellIcon />
+              </span>
             )}
             <span className="add-info">
               <span className="add-name">{a.slot}</span>

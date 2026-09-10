@@ -1,0 +1,213 @@
+/* Extra styles owned by the recap feature — kept out of the shared styles.css.
+   Reuses the app's tokens (--acc, --surf, --ink, --mut, --line, --r-lg, fonts)
+   so it matches the dark + lime theme exactly. Imported at the top of HomeView. */
+
+/* ── Weekly recap card ─────────────────────────────────────── */
+.recap-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(198, 242, 78, 0.09), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(198, 242, 78, 0.22);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.recap-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.recap-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--ink);
+}
+
+.recap-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 10px rgba(198, 242, 78, 0.6);
+}
+
+.recap-range {
+  font-size: 12px;
+  color: var(--mut);
+  margin-top: 3px;
+}
+
+.recap-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(198, 242, 78, 0.35);
+  background: rgba(198, 242, 78, 0.12);
+  color: var(--acc);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  flex: none;
+  transition: 0.15s;
+}
+.recap-share:hover {
+  background: rgba(198, 242, 78, 0.2);
+}
+.recap-share:active {
+  transform: scale(0.96);
+}
+.recap-share:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.recap-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.recap-tile-hero {
+  background: linear-gradient(160deg, rgba(198, 242, 78, 0.16), rgba(198, 242, 78, 0.03));
+  border-color: rgba(198, 242, 78, 0.28);
+}
+
+.recap-tv {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: var(--ink);
+}
+.recap-tile-hero .recap-tv {
+  color: var(--acc);
+  font-size: 30px;
+}
+.recap-fire {
+  font-size: 15px;
+}
+
+.recap-tl {
+  font-size: 11px;
+  color: var(--mut);
+  margin-top: 6px;
+}
+
+.recap-prs {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.recap-prs-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--acc);
+  margin-bottom: 8px;
+}
+
+.recap-prs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recap-pr {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.recap-pr-wt {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--acc);
+  min-width: 58px;
+}
+
+.recap-pr-name {
+  color: var(--ink2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Empty-week nudge ──────────────────────────────────────── */
+.recap-empty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--line2);
+  flex-wrap: wrap;
+}
+.recap-empty-icon {
+  font-size: 26px;
+  line-height: 1;
+  flex: none;
+}
+.recap-empty-text {
+  flex: 1;
+  min-width: 140px;
+}
+.recap-empty-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.recap-empty-sub {
+  font-size: 12px;
+  color: var(--mut);
+  margin-top: 3px;
+}
+.recap-empty-btn {
+  width: auto;
+  margin-top: 0;
+  padding: 10px 16px;
+  flex: none;
+}
+
+/* ── Picker demo-image polish (AddExerciseSheet) ───────────── */
+/* Consistent size + rounding for every thumbnail, image or placeholder. */
+.add-thumb {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 11px;
+  object-fit: cover;
+}
+.add-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, rgba(198, 242, 78, 0.1), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--line);
+}
+.add-thumb-empty svg {
+  width: 22px;
+  height: 22px;
+  color: var(--acc);
+  opacity: 0.85;
+}

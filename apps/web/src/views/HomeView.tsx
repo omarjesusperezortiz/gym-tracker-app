@@ -1,6 +1,9 @@
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
+// Recap-owned styles (glass recap card, empty nudge, picker thumb polish).
+import '../styles/recap-extras.css';
 import { PageHeader } from '../components/PageHeader';
+import { WeeklyRecapCard } from '../components/WeeklyRecap';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { dayColor } from '../lib/colors';
@@ -63,6 +66,8 @@ export function HomeView() {
   return (
     <div className="dash">
       <PageHeader title={greeting()} subtitle={`${P.icon} ${P.label} mode · pick today's session below.`} />
+
+      <WeeklyRecapCard history={history} onStart={() => dispatch({ type: 'SET_VIEW', view: 'today' })} />
 
       {ip.length > 0 && (
         <>
