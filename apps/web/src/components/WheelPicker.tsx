@@ -45,16 +45,33 @@ export function WheelPicker({
   const shownIndex = Math.round((shown - min) / step);
 
   // Keep scroll position synced when the value changes elsewhere (typing, mount).
+  // On first mount the flex layout may not have a measured height yet, so retry
+  // across a couple of animation frames until the container is actually
+  // scrollable — otherwise the wheel stays stuck at the top instead of centering
+  // on the selected value.
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     const target = shownIndex * ROW;
-    if (Math.abs(el.scrollTop - target) < 1) return;
-    programmatic.current = true;
-    el.scrollTop = target;
-    const id = requestAnimationFrame(() => {
-      programmatic.current = false;
-    });
+    let tries = 0;
+    let id = 0;
+    const apply = () => {
+      if (!scrollRef.current) return;
+      const node = scrollRef.current;
+      if (Math.abs(node.scrollTop - target) < 1) return;
+      // Wait until the element is actually scrollable (laid out) before setting.
+      if (node.scrollHeight <= node.clientHeight && tries < 10) {
+        tries += 1;
+        id = requestAnimationFrame(apply);
+        return;
+      }
+      programmatic.current = true;
+      node.scrollTop = target;
+      id = requestAnimationFrame(() => {
+        programmatic.current = false;
+      });
+    };
+    apply();
     return () => cancelAnimationFrame(id);
   }, [shownIndex]);
 

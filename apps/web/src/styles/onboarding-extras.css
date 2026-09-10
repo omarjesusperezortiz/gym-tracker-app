@@ -254,8 +254,8 @@
 
 /* HEIGHT — vertical number wheel */
 .ob-wheel {
-  flex: 1;
-  min-height: 240px;
+  flex: 0 0 auto;
+  height: 264px;
   position: relative;
   display: flex;
   align-items: center;
@@ -294,7 +294,7 @@
   position: absolute;
   left: 26px;
   right: 26px;
-  top: 50%;
+  top: calc(50% - 22px);
   transform: translateY(-50%);
   height: 58px;
   border-radius: 14px;
