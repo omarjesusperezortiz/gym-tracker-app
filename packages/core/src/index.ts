@@ -11,3 +11,7 @@ export * from './supabase/prefs';
 export * from './supabase/customizations';
 export * from './logic/addable';
 export * from './logic/exercise-id';
+export * from './logic/muscleMap';
+export * from './logic/oneRM';
+export * from './logic/volume';
+export * from './logic/plateau';

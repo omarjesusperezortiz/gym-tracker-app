@@ -1,0 +1,190 @@
+/* Progress-intelligence extras — anatomical muscle map, volume-landmark chips,
+   recovery hints, e1RM + plateau notes. Imported by ProgressView.tsx so it stays
+   out of the shared styles.css. Uses the existing theme vars (--acc, --warn,
+   --surf, --line, --mut, --mono …). */
+
+/* ── Anatomical muscle map ─────────────────────────────────── */
+.mmap {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.mmap-fig {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+.mmap-svg {
+  width: 128px;
+  height: auto;
+}
+.mmap-svg .mm-base {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: var(--line2);
+  stroke-width: 1.5;
+  transition: fill 0.3s ease;
+}
+.mmap-svg .mm-heavy {
+  fill: var(--acc);
+  opacity: 0.92;
+}
+.mmap-svg .mm-light {
+  fill: var(--warn);
+  opacity: 0.85;
+}
+.mmap-svg .mm-none {
+  fill: rgba(255, 255, 255, 0.05);
+}
+
+.mmap-legend {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 180px;
+}
+.mmap-leg {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mut);
+}
+.mmap-sw {
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.mmap-sw.heavy {
+  background: var(--acc);
+}
+.mmap-sw.light {
+  background: var(--warn);
+}
+.mmap-sw.none {
+  background: rgba(255, 255, 255, 0.09);
+}
+.mmap-leg b {
+  color: var(--ink2);
+  font-weight: 600;
+}
+
+/* ── Volume-landmark + recovery chips ──────────────────────── */
+.mstat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+.mstat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 13px;
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--mut);
+}
+.mstat-name {
+  color: var(--ink2);
+  font-weight: 600;
+  min-width: 78px;
+}
+.mstat-sets {
+  color: var(--ink);
+}
+.mstat-chip {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.mstat-chip.optimal {
+  color: var(--acc);
+  background: rgba(198, 242, 78, 0.1);
+  border: 1px solid rgba(198, 242, 78, 0.3);
+}
+.mstat-chip.below {
+  color: var(--warn);
+  background: rgba(255, 184, 77, 0.1);
+  border: 1px solid rgba(255, 184, 77, 0.28);
+}
+.mstat-chip.high {
+  color: var(--violet);
+  background: rgba(155, 140, 255, 0.12);
+  border: 1px solid rgba(155, 140, 255, 0.3);
+}
+.mstat-rec {
+  color: var(--mut2);
+  margin-left: auto;
+  font-size: 10.5px;
+}
+
+/* ── Drilldown notes: e1RM + plateau ───────────────────────── */
+.prog-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.prog-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border-radius: var(--r);
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+.prog-note.e1rm {
+  color: var(--acc);
+  background: rgba(198, 242, 78, 0.07);
+  border: 1px solid rgba(198, 242, 78, 0.24);
+}
+.prog-note.e1rm b {
+  color: var(--ink);
+  font-weight: 700;
+}
+.prog-note.plateau {
+  color: var(--warn);
+  background: rgba(255, 184, 77, 0.07);
+  border: 1px dashed rgba(255, 184, 77, 0.35);
+}
+.prog-note.plateau b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.prog-note .pn-ic {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+.prog-note.e1rm .pn-ic {
+  background: var(--acc);
+  color: var(--acc-ink);
+}
+.prog-note.plateau .pn-ic {
+  background: var(--warn);
+  color: var(--acc-ink);
+}
+
+.mmap-note {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--mut2);
+  font-family: var(--mono);
+}
