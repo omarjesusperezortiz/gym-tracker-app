@@ -1,5 +1,7 @@
+import '../styles/progress-extras.css';
 import { useMemo, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
+import { MuscleMap } from '../components/MuscleMap';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePersonalRecords } from '../lib/useProfileData';
@@ -13,6 +15,14 @@ import {
   type MuscleGroup,
   type VolumePoint,
 } from '../lib/stats';
+import {
+  MUSCLE_LABEL,
+  weeklyMuscleStats,
+  bestE1RM,
+  detectExercisePlateau,
+  type WeeklyMuscleStat,
+  type PlateauResult,
+} from '@gym-tracker/core';
 import { areaPath, makeYScale, smoothPath } from '../lib/chart';
 import { IconChev, IconEmpty } from '../lib/icons';
 
@@ -50,6 +60,7 @@ export function ProgressView() {
   const names = useMemo(() => allExerciseNames(history), [history]);
   const volume = useMemo(() => volumeSeries(history), [history]);
   const balance = useMemo(() => muscleBalance(history), [history]);
+  const weekly = useMemo(() => weeklyMuscleStats(history), [history]);
   const [selected, setSelected] = useState<string | null>(null);
   // Default to the lift with the most sessions behind it — opening on whatever
   // sorts first alphabetically usually means a chart with a single dot in it.
@@ -141,11 +152,14 @@ export function ProgressView() {
       </div>
       <VolumeChart series={volume} />
 
-      <div className="sec-label">Muscle balance</div>
+      <div className="sec-label">Muscles worked</div>
       <div className="pcard">
         {balance.some((b) => b.sets > 0) ? (
           <>
-            <div className="mb-list">
+            <MuscleMap history={history} />
+            <div className="mmap-note">Filled by all-time set volume — lime = heavily trained, amber = light, dim = skipped.</div>
+            <MuscleStats weekly={weekly} />
+            <div className="mb-list" style={{ marginTop: 16 }}>
               {balance.map((b) => (
                 <div className="mb-row" key={b.group}>
                   <div className="mb-name">{GROUP_LABEL[b.group]}</div>
@@ -181,9 +195,37 @@ export function ProgressView() {
               <IconChev />
             </span>
           </div>
-          <ExerciseDetail series={exerciseSeries(history, progExercise)} name={progExercise} />
+          <ExerciseDetail
+            series={exerciseSeries(history, progExercise)}
+            name={progExercise}
+            e1rm={bestE1RM(history, progExercise)}
+            plateau={detectExercisePlateau(history, progExercise)}
+          />
         </>
       )}
+    </div>
+  );
+}
+
+// Weekly volume-landmark + recovery chips per trained muscle. Untrained muscles
+// are dropped so the list stays to what the user is actually doing.
+function MuscleStats({ weekly }: { weekly: WeeklyMuscleStat[] }) {
+  const shown = weekly.filter((s) => s.setsPerWeek > 0 || s.lastTrained != null);
+  if (!shown.length) return null;
+  return (
+    <div className="mstat-list">
+      {shown.map((s) => (
+        <div className="mstat" key={s.muscle}>
+          <span className="mstat-name">{MUSCLE_LABEL[s.muscle]}</span>
+          <span className="mstat-sets">{s.setsPerWeek} sets/wk</span>
+          <span className={`mstat-chip ${s.landmark}`}>{s.landmark}</span>
+          {s.daysSince != null && (
+            <span className="mstat-rec">
+              {s.daysSince === 0 ? 'trained today' : `last trained ${s.daysSince}d ago`}
+            </span>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
@@ -243,7 +285,17 @@ function VolumeChart({ series }: { series: VolumePoint[] }) {
 
 // Per-exercise top set over time. The line itself stays neutral (accent) even
 // when it slopes down; only the small "vs last time" stat is coloured.
-function ExerciseDetail({ series, name }: { series: ExercisePoint[]; name: string }) {
+function ExerciseDetail({
+  series,
+  name,
+  e1rm,
+  plateau,
+}: {
+  series: ExercisePoint[];
+  name: string;
+  e1rm: number | null;
+  plateau: PlateauResult;
+}) {
   if (!series.length) {
     return (
       <div className="pcard pempty">
@@ -291,6 +343,27 @@ function ExerciseDetail({ series, name }: { series: ExercisePoint[]; name: strin
           <div className="sl">vs last time</div>
         </div>
       </div>
+
+      {(e1rm != null || plateau.stalled) && (
+        <div className="prog-notes">
+          {e1rm != null && (
+            <div className="prog-note e1rm">
+              <span className="pn-ic">1RM</span>
+              <span>
+                Est. 1-rep max <b>{Math.round(e1rm)}kg</b> <span style={{ opacity: 0.7 }}>(Epley)</span>
+              </span>
+            </div>
+          )}
+          {plateau.stalled && (
+            <div className="prog-note plateau">
+              <span className="pn-ic">!</span>
+              <span>
+                <b>{name}</b> has stalled {plateau.sessions} sessions — consider a deload or rep change
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="prog-chart">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${name} top set progress`}>
