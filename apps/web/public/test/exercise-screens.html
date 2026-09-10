@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Where exercise gifs live — screens</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);
+    --line2:rgba(255,255,255,.15);--ink:#f5f7fa;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-ink:#0a0b0e;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#050608;font-family:Inter,system-ui,sans-serif;color:var(--ink);padding:24px}
+  .wrap{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
+  .col{display:flex;flex-direction:column;gap:10px}
+  .lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;text-align:center}
+  .phone{width:330px;height:700px;background:var(--bg);border-radius:34px;border:1px solid var(--line2);
+    overflow:hidden;position:relative;display:flex;flex-direction:column}
+  .scr{flex:1;overflow-y:auto;padding:22px 16px 80px}
+  .scr::-webkit-scrollbar{display:none}
+  .ph{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin-bottom:4px}
+  .h{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:16px}
+  .cap{text-transform:capitalize}
+  /* nav */
+  .nav{position:absolute;left:16px;right:16px;bottom:14px;height:54px;background:rgba(24,27,33,.97);
+    border:1px solid var(--line2);border-radius:18px;display:flex;align-items:center;justify-content:space-around}
+  .nav .ni{color:var(--faint);font-size:17px}.nav .ni.on{color:var(--acc-ink);background:var(--acc);padding:8px 13px;border-radius:13px;font-size:13px;font-weight:700}
+
+  /* TRAIN card w/ gif + set table */
+  .excard{background:var(--surf);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px}
+  .exhead{display:flex;align-items:center;gap:11px;padding:12px 14px}
+  .exnum{width:28px;height:28px;border-radius:8px;background:var(--acc);color:var(--acc-ink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+  .exhn{font-size:15px;font-weight:800;flex:1}.exsc{font-size:11px;font-weight:700;color:var(--acc);font-family:ui-monospace,monospace;background:var(--surf2);border:1px solid var(--line);padding:4px 8px;border-radius:8px}
+  .gifbig{margin:0 14px 12px;background:#fff;border-radius:12px;aspect-ratio:16/11;overflow:hidden;position:relative}
+  .gifbig img{width:100%;height:100%;object-fit:contain}
+  .gifbig .t{position:absolute;top:7px;left:7px;font-size:8.5px;font-weight:700;text-transform:uppercase;color:var(--acc-ink);background:var(--acc);padding:2px 7px;border-radius:20px}
+  .setgrid{padding:0 14px 12px;font-size:11px}
+  .sgh{display:grid;grid-template-columns:28px 1fr 1fr 1fr;gap:8px;color:var(--faint);font-weight:700;text-transform:uppercase;font-size:9px;padding-bottom:6px}
+  .sgr{display:grid;grid-template-columns:28px 1fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:6px}
+  .sgr .n{font-family:ui-monospace,monospace;font-weight:700;color:var(--mut)}
+  .sgr .prev{color:var(--mut);font-family:ui-monospace,monospace;font-size:10px}
+  .sgr .inp{background:var(--surf2);border:1px solid var(--line);border-radius:8px;padding:8px;text-align:center;font-family:ui-monospace,monospace;font-weight:600;color:var(--ink)}
+  .sgr .inp.g{color:var(--faint)}
+
+  /* TODAY list */
+  .exr{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:9px;margin-bottom:10px}
+  .exr .th{width:56px;height:56px;border-radius:10px;background:#fff;flex:none;overflow:hidden}
+  .exr .th img{width:100%;height:100%;object-fit:contain}
+  .exr .m{flex:1;min-width:0}.exr .m .n{font-size:14px;font-weight:700}.exr .m .s{font-size:11px;color:var(--mut);margin-top:2px}
+  .exr .sets{font-size:11.5px;color:var(--acc);font-family:ui-monospace,monospace;font-weight:600}
+
+  /* PICKER (sheet) */
+  .search{background:var(--surf2);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--mut);font-size:13px;margin-bottom:14px}
+  .prow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .prow .th{width:48px;height:48px;border-radius:9px;background:#fff;flex:none;overflow:hidden}
+  .prow .th img{width:100%;height:100%;object-fit:contain}
+  .prow .m{flex:1}.prow .m .n{font-size:13.5px;font-weight:600}.prow .m .s{font-size:10.5px;color:var(--mut)}
+  .prow .add{width:30px;height:30px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+
+  /* DETAIL */
+  .dgif{background:#fff;border-radius:16px;aspect-ratio:1;overflow:hidden;margin-bottom:16px}
+  .dgif img{width:100%;height:100%;object-fit:contain}
+  .dtags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+  .dtag{font-size:11px;font-weight:600;color:var(--mut);background:var(--surf2);border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+  .dtag.on{color:var(--acc-ink);background:var(--acc);border-color:var(--acc)}
+  .dstep{display:flex;gap:10px;margin-bottom:11px;font-size:12.5px;color:var(--mut);line-height:1.4}
+  .dstep b{color:var(--acc);flex:none}
+  .status{grid-column:1/-1;text-align:center;color:var(--acc);font-size:13px;font-weight:600;width:100%;margin-bottom:14px}
+</style>
+</head>
+<body>
+  <div class="status" id="status">Loading live from exercisedb…</div>
+  <div class="wrap" id="wrap"></div>
+
+<script>
+const API='https://oss.exercisedb.dev/api/v1';
+const cap=s=>(s||'').replace(/\b\w/g,c=>c.toUpperCase());
+function phone(label, inner){return `<div class="col"><div class="lbl">${label}</div>
+  <div class="phone"><div class="scr">${inner}</div>
+  <div class="nav">${['Today','Home','Cal','Progress','You'].map((t,i)=>`<div class="ni${i===0?' on':''}">${i===0?t:t[0]}</div>`).join('')}</div></div></div>`;}
+
+async function load(){
+  const s=document.getElementById('status');
+  try{
+    const r=await fetch(`${API}/exercises?limit=30`); const j=await r.json();
+    const ex=(j.data||[]).filter(e=>(e.gifUrl||'').startsWith('http'));
+    s.textContent=`Loaded ${ex.length} exercises live ✓ — here's where the gifs live in the app:`;
+    const feat=ex[4]||ex[0]; // cable cross-over-ish
+    const m0=e=>cap((e.targetMuscles||[])[0]||''); const eq=e=>cap((e.equipments||[])[0]||'');
+
+    // 1) TRAIN — gif above the set table
+    const train = `<div class="ph">Training</div><div class="h">Full Upper</div>
+      <div class="excard">
+        <div class="exhead"><div class="exnum">1</div><div class="exhn cap">${feat.name}</div><div class="exsc">3×12</div></div>
+        <div class="gifbig"><span class="t">Demo</span><img src="${feat.gifUrl}"></div>
+        <div class="setgrid">
+          <div class="sgh"><div>Set</div><div>Prev</div><div>Kg</div><div>Reps</div></div>
+          <div class="sgr"><div class="n">1</div><div class="prev">20×12</div><div class="inp">22.5</div><div class="inp">12</div></div>
+          <div class="sgr"><div class="n">2</div><div class="prev">20×12</div><div class="inp g">22.5</div><div class="inp g">12</div></div>
+          <div class="sgr"><div class="n">3</div><div class="prev">20×12</div><div class="inp g">22.5</div><div class="inp g">12</div></div>
+        </div>
+      </div>
+      <div class="excard"><div class="exhead"><div class="exnum">2</div><div class="exhn cap">${ex[7].name}</div><div class="exsc">3×10</div></div>
+        <div class="gifbig"><span class="t">Demo</span><img src="${ex[7].gifUrl}"></div></div>`;
+
+    // 2) TODAY — list w/ thumbnails
+    const today = `<div class="ph">Today · Wednesday</div><div class="h">Full Upper.</div>
+      ${ex.slice(0,5).map((e,i)=>`<div class="exr"><div class="th"><img src="${e.gifUrl}"></div>
+        <div class="m"><div class="n cap">${e.name}</div><div class="s">${eq(e)} · ${m0(e)}</div></div>
+        <div class="sets">${['3×8','3×10','4×6','3×12','3×15'][i]}</div></div>`).join('')}`;
+
+    // 3) PICKER
+    const picker = `<div class="ph">Add exercise</div><div class="h">Catalog</div>
+      <div class="search">🔍  Search exercises…</div>
+      ${ex.slice(6,13).map(e=>`<div class="prow"><div class="th"><img src="${e.gifUrl}"></div>
+        <div class="m"><div class="n cap">${e.name}</div><div class="s">${eq(e)} · ${m0(e)}</div></div>
+        <div class="add">+</div></div>`).join('')}`;
+
+    // 4) DETAIL
+    const det=ex[2];
+    const detail = `<div class="ph">Exercise</div><div class="h cap">${det.name}</div>
+      <div class="dgif"><img src="${det.gifUrl}"></div>
+      <div class="dtags"><span class="dtag on cap">${m0(det)}</span>${(det.secondaryMuscles||[]).slice(0,2).map(x=>`<span class="dtag cap">${x}</span>`).join('')}<span class="dtag cap">${eq(det)}</span></div>
+      ${(det.instructions||[]).slice(0,4).map((t,i)=>`<div class="dstep"><b>${i+1}</b><span>${t.replace(/^Step:\d+\s*/,'')}</span></div>`).join('')}`;
+
+    document.getElementById('wrap').innerHTML =
+      phone('① TRAIN · logging', train) +
+      phone('② TODAY · session', today) +
+      phone('③ PICKER · add exercise', picker) +
+      phone('④ DETAIL · tap an exercise', detail);
+  }catch(err){ s.textContent='Could not reach exercisedb: '+err.message; }
+}
+load();
+</script>
+</body>
+</html>
