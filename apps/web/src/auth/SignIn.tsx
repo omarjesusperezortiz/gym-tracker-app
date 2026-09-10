@@ -105,7 +105,7 @@ export function SignIn() {
             id="email"
             type="email"
             autoComplete="email"
-            placeholder="[email protected]"
+            placeholder="you@email.com"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}

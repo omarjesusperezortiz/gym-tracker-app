@@ -6,6 +6,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 const ROW = 44; // px per wheel row — must match scroll-snap math
+const WHEEL_H = 264; // px, must match .ob-wheel height in CSS
+const PAD = (WHEEL_H - ROW) / 2; // top/bottom spacer so first/last value can center
 
 function clamp(n: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, n));
@@ -92,7 +94,7 @@ export function WheelPicker({
       <div className="ob-wheel">
         <div className="ob-selband" aria-hidden="true" />
         <div className="ob-wheel-scroll" ref={scrollRef} onScroll={onScroll} aria-hidden="true">
-          <span className="ob-wheel-pad" style={{ height: ROW * 2 }} />
+          <span className="ob-wheel-pad" style={{ height: PAD }} aria-hidden="true" />
           {values.map((v, i) => {
             const sel = i === shownIndex;
             const dist = Math.abs(i - shownIndex);
@@ -108,7 +110,7 @@ export function WheelPicker({
               </div>
             );
           })}
-          <span className="ob-wheel-pad" style={{ height: ROW * 2 }} />
+          <span className="ob-wheel-pad" style={{ height: PAD }} aria-hidden="true" />
         </div>
       </div>
       <label className="ob-typein">
