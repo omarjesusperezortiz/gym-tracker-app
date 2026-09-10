@@ -70,9 +70,13 @@ beforeEach(() => {
 
 describe('ProfileView', () => {
   it('renders every section: bodyweight, preferences, records, account', async () => {
+    const user = userEvent.setup();
     renderProfile();
 
-    // Bodyweight: latest weigh-in, its trend vs the previous one, and the form.
+    // Weight lives in "About you" — the row shows the latest weigh-in inline;
+    // tapping it reveals the weigh-in form + trend.
+    expect(await screen.findByText('81.5 kg')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Weight/ }));
     expect(await screen.findByText('81.5')).toBeInTheDocument();
     expect(screen.getByText(/\+1\.5 kg/)).toBeInTheDocument();
     expect(screen.getByLabelText('Weight in kg')).toBeInTheDocument();
@@ -95,6 +99,8 @@ describe('ProfileView', () => {
     const user = userEvent.setup();
     renderProfile();
 
+    // Open the Weight panel first, then log a weigh-in.
+    await user.click(await screen.findByRole('button', { name: /Weight/ }));
     await user.type(await screen.findByLabelText('Weight in kg'), '82.4');
     await user.click(screen.getByRole('button', { name: 'Add' }));
 
@@ -109,24 +115,28 @@ describe('ProfileView', () => {
     const user = userEvent.setup();
     renderProfile();
 
-    // Wait for the loaded prefs (kg) before switching, as a user would.
-    expect(await screen.findByText('81.5')).toBeInTheDocument();
+    // Wait for the loaded prefs before switching, as a user would.
+    expect(await screen.findByText('81.5 kg')).toBeInTheDocument();
     await user.click(screen.getByText('lb'));
 
     await waitFor(() => expect(core.savePrefs).toHaveBeenCalledTimes(1));
     // mutationFn also receives TanStack's context arg, so assert on the payload.
     expect(vi.mocked(core.savePrefs).mock.calls[0][0]).toEqual({ units: 'lb' });
     // 81.5 kg shown in lb — and it stays that way through the post-write refetch.
-    expect(await screen.findByText('179.7')).toBeInTheDocument();
+    expect(await screen.findByText('179.7 lb')).toBeInTheDocument();
   });
 
   it('shows empty states with no weigh-ins or records', async () => {
+    const user = userEvent.setup();
     vi.mocked(core.fetchBodyweight).mockResolvedValueOnce([]);
     vi.mocked(core.fetchPersonalRecords).mockResolvedValueOnce([]);
     renderProfile();
 
-    expect(await screen.findByText(/No weigh-ins yet/)).toBeInTheDocument();
+    // Open the Weight panel to reveal the empty-weigh-in state.
+    await user.click(await screen.findByRole('button', { name: /Weight/ }));
     expect(await screen.findByText(/No records yet/)).toBeInTheDocument();
+    // With no weigh-ins the Weight row shows "Add" and the form renders.
+    expect(screen.getByLabelText('Weight in kg')).toBeInTheDocument();
   });
 
   it('renders the onboarding fields, pre-filled from prefs', async () => {

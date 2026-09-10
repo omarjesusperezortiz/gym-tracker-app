@@ -1,4 +1,5 @@
 import '../styles/dataio-extras.css';
+import '../styles/profile-extras.css';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { catalog } from '@gym-tracker/core';
 import { PageHeader } from '../components/PageHeader';
@@ -71,6 +72,7 @@ export function ProfileView() {
 
   const [date, setDate] = useState(todayInput);
   const [weight, setWeight] = useState('');
+  const [showWeighIn, setShowWeighIn] = useState(false);
 
   function updatePrefs(patch: Partial<UserPrefs>) {
     savePrefs.mutate(patch, {
@@ -116,42 +118,13 @@ export function ProfileView() {
   const email = session?.user?.email ?? null;
 
   return (
-    <div className="profile">
+    <div className="profile profile-v2">
       <PageHeader
         title={prefs.displayName ? `Hey, ${prefs.displayName}` : 'Profile'}
         subtitle={`${age ? `${age} · ` : ''}Everything here saves as you change it.`}
       />
 
-      <div className="sec-label">Account</div>
-      <div className="pcard">
-        <div className="prow">
-          <div className="plabel">Signed in as</div>
-          <div className="pval-email" title={email ?? undefined}>
-            {email ?? '—'}
-          </div>
-        </div>
-        {/* Flipping onboarded back off sends you through the wizard again, with
-            your current answers pre-filled. */}
-        <button className="btn sec profile-redo" onClick={() => updatePrefs({ onboarded: false })}>
-          <IconEdit /> Redo onboarding
-        </button>
-        <button className="btn sec profile-signout" onClick={() => void signOut()}>
-          <IconSignOut /> Log out
-        </button>
-
-        <div className="dataio">
-          <p className="dataio-hint">Download all your workout data.</p>
-          <div className="dataio-actions">
-            <button className="btn sec" onClick={() => handleExport('csv')}>
-              <IconDownload /> Export CSV
-            </button>
-            <button className="btn sec" onClick={() => handleExport('json')}>
-              <IconDownload /> Export JSON
-            </button>
-          </div>
-        </div>
-      </div>
-
+      {/* 1) ABOUT YOU — body data lives together; Weight opens the weigh-in panel */}
       <div className="sec-label">About you</div>
       <div className="pcard">
         <InlinePref
@@ -178,6 +151,90 @@ export function ProfileView() {
           numeric
           onCommit={(v) => updatePrefs({ heightCm: v ? Number(v) : null })}
         />
+
+        {/* Weight: tappable row → reveals weigh-in form + trend */}
+        <button
+          type="button"
+          className={`prow prow-tap${showWeighIn ? ' open' : ''}`}
+          onClick={() => setShowWeighIn((v) => !v)}
+          aria-expanded={showWeighIn}
+        >
+          <div className="plabel">Weight</div>
+          <div className="prow-tapval">
+            <span className="pval-strong">
+              {latest ? `${fmt(fromKg(latest.weightKg, units))} ${units}` : 'Add'}
+            </span>
+            {deltaKg != null && deltaKg !== 0 && (
+              <span className={`pval-delta ${deltaKg > 0 ? 'up' : 'down'}`}>
+                {deltaKg > 0 ? '+' : ''}
+                {fmt(fromKg(deltaKg, units))}
+              </span>
+            )}
+            <span className="prow-chev">›</span>
+          </div>
+        </button>
+
+        {showWeighIn && (
+          <div className="pf-weighin">
+            {latest && (
+              <div className="bw-head">
+                <div>
+                  <div className="bw-now">
+                    {fmt(fromKg(latest.weightKg, units))}
+                    <span className="bw-unit">{units}</span>
+                  </div>
+                  <div className="bw-meta">
+                    {dateLabel(latest.date)}
+                    {deltaKg != null && (
+                      <>
+                        {' · '}
+                        <span className={deltaKg > 0 ? 'up' : deltaKg < 0 ? 'down' : ''}>
+                          {deltaKg > 0 ? '+' : ''}
+                          {fmt(fromKg(deltaKg, units))} {units}
+                        </span>
+                        {' vs last'}
+                      </>
+                    )}
+                  </div>
+                </div>
+                <Sparkline log={log} units={units} />
+              </div>
+            )}
+            <form className="bw-form" onSubmit={submitWeighIn}>
+              <input aria-label="Weigh-in date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <input
+                aria-label={`Weight in ${units}`}
+                type="number"
+                inputMode="decimal"
+                step="0.1"
+                min="0"
+                placeholder={units}
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+              />
+              <button className="btn acc bw-add" type="submit" disabled={logWeighIn.isPending}>
+                Add
+              </button>
+            </form>
+            {log.length > 0 && (
+              <div className="bw-list">
+                {log
+                  .slice()
+                  .reverse()
+                  .slice(0, 5)
+                  .map((e) => (
+                    <div className="bw-row" key={e.id}>
+                      <span>{dateLabel(e.date)}</span>
+                      <b>
+                        {fmt(fromKg(e.weightKg, units))} {units}
+                      </b>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <InlinePref
           label={`Goal weight (${units})`}
           value={prefs.goalWeightKg ? fmt(fromKg(prefs.goalWeightKg, units)) : ''}
@@ -187,6 +244,7 @@ export function ProfileView() {
         />
       </div>
 
+      {/* 2) GOAL & FOCUS */}
       <div className="sec-label">Goal &amp; focus</div>
       <div className="pcard">
         <GoalPicker value={prefs.goal} onChange={(goal) => updatePrefs({ goal })} />
@@ -197,70 +255,7 @@ export function ProfileView() {
         </div>
       </div>
 
-      <div className="sec-label">Bodyweight</div>
-      <div className="pcard">
-        {latest ? (
-          <div className="bw-head">
-            <div>
-              <div className="bw-now">
-                {fmt(fromKg(latest.weightKg, units))}
-                <span className="bw-unit">{units}</span>
-              </div>
-              <div className="bw-meta">
-                {dateLabel(latest.date)}
-                {deltaKg != null && (
-                  <>
-                    {' · '}
-                    <span className={deltaKg > 0 ? 'up' : deltaKg < 0 ? 'down' : ''}>
-                      {deltaKg > 0 ? '+' : ''}
-                      {fmt(fromKg(deltaKg, units))} {units}
-                    </span>
-                    {' vs last'}
-                  </>
-                )}
-              </div>
-            </div>
-            <Sparkline log={log} units={units} />
-          </div>
-        ) : (
-          <div className="pempty">No weigh-ins yet — add your first one below.</div>
-        )}
-
-        <form className="bw-form" onSubmit={submitWeighIn}>
-          <input aria-label="Weigh-in date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-          <input
-            aria-label={`Weight in ${units}`}
-            type="number"
-            inputMode="decimal"
-            step="0.1"
-            min="0"
-            placeholder={units}
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-          />
-          <button className="btn acc bw-add" type="submit" disabled={logWeighIn.isPending}>
-            Add
-          </button>
-        </form>
-
-        {log.length > 0 && (
-          <div className="bw-list">
-            {log
-              .slice()
-              .reverse()
-              .slice(0, 5)
-              .map((e) => (
-                <div className="bw-row" key={e.id}>
-                  <span>{dateLabel(e.date)}</span>
-                  <b>
-                    {fmt(fromKg(e.weightKg, units))} {units}
-                  </b>
-                </div>
-              ))}
-          </div>
-        )}
-      </div>
-
+      {/* 3) TRAINING PREFERENCES */}
       <div className="sec-label">Training preferences</div>
       <div className="pcard">
         <div className="prow">
@@ -331,6 +326,7 @@ export function ProfileView() {
         </div>
       </div>
 
+      {/* 4) PERSONAL RECORDS */}
       <div className="sec-label">Personal records</div>
       <div className="pcard">
         {prs.length ? (
@@ -352,6 +348,35 @@ export function ProfileView() {
             No records yet — finish a workout with weights to set your first.
           </div>
         )}
+      </div>
+
+      {/* 5) ACCOUNT — signed-in + data + destructive actions, at the very bottom */}
+      <div className="sec-label">Account</div>
+      <div className="pcard">
+        <div className="prow">
+          <div className="plabel">Signed in as</div>
+          <div className="pval-email" title={email ?? undefined}>
+            {email ?? '—'}
+          </div>
+        </div>
+        <div className="dataio">
+          <div className="dataio-actions">
+            <button className="btn sec" onClick={() => handleExport('csv')}>
+              <IconDownload /> Export CSV
+            </button>
+            <button className="btn sec" onClick={() => handleExport('json')}>
+              <IconDownload /> Export JSON
+            </button>
+          </div>
+        </div>
+        {/* Flipping onboarded back off sends you through the wizard again, with
+            your current answers pre-filled. */}
+        <button className="pf-actionrow" onClick={() => updatePrefs({ onboarded: false })}>
+          <IconEdit /> Redo onboarding <span className="prow-chev">›</span>
+        </button>
+        <button className="pf-actionrow danger" onClick={() => void signOut()}>
+          <IconSignOut /> Log out <span className="prow-chev">›</span>
+        </button>
       </div>
     </div>
   );

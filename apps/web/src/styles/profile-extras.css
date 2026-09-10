@@ -1,0 +1,162 @@
+/* ── Profile v2 — scoped design-system refinements ─────────────────────────
+   Everything here is scoped to .profile-v2 so it only affects the Profile
+   screen. Establishes a consistent type scale, spacing rhythm, one row pattern,
+   slim segmented controls, and quiet account-action rows. */
+
+.profile-v2 .pcard {
+  padding: 2px 14px;
+  margin-bottom: 14px;
+}
+
+/* One row pattern: fixed height, label recedes, value pops, aligned column. */
+.profile-v2 .prow {
+  min-height: 52px;
+  padding: 0;
+  gap: 12px;
+}
+.profile-v2 .plabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mut);
+}
+.profile-v2 .pinput {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  width: 120px;
+}
+
+/* Slim, contained segmented controls (no oversized glow overflowing the track) */
+.profile-v2 .seg {
+  margin: 0;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--bg);
+  max-width: 232px;
+}
+.profile-v2 .seg .segi {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  border-radius: 8px;
+}
+.profile-v2 .seg .segi.active {
+  box-shadow: none; /* kill the glow that broke the track bounds */
+  background: var(--acc);
+}
+
+/* Tappable Weight row → opens the weigh-in panel */
+.profile-v2 .prow-tap {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.profile-v2 .prow-tapval {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.profile-v2 .pval-strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.profile-v2 .pval-delta {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.profile-v2 .pval-delta.up {
+  color: var(--warn, #ffb84d);
+  background: rgba(255, 184, 77, 0.12);
+}
+.profile-v2 .pval-delta.down {
+  color: var(--ok, #7ee081);
+  background: rgba(126, 224, 129, 0.12);
+}
+.profile-v2 .prow-chev {
+  color: var(--faint);
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+.profile-v2 .prow-tap.open .prow-chev {
+  transform: rotate(90deg);
+}
+
+/* Weigh-in panel revealed under the Weight row */
+.profile-v2 .pf-weighin {
+  border-top: 1px solid var(--line);
+  padding: 12px 0 4px;
+  animation: pf-reveal 0.22s ease;
+}
+@keyframes pf-reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Quiet account-action rows (Redo onboarding / Log out) — list rows, not chunky
+   full-width buttons. Log out is destructive (red). */
+.profile-v2 .pf-actionrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  padding: 0 2px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink2, #e3e6ec);
+  text-align: left;
+}
+.profile-v2 .pf-actionrow svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.profile-v2 .pf-actionrow .prow-chev {
+  margin-left: auto;
+}
+.profile-v2 .pf-actionrow.danger {
+  color: #ff6b6b;
+}
+.profile-v2 .pf-actionrow:active {
+  opacity: 0.7;
+}
+
+/* Export buttons sit as a slim pair, no extra card chrome */
+.profile-v2 .dataio {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.profile-v2 .dataio-actions {
+  display: flex;
+  gap: 8px;
+}
+.profile-v2 .dataio-actions .btn {
+  flex: 1;
+  padding: 9px;
+  font-size: 13px;
+}
+
+/* Email value: single line, ellipsis */
+.profile-v2 .pval-email {
+  flex: 1;
+  text-align: right;
+  font-size: 13px;
+  color: var(--mut);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
