@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Speed test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--line:rgba(255,255,255,.09);--ink:#f5f7fa;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-ink:#0a0b0e;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:Inter,system-ui,sans-serif;color:var(--ink);padding:calc(env(safe-area-inset-top) + 20px) 14px 60px;max-width:520px;margin:0 auto}
+.h1{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.sub{font-size:13px;color:var(--mut);margin:5px 0 22px;line-height:1.4}
+.exname{font-size:15px;font-weight:800;margin:22px 2px 12px;text-transform:capitalize}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.cell{background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cell .lab{font-size:11px;font-weight:700;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}
+.cell .lab .ms{font-size:10px;color:var(--faint);font-weight:600}
+.cell.pick .lab{color:var(--acc)}
+.gif{background:#fff;aspect-ratio:1;overflow:hidden}
+.gif img{width:100%;height:100%;object-fit:contain}
+.note{font-size:11px;color:var(--faint);text-align:center;margin-top:26px;line-height:1.5}
+</style></head>
+<body>
+  <div class="h1">Animation speed test</div>
+  <div class="sub">Same upscaled gif at 4 speeds. Watch them loop and tell me which feels right. "Smooth" removes the 1-second freeze on the first frame.</div>
+  <div id="grid"></div>
+  <div class="note">orig = current (1s freeze + 100ms/frame) · fast = 300ms + 60ms · faster = 150ms + 45ms · smooth = no freeze, even 70ms loop</div>
+<script>
+const ids=[['01qpYSe','Upward Facing Dog'],['0CXGHya','Cable Cross-Over'],['0dCyly0','Barbell Bradford Press']];
+const speeds=[['orig','Current','1s + 100ms'],['fast','Fast','300 + 60ms'],['faster','Faster','150 + 45ms'],['smooth','Smooth loop','no freeze · 70ms']];
+document.getElementById('grid').innerHTML = ids.map(([id,name])=>`
+  <div class="exname">${name}</div>
+  <div class="row">
+   ${speeds.map(([k,lbl,ms],i)=>`<div class="cell${k==='smooth'?' pick':''}">
+     <div class="lab">${lbl}<span class="ms">${ms}</span></div>
+     <div class="gif"><img src="./speed/${id}_${k}.gif?t=${Date.now()}"></div>
+   </div>`).join('')}
+  </div>`).join('');
+</script>
+</body></html>
