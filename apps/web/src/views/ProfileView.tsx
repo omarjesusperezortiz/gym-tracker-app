@@ -112,7 +112,7 @@ export function ProfileView() {
       <div className="pcard">
         <div className="prow">
           <div className="plabel">Signed in as</div>
-          <div className="muted" style={{ textAlign: 'right', wordBreak: 'break-all' }}>
+          <div className="pval-email" title={email ?? undefined}>
             {email ?? '—'}
           </div>
         </div>
