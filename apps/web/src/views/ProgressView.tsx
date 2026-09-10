@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { PageHeader } from '../components/PageHeader';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePersonalRecords } from '../lib/useProfileData';
@@ -71,8 +72,7 @@ export function ProgressView() {
   if (!hasWork) {
     return (
       <div className="progress-view">
-        <div className="view-title">Progress</div>
-        <div className="view-sub">Your lifts, volume and balance over time.</div>
+        <PageHeader title="Progress" subtitle="Your lifts, volume and balance over time." />
         <div className="empty">
           <svg
             viewBox="0 0 24 24"
@@ -108,8 +108,7 @@ export function ProgressView() {
 
   return (
     <div className="progress-view">
-      <div className="view-title">Progress</div>
-      <div className="view-sub">Your lifts, volume and balance over time.</div>
+      <PageHeader title="Progress" subtitle="Your lifts, volume and balance over time." />
 
       <div className="sec-label">Personal records</div>
       {prs.length ? (

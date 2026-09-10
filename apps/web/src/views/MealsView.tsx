@@ -1,4 +1,5 @@
 import { catalog, nutritionTargets } from '@gym-tracker/core';
+import { PageHeader } from '../components/PageHeader';
 import { DEFAULT_PREFS, useBodyweight, usePrefs } from '../lib/useProfileData';
 import { useAppState } from '../state/AppState';
 
@@ -41,8 +42,7 @@ export function MealsView() {
 
   return (
     <div className="meals">
-      <div className="view-title">Nutrition</div>
-      <div className="view-sub">Guidance estimates based on your goal — not strict targets.</div>
+      <PageHeader title="Nutrition" subtitle="Guidance estimates based on your goal — not strict targets." />
 
       <div className="target-card">
         <div className="tg">

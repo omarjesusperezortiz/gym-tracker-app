@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PageHeader } from '../components/PageHeader';
 import { useWorkouts } from '../lib/useWorkouts';
 import { useLogRestDay, useRemoveWorkout } from '../lib/useWorkoutMutations';
 import { type LoggedWorkout } from '../lib/workouts';
@@ -76,6 +77,7 @@ export function CalendarView() {
 
   return (
     <div className="cal">
+      <PageHeader title="Calendar" subtitle="Your training history at a glance." />
       <div className="cal-stats">
         <div className="stat">
           <div className="sv acc">{monthCount}</div>

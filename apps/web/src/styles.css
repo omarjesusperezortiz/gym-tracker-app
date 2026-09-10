@@ -34,6 +34,13 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.97);backdrop-f
    already open with a heading of their own. */
 .view-title{font-size:21px;font-weight:700;letter-spacing:-.5px;margin:2px 2px 4px}
 .view-sub{font-size:12.5px;color:var(--mut);margin:0 2px 16px}
+/* Unified page header shared by Calendar/Progress/Nutrition/Profile so every
+   tab opens the same way. Consistent top padding + title/subtitle rhythm. */
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-top:6px;margin-bottom:2px}
+.page-head-main{min-width:0;flex:1}
+.page-head .view-title{margin:0 0 3px}
+.page-head .view-sub{margin:0 0 14px}
+.page-head-right{flex:none;display:flex;align-items:center;gap:8px;padding-top:2px}
 .iconbtn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);
   color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;transition:.15s;position:relative}
 .iconbtn:active{transform:scale(.92)}
@@ -237,7 +244,7 @@ body:has(.modal) .nav{display:none}
 
 /* Train slim header (shown only in train view) */
 .wrap-train > header{position:fixed;left:0;right:0;top:0;margin:0}
-.trainbar{display:none;align-items:center;gap:12px;padding:10px 16px 12px}
+.trainbar{display:none;align-items:center;gap:10px;padding:10px 16px 12px}
 .trainbar.show{display:flex}
 .backbtn{width:38px;height:38px;border-radius:11px;background:var(--surf);border:1px solid var(--line);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
 .backbtn svg{width:20px;height:20px}

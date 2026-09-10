@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { catalog } from '@gym-tracker/core';
+import { PageHeader } from '../components/PageHeader';
 import type { BodyweightEntry, Equipment, Experience, UserPrefs } from '@gym-tracker/core';
 import { useAuth } from '../auth/AuthContext';
 import { useToast } from '../components/Toast';
@@ -102,11 +103,10 @@ export function ProfileView() {
 
   return (
     <div className="profile">
-      <div className="view-title">{prefs.displayName ? `Hey, ${prefs.displayName}` : 'Profile'}</div>
-      <div className="view-sub">
-        {age ? `${age} · ` : ''}
-        Everything here saves as you change it.
-      </div>
+      <PageHeader
+        title={prefs.displayName ? `Hey, ${prefs.displayName}` : 'Profile'}
+        subtitle={`${age ? `${age} · ` : ''}Everything here saves as you change it.`}
+      />
 
       <div className="sec-label">Account</div>
       <div className="pcard">
