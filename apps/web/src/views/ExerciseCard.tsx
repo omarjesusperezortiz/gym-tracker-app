@@ -4,6 +4,7 @@ import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
 import { ghostFor } from '../lib/ghost';
+import type { ProgressionSuggestion } from '../lib/progression';
 import { IconArrowDown, IconArrowUp, IconCheck, IconTrash } from '../lib/icons';
 
 export interface ExerciseCardProps {
@@ -27,6 +28,14 @@ export interface ExerciseCardProps {
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   onRemove?: () => void;
+  /** Suggested next target from last-time data (null when no history). */
+  suggestion?: ProgressionSuggestion | null;
+  /** True when there's a previous logged session to copy numbers from. */
+  hasLast?: boolean;
+  /** Start a rest countdown for this exercise. */
+  onRest?: () => void;
+  /** Pre-fill this exercise's sets with last time's weights/reps. */
+  onUseLast?: () => void;
 }
 
 export function ExerciseCard({
@@ -48,6 +57,10 @@ export function ExerciseCard({
   onMoveUp,
   onMoveDown,
   onRemove,
+  suggestion,
+  hasLast,
+  onRest,
+  onUseLast,
 }: ExerciseCardProps) {
   const [slot, scheme, force] = slotDef;
   const { kind, done, sets } = state;
@@ -157,9 +170,36 @@ export function ExerciseCard({
             />
           ))}
         </div>
-        <button className="addset" onClick={onAddSet}>
-          + Add set
-        </button>
+        {suggestion && (
+          <div className="prog-hint">
+            <span className="ph-ic" aria-hidden="true">↑</span>
+            <span className="ph-txt">
+              Last time{' '}
+              <b>
+                {suggestion.lastWeight != null ? `${suggestion.lastWeight}kg` : ''}
+                {suggestion.lastWeight != null && suggestion.lastReps != null ? '×' : ''}
+                {suggestion.lastReps != null ? suggestion.lastReps : ''}
+              </b>{' '}
+              — try <span className="ph-num">{suggestion.primary}</span>
+              {suggestion.alt ? <span className="ph-alt"> or {suggestion.alt}</span> : ''}
+            </span>
+          </div>
+        )}
+        <div className="ex-actions">
+          <button className="addset" onClick={onAddSet}>
+            + Add set
+          </button>
+          {hasLast && onUseLast && (
+            <button className="uselast" onClick={onUseLast}>
+              ⟲ Use last time
+            </button>
+          )}
+          {onRest && (
+            <button className="restbtn" onClick={onRest}>
+              ⏱ Rest
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

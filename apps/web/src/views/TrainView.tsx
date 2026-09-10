@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import {
   catalog,
   effectiveSession,
@@ -15,16 +15,23 @@ import { useWorkouts } from '../lib/useWorkouts';
 import { useFinishWorkout, useUpdateWorkout } from '../lib/useWorkoutMutations';
 import { toHistorySlotEntries } from '../lib/workouts';
 import { effectiveValue } from '../lib/ghost';
+import { bestWeight, computeStreak, progressionTarget, topEnteredWeight } from '../lib/progression';
+import { usePrefs } from '../lib/useProfileData';
 import { useCustomizations, useResetCustomization, useSaveCustomization } from '../lib/useCustomizations';
 import { addSlot, hasCustomization, hideSlot, moveSlot, removeAdded, withOneOffs } from '../lib/overlay';
 import { useToast } from '../components/Toast';
 import { Dock } from '../components/Dock';
 import { Lightbox } from '../components/Lightbox';
+import { RestTimer } from '../components/RestTimer';
+import { PrBurstStack, type PrBurstData } from '../components/PrBurst';
+import { CompletionCelebration, type CompletionSummary } from '../components/CompletionCelebration';
 import { ExerciseCard } from './ExerciseCard';
 import { AddExerciseSheet, type AddScope } from './AddExerciseSheet';
 import { IconBack, IconClose, IconEdit, IconPlus } from '../lib/icons';
+import '../styles/train-extras.css';
 
 const EMPTY_ONE_OFFS: AddedSlot[] = [];
+const DEFAULT_REST_SECONDS = 90;
 
 function firstKind(variations: Partial<Record<Kind, Variation>> | undefined): Kind {
   const keys = variations ? (Object.keys(variations) as Kind[]) : [];
@@ -35,14 +42,28 @@ export function TrainView() {
   const { state, dispatch } = useAppState();
   const { history, loading } = useWorkouts();
   const { toast } = useToast();
+  const { data: prefs } = usePrefs();
   const [zoom, setZoom] = useState<string | null>(null);
   const [picking, setPicking] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [restSeconds, setRestSeconds] = useState<number | null>(null);
+  const [restNonce, setRestNonce] = useState(0);
+  const startRest = () => {
+    setRestSeconds(restPref);
+    setRestNonce((n) => n + 1);
+  };
+  const [bursts, setBursts] = useState<PrBurstData[]>([]);
+  const [celebration, setCelebration] = useState<CompletionSummary | null>(null);
+  // Exercises that already fired a PR burst this session, so it's one per lift.
+  const prShownRef = useRef<Set<string>>(new Set());
+  const burstIdRef = useRef(0);
   const finishMutation = useFinishWorkout();
   const updateMutation = useUpdateWorkout();
   const { overlayFor } = useCustomizations();
   const saveCustomization = useSaveCustomization();
   const resetCustomization = useResetCustomization();
+
+  const restPref = prefs?.restSeconds ?? DEFAULT_REST_SECONDS;
 
   const historyEntries = useMemo(() => toHistorySlotEntries(history), [history]);
   const P = catalog.plans[state.plan];
@@ -107,6 +128,56 @@ export function TrainView() {
     dispatch({ type: 'GO_HOME' });
   }
 
+  // Fire a one-per-exercise-per-session PR burst when the heaviest weight the
+  // user just entered for a slot beats their previous all-time best.
+  function checkPr(slot: string, sets: LiveSet[]) {
+    if (prShownRef.current.has(slot)) return;
+    const top = topEnteredWeight(sets);
+    if (top <= 0) return;
+    const prev = bestWeight(historyEntries, slot);
+    if (prev > 0 && top > prev) {
+      prShownRef.current.add(slot);
+      const id = ++burstIdRef.current;
+      setBursts((b) => [...b, { id, exercise: slot, weightKg: top }]);
+    }
+  }
+
+  function dismissBurst(id: number) {
+    setBursts((b) => b.filter((x) => x.id !== id));
+  }
+
+  // Mark done, then celebrate a PR and start the rest countdown (only when the
+  // set was just completed, not when un-checking).
+  function handleToggleDone(key: string, slot: string, st: LiveSlotState) {
+    const wasDone = st.done;
+    dispatch({ type: 'TOGGLE_DONE', key });
+    if (!wasDone) {
+      checkPr(slot, st.sets ?? []);
+      startRest();
+    }
+  }
+
+  // Repeat-last-workout (Train side): copy last time's weights/reps for this
+  // exercise into the live inputs. Home's "repeat whole workout" affordance is
+  // owned by another agent; this fills one exercise's numbers on demand.
+  function handleUseLast(slot: string, key: string, st: LiveSlotState) {
+    const lp = lastFor(historyEntries, slot, st.kind);
+    if (!lp || !lp.length) {
+      toast('No previous numbers for this one yet');
+      return;
+    }
+    const weighted = st.kind !== 'bw';
+    const n = Math.max((st.sets ?? []).length, lp.length);
+    for (let j = 0; j < n; j++) {
+      const src = lp[Math.min(j, lp.length - 1)];
+      if (!src) continue;
+      if (j >= (st.sets ?? []).length) dispatch({ type: 'ADD_SET', key });
+      if (weighted) dispatch({ type: 'UPDATE_SET', key, index: j, field: 'w', value: src.w });
+      dispatch({ type: 'UPDATE_SET', key, index: j, field: 'r', value: src.r });
+    }
+    toast(`Filled ${slot} from last time`);
+  }
+
   function handleSave() {
     toast('Progress saved 💾');
   }
@@ -140,9 +211,11 @@ export function TrainView() {
     // The cache is patched optimistically, so Home/Calendar already show this
     // workout — but the draft is only cleared once the save actually lands, so a
     // failed write leaves the logged sets (and any edit context) untouched.
+    const clearDraft = () =>
+      dispatch({ type: 'CLEAR_SLOTS', keys: session.slots.map((sl) => keyOf(state.plan, cur, sl[0])), sessionKey });
     const settle = (message: string) => {
       toast(message);
-      dispatch({ type: 'CLEAR_SLOTS', keys: session.slots.map((sl) => keyOf(state.plan, cur, sl[0])), sessionKey });
+      clearDraft();
       goHome();
     };
     const onError = (err: Error) => toast(err.message || 'Could not save workout');
@@ -153,9 +226,41 @@ export function TrainView() {
         { onSuccess: () => settle(`${session.name} updated ✏️`), onError }
       );
     } else {
+      // Build the completion summary from what was just logged. Volume is the
+      // sum of weight*reps; PRs are exercises whose top set beat the prior best;
+      // the streak counts today (this workout) plus prior consecutive days.
+      const exercises = slots.filter((s) => s.sets.length || s.done).length;
+      const setCount = slots.reduce((n, s) => n + s.sets.length, 0);
+      const volumeKg = slots.reduce(
+        (v, s) =>
+          v +
+          s.sets.reduce((sv, set) => {
+            const w = parseFloat(set.w);
+            const r = parseFloat(set.r);
+            return sv + (isNaN(w) || isNaN(r) || w <= 0 || r <= 0 ? 0 : w * r);
+          }, 0),
+        0
+      );
+      const prs = slots
+        .filter((s) => {
+          const top = topEnteredWeight(s.sets);
+          const prev = bestWeight(historyEntries, s.slot);
+          return top > 0 && prev > 0 && top > prev;
+        })
+        .map((s) => s.slot);
+      const today = new Date().toISOString().slice(0, 10);
+      const dates = [today, ...history.filter((w) => w.type === 'workout').map((w) => w.date)];
+      const streak = computeStreak(dates);
+
       finishMutation.mutate(
         { date: new Date().toISOString(), plan: state.plan, sess: cur, name: session.name, slots },
-        { onSuccess: () => settle(`${session.name} finished! 🎉`), onError }
+        {
+          onSuccess: () => {
+            clearDraft();
+            setCelebration({ sessionName: session.name, emoji: session.emoji, exercises, sets: setCount, volumeKg, prs, streak });
+          },
+          onError,
+        }
       );
     }
   }
@@ -262,6 +367,10 @@ export function TrainView() {
         const key = keyOf(state.plan, cur, sl[0]);
         const st: LiveSlotState | undefined = state.live[key];
         if (!st) return null;
+        // Progression hint + "use last time" both key off the most recent logged
+        // session for this slot on the current equipment kind.
+        const lastSets = lastFor(historyEntries, sl[0], st.kind);
+        const suggestion = lastSets && lastSets[0] ? progressionTarget(st.kind, lastSets[0]) : null;
         return (
           <ExerciseCard
             key={key}
@@ -274,10 +383,14 @@ export function TrainView() {
             addedTag={oneOffNames.includes(sl[0]) ? 'today' : addedNames.has(sl[0]) ? 'added' : null}
             canMoveUp={i > 0}
             canMoveDown={i < session.slots.length - 1}
+            suggestion={suggestion}
+            hasLast={!!(lastSets && lastSets.length)}
+            onUseLast={() => handleUseLast(sl[0], key, st)}
+            onRest={() => startRest()}
             onMoveUp={() => handleMove(sl[0], -1)}
             onMoveDown={() => handleMove(sl[0], 1)}
             onRemove={() => handleRemove(sl[0])}
-            onToggleDone={() => dispatch({ type: 'TOGGLE_DONE', key })}
+            onToggleDone={() => handleToggleDone(key, sl[0], st)}
             onToggleForce={() => dispatch({ type: 'TOGGLE_FORCE', key })}
             onKindChange={(kind) => {
               const weighted = kind !== 'bw';
@@ -318,6 +431,22 @@ export function TrainView() {
 
       <Dock onSave={handleSave} onFinish={handleFinish} hidden={false} />
       <Lightbox src={zoom} onClose={() => setZoom(null)} />
+
+      <PrBurstStack items={bursts} onDone={dismissBurst} />
+
+      {restSeconds != null && (
+        <RestTimer key={restNonce} seconds={restSeconds} onClose={() => setRestSeconds(null)} />
+      )}
+
+      {celebration && (
+        <CompletionCelebration
+          summary={celebration}
+          onDone={() => {
+            setCelebration(null);
+            goHome();
+          }}
+        />
+      )}
     </>
   );
 }
