@@ -16,6 +16,8 @@ import {
   Segmented,
 } from '../components/PrefControls';
 import { IconBack, IconCheck, IconTrain } from '../lib/icons';
+import { RulerPicker } from '../components/RulerPicker';
+import { ScalePicker } from '../components/ScalePicker';
 
 interface Draft {
   displayName: string;
@@ -216,6 +218,14 @@ function BodyStep({ draft, set }: { draft: Draft; set: <K extends keyof Draft>(k
         <span className="onb-row-label">Sex</span>
         <Segmented value={draft.sex ?? ''} options={SEXES} onChange={(v) => set('sex', v)} ariaLabel="Sex" />
       </div>
+      <div className="onb-picker-field">
+        <span className="onb-picker-cap">Height</span>
+        <RulerPicker value={draft.heightCm} onChange={(v) => set('heightCm', v)} />
+      </div>
+      <div className="onb-picker-field">
+        <span className="onb-picker-cap">Weight now</span>
+        <ScalePicker value={draft.currentWeight} onChange={(v) => set('currentWeight', v)} />
+      </div>
       <div className="onb-grid">
         <label className="onb-field">
           <span>Birth year</span>
@@ -226,29 +236,6 @@ function BodyStep({ draft, set }: { draft: Draft; set: <K extends keyof Draft>(k
             value={draft.birthYear}
             onChange={(e) => set('birthYear', e.target.value)}
             aria-label="Birth year"
-          />
-        </label>
-        <label className="onb-field">
-          <span>Height (cm)</span>
-          <input
-            type="number"
-            inputMode="decimal"
-            placeholder="178"
-            value={draft.heightCm}
-            onChange={(e) => set('heightCm', e.target.value)}
-            aria-label="Height in cm"
-          />
-        </label>
-        <label className="onb-field">
-          <span>Weight now (kg)</span>
-          <input
-            type="number"
-            inputMode="decimal"
-            step="0.1"
-            placeholder="80"
-            value={draft.currentWeight}
-            onChange={(e) => set('currentWeight', e.target.value)}
-            aria-label="Current weight in kg"
           />
         </label>
         <label className="onb-field">

@@ -32,7 +32,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.97);backdrop-f
   -webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:calc(env(safe-area-inset-top) + 10px)}
 /* Screen title, standing in for the removed top bar on screens that don't
    already open with a heading of their own. */
-.view-title{font-size:21px;font-weight:700;letter-spacing:-.5px;margin:2px 2px 4px}
+.view-title{font-size:21px;font-weight:800;letter-spacing:-.6px;margin:2px 2px 4px;font-feature-settings:"cv01","ss03";text-wrap:balance}
 .view-sub{font-size:12.5px;color:var(--mut);margin:0 2px 16px}
 /* Unified page header shared by Calendar/Progress/Nutrition/Profile so every
    tab opens the same way. Consistent top padding + title/subtitle rhythm. */
@@ -197,7 +197,7 @@ body:has(.modal) .nav{display:none}
 
 /* Dashboard (home) */
 .dash{padding:0}
-.dash-h{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:2px 2px 3px}
+.dash-h{font-size:24px;font-weight:800;letter-spacing:-.8px;margin:2px 2px 3px;text-wrap:balance}
 .dash-sub{font-size:12.5px;color:var(--mut);margin:0 2px 18px}
 .sec-label{font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin:6px 2px 10px}
 .plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:24px}
@@ -391,7 +391,7 @@ body:has(.modal) .nav{display:none}
   color:var(--acc-d);background:rgba(198,242,78,.14);border:1px solid rgba(198,242,78,.3);padding:5px 11px;border-radius:999px;margin-bottom:14px}
 .today-card.rest .today-badge{color:var(--blue);background:rgba(122,169,255,.16);border-color:rgba(122,169,255,.32)}
 .today-emoji{font-size:44px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.25))}
-.today-title{font-size:23px;font-weight:800;letter-spacing:-.5px;line-height:1.2}
+.today-title{font-size:23px;font-weight:800;letter-spacing:-.6px;line-height:1.2;text-wrap:balance}
 .today-reason{font-size:13.5px;color:var(--ink2);line-height:1.6;margin-top:9px}
 .today-exlist{display:flex;flex-direction:column;gap:7px;margin-top:20px;text-align:left}
 .today-ex{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:13.5px;font-weight:500;min-height:44px}
@@ -421,7 +421,7 @@ body:has(.modal) .nav{display:none}
 
 .onb-card{flex:1;overflow-y:auto;display:flex;flex-direction:column;justify-content:safe center;animation:onbin .28s cubic-bezier(.2,.8,.2,1);width:100%;max-width:520px;margin-inline:auto}
 @keyframes onbin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-.onb-title{font-size:26px;font-weight:800;letter-spacing:-.7px;line-height:1.2;margin:6px 0 8px}
+.onb-title{font-size:27px;font-weight:800;letter-spacing:-.9px;line-height:1.16;margin:6px 0 8px;text-wrap:balance}
 .onb-sub{font-size:13.5px;color:var(--mut);line-height:1.55;margin:0 0 22px}
 
 .onb-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
@@ -691,3 +691,98 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;appearance
 .seg .segi{min-height:44px;display:flex;align-items:center;justify-content:center}
 .seg.seg-inline .segi{min-height:44px}
 
+/* ============================================================
+   POLISH: editorial display type, onboarding pickers,
+   streak milestones, tasteful micro-animations
+   ============================================================ */
+
+/* --- Editorial display type ---------------------------------
+   Reusable heavy, tight-tracked headline treatment. Built on Inter
+   (no new font pulled in — keeps risk low and body text unchanged).
+   .display-italic adds the athletic italic seen in the reference. */
+.display{font-weight:800;letter-spacing:-.03em;line-height:1.04;text-wrap:balance;font-feature-settings:"cv01","ss03"}
+.display-xl{font-weight:800;letter-spacing:-.04em;line-height:.98;font-size:clamp(2rem,7vw,2.9rem);text-wrap:balance}
+.display-eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+.display-italic{font-style:italic;text-transform:uppercase;letter-spacing:-.02em}
+.display .hl,.display-xl .hl{color:var(--acc)}
+
+/* --- Onboarding tick pickers (ruler / scale) ---------------- */
+.onb-picker-field{margin:4px 0 16px}
+.onb-picker-cap{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:8px}
+.tickpicker{background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid var(--line2);border-radius:16px;padding:16px 0 12px;overflow:hidden}
+.tickpicker-val{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:12px}
+.tickpicker-num{font-family:var(--mono);font-weight:700;font-size:34px;letter-spacing:-.02em;color:var(--acc);line-height:1}
+.tickpicker-num.placeholder{color:var(--mut2)}
+.tickpicker-unit{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--mut)}
+/* The scrolling strip. Native horizontal scroll + snap = touch & trackpad
+   friendly; role=slider + arrow keys cover keyboard. */
+.tickpicker-strip{position:relative;display:flex;align-items:flex-end;height:56px;
+  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-ms-overflow-style:none;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.tickpicker-strip::-webkit-scrollbar{display:none}
+.tickpicker-strip:focus-visible{outline:none}
+.tickpicker-strip:focus-visible .tickpicker-center{background:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.2),0 0 12px rgba(198,242,78,.7)}
+/* Each tick is exactly TICK_PX (12px) wide to match the JS index math. */
+.tick{flex:0 0 12px;width:12px;height:40%;display:flex;align-items:flex-start;justify-content:center;
+  scroll-snap-align:center;position:relative}
+.tick::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:1.5px;height:10px;border-radius:1px;background:rgba(255,255,255,.16)}
+.tick.major::before{height:20px;background:rgba(255,255,255,.32)}
+.tick-num{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9.5px;color:var(--mut);white-space:nowrap}
+/* Half-strip padding so the first & last real ticks can reach the centre. */
+.tickpicker-pad{flex:0 0 50%}
+.tickpicker-center{position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:2px;height:34px;border-radius:2px;background:var(--acc);box-shadow:0 0 10px rgba(198,242,78,.6);pointer-events:none}
+.tickpicker-input{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:12px 16px 0;padding-top:11px;border-top:1px solid var(--line)}
+.tickpicker-input-lbl{font-size:11px;color:var(--mut);font-weight:600}
+.tickpicker-input input{width:88px;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:10px;
+  color:var(--ink);padding:8px 10px;font-size:15px;font-family:var(--mono);text-align:center}
+.tickpicker-input input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(198,242,78,.14)}
+
+/* --- Streak-milestone gamification (light) ------------------ */
+.streak-mile{background:linear-gradient(160deg,rgba(198,242,78,.12),rgba(198,242,78,.03));
+  border:1px solid rgba(198,242,78,.28);border-radius:16px;padding:16px 16px 40px}
+.streak-mile-top{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.streak-mile-count{display:flex;align-items:baseline;gap:5px;flex:none}
+.streak-mile-flame{font-size:20px;align-self:center}
+.streak-mile-num{font-family:var(--mono);font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--acc);line-height:1}
+.streak-mile-lbl{font-family:var(--mono);font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.streak-mile-nudge{font-size:13px;color:var(--ink2);line-height:1.45;margin:0}
+.streak-mile-nudge b{color:var(--ink);font-weight:700}
+.streak-mile-track{position:relative;height:3px;border-radius:3px;background:rgba(255,255,255,.1);margin:0 16px}
+.streak-mile-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--acc-d),var(--acc));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.streak-mile-dot{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;
+  align-items:center;gap:5px}
+.streak-mile-dot-ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;
+  background:var(--surf2);border:1px solid var(--line2);filter:grayscale(.6);opacity:.7;transition:.25s}
+.streak-mile-dot-lbl{position:absolute;top:30px;font-family:var(--mono);font-size:8.5px;color:var(--mut);
+  white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.streak-mile-dot.done .streak-mile-dot-ic{background:var(--acc);border-color:var(--acc);filter:none;opacity:1}
+.streak-mile-dot.done .streak-mile-dot-lbl{color:var(--acc-d)}
+.streak-mile-dot.next .streak-mile-dot-ic{border-color:var(--acc);filter:none;opacity:1;
+  box-shadow:0 0 0 4px rgba(198,242,78,.12);animation:milepulse 2s ease-in-out infinite}
+.streak-mile-dot.next .streak-mile-dot-lbl{color:var(--acc)}
+@keyframes milepulse{0%,100%{box-shadow:0 0 0 4px rgba(198,242,78,.1)}50%{box-shadow:0 0 0 6px rgba(198,242,78,.18)}}
+
+/* --- Micro-animations (general, reduced-motion safe) --------- */
+/* Button press: subtle scale on the primary + accent buttons. */
+.btn:active{transform:scale(.97)}
+.btn.acc:active,.primary:active{transform:scale(.97)}
+/* Section reveal: fade-up utility any view can opt into. */
+@keyframes revealup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.reveal-up{animation:revealup .5s cubic-bezier(.2,.8,.2,1) both}
+/* Onboarding step slide is driven by .onb-card's keyed remount (onbin);
+   give the pickers/streak a gentle entrance too. */
+.tickpicker,.streak-mile{animation:revealup .4s cubic-bezier(.2,.8,.2,1) both}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal-up,.tickpicker,.streak-mile,.streak-mile-dot.next .streak-mile-dot-ic{animation:none}
+  .streak-mile-fill{transition:none}
+  .btn:active,.btn.acc:active,.primary:active{transform:none}
+}
