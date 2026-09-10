@@ -1,0 +1,219 @@
+/* Auth screen redesign — matches the approved login prototype.
+ * Owned solely by this file (styles.css is another agent's). Scoped under
+ * .auth-screen so nothing here leaks into the rest of the app.
+ * Reuses app tokens where they match: --bg, --surf, --acc, --acc-ink, --ink,
+ * --mut. Uses the prototype's explicit line/faint values for exact fidelity. */
+
+.auth-screen {
+  --a-surf: #141619;
+  --a-line: rgba(255, 255, 255, 0.09);
+  --a-line2: rgba(255, 255, 255, 0.15);
+  --a-faint: #5a5f6e;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
+  background: var(--bg, #0a0b0e);
+  color: var(--ink, #f5f7fa);
+  font-family: var(--font, 'Inter', system-ui, sans-serif);
+  display: flex;
+  flex-direction: column;
+  padding: calc(env(safe-area-inset-top, 0px) + 64px) 28px
+    calc(env(safe-area-inset-bottom, 0px) + 40px);
+}
+
+.auth-hero {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
+.auth-hsub {
+  font-size: 14px;
+  color: var(--mut, #8b90a0);
+  line-height: 1.45;
+  margin-bottom: 36px;
+  max-width: 300px;
+}
+
+.auth-screen .field {
+  margin-bottom: 18px;
+}
+
+.auth-screen .field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--mut, #8b90a0);
+  margin-bottom: 8px;
+}
+
+.auth-screen .field input {
+  width: 100%;
+  background: var(--a-surf);
+  border: 1px solid var(--a-line2);
+  border-radius: 13px;
+  color: var(--ink, #f5f7fa);
+  padding: 15px 16px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.auth-screen .field input::placeholder {
+  color: var(--a-faint);
+}
+
+.auth-screen .field input:focus {
+  outline: none;
+  border-color: var(--acc, #c6f24e);
+}
+
+.auth-forgot {
+  text-align: right;
+  margin: -6px 0 26px;
+}
+
+.auth-forgot button {
+  color: var(--acc, #c6f24e);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.auth-primary {
+  width: 100%;
+  background: var(--acc, #c6f24e);
+  color: var(--acc-ink, #0a0b0e);
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 15.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.auth-primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--a-line);
+}
+
+.auth-divider span {
+  font-size: 12px;
+  color: var(--a-faint);
+  font-weight: 500;
+}
+
+.auth-sso {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  background: var(--a-surf);
+  border: 1px solid var(--a-line2);
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink, #f5f7fa);
+  font-family: inherit;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.auth-sso:disabled,
+.auth-sso.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.auth-sso .g {
+  width: 19px;
+  height: 19px;
+  flex: none;
+}
+
+.auth-sso .applelogo {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+  flex: none;
+}
+
+.auth-sso .soon {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--a-faint);
+  border: 1px solid var(--a-line2);
+  border-radius: 20px;
+  padding: 2px 7px;
+  margin-left: 2px;
+}
+
+.auth-foot {
+  margin-top: auto;
+  padding-top: 28px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--mut, #8b90a0);
+}
+
+.auth-foot button {
+  color: var(--acc, #c6f24e);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+}
+
+.auth-alert {
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 18px;
+}
+
+.auth-alert.err {
+  color: #ff9ba2;
+  background: rgba(255, 95, 107, 0.1);
+  border: 1px solid rgba(255, 95, 107, 0.3);
+}
+
+.auth-alert.ok {
+  color: var(--ok, #3ddc97);
+  background: rgba(61, 220, 151, 0.1);
+  border: 1px solid rgba(61, 220, 151, 0.3);
+}

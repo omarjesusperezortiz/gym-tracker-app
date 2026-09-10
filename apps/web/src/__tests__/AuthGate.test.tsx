@@ -31,7 +31,7 @@ describe('AuthGate', () => {
       </AuthProvider>
     );
 
-    expect(await screen.findByText('Sign in to your account')).toBeInTheDocument();
+    expect(await screen.findByText('Welcome Back')).toBeInTheDocument();
     expect(screen.queryByText('Protected content')).not.toBeInTheDocument();
   });
 
