@@ -36,6 +36,10 @@ export interface ExerciseCardProps {
   onRest?: () => void;
   /** Pre-fill this exercise's sets with last time's weights/reps. */
   onUseLast?: () => void;
+  /** When true, empty sets ghost the suggested weight instead of nothing. */
+  autofill?: boolean;
+  /** Flip the global "auto-fill suggested weight" preference. */
+  onToggleAutofill?: () => void;
 }
 
 export function ExerciseCard({
@@ -61,6 +65,8 @@ export function ExerciseCard({
   hasLast,
   onRest,
   onUseLast,
+  autofill,
+  onToggleAutofill,
 }: ExerciseCardProps) {
   const [slot, scheme, force] = slotDef;
   const { kind, done, sets } = state;
@@ -157,32 +163,69 @@ export function ExerciseCard({
             {weighted && <div>{timeBased ? 'SEC' : 'KG'}</div>}
             <div>{timeBased ? 'TIME' : 'REPS'}</div>
           </div>
-          {(sets ?? []).map((set, j) => (
-            <SetRow
-              key={j}
-              index={j}
-              set={set}
-              weighted={weighted}
-              timeBased={timeBased}
-              ghostW={ghostFor(sets ?? [], j, 'w')}
-              ghostR={ghostFor(sets ?? [], j, 'r')}
-              onChange={(field, value) => onSetChange(j, field, value)}
-            />
-          ))}
+          {suggestion && (
+            <div className="prog-hint">
+              <span className="ph-ic" aria-hidden="true">
+                <IconArrowUp />
+              </span>
+              <span className="ph-txt">
+                Last time{' '}
+                <b>
+                  {suggestion.lastWeight != null ? `${suggestion.lastWeight}kg` : ''}
+                  {suggestion.lastWeight != null && suggestion.lastReps != null ? ' × ' : ''}
+                  {suggestion.lastReps != null ? suggestion.lastReps : ''}
+                </b>{' '}
+                — try <span className="ph-num">{suggestion.primary}</span>
+                {suggestion.alt ? (
+                  <>
+                    {' '}
+                    or <span className="ph-num">{suggestion.alt}</span>
+                  </>
+                ) : (
+                  ''
+                )}
+              </span>
+            </div>
+          )}
+          {(sets ?? []).map((set, j) => {
+            // Non-invasive auto-fill: when the toggle is on and this exercise
+            // has a suggested weight, feed it into the ghost placeholder ONLY
+            // where there's no cascading ghost from a filled set above. SetRow
+            // renders it gray exactly like any other ghost — no real value is
+            // written to state until the user types.
+            const cascadeW = ghostFor(sets ?? [], j, 'w');
+            const ghostW =
+              cascadeW ||
+              (autofill && weighted && suggestion?.suggestedWeight != null
+                ? String(suggestion.suggestedWeight)
+                : '');
+            return (
+              <SetRow
+                key={j}
+                index={j}
+                set={set}
+                weighted={weighted}
+                timeBased={timeBased}
+                ghostW={ghostW}
+                ghostR={ghostFor(sets ?? [], j, 'r')}
+                onChange={(field, value) => onSetChange(j, field, value)}
+              />
+            );
+          })}
         </div>
-        {suggestion && (
-          <div className="prog-hint">
-            <span className="ph-ic" aria-hidden="true">↑</span>
-            <span className="ph-txt">
-              Last time{' '}
-              <b>
-                {suggestion.lastWeight != null ? `${suggestion.lastWeight}kg` : ''}
-                {suggestion.lastWeight != null && suggestion.lastReps != null ? '×' : ''}
-                {suggestion.lastReps != null ? suggestion.lastReps : ''}
-              </b>{' '}
-              — try <span className="ph-num">{suggestion.primary}</span>
-              {suggestion.alt ? <span className="ph-alt"> or {suggestion.alt}</span> : ''}
-            </span>
+        {suggestion && onToggleAutofill && (
+          <div className="autofill-row">
+            <span className="af-label">Auto-fill suggested weight</span>
+            <button
+              type="button"
+              className={`af-switch${autofill ? ' on' : ''}`}
+              role="switch"
+              aria-checked={!!autofill}
+              aria-label="Auto-fill suggested weight"
+              onClick={onToggleAutofill}
+            >
+              <span className="af-knob" />
+            </button>
           </div>
         )}
         <div className="ex-actions">
