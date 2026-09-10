@@ -2169,26 +2169,20 @@ export const catalog = {
   }
  },
  "meals": {
-  "targets": {
-   "protein": "120–165 g/day",
-   "calories": "slight surplus (+200–300 kcal)",
-   "water": "2.5–3 L",
-   "note": "Lean gain — build muscle without adding skate-slowing weight."
-  },
   "principles": [
-   "Protein every meal (~30–40 g). This is the #1 lever for building muscle.",
-   "Keep carbs — they fuel skate sessions & recovery. Don't cut them.",
-   "Eat within ~2 h after training (protein + carbs).",
-   "Slight surplus only. If you gain fat fast, dial back carbs a little."
+   "Aim for protein at every meal (~30–40 g). It's the biggest lever for building and keeping muscle.",
+   "Base meals around whole foods — lean protein, vegetables, fruit, and whole grains.",
+   "Eat within a couple of hours after training (protein + carbs) to support recovery.",
+   "Adjust portions to your goal: eat a little more to gain, a little less to lose."
   ],
   "meals": [
    {
     "t": "🌅 Breakfast",
     "p": "~35 g protein",
     "ideas": [
-     "3 eggs + 2 slices wholegrain toast + tomato (pan con tomate) — ~28 g",
+     "3 eggs + 2 slices wholegrain toast + fruit — ~28 g",
      "Greek yogurt (200 g) + oats + honey + berries — ~25 g",
-     "Tortilla de claras (egg-white omelette) + whole egg + cheese — ~30 g"
+     "Egg-white omelette + whole egg + cheese — ~30 g"
     ]
    },
    {
@@ -2196,7 +2190,7 @@ export const catalog = {
     "p": "~45 g protein",
     "ideas": [
      "Grilled chicken breast (180 g) + rice + salad — ~50 g",
-     "Lentils/garbanzos stew (legumbres) + tuna — ~35 g",
+     "Lentil or chickpea stew + tuna — ~35 g",
      "Salmon + potatoes + veg — ~40 g"
     ]
    },
@@ -2205,7 +2199,7 @@ export const catalog = {
     "p": "~25 g protein",
     "ideas": [
      "Whey shake + banana — ~28 g",
-     "Cottage cheese / requesón + nuts — ~20 g",
+     "Cottage cheese + nuts — ~20 g",
      "Tuna can + wholegrain crackers — ~25 g",
      "Boiled eggs (2) + fruit — ~13 g"
     ]
@@ -2214,23 +2208,23 @@ export const catalog = {
     "t": "🌙 Dinner",
     "p": "~40 g protein",
     "ideas": [
-     "Lean beef/pavo (turkey) + quinoa + veg — ~45 g",
-     "Merluza/white fish + sweet potato + greens — ~38 g",
-     "Tofu/tempeh stir-fry + rice (plant option) — ~30 g",
+     "Lean beef or turkey + quinoa + veg — ~45 g",
+     "White fish + sweet potato + greens — ~38 g",
+     "Tofu or tempeh stir-fry + rice (plant option) — ~30 g",
      "Chicken + wholegrain pasta + tomato — ~42 g"
     ]
    }
   ],
   "protein_foods": [
-   "Eggs / egg whites",
-   "Chicken & turkey (pollo/pavo)",
-   "White fish & salmon (merluza/salmón)",
-   "Greek yogurt & requesón",
+   "Eggs & egg whites",
+   "Chicken & turkey",
+   "White fish & salmon",
+   "Greek yogurt & cottage cheese",
    "Whey protein",
-   "Tuna (atún)",
-   "Lentils & chickpeas (lentejas/garbanzos)",
+   "Tuna",
+   "Lentils & chickpeas",
    "Tofu & tempeh",
-   "Cheese (queso fresco)"
+   "Cheese"
   ]
  }
 } as unknown as Catalog;

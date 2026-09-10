@@ -1,11 +1,19 @@
-import { catalog } from '@gym-tracker/core';
+import { catalog, nutritionTargets } from '@gym-tracker/core';
+import { DEFAULT_PREFS, useBodyweight, usePrefs } from '../lib/useProfileData';
+import { useAppState } from '../state/AppState';
 
-interface Targets {
-  protein: string;
-  calories: string;
-  water: string;
-  note: string;
-}
+// Inline link styling — the app has no shared link class and this view mustn't
+// touch styles.css, so the one "go to Profile" affordance is styled locally.
+const LINK_STYLE: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  font: 'inherit',
+  color: 'var(--acc)',
+  textDecoration: 'underline',
+  cursor: 'pointer',
+};
+
 interface Meal {
   t: string;
   p: string;
@@ -13,29 +21,55 @@ interface Meal {
 }
 
 export function MealsView() {
-  const M = catalog.meals as unknown as { targets: Targets; principles: string[]; meals: Meal[]; protein_foods: string[] };
+  const { dispatch } = useAppState();
+  const prefsQuery = usePrefs();
+  const bodyweightQuery = useBodyweight();
+
+  const prefs = prefsQuery.data ?? DEFAULT_PREFS;
+  const log = bodyweightQuery.data ?? [];
+  // Prefer the latest logged weigh-in; fall back to the goal weight if that's
+  // all we have. Null means "no body data yet" → prompt instead of faking it.
+  const latestKg = log.length ? log[log.length - 1].weightKg : null;
+  const bodyweightKg = latestKg ?? prefs.goalWeightKg ?? null;
+
+  const targets = nutritionTargets(prefs.goal, bodyweightKg);
+
+  const M = catalog.meals as unknown as { principles: string[]; meals: Meal[]; protein_foods: string[] };
+
+  const proteinLabel = targets.protein ? `${targets.protein.minG}–${targets.protein.maxG}` : '—';
+  const waterLabel = targets.waterLitres != null ? `${targets.waterLitres}L` : '—';
 
   return (
     <div className="meals">
       <div className="view-title">Nutrition</div>
-      <div className="view-sub">Eat for the work you're putting in.</div>
+      <div className="view-sub">Guidance estimates based on your goal — not strict targets.</div>
 
       <div className="target-card">
         <div className="tg">
           <div className="ti">
-            <div className="tv">{M.targets.protein.split(' ')[0]}</div>
-            <div className="tl">protein/day</div>
+            <div className="tv">{proteinLabel}</div>
+            <div className="tl">g protein/day</div>
           </div>
           <div className="ti">
-            <div className="tv">+250</div>
-            <div className="tl">kcal surplus</div>
+            <div className="tv">{targets.calories.label}</div>
+            <div className="tl">calories</div>
           </div>
           <div className="ti">
-            <div className="tv">{M.targets.water.split('–')[0]}L</div>
+            <div className="tv">{waterLabel}</div>
             <div className="tl">water</div>
           </div>
         </div>
-        <div className="target-note">{M.targets.note}</div>
+        {targets.protein ? (
+          <div className="target-note">{targets.note}</div>
+        ) : (
+          <div className="target-note">
+            {targets.note} Add your bodyweight in{' '}
+            <button style={LINK_STYLE} type="button" onClick={() => dispatch({ type: 'SET_VIEW', view: 'profile' })}>
+              Profile
+            </button>{' '}
+            to see protein and water estimates.
+          </div>
+        )}
       </div>
 
       <div className="sec-label">Principles</div>
@@ -49,7 +83,7 @@ export function MealsView() {
         </div>
       </div>
 
-      <div className="sec-label">Daily meals</div>
+      <div className="sec-label">Example day</div>
       {M.meals.map((mm, i) => (
         <div className="mcard" key={i}>
           <div className="mtitle2">
