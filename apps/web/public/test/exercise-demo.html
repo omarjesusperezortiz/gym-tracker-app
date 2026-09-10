@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exercise images — live demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root{
+    --bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--line:rgba(255,255,255,.09);
+    --line2:rgba(255,255,255,.15);--ink:#f5f7fa;--mut:#8b90a0;--faint:#5a5f6e;
+    --acc:#c6f24e;--acc-ink:#0a0b0e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);font-family:Inter,system-ui,sans-serif;color:var(--ink);
+    padding:calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 40px);
+    max-width:460px;margin:0 auto}
+  .head{margin-bottom:6px}
+  .h1{font-size:26px;font-weight:800;letter-spacing:-.6px}
+  .sub{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}
+  .src{font-size:10.5px;color:var(--faint);margin-top:8px;font-family:ui-monospace,monospace}
+  .status{font-size:12.5px;color:var(--acc);margin:16px 2px;font-weight:600}
+
+  .seclbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:28px 2px 12px}
+
+  /* Full train card */
+  .excard{background:var(--surf);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:16px}
+  .exhead{display:flex;align-items:center;gap:12px;padding:14px 16px}
+  .exnum{width:30px;height:30px;border-radius:9px;background:var(--acc);color:var(--acc-ink);
+    font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+  .exhn{font-size:16px;font-weight:800;letter-spacing:-.3px;flex:1;text-transform:capitalize}
+  .exscheme{font-size:11px;font-weight:700;color:var(--acc);font-family:ui-monospace,monospace;
+    background:var(--surf2);border:1px solid var(--line);padding:5px 9px;border-radius:9px}
+  .gifcell{margin:0 16px 14px;background:#fff;border-radius:13px;aspect-ratio:1;overflow:hidden;position:relative}
+  .gifcell img{width:100%;height:100%;object-fit:contain}
+  .gifcell .tag{position:absolute;top:8px;left:8px;font-size:9px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--acc-ink);background:var(--acc);padding:3px 8px;border-radius:20px}
+  .muscles{display:flex;gap:6px;padding:0 16px 16px;flex-wrap:wrap}
+  .mtag{font-size:10.5px;font-weight:600;color:var(--mut);background:var(--surf2);
+    border:1px solid var(--line);border-radius:20px;padding:5px 10px;text-transform:capitalize}
+  .mtag.on{color:var(--acc-ink);background:var(--acc);border-color:var(--acc)}
+
+  /* Today list row */
+  .exr{display:flex;align-items:center;gap:13px;background:var(--surf);border:1px solid var(--line);
+    border-radius:15px;padding:10px;margin-bottom:11px}
+  .exr .thumb{width:60px;height:60px;border-radius:11px;background:#fff;flex:none;overflow:hidden}
+  .exr .thumb img{width:100%;height:100%;object-fit:contain}
+  .exr .m{flex:1;min-width:0}
+  .exr .m .n{font-size:14.5px;font-weight:700;text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .exr .m .s{font-size:11.5px;color:var(--mut);margin-top:2px;text-transform:capitalize}
+  .exr .sets{font-size:12px;color:var(--acc);font-family:ui-monospace,monospace;font-weight:600}
+  .skel{background:linear-gradient(90deg,var(--surf2),#242832,var(--surf2));background-size:200% 100%;
+    animation:sh 1.2s infinite;border-radius:13px}
+  @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .foot{font-size:11px;color:var(--faint);line-height:1.5;margin-top:24px;padding:0 2px}
+  .foot b{color:var(--mut)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="h1">Exercise Demo</div>
+    <div class="sub">Live from exercisedb — real animated 3D demos with the target muscle highlighted, in the app's styling.</div>
+    <div class="src">source · oss.exercisedb.dev (free, no key)</div>
+  </div>
+  <div class="status" id="status">Loading exercises…</div>
+
+  <div class="seclbl">Full train card</div>
+  <div id="card"></div>
+
+  <div class="seclbl">Today · "what you'll do" list</div>
+  <div id="list"></div>
+
+  <div class="foot">
+    <b>How this maps to the app:</b> each exercise carries name · bodyParts · equipments ·
+    targetMuscles · secondaryMuscles · step instructions. We'd mirror the gifs into the
+    app and match them to your catalog by name + target muscle.
+  </div>
+
+<script>
+const API = 'https://oss.exercisedb.dev/api/v1';
+const cap = s => (s||'').replace(/\b\w/g, c => c.toUpperCase());
+
+function cardHTML(e, i, scheme){
+  const primary = (e.targetMuscles||[])[0] || '';
+  const secondary = (e.secondaryMuscles||[]).slice(0,1);
+  const equip = (e.equipments||[])[0] || '';
+  const tags = [primary, ...secondary, equip].filter(Boolean);
+  return `<div class="excard">
+    <div class="exhead"><div class="exnum">${i}</div>
+      <div class="exhn">${e.name}</div><div class="exscheme">${scheme}</div></div>
+    <div class="gifcell"><span class="tag">Demo</span>
+      <img loading="lazy" src="${e.gifUrl}" alt="${e.name}"></div>
+    <div class="muscles">${tags.map((t,ix)=>`<span class="mtag${ix===0?' on':''}">${t}</span>`).join('')}</div>
+  </div>`;
+}
+function rowHTML(e, scheme){
+  const primary = (e.targetMuscles||[])[0] || '';
+  const equip = (e.equipments||[])[0] || '';
+  return `<div class="exr">
+    <div class="thumb"><img loading="lazy" src="${e.gifUrl}" alt=""></div>
+    <div class="m"><div class="n">${e.name}</div>
+      <div class="s">${cap(equip)} · ${cap(primary)}</div></div>
+    <div class="sets">${scheme}</div>
+  </div>`;
+}
+
+async function load(){
+  const status = document.getElementById('status');
+  try{
+    const res = await fetch(`${API}/exercises?limit=25`);
+    const json = await res.json();
+    const all = json.data || [];
+    // prefer recognizable gym movements with equipment for the demo
+    const pick = all.filter(e => (e.gifUrl||'').startsWith('http'));
+    const schemes = ['3×8','3×10','4×6','3×12','3×15'];
+    const featured = pick[0];
+    status.textContent = `Loaded ${all.length} exercises live ✓`;
+    document.getElementById('card').innerHTML = cardHTML(featured, 1, '3×12');
+    document.getElementById('list').innerHTML =
+      pick.slice(1,6).map((e,ix)=>rowHTML(e, schemes[ix%schemes.length])).join('');
+  }catch(err){
+    status.textContent = 'Could not reach exercisedb: ' + err.message;
+  }
+}
+load();
+</script>
+</body>
+</html>
