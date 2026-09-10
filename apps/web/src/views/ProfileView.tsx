@@ -22,6 +22,7 @@ import {
   Segmented,
 } from '../components/PrefControls';
 import { makeYScale, smoothPath } from '../lib/chart';
+import { humanDate } from '../lib/dates';
 import { IconEdit, IconEmpty, IconSignOut } from '../lib/icons';
 
 const KG_PER_LB = 0.45359237;
@@ -33,7 +34,7 @@ function todayInput(): string {
 }
 
 function dateLabel(iso: string): string {
-  return new Date(`${iso.slice(0, 10)}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  return humanDate(iso.slice(0, 10));
 }
 
 // Weights are stored in kg; prefs only change how they're shown and entered.
@@ -48,7 +49,7 @@ function fmt(n: number): string {
 }
 
 export function ProfileView() {
-  const { signOut } = useAuth();
+  const { signOut, session } = useAuth();
   const { toast } = useToast();
   const prefsQuery = usePrefs();
   const bodyweightQuery = useBodyweight();
@@ -97,6 +98,7 @@ export function ProfileView() {
     .slice(0, 8);
 
   const age = prefs.birthYear ? new Date().getFullYear() - prefs.birthYear : null;
+  const email = session?.user?.email ?? null;
 
   return (
     <div className="profile">
@@ -104,6 +106,24 @@ export function ProfileView() {
       <div className="view-sub">
         {age ? `${age} · ` : ''}
         Everything here saves as you change it.
+      </div>
+
+      <div className="sec-label">Account</div>
+      <div className="pcard">
+        <div className="prow">
+          <div className="plabel">Signed in as</div>
+          <div className="muted" style={{ textAlign: 'right', wordBreak: 'break-all' }}>
+            {email ?? '—'}
+          </div>
+        </div>
+        {/* Flipping onboarded back off sends you through the wizard again, with
+            your current answers pre-filled. */}
+        <button className="btn sec profile-redo" onClick={() => updatePrefs({ onboarded: false })}>
+          <IconEdit /> Redo onboarding
+        </button>
+        <button className="btn sec profile-signout" onClick={() => void signOut()}>
+          <IconSignOut /> Log out
+        </button>
       </div>
 
       <div className="sec-label">About you</div>
@@ -148,46 +168,6 @@ export function ProfileView() {
           <div className="plabel">Focus muscles</div>
           <div className="phint">Prioritised in your daily recommendation.</div>
           <MuscleChips value={prefs.focusMuscles} onChange={(focusMuscles) => updatePrefs({ focusMuscles })} />
-        </div>
-      </div>
-
-      <div className="sec-label">Training</div>
-      <div className="pcard">
-        <div className="prow">
-          <div className="plabel">Experience</div>
-          <Segmented
-            value={prefs.experience}
-            options={EXPERIENCES}
-            onChange={(v) => updatePrefs({ experience: v as Experience })}
-            ariaLabel="Experience"
-          />
-        </div>
-        <div className="prow">
-          <div className="plabel">Days / week</div>
-          <Segmented
-            value={String(prefs.daysPerWeek)}
-            options={DAYS_OPTIONS.map((d) => ({ value: String(d), label: String(d) }))}
-            onChange={(v) => updatePrefs({ daysPerWeek: Number(v) })}
-            ariaLabel="Days per week"
-          />
-        </div>
-        <div className="prow">
-          <div className="plabel">Session</div>
-          <Segmented
-            value={String(prefs.sessionMin)}
-            options={SESSION_OPTIONS.map((m) => ({ value: String(m), label: `${m}m` }))}
-            onChange={(v) => updatePrefs({ sessionMin: Number(v) })}
-            ariaLabel="Session length"
-          />
-        </div>
-        <div className="prow">
-          <div className="plabel">Equipment</div>
-          <Segmented
-            value={prefs.equipment}
-            options={EQUIPMENT}
-            onChange={(v) => updatePrefs({ equipment: v as Equipment })}
-            ariaLabel="Equipment"
-          />
         </div>
       </div>
 
@@ -255,8 +235,44 @@ export function ProfileView() {
         )}
       </div>
 
-      <div className="sec-label">App preferences</div>
+      <div className="sec-label">Training preferences</div>
       <div className="pcard">
+        <div className="prow">
+          <div className="plabel">Experience</div>
+          <Segmented
+            value={prefs.experience}
+            options={EXPERIENCES}
+            onChange={(v) => updatePrefs({ experience: v as Experience })}
+            ariaLabel="Experience"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Days / week</div>
+          <Segmented
+            value={String(prefs.daysPerWeek)}
+            options={DAYS_OPTIONS.map((d) => ({ value: String(d), label: String(d) }))}
+            onChange={(v) => updatePrefs({ daysPerWeek: Number(v) })}
+            ariaLabel="Days per week"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Session length</div>
+          <Segmented
+            value={String(prefs.sessionMin)}
+            options={SESSION_OPTIONS.map((m) => ({ value: String(m), label: `${m}m` }))}
+            onChange={(v) => updatePrefs({ sessionMin: Number(v) })}
+            ariaLabel="Session length"
+          />
+        </div>
+        <div className="prow">
+          <div className="plabel">Equipment</div>
+          <Segmented
+            value={prefs.equipment}
+            options={EQUIPMENT}
+            onChange={(v) => updatePrefs({ equipment: v as Equipment })}
+            ariaLabel="Equipment"
+          />
+        </div>
         <div className="prow">
           <div className="plabel">Units</div>
           <Segmented
@@ -310,18 +326,6 @@ export function ProfileView() {
             No records yet — finish a workout with weights to set your first.
           </div>
         )}
-      </div>
-
-      <div className="sec-label">Account</div>
-      <div className="pcard">
-        {/* Flipping onboarded back off sends you through the wizard again, with
-            your current answers pre-filled. */}
-        <button className="btn sec profile-redo" onClick={() => updatePrefs({ onboarded: false })}>
-          <IconEdit /> Redo onboarding
-        </button>
-        <button className="btn sec profile-signout" onClick={() => void signOut()}>
-          <IconSignOut /> Log out
-        </button>
       </div>
     </div>
   );
