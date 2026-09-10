@@ -44,57 +44,7 @@
   color: var(--mut);
 }
 
-/* ── Auto-fill suggested weight toggle (BELOW the set table) ────────────── */
-.autofill-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-  padding: 8px 4px 0;
-}
-.autofill-row .af-label {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink2, #c3c9d4);
-}
-.af-switch {
-  position: relative;
-  flex-shrink: 0;
-  width: 40px;
-  height: 22px;
-  border-radius: 999px;
-  border: 1px solid var(--line2, rgba(255, 255, 255, 0.11));
-  background: rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.18s, border-color 0.18s;
-}
-.af-switch .af-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--mut, #8b94a3);
-  transition: transform 0.18s, background 0.18s;
-}
-.af-switch.on {
-  background: var(--acc);
-  border-color: var(--acc);
-}
-.af-switch.on .af-knob {
-  background: var(--acc-ink);
-  transform: translateX(18px);
-}
-.af-switch:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(198, 242, 78, 0.25);
-}
-
-/* ── Exercise action row (Add set / Use last / Rest) ───────────────────── */
+/* ── Exercise action row (Add set / Rest) ───────────────────── */
 .ex-actions {
   display: flex;
   gap: 8px;
@@ -105,7 +55,6 @@
 .ex-actions .addset {
   margin-top: 0;
 }
-.uselast,
 .restbtn {
   font-family: var(--mono);
   font-size: 12px;
@@ -118,7 +67,6 @@
   color: var(--ink2, #c3c9d4);
   transition: border-color 0.2s, color 0.2s;
 }
-.uselast:hover,
 .restbtn:hover {
   border-color: rgba(198, 242, 78, 0.4);
   color: var(--ink);

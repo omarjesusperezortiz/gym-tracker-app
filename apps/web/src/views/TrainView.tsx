@@ -48,26 +48,6 @@ export function TrainView() {
   const [editing, setEditing] = useState(false);
   const [restSeconds, setRestSeconds] = useState<number | null>(null);
   const [restNonce, setRestNonce] = useState(0);
-  // Global "auto-fill suggested weight" preference — persisted to localStorage
-  // so it sticks across sessions. When on, empty sets ghost the suggested next
-  // weight (display-only; never written to state until the user types).
-  const [autofill, setAutofill] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('autofillSuggested') === '1';
-    } catch {
-      return false;
-    }
-  });
-  const toggleAutofill = () =>
-    setAutofill((v) => {
-      const next = !v;
-      try {
-        localStorage.setItem('autofillSuggested', next ? '1' : '0');
-      } catch {
-        /* ignore storage failures (private mode etc.) */
-      }
-      return next;
-    });
   const startRest = () => {
     setRestSeconds(restPref);
     setRestNonce((n) => n + 1);
@@ -175,27 +155,6 @@ export function TrainView() {
       checkPr(slot, st.sets ?? []);
       startRest();
     }
-  }
-
-  // Repeat-last-workout (Train side): copy last time's weights/reps for this
-  // exercise into the live inputs. Home's "repeat whole workout" affordance is
-  // owned by another agent; this fills one exercise's numbers on demand.
-  function handleUseLast(slot: string, key: string, st: LiveSlotState) {
-    const lp = lastFor(historyEntries, slot, st.kind);
-    if (!lp || !lp.length) {
-      toast('No previous numbers for this one yet');
-      return;
-    }
-    const weighted = st.kind !== 'bw';
-    const n = Math.max((st.sets ?? []).length, lp.length);
-    for (let j = 0; j < n; j++) {
-      const src = lp[Math.min(j, lp.length - 1)];
-      if (!src) continue;
-      if (j >= (st.sets ?? []).length) dispatch({ type: 'ADD_SET', key });
-      if (weighted) dispatch({ type: 'UPDATE_SET', key, index: j, field: 'w', value: src.w });
-      dispatch({ type: 'UPDATE_SET', key, index: j, field: 'r', value: src.r });
-    }
-    toast(`Filled ${slot} from last time`);
   }
 
   function handleSave() {
@@ -405,10 +364,7 @@ export function TrainView() {
             canMoveUp={i > 0}
             canMoveDown={i < session.slots.length - 1}
             suggestion={suggestion}
-            hasLast={!!(lastSets && lastSets.length)}
-            autofill={autofill}
-            onToggleAutofill={toggleAutofill}
-            onUseLast={() => handleUseLast(sl[0], key, st)}
+            lastSets={lastSets ? lastSets.map((s) => ({ w: s.w ?? '', r: s.r ?? '' })) : null}
             onRest={() => startRest()}
             onMoveUp={() => handleMove(sl[0], -1)}
             onMoveDown={() => handleMove(sl[0], 1)}
