@@ -1,0 +1,29 @@
+/* Export-my-data subsection in Profile → Account. Reuses existing tokens
+   (--acc lime #c6f24e, --surf2, --line) so it inherits the dark theme. */
+.dataio {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.dataio-hint {
+  font-size: 12px;
+  color: var(--muted, #8a8f98);
+  margin: 0 0 8px;
+}
+.dataio-actions {
+  display: flex;
+  gap: 8px;
+}
+.dataio-actions .btn {
+  margin-top: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.dataio-actions .btn svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}

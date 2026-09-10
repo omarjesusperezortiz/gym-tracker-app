@@ -1,3 +1,4 @@
+import '../styles/dataio-extras.css';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { catalog } from '@gym-tracker/core';
 import { PageHeader } from '../components/PageHeader';
@@ -25,6 +26,8 @@ import {
 import { makeYScale, smoothPath } from '../lib/chart';
 import { humanDate } from '../lib/dates';
 import { IconEdit, IconEmpty, IconSignOut } from '../lib/icons';
+import { useWorkouts } from '../lib/useWorkouts';
+import { downloadCSV, downloadJSON } from '../lib/exportData';
 
 const KG_PER_LB = 0.45359237;
 const REST_PRESETS = [60, 90, 120, 180];
@@ -57,6 +60,7 @@ export function ProfileView() {
   const prsQuery = usePersonalRecords();
   const savePrefs = useSavePrefs();
   const logWeighIn = useLogBodyweight();
+  const { history } = useWorkouts();
 
   const prefs = prefsQuery.data ?? DEFAULT_PREFS;
   const units = prefs.units;
@@ -98,6 +102,16 @@ export function ProfileView() {
     .sort((a, b) => (b.bestWeight ?? 0) - (a.bestWeight ?? 0))
     .slice(0, 8);
 
+  function handleExport(format: 'csv' | 'json') {
+    const workouts = history.filter((w) => w.type === 'workout');
+    if (!workouts.length) {
+      toast('No workouts to export yet');
+      return;
+    }
+    const ok = format === 'csv' ? downloadCSV(workouts) : downloadJSON(workouts);
+    toast(ok ? `Exported ${workouts.length} workouts as ${format.toUpperCase()}` : 'Downloads are not supported here');
+  }
+
   const age = prefs.birthYear ? new Date().getFullYear() - prefs.birthYear : null;
   const email = session?.user?.email ?? null;
 
@@ -124,6 +138,18 @@ export function ProfileView() {
         <button className="btn sec profile-signout" onClick={() => void signOut()}>
           <IconSignOut /> Log out
         </button>
+
+        <div className="dataio">
+          <p className="dataio-hint">Download all your workout data.</p>
+          <div className="dataio-actions">
+            <button className="btn sec" onClick={() => handleExport('csv')}>
+              <IconDownload /> Export CSV
+            </button>
+            <button className="btn sec" onClick={() => handleExport('json')}>
+              <IconDownload /> Export JSON
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="sec-label">About you</div>
@@ -373,6 +399,18 @@ function InlinePref({
         }}
       />
     </div>
+  );
+}
+
+// Small local download glyph — icons.tsx has no download icon and it's owned by
+// another view, so this stays inline here.
+function IconDownload() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3v12" />
+      <path d="m7 10 5 5 5-5" />
+      <path d="M5 21h14" />
+    </svg>
   );
 }
 
