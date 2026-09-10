@@ -10,10 +10,29 @@
   align-items: center;
   flex-wrap: wrap;
 }
+/* Front + back bodies side by side */
+.mmap-bodies {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+}
 .mmap-fig {
   flex: 0 0 auto;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.mmap-fig svg {
+  width: 92px;
+  height: auto;
+}
+.mmap-view {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint, #5a5f6e);
 }
 .mmap-svg {
   width: 150px;
