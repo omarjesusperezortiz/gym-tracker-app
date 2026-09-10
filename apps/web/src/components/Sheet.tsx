@@ -1,5 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { useRef, useState, type ReactNode, type PointerEvent } from 'react';
+import { IconClose } from '../lib/icons';
 
 // Bottom drawer used by Calendar's day-detail view (and any future sheet).
 // Radix Dialog gives us a real focus trap, Esc-to-close, scroll lock, and
@@ -49,6 +50,9 @@ export function Sheet({
           style={dragY ? { transform: `translateY(${dragY}px)`, transition: 'none' } : undefined}
         >
           <Dialog.Title className="sr-only">{title}</Dialog.Title>
+          <button className="sheet-close" onClick={onClose} aria-label="Close">
+            <IconClose />
+          </button>
           <div
             className="grab"
             onPointerDown={onPointerDown}

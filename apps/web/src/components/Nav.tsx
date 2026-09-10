@@ -6,7 +6,7 @@ const NAVS: { v: View; label: string; Icon: () => JSX.Element }[] = [
   { v: 'home', label: 'Home', Icon: IconHome },
   { v: 'calendar', label: 'Calendar', Icon: IconCal },
   { v: 'progress', label: 'Progress', Icon: IconProgress },
-  { v: 'meals', label: 'Meals', Icon: IconMeal },
+  { v: 'meals', label: 'Nutrition', Icon: IconMeal },
   { v: 'profile', label: 'Profile', Icon: IconProfile },
 ];
 

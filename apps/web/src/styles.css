@@ -67,7 +67,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .prog .pl{font-size:13px;font-weight:600}.prog .ps{font-size:12px;color:var(--mut);margin-top:2px}
 /* No top bar any more, so the scroll container itself keeps content out from
    under the status bar / notch. Train opts out — its sticky bar does that. */
-.wrap{padding:calc(env(safe-area-inset-top) + 12px) 14px calc(96px + env(safe-area-inset-bottom))}
+/* Centred phone-width column on desktop (H-4); full width on mobile since the
+   max-width simply doesn't bind below 520px. Bottom padding reserves the
+   floating nav pill's height + safe-area + a gap so short pages can scroll their
+   last element (e.g. the Today CTA) fully clear of the nav (C-1). */
+.wrap{max-width:520px;margin-inline:auto;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(120px + env(safe-area-inset-bottom))}
 /* Train's header is position:fixed full-bleed (see header/.trainbar), so the
    train scroll container drops its own top padding and instead reserves room
    for that fixed bar. */
@@ -141,6 +145,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .nav .ni svg{width:20px;height:20px;flex:none}
 .nav .ni.active{color:var(--acc);background:rgba(198,242,78,.14)}
 .nav .ni.active svg{filter:drop-shadow(0 0 6px rgba(198,242,78,.4))}
+/* Hide the floating nav while a Sheet/modal is open (H-1) so it can't show
+   through the panel or sit on top of it. Radix mounts the .modal overlay at the
+   body level, so :has scoped to the body catches any open dialog. */
+body:has(.modal) .nav{display:none}
 /* Finish bar sits above nav on Train view */
 .dock{position:fixed;left:0;right:0;bottom:calc(88px + env(safe-area-inset-bottom));z-index:44;padding:0 14px 10px;display:flex;gap:10px}
 .dock.hide{display:none}
@@ -235,7 +243,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .backbtn svg{width:20px;height:20px}
 .trainbar .tinfo{flex:1;min-width:0}
 .trainbar .tt{font-size:18px;font-weight:600;letter-spacing:-.4px;display:flex;align-items:center;gap:8px}
-.trainbar .tm{font-size:12px;color:var(--mut);margin-top:1px}
+.trainbar .tm{font-size:12px;color:var(--mut);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .editbadge{display:inline-flex;align-items:center;min-height:32px;padding:4px 9px;margin:-4px 2px -4px 0;
   border-radius:8px;background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.3);
   color:var(--warn);font-weight:600;font-size:11px;cursor:pointer}
@@ -256,6 +264,13 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .grab:active{cursor:grabbing;background:var(--mut)}
 /* invisible >=44px hit area around the little handle, for drag-to-dismiss */
 .grab::after{content:"";position:absolute;left:-60px;right:-60px;top:-22px;bottom:-22px}
+/* Explicit close button (L-7) — drag-to-dismiss isn't discoverable on desktop. */
+.sheet-close{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;z-index:1}
+.sheet-close:hover{background:rgba(255,255,255,.1);color:var(--ink)}
+.sheet-close:active{transform:scale(.9)}
+.sheet-close svg{width:17px;height:17px}
 .sheet{will-change:transform}
 .sheet h2{margin:0 0 3px;font-size:18px;letter-spacing:-.4px}.sh-sub{color:var(--mut);font-size:12.5px;margin-bottom:14px}
 .hentry{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
@@ -397,7 +412,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .onb-skipall:active{opacity:.6}
 .onb-skipall:disabled{opacity:.4}
 
-.onb-card{flex:1;overflow-y:auto;display:flex;flex-direction:column;justify-content:safe center;animation:onbin .28s cubic-bezier(.2,.8,.2,1)}
+.onb-card{flex:1;overflow-y:auto;display:flex;flex-direction:column;justify-content:safe center;animation:onbin .28s cubic-bezier(.2,.8,.2,1);width:100%;max-width:520px;margin-inline:auto}
 @keyframes onbin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
 .onb-title{font-size:26px;font-weight:800;letter-spacing:-.7px;line-height:1.2;margin:6px 0 8px}
 .onb-sub{font-size:13.5px;color:var(--mut);line-height:1.55;margin:0 0 22px}
@@ -412,7 +427,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
 .onb-row + .onb-row{border-top:1px solid var(--line)}
 .onb-row-label{font-size:13px;font-weight:600;color:var(--ink2);flex:none}
 
-.onb-foot{display:flex;align-items:center;gap:10px;padding-top:16px;flex:none}
+.onb-foot{display:flex;align-items:center;gap:10px;padding-top:16px;flex:none;width:100%;max-width:520px;margin-inline:auto}
+/* Keep the primary CTA anchored to the right edge of the column so it doesn't
+   shift when the optional "Skip for now" button appears on some steps (L-4). */
+.onb-next{margin-left:auto}
 .onb-back,.onb-back-spacer{width:46px;height:46px;flex:none}
 .onb-back{border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--ink2);
   display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
@@ -615,8 +633,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
     background:linear-gradient(160deg, rgba(255,255,255,.20), rgba(255,255,255,.06) 45%, rgba(255,255,255,.03));
   }
 
-  /* Sheet (bottom drawer) = deeper glass */
-  .sheet{background:rgba(16,18,22,.72);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+  /* Sheet (bottom drawer): opaque so content never reads through, regardless of
+     whether backdrop-filter applies (a filtered/transformed ancestor disables
+     it). The blur is a bonus, not a dependency (H-1). */
+  .sheet{background:#101216;backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
     box-shadow:inset 0 1px 0 var(--glass-hi),0 -12px 40px rgba(0,0,0,.5)}
 
   /* Plan chips + icon buttons get the same frost */
@@ -646,4 +666,17 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.82);backdrop-f
   .wrap{animation:none}
   *{transition:none!important}
 }
+
+/* Hide native number-input spinners globally — they render bright white on the
+   dark fields, the only unstyled controls in the app (M-5). */
+input[type=number]{appearance:none;-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+
+/* Segmented-control tap targets ≥44px (M-9a). Raise the option/row height with
+   PADDING (not font-size) so the layout holds. Applies to both the Train-card
+   segments and the inline Profile variant. */
+.seg{min-height:44px;align-items:stretch}
+.seg .segi{min-height:44px;display:flex;align-items:center;justify-content:center}
+.seg.seg-inline .segi{min-height:44px}
 

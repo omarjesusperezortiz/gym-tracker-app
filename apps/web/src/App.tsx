@@ -51,7 +51,10 @@ function Shell() {
       <div className={`wrap${inTrain ? ' wrap-train' : ''}`}>
         <Screens />
       </div>
-      <Nav />
+      {/* Hide the tab nav during an active workout (M-1): the Train screen has
+          its own Save/Finish dock, and two stacked bottom bars would cover the
+          set inputs — plus it keeps users from wandering off mid-session. */}
+      {!inTrain && <Nav />}
     </>
   );
 }
