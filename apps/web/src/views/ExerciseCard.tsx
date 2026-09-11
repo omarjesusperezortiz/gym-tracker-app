@@ -1,5 +1,5 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { isTimeScheme, KIND_LABEL } from '@gym-tracker/core';
+import { isTimeScheme, KIND_LABEL, mediaFor } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
@@ -73,6 +73,7 @@ export function ExerciseCard({
   const { kind, done, sets } = state;
   const timeBased = isTimeScheme(scheme);
   const weighted = kind !== 'bw';
+  const hasGif = mediaFor(slot) != null;
 
   const variationsForSlot = plan.variations[slot] || {};
   const vr = variationsForSlot[kind] || Object.values(variationsForSlot)[0];
@@ -136,11 +137,18 @@ export function ExerciseCard({
       )}
 
       <div className="detail">
-        <ExerciseGif name={slot} size="card" badge hideWhenMissing />
         {vr && (
           <>
             <div className="exvarname">{vr.name}</div>
             {cue && <div className="cue">{cue}</div>}
+          </>
+        )}
+        {/* One demonstration visual: the animated gif when we have it, otherwise
+            fall back to the variation's start/finish photo pair. Never both. */}
+        {hasGif ? (
+          <ExerciseGif name={slot} size="card" badge />
+        ) : (
+          vr && (
             <div className="imgs">
               <div className="imgcell">
                 <span className="tag">Start</span>
@@ -151,7 +159,7 @@ export function ExerciseCard({
                 <img loading="lazy" src={vr.img2} alt={`${vr.name} finish`} onClick={() => onZoom(vr.img2)} />
               </div>
             </div>
-          </>
+          )
         )}
         {force && (
           <div className={`force-note${state.force ? ' show' : ''}`}>
