@@ -38,11 +38,11 @@ describe('HomeView', () => {
 
     // The hero badge greets by time of day (or "Welcome" on first run).
     expect(screen.getAllByText(/^(Good (morning|afternoon|evening)|Welcome)$/).length).toBeGreaterThan(0);
-    // "Mode" section + the 3-stat this-week strip.
+    // "Mode" section + the slim one-line stat strip (this week / total / streak).
     expect(screen.getByText('Mode')).toBeInTheDocument();
-    expect(screen.getByText('This week')).toBeInTheDocument();
-    expect(screen.getByText('Total')).toBeInTheDocument();
-    expect(screen.getByText('Day streak')).toBeInTheDocument();
+    expect(screen.getByText('this week')).toBeInTheDocument();
+    expect(screen.getByText('total')).toBeInTheDocument();
+    expect(screen.getByText('streak')).toBeInTheDocument();
     // Three mode cards.
     expect(container.querySelectorAll('.mode-card')).toHaveLength(Object.keys(catalog.plans).length);
   });

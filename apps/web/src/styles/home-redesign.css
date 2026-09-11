@@ -110,8 +110,8 @@
   position: relative;
   border-radius: 15px;
   border: 1px solid var(--line);
-  padding: 14px 10px 12px;
-  min-height: 96px;
+  padding: 12px 12px 11px;
+  min-height: 72px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -181,3 +181,21 @@
 .dthumb .exgif, .dthumb .exgif-thumb { width: 52px; height: 44px; border-radius: 10px; }
 .dthumb-emoji { position: absolute; font-size: 20px; z-index: 0; }
 .dthumb .exgif { position: relative; z-index: 1; }
+
+/* Layout A: Start button in header + slim one-line stat strip */
+.home-head-start {
+  margin-left: auto; flex: none; background: var(--acc); color: var(--acc-ink);
+  font-family: inherit; font-size: 13px; font-weight: 800; border: none;
+  padding: 10px 16px; border-radius: 22px; cursor: pointer; white-space: nowrap;
+}
+.home-head-start:active { transform: scale(0.96); }
+
+.home-statline {
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+  border: 1px solid var(--line); border-radius: 13px; padding: 11px 15px; margin-bottom: 18px;
+}
+.hsl-item { display: flex; align-items: baseline; gap: 5px; }
+.hsl-n { font-size: 16px; font-weight: 800; color: var(--acc); font-family: var(--mono, monospace); }
+.hsl-l { font-size: 11px; color: var(--mut); }
+.hsl-sep { width: 1px; height: 16px; background: var(--line2); flex: none; }

@@ -78,63 +78,46 @@ export function HomeView() {
 
   return (
     <div className="dash">
-      {/* Avatar header */}
+      {/* Header: avatar + name + Start (layout A — no big hero) */}
       <div className="home-head">
         <Avatar avatarKey={prefs?.avatar} size={44} />
         <div className="home-head-hi">
           <div className="home-head-wb">{greeting()}</div>
           <div className="home-head-nm">{prefs?.displayName || 'Athlete'}</div>
         </div>
-      </div>
-
-      {/* Welcome hero — image-background card (reused for first-time welcome). */}
-      <div className={`home-hero${firstTime ? ' first' : ''}`}>
-        <span className="home-hero-badge">{firstTime ? 'Welcome' : greeting()}</span>
-        <div className="home-hero-title">
-          {firstTime ? (
-            <>
-              Let&apos;s start
-              <br />
-              <span className="a">training.</span>
-            </>
-          ) : (
-            <>
-              Ready to
-              <br />
-              <span className="a">train?</span>
-            </>
-          )}
-        </div>
-        <div className="home-hero-sub">
-          {firstTime
-            ? 'Pick a mode and your first session below.'
-            : `${recap.workouts} session${recap.workouts === 1 ? '' : 's'} this week — keep it going.`}
-        </div>
         {heroSession && (
           <button
-            className="home-hero-cta"
+            className="home-head-start"
             onClick={() => openSession(heroSession.plan, heroSession.day)}
           >
-            {ip[0] ? 'Resume session' : "Start today's session"} →
+            {ip[0] ? 'Resume' : 'Start'} ▶
           </button>
         )}
       </div>
 
-      {/* Straightforward "this week" 3-stat strip. */}
-      <div className="home-stats">
-        <div className="home-stat">
-          <div className="hs-n">{recap.workouts}</div>
-          <div className="hs-l">This week</div>
+      {/* Slim one-line stat strip */}
+      <div className="home-statline">
+        <div className="hsl-item">
+          <span className="hsl-n">{recap.workouts}</span>
+          <span className="hsl-l">this week</span>
         </div>
-        <div className="home-stat">
-          <div className="hs-n">{total}</div>
-          <div className="hs-l">Total</div>
+        <span className="hsl-sep" />
+        <div className="hsl-item">
+          <span className="hsl-n">{total}</span>
+          <span className="hsl-l">total</span>
         </div>
-        <div className="home-stat">
-          <div className="hs-n">{recap.streak}</div>
-          <div className="hs-l">Day streak</div>
+        <span className="hsl-sep" />
+        <div className="hsl-item">
+          <span className="hsl-n">🔥 {recap.streak}</span>
+          <span className="hsl-l">streak</span>
         </div>
       </div>
+
+      {firstTime && (
+        <div className="empty" style={{ marginBottom: 4 }}>
+          No workouts yet — pick a mode and your first session below.
+        </div>
+      )}
 
       {ip.length > 0 && (
         <>
@@ -177,12 +160,6 @@ export function HomeView() {
           );
         })}
       </div>
-
-      {firstTime && (
-        <div className="empty" style={{ marginBottom: 4 }}>
-          No workouts yet — your week, total and streak fill in once you finish your first.
-        </div>
-      )}
 
       {groups.map(([g, label]) => {
         const gk = keys.filter((k) => (P.sessions[k].group || 'focused') === g);
