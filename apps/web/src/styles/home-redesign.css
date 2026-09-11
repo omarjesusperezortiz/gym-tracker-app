@@ -102,7 +102,7 @@
 /* Mode cards — Gym / Calisthenics / Travel as image tiles. */
 .mode-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 9px;
   margin-bottom: 8px;
 }
@@ -171,8 +171,7 @@
 .home-head-wb { font-size: 11px; color: var(--mut); }
 .home-head-nm { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; }
 
-/* Mode grid: Travel (3rd, odd last) spans full width on its own row */
-.mode-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+/* Mode grid: 2 columns, 2 rows (Travel sits in row 2, col 1) */
 
 /* Session pick rows: gif thumbnail instead of bare emoji */
 .dthumb {

@@ -8,19 +8,24 @@
   line-height: 1;
   user-select: none;
 }
+
+/* Compact horizontal strip — scroll to browse, tap to pick. */
 .avatar-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
   gap: 10px;
-  padding: 4px 0 2px;
+  overflow-x: auto;
+  padding: 6px 2px 10px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-@media (max-width: 380px) {
-  .avatar-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.avatar-grid::-webkit-scrollbar {
+  display: none;
 }
 .avatar-opt {
-  aspect-ratio: 1;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
   padding: 0;
   border: 2px solid transparent;
   border-radius: 50%;
@@ -29,6 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  scroll-snap-align: start;
   transition: transform 0.12s;
 }
 .avatar-opt .avatar {
@@ -41,5 +47,5 @@
 }
 .avatar-opt.on {
   border-color: var(--acc);
-  box-shadow: 0 0 0 2px rgba(214, 242, 78, 0.25);
+  box-shadow: 0 0 0 2px rgba(214, 242, 78, 0.3);
 }
