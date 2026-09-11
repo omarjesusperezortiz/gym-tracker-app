@@ -77,6 +77,19 @@ a{color:var(--acc)}
 <!-- PROFILE -->
 <h2><span class="em">👤</span>Profile <span class="grade g-bad">FOCUS · needs work</span></h2>
 <div class="vsub">The main target. Everything is dumped into identical stacked cards with no hierarchy — it reads as a long settings form, not a profile.</div>
+
+<div class="lead" style="border-color:rgba(214,242,78,.25)">
+  <h3 style="color:var(--acc)">📐 How Profile SHOULD look (benchmarked: Hevy · Strong · Whoop · Apple Fitness)</h3>
+  <div class="big" style="margin-bottom:10px">Every serious gym app treats Profile as <b>identity + trophy case + account gateway</b> — never a settings dump or a second dashboard. The vertical order is universal:</div>
+  <ul>
+    <li><b style="color:var(--ink)">1 · Identity header</b> — avatar + display name + "Edit profile" button. (You have the avatar; it needs to become a real hero.)</li>
+    <li><b style="color:var(--ink)">2 · 3-stat headline row</b> — the near-universal trio: <b>Workouts · Total volume · Streak</b>. Biggest type on the screen. This is table stakes — every app has it.</li>
+    <li><b style="color:var(--ink)">3 · Achievements / PRs</b> — preview 3–5 + "See all". <i>Preview, don't inline</i> the full table.</li>
+    <li><b style="color:var(--ink)">4 · Settings behind a gear or grouped-divided list</b> — chunk into labeled sections: Account · Preferences · Integrations · Data &amp; Privacy · About. One action per row + chevron.</li>
+    <li><b style="color:var(--ink)">5 · Data ownership visible</b> — Export/Import + delete-account grouped at the bottom. Strong makes "export anytime" a headline feature; it reads as trustworthy.</li>
+  </ul>
+  <div class="big" style="margin-top:10px;color:var(--mut)">Sources: ScreensDesign Hevy/Strong breakdowns · strong.app · NN/g "Tabs, Used Right" &amp; "Dashboards".</div>
+</div>
 <div class="split">
   <div class="shot"><img src="ux/ux-profile.png" alt="Profile"><div class="cap">current</div></div>
   <div class="findings">
@@ -138,6 +151,15 @@ a{color:var(--acc)}
   <div class="findings">
     <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Compact layout A landed well</div><div class="iwrong">Header + Start + slim stat line + 2×2 mode grid + workouts. Workouts visible without scrolling.</div></div>
     <div class="issue s2"><span class="tag t2">S2 · S</span><div class="itl">Same white-thumbnail clash on session rows</div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<h2><span class="em">🧭</span>Bottom navigation <span class="grade g-ok">research finding</span></h2>
+<div class="vsub">Not a screen, but a structural issue the competitor research surfaced.</div>
+<div class="split">
+  <div class="findings" style="flex:1 1 100%">
+    <div class="issue s3"><span class="tag t3">S3 · M</span><span class="tag" style="background:rgba(255,255,255,.06);color:var(--mut)">H4/M1</span><div class="itl">6 tabs is one over the comfortable ceiling</div><div class="iwrong">NN/g recommends <b>4–5 visible destinations</b> in a bottom nav; 6 cramps labels and shrinks tap targets. And <b>"Today" vs "Home" overlap</b> — users get weak "information scent" telling them apart (a documented NN/g failure).</div><div class="ifix"><b>Fix:</b> Merge "Today" + "Home" into one <b>Home/Today</b> tab → clean 5 tabs (Home · Calendar · Progress · Nutrition · Profile). Keep labels 1–2 words, title case (not ALL CAPS), lime only on the active tab.</div></div>
   </div>
 </div>
 
