@@ -22,7 +22,11 @@ export function createSupabase(storage: AuthStorage): SupabaseClient {
       storage: storage as never,
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false,
+      // Process the OAuth ?code=… (and recovery) params on return so Google /
+      // magic-link sign-in actually establishes a session instead of bouncing
+      // back to the login screen. PKCE is the recommended browser flow.
+      detectSessionInUrl: true,
+      flowType: 'pkce',
     },
   });
 }
