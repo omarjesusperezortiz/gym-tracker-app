@@ -302,6 +302,102 @@ export const exerciseMedia: Record<string, ExerciseMedia> = {
       "Engage your core and lift your body off the ground, balancing on your forearms and toes.",
     ],
   },
+  "Overhead triceps": {
+    id: "dZl9Q27",
+    target: "triceps",
+    secondary: ["shoulders"],
+    equip: "barbell",
+    steps: [
+      "Stand with your feet shoulder-width apart and hold a barbell with an overhand grip.",
+      "Raise the barbell overhead, fully extending your arms.",
+      "Keeping your upper arms close to your head, slowly lower the barbell behind your head by bending your elbows.",
+      "Pause for a moment, then raise the barbell back to the starting position by extending your arms.",
+    ],
+  },
+  "Side Plank": {
+    id: "VO2qeJg",
+    target: "adductors",
+    secondary: ["obliques", "glutes"],
+    equip: "body weight",
+    steps: [
+      "Start by lying on your side with your legs extended and stacked on top of each other.",
+      "Prop yourself up on your forearm, keeping your elbow directly below your shoulder.",
+      "Engage your core and lift your hips off the ground, creating a straight line from your head to your feet.",
+      "While maintaining the side plank position, lift your top leg towards the ceiling, keeping it straight.",
+    ],
+  },
+  "Hanging/Lying Leg Raise": {
+    id: "I3tsCnC",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+      "Engage your core and lift your legs up in front of you, keeping them straight.",
+      "Continue lifting until your legs are parallel to the ground or as high as you can comfortably go.",
+      "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
+    ],
+  },
+  "Leg raise (core)": {
+    id: "I3tsCnC",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+      "Engage your core and lift your legs up in front of you, keeping them straight.",
+      "Continue lifting until your legs are parallel to the ground or as high as you can comfortably go.",
+      "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
+    ],
+  },
+  "Reverse Crunch": {
+    id: "nCU1Ekp",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your arms extended along your sides.",
+      "Bend your knees and lift your feet off the ground, bringing your thighs perpendicular to the floor.",
+      "Contract your abs and curl your hips off the floor, bringing your knees towards your chest.",
+      "Pause for a moment at the top, then slowly lower your hips back down to the starting position.",
+    ],
+  },
+  "Bicycle Crunch": {
+    id: "tZkGYZ9",
+    target: "abs",
+    secondary: ["hip flexors", "obliques"],
+    equip: "band",
+    steps: [
+      "Lie flat on your back with your hands behind your head and your knees bent.",
+      "Lift your feet off the ground and bring your right knee towards your chest while simultaneously twisting your torso to bring your left elbow towards your right knee.",
+      "Straighten your right leg while bringing your left knee towards your chest and twisting your torso to bring your right elbow towards your left knee.",
+      "Continue alternating the twisting motion, as if you are pedaling a bicycle, while keeping your core engaged throughout the movement.",
+    ],
+  },
+  "Russian Twist": {
+    id: "fZFZ704",
+    target: "abs",
+    secondary: ["obliques", "lower back"],
+    equip: "weighted",
+    steps: [
+      "Sit on the ground with your knees bent and your feet flat on the floor.",
+      "Hold a weight or medicine ball with both hands in front of your chest.",
+      "Lean back slightly, keeping your back straight and your core engaged.",
+      "Slowly twist your torso to the right, bringing the weight or medicine ball towards the floor on your right side.",
+    ],
+  },
+  "Pallof Press (anti-rotation)": {
+    id: "9pa4H5m",
+    target: "abs",
+    secondary: ["obliques", "glutes"],
+    equip: "band",
+    steps: [
+      "Attach the band to a sturdy anchor point at waist height.",
+      "Stand perpendicular to the anchor point with your feet shoulder-width apart.",
+      "Grasp the band handle with both hands and step away from the anchor point to create tension in the band.",
+      "Bring your hands to your chest, keeping your elbows bent and close to your body.",
+    ],
+  },
 };
 
 /** Look up media for a catalog movement name (null when we have none yet). */

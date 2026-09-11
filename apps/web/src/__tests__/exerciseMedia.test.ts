@@ -36,7 +36,7 @@ describe('exercise media integrity', () => {
   it('no accidental duplicate gif ids (aliases allowed)', () => {
     // "Plank" and "Plank (core)" are the same movement and deliberately share a
     // gif. Any other id appearing twice would be an accidental mismapping.
-    const KNOWN_ALIASES = new Set(['Plank (core)']);
+    const KNOWN_ALIASES = new Set(['Plank (core)', 'Leg raise (core)']);
     const seen = new Map<string, string>();
     for (const [name, m] of entries) {
       if (KNOWN_ALIASES.has(name)) continue;
