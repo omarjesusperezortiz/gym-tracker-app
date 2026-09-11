@@ -4,6 +4,7 @@ import { createSupabase, setSupabase } from '@gym-tracker/core';
 import App from './App';
 import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import { PickerShowcase } from './dev/PickerShowcase';
+import { ExerciseAudit } from './dev/ExerciseAudit';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -18,7 +19,15 @@ const showcase = new URLSearchParams(window.location.search).get('showcase');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {showcase === 'exercises' ? <ExerciseShowcase /> : showcase === 'picker' ? <PickerShowcase /> : <App />}
+    {showcase === 'exercises' ? (
+      <ExerciseShowcase />
+    ) : showcase === 'picker' ? (
+      <PickerShowcase />
+    ) : showcase === 'audit' ? (
+      <ExerciseAudit />
+    ) : (
+      <App />
+    )}
   </StrictMode>
 );
 
