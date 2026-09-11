@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gym Tracker — UX Audit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--red:#ff6b6b;--org:#ffa53d;--yel:#ffd93d;--grn:#3ddc97;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07080a;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55;padding:40px 20px 90px}
+.wrap{max-width:960px;margin:0 auto}
+h1{font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.sub{color:var(--mut);font-size:15px;margin-bottom:8px}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:30px}
+h2{font-size:22px;font-weight:900;letter-spacing:-.5px;margin:38px 0 4px;padding-top:20px;border-top:1px solid var(--line)}
+h2 .em{margin-right:8px}
+.vsub{color:var(--mut);font-size:13px;margin-bottom:16px}
+.grade{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;margin-left:8px;vertical-align:middle}
+.g-good{background:rgba(61,220,151,.15);color:var(--grn)}
+.g-ok{background:rgba(255,217,61,.15);color:var(--yel)}
+.g-bad{background:rgba(255,107,107,.15);color:var(--red)}
+.split{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.shot{flex:0 0 240px}
+.shot img{width:240px;border-radius:16px;border:1px solid var(--line2);display:block}
+.shot .cap{font-size:11px;color:var(--faint);font-family:var(--mono);text-align:center;margin-top:6px}
+.findings{flex:1;min-width:280px}
+.issue{background:var(--surf);border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.issue.s4{border-left-color:var(--red)}
+.issue.s3{border-left-color:var(--org)}
+.issue.s2{border-left-color:var(--yel)}
+.issue.good{border-left-color:var(--grn)}
+.tag{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-right:7px}
+.t4{background:rgba(255,107,107,.16);color:var(--red)}
+.t3{background:rgba(255,165,61,.16);color:var(--org)}
+.t2{background:rgba(255,217,61,.16);color:var(--yel)}
+.tgood{background:rgba(61,220,151,.16);color:var(--grn)}
+.itl{font-weight:700;font-size:14px;margin-bottom:3px}
+.iwrong{font-size:13px;color:var(--ink2)}
+.ifix{font-size:13px;color:var(--mut);margin-top:4px}
+.ifix b{color:var(--acc);font-weight:600}
+.lead{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:10px}
+.lead h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.scount{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.pill{font-family:var(--mono);font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px}
+.big{font-size:15px;color:var(--ink2)}
+.big b{color:var(--acc)}
+ul{margin:8px 0 0 18px}li{margin-bottom:5px;font-size:13.5px;color:var(--ink2)}
+.qwin{background:linear-gradient(150deg,rgba(214,242,78,.08),transparent);border:1px solid rgba(214,242,78,.25);border-radius:14px;padding:18px 22px;margin:26px 0}
+.qwin h3{color:var(--acc);font-size:15px;font-weight:800;margin-bottom:10px}
+.foot{color:var(--faint);font-size:11px;font-family:var(--mono);margin-top:40px;text-align:center;line-height:1.7}
+a{color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+
+<h1>Gym Tracker — UX Audit</h1>
+<div class="sub">Heuristic evaluation of every screen · Nielsen 10 + mobile heuristics (WCAG / NN/g / Baymard)</div>
+<div class="meta">390px viewport (iPhone/WebKit) · empty-first-run state · severity 0–4 × effort S/M/L</div>
+
+<div class="lead">
+  <h3>Executive summary</h3>
+  <div class="scount">
+    <span class="pill t4">2 major (S3–4)</span>
+    <span class="pill t3">6 medium (S2–3)</span>
+    <span class="pill t2">5 minor (S1–2)</span>
+    <span class="pill tgood">4 already strong</span>
+  </div>
+  <div class="big">The app is <b>not broken — it's inconsistent</b>. The empty states (Progress, Calendar) and Today are genuinely clean. The "messy" feeling comes from three cross-cutting issues: <b>(1) white-background exercise images</b> glaring against the dark theme, <b>(2) Profile crammed into one endless mega-card</b> with no hierarchy, and <b>(3) inconsistent card usage</b> (some screens = one giant card, others = many). Fixing those three lifts the whole app.</div>
+</div>
+
+<div class="qwin">
+  <h3>⚡ Quick wins (high impact · low effort — do these first)</h3>
+  <ul>
+    <li><b>Tint/mask the white exercise-image backgrounds</b> to match the dark theme (Library, Today, exercise cards). Single biggest "clean-up" win.</li>
+    <li><b>Give Profile an identity header</b> (avatar + name + 2–3 key stats) instead of opening with a form.</li>
+    <li><b>Replace "—" empty placeholders</b> (Nutrition stats) with "Add weight →" — the dash reads as broken.</li>
+    <li><b>Make the avatar picker its own tidy row</b>, not hint-text wrapping beside the avatar.</li>
+  </ul>
+</div>
+
+<!-- PROFILE -->
+<h2><span class="em">👤</span>Profile <span class="grade g-bad">FOCUS · needs work</span></h2>
+<div class="vsub">The main target. Everything is dumped into identical stacked cards with no hierarchy — it reads as a long settings form, not a profile.</div>
+<div class="split">
+  <div class="shot"><img src="ux/ux-profile.png" alt="Profile"><div class="cap">current</div></div>
+  <div class="findings">
+    <div class="issue s3"><span class="tag t3">S3 · M</span><span class="tag tgood" style="opacity:.6">H4/H8</span><div class="itl">No identity header — opens with a form</div><div class="iwrong">Every top fitness app (Hevy, Strong, Whoop) leads Profile with a hero: big avatar + name + headline stats. Ours opens straight into "Name / Sex / Birth year".</div><div class="ifix"><b>Fix:</b> Identity hero at top — avatar, display name, and 2–3 stats (workouts, streak, current weight).</div></div>
+    <div class="issue s3"><span class="tag t3">S3 · M</span><span class="tag" style="background:rgba(255,255,255,.06);color:var(--mut)">H8</span><div class="itl">One giant "About you" mega-card</div><div class="iwrong">Name, Sex, Birth year, Height, Weight all in a single tall card — monotonous, no grouping, hard to scan.</div><div class="ifix"><b>Fix:</b> Group into compact iOS-Settings-style rows with chevrons; separate "Body" (height/weight) from "Identity" (name/sex/age).</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · S</span><span class="tag" style="background:rgba(255,255,255,.06);color:var(--mut)">H4</span><div class="itl">"Weight" row looks static but is interactive</div><div class="iwrong">It opens the weigh-in panel, but looks identical to the read-only Name/Height rows — inconsistent affordance.</div><div class="ifix"><b>Fix:</b> Give tappable rows a chevron/disclosure; static inputs stay flat.</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · S</span><div class="itl">Avatar picker feels bolted on</div><div class="iwrong">"Your avatar / Pick one below" hint text wraps awkwardly next to the avatar circle.</div><div class="ifix"><b>Fix:</b> Avatar as part of the identity hero; picker opens on tap (sheet), not always-expanded.</div></div>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<h2><span class="em">🏋️</span>Exercise Library <span class="grade g-bad">1 big issue</span></h2>
+<div class="vsub">Structure is good (search, chips, 2-col grid) — but the white image backgrounds dominate and clash.</div>
+<div class="split">
+  <div class="shot"><img src="ux/ux-library.png" alt="Library"><div class="cap">current</div></div>
+  <div class="findings">
+    <div class="issue s3"><span class="tag t3">S3 · S</span><span class="tag" style="background:rgba(255,255,255,.06);color:var(--mut)">H8/M6</span><div class="itl">White image backgrounds fight the dark theme</div><div class="iwrong">Bright white rectangles on a near-black UI = harsh, "unfinished" feel. This is the #1 driver of "messy".</div><div class="ifix"><b>Fix:</b> Tint the image area (subtle gradient/overlay), or blend the white to the card bg, or crop tighter so the figure fills more of the frame.</div></div>
+    <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Solid information scent</div><div class="iwrong">Muscle tag (lime) + "N Options" + section counts is genuinely useful and scannable.</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · S</span><div class="itl">Emoji filter icons read as playful, not pro</div><div class="ifix"><b>Fix:</b> Consider a consistent line-icon set for the muscle chips (keep emoji only if intentional brand tone).</div></div>
+  </div>
+</div>
+
+<!-- TODAY -->
+<h2><span class="em">📅</span>Today <span class="grade g-good">strong</span></h2>
+<div class="split">
+  <div class="shot"><img src="ux/ux-today.png" alt="Today"><div class="cap">current</div></div>
+  <div class="findings">
+    <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Clear hero + numbered exercise list</div><div class="iwrong">Good hierarchy, thumbnails, one obvious primary action. This is the model the other screens should follow.</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · S</span><div class="itl">Same white-thumbnail clash</div><div class="ifix"><b>Fix:</b> Apply the same image tint treatment as Library.</div></div>
+  </div>
+</div>
+
+<!-- NUTRITION -->
+<h2><span class="em">🥗</span>Nutrition <span class="grade g-ok">decent</span></h2>
+<div class="split">
+  <div class="shot"><img src="ux/ux-meals.png" alt="Nutrition"><div class="cap">current</div></div>
+  <div class="findings">
+    <div class="issue s3"><span class="tag t3">S3 · S</span><span class="tag" style="background:rgba(255,255,255,.06);color:var(--mut)">H1/H9</span><div class="itl">"—" placeholders read as broken</div><div class="iwrong">Protein/day and Water show a bare em-dash when no bodyweight is set — looks like a bug, not an empty state.</div><div class="ifix"><b>Fix:</b> Show "Add weight →" (link to Profile) in those tiles instead of "—".</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · M</span><div class="itl">Long text blocks, low scannability</div><div class="ifix"><b>Fix:</b> Principles/Example Day are wordy; tighten copy, add more whitespace between bullets.</div></div>
+    <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Clear 3-stat card + honest "guidance not targets" framing.</div></div>
+  </div>
+</div>
+
+<!-- PROGRESS + CALENDAR -->
+<h2><span class="em">📈</span>Progress &amp; <span class="em">🗓</span>Calendar <span class="grade g-good">clean empty states</span></h2>
+<div class="split">
+  <div class="shot"><img src="ux/ux-progress.png" alt="Progress"><div class="cap">Progress (empty)</div></div>
+  <div class="shot"><img src="ux/ux-calendar.png" alt="Calendar"><div class="cap">Calendar (empty)</div></div>
+  <div class="findings">
+    <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Textbook empty states</div><div class="iwrong">Icon + plain-language message + one clear CTA ("Start your first workout"). Follows NN/g empty-state guidance well.</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · —</span><div class="itl">Populated state not yet audited</div><div class="ifix"><b>Next:</b> re-audit both with real workout data — charts, PR cards, and the calendar legend/dot colors are where density problems usually appear.</div></div>
+  </div>
+</div>
+
+<!-- HOME -->
+<h2><span class="em">🏠</span>Home <span class="grade g-good">recently compacted</span></h2>
+<div class="split">
+  <div class="shot"><img src="ux/ux-home.png" alt="Home"><div class="cap">current</div></div>
+  <div class="findings">
+    <div class="issue good"><span class="tag tgood">GOOD</span><div class="itl">Compact layout A landed well</div><div class="iwrong">Header + Start + slim stat line + 2×2 mode grid + workouts. Workouts visible without scrolling.</div></div>
+    <div class="issue s2"><span class="tag t2">S2 · S</span><div class="itl">Same white-thumbnail clash on session rows</div></div>
+  </div>
+</div>
+
+<div class="foot">
+  Method: NN/g "How to Conduct a Heuristic Evaluation" · Nielsen's 10 Usability Heuristics (1994/2020) · WCAG 2.1 SC 2.5.5 &amp; 2.2 SC 2.5.8 (target size) · Baymard mobile UX · viewport-scroll capture per screenshot-verifying best practice.<br>
+  Empty-first-run states shown. Populated Progress/Calendar/Home pending a second pass with real data.
+</div>
+
+</div></body></html>
