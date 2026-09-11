@@ -19,6 +19,7 @@ export interface ExerciseCardProps {
   onToggleForce: () => void;
   onKindChange: (kind: Kind) => void;
   onSetChange: (index: number, field: 'w' | 'r', value: string) => void;
+  onToggleSetDone?: (index: number) => void;
   onAddSet: () => void;
   onDeleteSet?: (index: number) => void;
   onZoom: (src: string) => void;
@@ -53,6 +54,7 @@ export function ExerciseCard({
   onToggleForce,
   onKindChange,
   onSetChange,
+  onToggleSetDone,
   onAddSet,
   onDeleteSet,
   onZoom,
@@ -172,6 +174,7 @@ export function ExerciseCard({
             <div className="prev">PREVIOUS</div>
             {weighted && <div>{timeBased ? 'SEC' : 'KG'}</div>}
             <div>{timeBased ? 'TIME' : 'REPS'}</div>
+            <div className="sh-check">✓</div>
           </div>
           {suggestion && (
             <div className="prog-hint">
@@ -223,6 +226,7 @@ export function ExerciseCard({
                 ghostW={ghostW}
                 ghostR={ghostR}
                 onChange={(field, value) => onSetChange(j, field, value)}
+                onToggleDone={onToggleSetDone ? () => onToggleSetDone(j) : undefined}
                 onDelete={(sets ?? []).length > 1 ? () => onDeleteSet?.(j) : undefined}
               />
             );

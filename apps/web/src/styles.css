@@ -123,11 +123,12 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.97);backdrop-f
 .force-note{display:none;align-items:center;gap:8px;background:rgba(255,184,77,.08);border:1px solid rgba(255,184,77,.25);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2)}
 .force-note.show{display:flex}.force-note b{color:var(--warn)}
 .sets{display:flex;flex-direction:column;gap:8px}
-.sets-head{display:grid;grid-template-columns:40px 1fr 1fr 1fr;align-items:center;gap:8px;padding:0 2px 2px;font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--mut2);text-align:center}
-.sets-head.noweight{grid-template-columns:40px 1fr 1fr}
+.sets-head{display:grid;grid-template-columns:40px 1fr 1fr 1fr 34px;align-items:center;gap:8px;padding:0 2px 2px;font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--mut2);text-align:center}
+.sets-head.noweight{grid-template-columns:40px 1fr 1fr 34px}
 .sets-head .sl,.sets-head .prev{text-align:left}
-.setrow{display:grid;grid-template-columns:40px 1fr 1fr 1fr;align-items:center;gap:8px}
-.setrow.noweight{grid-template-columns:40px 1fr 1fr}
+.sets-head .sh-check{text-align:center;color:var(--ok)}
+.setrow{display:grid;grid-template-columns:40px 1fr 1fr 1fr 34px;align-items:center;gap:8px;background:var(--surf);will-change:transform;transition:transform .18s cubic-bezier(.2,.7,.3,1)}
+.setrow.noweight{grid-template-columns:40px 1fr 1fr 34px}
 .setrow .sl{font-size:14px;color:var(--ink2);font-weight:700;font-family:var(--mono);text-align:center}
 .setrow .prev{font-size:12px;color:var(--mut);font-family:var(--mono);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .setrow input{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 8px;font-size:16px;text-align:center;font-weight:600;font-family:var(--mono);transition:.15s;min-width:0}
@@ -137,6 +138,18 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,14,.97);backdrop-f
 .setrow input.filled{border-color:rgba(198,242,78,.35)}
 .setrow .last{font-size:11px;color:var(--ok);text-align:right;font-family:var(--mono);opacity:.85}
 .addset{margin-top:10px;width:100%;background:transparent;border:1px dashed var(--line2);color:var(--mut);border-radius:10px;padding:10px;font-size:12px;font-weight:600;cursor:pointer}
+
+/* Per-set check + swipe-to-delete (layout A) */
+.setrow-wrap{position:relative;border-radius:10px;overflow:hidden}
+.setrow-wrap .setrow{position:relative;z-index:1;padding:2px;border-radius:10px;background:var(--surf)}
+.setrow-check{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--line2);background:transparent;color:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer;margin:0 auto;padding:0;transition:.15s}
+.setrow-check.on{background:var(--ok);border-color:var(--ok);color:#04140d}
+/* whole row tints green when the set is checked done (opaque so delete stays hidden) */
+.setrow.done{background:#13241c}
+.setrow.done input{border-color:rgba(61,220,151,.3);color:var(--ok)}
+/* delete revealed by swiping the row left */
+.setrow-delete{position:absolute;top:0;right:-1px;bottom:0;width:74px;z-index:0;background:#e5484d;color:#fff;border:none;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:11px;font-weight:800;cursor:pointer;padding-left:2px}
+.setrow-delete .srd-ico{font-size:16px}
 
 /* Bottom nav — floating pill (modern mobile app style) */
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:45;

@@ -13,7 +13,11 @@ export function CardShowcase() {
     kind: 'cable',
     done: false,
     force: false,
-    sets: [{ w: '', r: '' }],
+    sets: [
+      { w: '42', r: '8', last: '40×8', done: true },
+      { w: '42', r: '8', last: '40×8', done: false },
+      { w: '', r: '', last: '40×8', done: false },
+    ],
   } as unknown as LiveSlotState);
 
   return (
@@ -27,7 +31,14 @@ export function CardShowcase() {
         onToggleForce={() => {}}
         onKindChange={(kind: Kind) => setState((s) => ({ ...s, kind }))}
         onSetChange={() => {}}
+        onToggleSetDone={(i) =>
+          setState((s) => ({
+            ...s,
+            sets: (s.sets ?? []).map((st, j) => (j === i ? { ...st, done: !st.done } : st)),
+          }))
+        }
         onAddSet={() => {}}
+        onDeleteSet={() => {}}
         onZoom={() => {}}
       />
     </div>

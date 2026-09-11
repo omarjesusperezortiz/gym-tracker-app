@@ -405,6 +405,7 @@ export function TrainView() {
               dispatch({ type: 'SET_KIND', key, planSlotKey: `${state.plan}|${sl[0]}`, kind, sets });
             }}
             onSetChange={(idx, field, value) => dispatch({ type: 'UPDATE_SET', key, index: idx, field, value })}
+            onToggleSetDone={(index) => dispatch({ type: 'TOGGLE_SET_DONE', key, index })}
             onAddSet={() => dispatch({ type: 'ADD_SET', key })}
             onDeleteSet={(index) => dispatch({ type: 'REMOVE_SET', key, index })}
             onZoom={setZoom}

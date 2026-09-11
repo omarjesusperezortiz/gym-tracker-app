@@ -12,6 +12,8 @@ export interface LiveSet {
   w: string;
   r: string;
   last: string;
+  /** Per-set completion tick (layout A). Optional so old persisted sets default to undone. */
+  done?: boolean;
 }
 
 export interface LiveSlotState {
@@ -56,6 +58,7 @@ type Action =
   | { type: 'TOGGLE_FORCE'; key: string }
   | { type: 'SET_KIND'; key: string; planSlotKey: string; kind: Kind; sets: LiveSet[] | null }
   | { type: 'UPDATE_SET'; key: string; index: number; field: 'w' | 'r'; value: string }
+  | { type: 'TOGGLE_SET_DONE'; key: string; index: number }
   | { type: 'ADD_SET'; key: string }
   | { type: 'REMOVE_SET'; key: string; index: number }
   | { type: 'CLEAR_SLOTS'; keys: string[]; sessionKey?: string }
@@ -112,6 +115,13 @@ export function reducer(state: State, action: Action): State {
       if (!cur || !cur.sets) return state;
       const sets = cur.sets.slice();
       sets[action.index] = { ...sets[action.index], [action.field]: action.value };
+      return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
+    }
+    case 'TOGGLE_SET_DONE': {
+      const cur = state.live[action.key];
+      if (!cur || !cur.sets) return state;
+      const sets = cur.sets.slice();
+      sets[action.index] = { ...sets[action.index], done: !sets[action.index].done };
       return { ...state, live: { ...state.live, [action.key]: { ...cur, sets } } };
     }
     case 'ADD_SET': {
