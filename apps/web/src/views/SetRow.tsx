@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { useDrag } from '@use-gesture/react';
 import type { LiveSet } from '../state/AppState';
 
 export interface SetRowProps {
@@ -16,6 +17,8 @@ export interface SetRowProps {
   onDelete?: () => void;
 }
 
+const REVEAL = 76; // px the row slides left to expose the Delete action
+
 export function SetRow({
   index,
   set,
@@ -30,34 +33,37 @@ export function SetRow({
   const repPlaceholder = timeBased ? 'sec' : 'reps';
   const done = !!set.done;
 
-  // Swipe-to-delete: drag the row left to reveal a Delete action underneath.
-  const REVEAL = 76; // px the row slides to expose the delete button
-  const [dx, setDx] = useState(0);
+  // Swipe-to-delete via @use-gesture. axis:'lock' means the gesture commits to
+  // the dominant direction on the first move: a mostly-vertical drag stays a
+  // normal page scroll (we never touch it), only a mostly-horizontal drag pulls
+  // the row. That's what stops the list scrolling when you try to swipe.
   const [open, setOpen] = useState(false);
-  const startX = useRef<number | null>(null);
-  const startOpen = useRef(false);
-  const dragging = useRef(false);
+  const [dx, setDx] = useState(0);
+  const [active, setActive] = useState(false);
 
-  function onPointerDown(e: React.PointerEvent) {
-    if (!onDelete) return;
-    startX.current = e.clientX;
-    startOpen.current = open;
-    dragging.current = false;
-  }
-  function onPointerMove(e: React.PointerEvent) {
-    if (startX.current == null || !onDelete) return;
-    const delta = e.clientX - startX.current + (startOpen.current ? -REVEAL : 0);
-    // horizontal intent only; clamp between fully-open (-REVEAL) and closed (0)
-    if (Math.abs(e.clientX - startX.current) > 6) dragging.current = true;
-    setDx(Math.max(-REVEAL, Math.min(0, delta)));
-  }
-  function onPointerUp() {
-    if (startX.current == null) return;
-    startX.current = null;
-    const shouldOpen = dx < -REVEAL / 2;
-    setOpen(shouldOpen);
-    setDx(0);
-  }
+  const bind = useDrag(
+    ({ last, movement: [mx], axis, tap, cancel, dragging: isDragging }) => {
+      if (!onDelete) return;
+      // Only react to a horizontal-locked drag; let vertical scroll pass through.
+      if (axis === 'y') {
+        cancel();
+        return;
+      }
+      if (tap) return;
+      const base = open ? -REVEAL : 0;
+      const next = Math.max(-REVEAL, Math.min(0, base + mx));
+      setActive(!!isDragging);
+      if (last) {
+        setOpen(next < -REVEAL / 2);
+        setDx(0);
+      } else {
+        setDx(next);
+      }
+    },
+    { axis: 'lock', filterTaps: true, pointer: { touch: true } }
+  );
+
+  const translateX = open ? -REVEAL : dx;
 
   return (
     <div className={`setrow-wrap${onDelete ? ' swipeable' : ''}`}>
@@ -77,12 +83,9 @@ export function SetRow({
         </button>
       )}
       <div
-        className={`setrow${weighted ? '' : ' noweight'}${done ? ' done' : ''}`}
-        style={{ transform: `translateX(${open ? -REVEAL : dx}px)` }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        {...(onDelete ? bind() : {})}
+        className={`setrow${weighted ? '' : ' noweight'}${done ? ' done' : ''}${active ? ' dragging' : ''}`}
+        style={{ transform: `translateX(${translateX}px)`, touchAction: 'pan-y' }}
       >
         <div className="sl">{index + 1}</div>
         <div className="prev">{set.last || '–'}</div>
@@ -110,10 +113,7 @@ export function SetRow({
           role="checkbox"
           aria-checked={done}
           aria-label={`Set ${index + 1} done`}
-          onClick={() => {
-            if (dragging.current) return; // ignore the tap that ended a swipe
-            onToggleDone?.();
-          }}
+          onClick={() => onToggleDone?.()}
         >
           {done ? '✓' : ''}
         </button>

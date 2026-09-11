@@ -32,6 +32,6 @@ export default defineConfig({
     // react/react-dom aliases above pin it to this app's React 18 copy —
     // otherwise its JSX runs against React 19 and react-dom 18 rejects the
     // elements ("Objects are not valid as a React child").
-    deps: { optimizer: { web: { enabled: true, include: ['lucide-react'] } } },
+    deps: { optimizer: { web: { enabled: true, include: ['lucide-react', '@use-gesture/react'] } } },
   },
 });
