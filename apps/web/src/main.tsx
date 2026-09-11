@@ -7,7 +7,6 @@ import { PickerShowcase } from './dev/PickerShowcase';
 import { ExerciseAudit } from './dev/ExerciseAudit';
 import { ExercisesView } from './views/ExercisesView';
 import { HomeViewShowcase } from './dev/HomeViewShowcase';
-import { SwapShowcase } from './dev/SwapShowcase';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -34,8 +33,6 @@ createRoot(document.getElementById('root')!).render(
       <div className="wrap">
         <HomeViewShowcase />
       </div>
-    ) : showcase === 'swap' ? (
-      <SwapShowcase />
     ) : (
       <App />
     )}

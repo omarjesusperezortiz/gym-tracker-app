@@ -47,7 +47,7 @@ describe('ExerciseCard', () => {
     expect(screen.getByText('Flat chest press')).toBeInTheDocument();
   });
 
-  it('keeps entered values when swapping to a different exercise', async () => {
+  it('keeps entered values when switching equipment kind', async () => {
     const user = userEvent.setup();
     render(<Harness />);
 
@@ -55,8 +55,7 @@ describe('ExerciseCard', () => {
     await user.type(weightInput, '60');
     expect(weightInput).toHaveValue('60');
 
-    // Open the Swap sheet, then pick the Dumbbell variation.
-    await user.click(screen.getByRole('button', { name: /Swap .* exercise/i }));
+    // Switch from Barbell to Dumbbell via the equipment segmented control.
     await user.click(screen.getByText('Dumbbell'));
 
     const weightInputAfterSwitch = screen.getByLabelText('Set 1 weight') as HTMLInputElement;
