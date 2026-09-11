@@ -1,0 +1,210 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exercise Library — Architecture Proposals</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--blue:#5b9dff;--amber:#e6b45a;--red:#ff7a7a;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;padding:40px 20px 80px}
+.wrap{max-width:960px;margin:0 auto}
+h1{font-size:34px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.sub{color:var(--mut);font-size:15px;margin-bottom:8px}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:34px}
+h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.lead{color:var(--acc)}
+/* current state box */
+.now{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:8px}
+.tree{font-family:var(--mono);font-size:12.5px;line-height:1.9;color:var(--ink2)}
+.tree .k{color:var(--acc)}.tree .t{color:var(--amber)}.tree .c{color:var(--faint)}
+.flag{display:inline-block;background:rgba(255,122,122,.12);color:var(--red);border:1px solid rgba(255,122,122,.3);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;margin-top:12px}
+/* proposal cards */
+.cards{display:grid;grid-template-columns:1fr;gap:18px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.card.pick{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 14px 40px rgba(198,242,78,.08)}
+.chead{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.badge{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex:none}
+.badge.a{background:var(--acc);color:var(--acc-ink)}.badge.b{background:var(--blue);color:#031024}.badge.c{background:var(--amber);color:#2a1c02}
+.ctitle{font-size:18px;font-weight:800;flex:1}
+.pill{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:20px}
+.pill.rec{background:var(--acc);color:var(--acc-ink)}
+.pill.ok{background:rgba(91,157,255,.14);color:var(--blue);border:1px solid rgba(91,157,255,.3)}
+.pill.no{background:rgba(255,122,122,.12);color:var(--red);border:1px solid rgba(255,122,122,.3)}
+.cbody{padding:20px 22px;display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+@media(max-width:720px){.cbody{grid-template-columns:1fr}}
+.cbody .desc{font-size:13.5px;color:var(--ink2);margin-bottom:14px}
+.pl{list-style:none;display:flex;flex-direction:column;gap:7px}
+.pl li{font-size:12.5px;display:flex;gap:8px;align-items:flex-start}
+.pl .p{color:var(--acc)}.pl .m{color:var(--red)}
+.side{background:var(--surf2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.side .lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:8px}
+.code{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink2);white-space:pre-wrap}
+.code .k{color:var(--acc)}.code .t{color:var(--amber)}.code .c{color:var(--faint)}.code .s{color:var(--blue)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:10.5px;font-weight:600;color:var(--mut);background:var(--surf3);border:1px solid var(--line);border-radius:20px;padding:4px 9px}
+/* schema diagram */
+.schema{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:22px 24px;overflow-x:auto}
+.entity{display:inline-block;vertical-align:top;background:var(--surf2);border:1px solid var(--line2);border-radius:10px;padding:0;margin:8px;min-width:190px}
+.entity .en{background:var(--surf3);padding:8px 12px;font-weight:800;font-size:12.5px;border-radius:10px 10px 0 0;border-bottom:1px solid var(--line2)}
+.entity .en.acc{background:var(--acc);color:var(--acc-ink)}
+.entity .fld{padding:6px 12px;font-family:var(--mono);font-size:11px;color:var(--ink2);border-bottom:1px solid rgba(255,255,255,.04)}
+.entity .fld .pk{color:var(--acc);font-weight:600}.entity .fld .fk{color:var(--blue)}
+.arrow{display:inline-block;color:var(--faint);font-size:20px;padding:0 2px;vertical-align:middle}
+/* recommendation callout */
+.rec-box{background:linear-gradient(160deg,rgba(198,242,78,.12),rgba(198,242,78,.02));border:1px solid rgba(198,242,78,.3);border-radius:16px;padding:22px 24px;margin-top:10px}
+.rec-box h3{font-size:15px;font-weight:800;color:var(--acc);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.rec-box p{font-size:13.5px;color:var(--ink2);margin-bottom:8px}
+.steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.steps li{counter-increment:s;font-size:13px;padding-left:34px;position:relative;color:var(--ink2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:7px;background:var(--acc);color:var(--acc-ink);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+/* comparison table */
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:800}
+td.y{color:var(--acc);font-weight:600}td.n{color:var(--red)}td.mid{color:var(--amber)}
+tr:hover td{background:rgba(255,255,255,.02)}
+.first{font-weight:600;color:var(--ink)}
+</style></head>
+<body><div class="wrap">
+<h1>Exercise Library — Architecture</h1>
+<div class="sub">How to model <span class="lead">muscle group → specific exercise</span>, and where the library should live.</div>
+<div class="meta">Gym Tracker · proposal · decision needed</div>
+
+<h2>Where we are today</h2>
+<div class="now">
+<div class="tree"><span class="c">// CATALOG — static code (packages/core/catalog.ts), NOT in DB</span>
+plan <span class="c">(gym / cal / travel)</span>
+ └─ session <span class="c">(fullupper, push…)</span>
+     └─ slot = [<span class="t">"Flat chest press"</span>, <span class="t">"4×8–10"</span>, <span class="t">""</span>]   <span class="c">← generic MOVEMENT, joined by TEXT</span>
+
+<span class="c">// DATABASE (Supabase) — only LOGGED workouts, no exercise library</span>
+workouts → workout_slots(<span class="k">slot</span> = <span class="t">TEXT</span>) → workout_sets
+
+<span class="c">// MEDIA (new) — exerciseMedia.ts</span>
+<span class="t">"Flat chest press"</span> → { gif, target, equipment, steps }</div>
+<div class="flag">⚠ Everything is joined by a fragile text name. A "slot" is a generic movement, not a specific exercise — there's no real Exercise entity or muscle-group grouping yet.</div>
+</div>
+
+<h2>The model you're describing</h2>
+<div class="schema">
+<div class="entity"><div class="en acc">muscle_group</div>
+<div class="fld"><span class="pk">id</span> · chest, back…</div>
+<div class="fld">label, icon</div></div>
+<span class="arrow">→</span>
+<div class="entity"><div class="en">exercise</div>
+<div class="fld"><span class="pk">id</span> "EIeI8Vf" <span style="color:var(--faint)">(exercisedb)</span></div>
+<div class="fld">name "Barbell Bench Press"</div>
+<div class="fld"><span class="fk">muscle_group</span> chest</div>
+<div class="fld">equipment, target</div>
+<div class="fld">gif, poster, steps</div></div>
+<span class="arrow">→</span>
+<div class="entity"><div class="en">session slot</div>
+<div class="fld"><span class="fk">exercise_id</span> ← by ID</div>
+<div class="fld">scheme "4×8–10"</div></div>
+<span class="arrow">→</span>
+<div class="entity"><div class="en">logged set</div>
+<div class="fld"><span class="fk">exercise_id</span> ← by ID</div>
+<div class="fld">weight, reps</div></div>
+<div style="font-size:12px;color:var(--mut);margin-top:14px">Key change: slots &amp; logged sets reference an <b style="color:var(--ink)">exercise by stable ID</b>, not a text name. Muscle group becomes a real grouping so you can browse <span class="lead">Chest → pick a specific exercise</span>.</div>
+</div>
+
+<h2>Three proposals</h2>
+<div class="cards">
+
+<!-- A -->
+<div class="card pick">
+<div class="chead"><div class="badge a">A</div><div class="ctitle">Code-controlled seed <span style="color:var(--mut);font-weight:500;font-size:13px">+ exercise_id on logs</span></div><span class="pill rec">Recommended</span></div>
+<div class="cbody">
+<div><div class="desc">The exercise library lives in <b>code</b> (packages/core), structured as <span class="lead">muscleGroup → Exercise[]</span> with stable IDs. Add one <span class="lead">exercise_id</span> column to logged slots so history is bound to a real exercise, not a renamable string.</div>
+<ul class="pl">
+<li><span class="p">✓</span> Matches your firm rule exactly: exercises 100% code-controlled, versioned, ship-with-app, NO user-custom</li>
+<li><span class="p">✓</span> Fast &amp; offline — no DB round-trips, no RLS for static data</li>
+<li><span class="p">✓</span> Stable history: a logged set keeps its exercise_id even if you rename a movement</li>
+<li><span class="p">✓</span> 31 → 1500 exercises belong in code, not a user table</li>
+<li><span class="m">–</span> "Adding exercises" = shipping code (which is exactly what you want)</li>
+</ul>
+<div class="tags"><span class="tag">1 tiny migration</span><span class="tag">no seeding</span><span class="tag">your NO-custom rule ✓</span></div>
+</div>
+<div class="side"><div class="lbl">Shape</div><div class="code"><span class="c">// packages/core</span>
+<span class="k">muscleGroups</span> = [chest, back, shoulders,
+  arms, legs, core]
+
+<span class="k">exercises</span>: <span class="t">Record</span>&lt;MuscleGroup, Exercise[]&gt;
+  chest: [
+    { <span class="s">id</span>:<span class="t">"EIeI8Vf"</span>, name, equip,
+      target, gif, poster, steps },
+    …
+  ]
+
+<span class="c">// DB: one column added</span>
+workout_slots.<span class="k">exercise_id</span> text</div></div>
+</div></div>
+
+<!-- B -->
+<div class="card">
+<div class="chead"><div class="badge b">B</div><div class="ctitle">Supabase tables (read-only seed)</div><span class="pill ok">Scales big</span></div>
+<div class="cbody">
+<div><div class="desc">Put <b>exercises</b> and <b>muscle_groups</b> in Postgres as read-only seeded tables. The app queries them; slots &amp; logs FK to <span class="lead">exercise.id</span>.</div>
+<ul class="pl">
+<li><span class="p">✓</span> Server-side filtering/search — good if the library gets very large</li>
+<li><span class="p">✓</span> Single source of truth in DB; referential integrity via real FKs</li>
+<li><span class="m">–</span> Overkill now: migrations + seed scripts + RLS for data that never changes per-user</li>
+<li><span class="m">–</span> Contradicts "code-controlled" — the library now lives in the DB</li>
+<li><span class="m">–</span> Needs network for the catalog (worse offline)</li>
+</ul>
+<div class="tags"><span class="tag">2 new tables</span><span class="tag">seed pipeline</span><span class="tag">RLS read policies</span></div>
+</div>
+<div class="side"><div class="lbl">Shape</div><div class="code"><span class="k">create table</span> muscle_groups(
+  <span class="s">id</span> text primary key, label, icon)
+
+<span class="k">create table</span> exercises(
+  <span class="s">id</span> text primary key,
+  name, <span class="s">muscle_group</span> <span class="t">references</span>
+    muscle_groups(id),
+  equipment, target, gif_url, steps)
+
+<span class="c">// read-only to all users (RLS)</span></div></div>
+</div></div>
+
+<!-- C -->
+<div class="card">
+<div class="chead"><div class="badge c">C</div><div class="ctitle">Hybrid — code library, DB references</div><span class="pill ok">Middle ground</span></div>
+<div class="cbody">
+<div><div class="desc">Library in <b>code</b> (like A), but formalize the DB side: logged slots store <span class="lead">exercise_id</span> AND a denormalized <span class="lead">name snapshot</span> so old history is human-readable even if an id is retired.</div>
+<ul class="pl">
+<li><span class="p">✓</span> Best of A: code-controlled + offline + fast</li>
+<li><span class="p">✓</span> Extra-durable history (id + name snapshot)</li>
+<li><span class="m">–</span> Slightly more columns / write logic than A</li>
+<li><span class="m">–</span> Denormalized name can drift from the live catalog label</li>
+</ul>
+<div class="tags"><span class="tag">A + name snapshot</span><span class="tag">most durable logs</span></div>
+</div>
+<div class="side"><div class="lbl">Shape</div><div class="code"><span class="c">// same code library as A, plus:</span>
+workout_slots.<span class="k">exercise_id</span> text
+workout_slots.<span class="k">exercise_name</span> text
+  <span class="c">// snapshot at log time</span></div></div>
+</div></div>
+
+</div>
+
+<h2>Side by side</h2>
+<table>
+<tr><th>Criterion</th><th>A · Code + id</th><th>B · DB tables</th><th>C · Hybrid</th></tr>
+<tr><td class="first">Matches "code-controlled, no custom"</td><td class="y">Yes ✓</td><td class="n">No</td><td class="y">Yes ✓</td></tr>
+<tr><td class="first">Offline / speed</td><td class="y">Best</td><td class="n">Needs network</td><td class="y">Best</td></tr>
+<tr><td class="first">Effort to build now</td><td class="y">Low (1 migration)</td><td class="n">High (tables+seed+RLS)</td><td class="mid">Low–med</td></tr>
+<tr><td class="first">History integrity</td><td class="y">Good (id)</td><td class="y">Good (FK)</td><td class="y">Best (id+snapshot)</td></tr>
+<tr><td class="first">Scales to 1500+ &amp; search</td><td class="mid">Fine (client filter)</td><td class="y">Best (server)</td><td class="mid">Fine</td></tr>
+<tr><td class="first">Muscle-group browsing</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+</table>
+
+<div class="rec-box">
+<h3>★ My recommendation — Option A</h3>
+<p>Keep the exercise library in <b>code</b> (your firm rule), restructured as <b>muscle group → specific exercise</b> with stable exercisedb IDs. Add one small DB column so logged history is bound to a real exercise. It's the least effort, fastest, offline-first, and it's the only option that honours "exercises are 100% code-controlled, sessions are the customizable part."</p>
+<ol class="steps">
+<li>Restructure core: <span class="mono" style="font-family:var(--mono);font-size:12px">muscleGroups[]</span> + <span class="mono" style="font-family:var(--mono);font-size:12px">exercises: Record&lt;group, Exercise[]&gt;</span> (fold today's catalog + media map into one entity)</li>
+<li>Add <span class="mono" style="font-family:var(--mono);font-size:12px">exercise_id</span> to <span class="mono" style="font-family:var(--mono);font-size:12px">workout_slots</span> (migration 0007) — sessions/logs reference by ID</li>
+<li>Session slots point at an exercise ID; the "Add exercise" picker browses <b>by muscle group</b></li>
+<li>Migrate existing text slots → IDs via a name map (one-time, keep text as fallback)</li>
+</ol>
+</div>
+
+</div></body></html>
