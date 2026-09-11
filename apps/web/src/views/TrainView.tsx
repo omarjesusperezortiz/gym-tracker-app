@@ -173,7 +173,8 @@ export function TrainView() {
     dispatch({ type: 'TOGGLE_DONE', key });
     if (!wasDone) {
       checkPr(slot, st.sets ?? []);
-      startRest();
+      // Note: no auto rest timer here — the user starts rest manually via the
+      // Rest button (onRest). Checking an exercise done should not launch a timer.
     }
   }
 
