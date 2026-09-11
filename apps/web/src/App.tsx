@@ -16,6 +16,7 @@ import { TrainView } from './views/TrainView';
 import { CalendarView } from './views/CalendarView';
 import { ProgressView } from './views/ProgressView';
 import { MealsView } from './views/MealsView';
+import { ExercisesView } from './views/ExercisesView';
 import { ProfileView } from './views/ProfileView';
 
 function Screens() {
@@ -33,6 +34,8 @@ function Screens() {
       return <ProgressView />;
     case 'meals':
       return <MealsView />;
+    case 'exercises':
+      return <ExercisesView />;
     case 'profile':
       return <ProfileView />;
     default:

@@ -1,0 +1,236 @@
+/* Real in-app Exercise Library view. */
+.lib-search {
+  width: 100%;
+  background: var(--surf2);
+  border: 1px solid var(--line2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  margin: 6px 0 12px;
+}
+.lib-search:focus {
+  outline: none;
+  border-color: var(--acc);
+}
+.lib-filters {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.lib-fchip {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mut);
+  background: var(--surf2);
+  border: 1px solid var(--line2);
+  border-radius: 20px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.lib-fchip.on {
+  color: var(--acc-ink);
+  background: var(--acc);
+  border-color: var(--acc);
+}
+
+.lib-group {
+  margin-bottom: 26px;
+}
+.lib-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mut);
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 13px;
+}
+.lib-group-emoji {
+  font-size: 15px;
+}
+.lib-group-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--faint);
+}
+
+.lib-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+.lib-card {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.lib-card:active {
+  transform: scale(0.98);
+}
+.lib-card-media .exgif-card {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.lib-card-body {
+  padding: 10px 12px 12px;
+}
+.lib-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+  line-height: 1.25;
+}
+.lib-card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.lib-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mut);
+  background: var(--surf2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 3px 8px;
+  text-transform: capitalize;
+}
+.lib-tag.on {
+  color: var(--acc-ink);
+  background: var(--acc);
+  border-color: var(--acc);
+}
+
+/* detail sheet */
+.lib-sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  animation: fade 0.2s ease;
+}
+.lib-sheet-in {
+  background: var(--bg);
+  border: 1px solid var(--line2);
+  border-radius: 22px 22px 0 0;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 22px 18px calc(env(safe-area-inset-bottom) + 28px);
+  position: relative;
+  animation: slideup 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lib-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surf2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 14px;
+  z-index: 2;
+}
+.lib-detail-media {
+  background: #fff;
+  border-radius: 18px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lib-detail-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.lib-detail-glyph {
+  font-size: 60px;
+}
+.lib-detail-title {
+  font-size: 21px;
+  font-weight: 800;
+  margin-bottom: 11px;
+}
+.lib-detail-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  margin: 20px 0 10px;
+}
+.lib-vars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.lib-var {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 8px 10px;
+}
+.lib-var-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #fff;
+  flex: none;
+}
+.lib-var-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.lib-var-kind {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--acc);
+}
+.lib-var-name {
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+.lib-steps {
+  margin: 0 0 4px 18px;
+  padding: 0;
+}
+.lib-steps li {
+  font-size: 13px;
+  color: var(--mut);
+  line-height: 1.5;
+  margin-bottom: 9px;
+}

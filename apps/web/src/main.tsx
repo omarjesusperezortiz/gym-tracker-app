@@ -5,6 +5,7 @@ import App from './App';
 import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import { PickerShowcase } from './dev/PickerShowcase';
 import { ExerciseAudit } from './dev/ExerciseAudit';
+import { ExercisesView } from './views/ExercisesView';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -25,6 +26,8 @@ createRoot(document.getElementById('root')!).render(
       <PickerShowcase />
     ) : showcase === 'audit' ? (
       <ExerciseAudit />
+    ) : showcase === 'library' ? (
+      <ExercisesView />
     ) : (
       <App />
     )}
