@@ -21,6 +21,12 @@ function hashIsRecovery(): boolean {
   return window.location.hash.includes('type=recovery');
 }
 
+/** True when we returned from an OAuth provider with a ?code=… to exchange. */
+function urlHasOAuthCode(): boolean {
+  if (typeof window === 'undefined') return false;
+  return new URLSearchParams(window.location.search).has('code');
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -28,16 +34,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const supabase = getSupabase();
-    supabase.auth.getSession().then(({ data }) => {
+    let cancelled = false;
+
+    async function init() {
+      // If Google (or any OAuth) sent us back with ?code=…, exchange it for a
+      // session BEFORE we decide whether to show the sign-in screen. Without
+      // this the app can read a null session first and bounce to /sign-in even
+      // though the login succeeded. detectSessionInUrl also tries this, but on
+      // GitHub Pages the explicit exchange is more reliable.
+      if (urlHasOAuthCode()) {
+        try {
+          const code = new URLSearchParams(window.location.search).get('code')!;
+          await supabase.auth.exchangeCodeForSession(code);
+        } catch {
+          // fall through — getSession below reports the real state
+        }
+        // Strip ?code=… (and any state) so a refresh doesn't re-exchange.
+        if (typeof window !== 'undefined') {
+          window.history.replaceState(null, '', window.location.pathname + window.location.hash);
+        }
+      }
+      const { data } = await supabase.auth.getSession();
+      if (cancelled) return;
       setSession(data.session);
       setLoading(false);
-    });
+    }
+
+    void init();
+
     const { data: sub } = supabase.auth.onAuthStateChange((event, sess) => {
       setSession(sess);
       // Supabase fires PASSWORD_RECOVERY when a reset link is opened.
       if (event === 'PASSWORD_RECOVERY') setRecovery(true);
     });
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   function endRecovery() {
