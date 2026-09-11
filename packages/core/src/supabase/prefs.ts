@@ -23,11 +23,13 @@ export interface UserPrefs {
   sessionMin: number;
   equipment: Equipment;
   onboarded: boolean;
+  /** Avatar preset key (emoji + color), e.g. "lime-muscle". null = default. */
+  avatar: string | null;
 }
 
 const PREFS_COLUMNS =
   'units, default_plan, rest_seconds, display_name, sex, birth_year, height_cm, ' +
-  'goal_weight_kg, goal, focus_muscles, experience, days_per_week, session_min, equipment, onboarded';
+  'goal_weight_kg, goal, focus_muscles, experience, days_per_week, session_min, equipment, onboarded, avatar';
 
 export async function fetchPrefs(): Promise<UserPrefs | null> {
   const { data: raw, error } = await getSupabase()
@@ -53,6 +55,7 @@ export async function fetchPrefs(): Promise<UserPrefs | null> {
     sessionMin: (data.session_min as number) ?? 60,
     equipment: (data.equipment ?? 'full_gym') as Equipment,
     onboarded: !!data.onboarded,
+    avatar: (data.avatar as string) ?? null,
   };
 }
 
@@ -77,6 +80,7 @@ export async function savePrefs(prefs: Partial<UserPrefs>): Promise<void> {
     sessionMin: 'session_min',
     equipment: 'equipment',
     onboarded: 'onboarded',
+    avatar: 'avatar',
   };
   (Object.keys(prefs) as (keyof UserPrefs)[]).forEach((k) => {
     if (prefs[k] !== undefined) row[map[k]] = prefs[k];

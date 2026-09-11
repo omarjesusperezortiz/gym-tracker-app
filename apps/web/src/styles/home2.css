@@ -225,3 +225,33 @@
   text-align: center;
   padding: 30px 0;
 }
+
+/* 2-per-row mode grid (Gym / Calisthenics / Travel) */
+.h2-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+.h2-mode {
+  position: relative; border-radius: 15px; border: 1px solid var(--line);
+  padding: 15px 14px; min-height: 68px; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center; gap: 3px; cursor: pointer;
+  color: var(--ink); font-family: inherit; overflow: hidden; text-align: left;
+}
+.h2-mode:active { transform: scale(0.98); }
+.h2-mode-gym { background: linear-gradient(150deg,#2a2f1a,#0d0f08), radial-gradient(circle at 78% 20%,rgba(214,242,78,.28),transparent 60%); }
+.h2-mode-cal { background: linear-gradient(150deg,#1a2430,#0a0f14), radial-gradient(circle at 78% 20%,rgba(91,157,255,.28),transparent 60%); }
+.h2-mode-travel { background: linear-gradient(150deg,#2e2418,#120d08), radial-gradient(circle at 78% 20%,rgba(230,180,90,.28),transparent 60%); }
+.h2-mode.on { border-color: var(--acc); box-shadow: 0 0 0 1px var(--acc); }
+.h2-mode-ico { font-size: 22px; }
+.h2-mode-name { font-size: 14px; font-weight: 800; letter-spacing: -.2px; }
+/* last odd card (Travel) spans full width to complete the 2-per-row grid nicely */
+.h2-mode:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* group labels: "GYM · QUICK PICKS" */
+.h2-glabel {
+  font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--faint); margin: 6px 0 11px;
+}
+.h2-list + .h2-glabel { margin-top: 22px; }
+
+/* colored left accent bar on each session row */
+.h2-wc { position: relative; overflow: hidden; }
+.h2-bar { position: absolute; left: 0; top: 10px; bottom: 10px; width: 4px; border-radius: 4px; background: var(--bar, var(--acc)); }
+.h2-wc .h2-wt { margin-left: 6px; }

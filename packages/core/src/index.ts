@@ -17,3 +17,4 @@ export * from './logic/volume';
 export * from './logic/plateau';
 export * from './logic/exerciseMedia';
 export * from './logic/muscleGroups';
+export * from './logic/avatars';

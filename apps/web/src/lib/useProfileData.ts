@@ -32,6 +32,7 @@ export const DEFAULT_PREFS: UserPrefs = {
   sessionMin: 60,
   equipment: 'full_gym',
   onboarded: false,
+  avatar: null,
 };
 
 function useUserId(): string | undefined {

@@ -3,6 +3,7 @@ import '../styles/profile-extras.css';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { catalog } from '@gym-tracker/core';
 import { PageHeader } from '../components/PageHeader';
+import { Avatar, AvatarPicker } from '../components/Avatar';
 import type { BodyweightEntry, Equipment, Experience, UserPrefs } from '@gym-tracker/core';
 import { useAuth } from '../auth/AuthContext';
 import { useToast } from '../components/Toast';
@@ -130,6 +131,14 @@ export function ProfileView() {
       {/* 1) ABOUT YOU — body data lives together; Weight opens the weigh-in panel */}
       <div className="sec-label">About you</div>
       <div className="pcard">
+        <div className="pf-avatar-row">
+          <Avatar avatarKey={prefs.avatar} size={56} />
+          <div className="pf-avatar-hint">
+            <div className="pf-avatar-title">Your avatar</div>
+            <div className="pf-avatar-sub">Pick one below — it shows on your Home.</div>
+          </div>
+        </div>
+        <AvatarPicker value={prefs.avatar} onPick={(key) => updatePrefs({ avatar: key })} />
         <InlinePref
           label="Name"
           value={prefs.displayName ?? ''}

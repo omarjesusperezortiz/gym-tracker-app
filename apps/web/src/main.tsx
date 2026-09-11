@@ -6,7 +6,7 @@ import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import { PickerShowcase } from './dev/PickerShowcase';
 import { ExerciseAudit } from './dev/ExerciseAudit';
 import { ExercisesView } from './views/ExercisesView';
-import { HomeViewShowcase } from './dev/HomeViewShowcase';
+import { HomeViewShowcase, ProfileViewShowcase } from './dev/HomeViewShowcase';
 import { CardShowcase } from './dev/CardShowcase';
 import { Home2Showcase } from './dev/Home2Showcase';
 import './styles.css';
@@ -39,6 +39,10 @@ createRoot(document.getElementById('root')!).render(
       <CardShowcase />
     ) : showcase === 'home2' ? (
       <Home2Showcase />
+    ) : showcase === 'profile' ? (
+      <div className="wrap">
+        <ProfileViewShowcase />
+      </div>
     ) : (
       <App />
     )}
