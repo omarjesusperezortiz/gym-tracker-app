@@ -1,0 +1,94 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Set check + delete — compare</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--green:#3ddc97;--greenbg:rgba(61,220,151,.12);--red:#ff5b5b;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:34px 18px 70px}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-size:26px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:14px;margin-bottom:28px;max-width:680px;line-height:1.55}
+.lead b{color:var(--ink)}
+.row{display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.cap{font-size:12.5px;font-weight:700;color:var(--ink2);text-align:center;max-width:360px;line-height:1.55}
+.cap b{color:var(--acc);font-weight:800}
+.cap .k{color:var(--faint);font-size:11px;display:block;margin-top:5px}
+.card{width:360px;background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:16px 15px}
+.exn{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px}
+.cue{font-size:11.5px;color:var(--mut);margin-bottom:14px}
+.subh{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;margin:14px 0 8px}
+/* row grids */
+.head,.set{display:grid;align-items:center;gap:8px}
+.head div{font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--faint)}
+.sn{font-size:13px;font-weight:800;color:var(--mut);text-align:center}
+.prev{font-size:11px;color:var(--faint);font-family:var(--mono)}
+.inp{background:#0e1014;border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center;font-size:13px;font-weight:700;color:var(--ink);font-family:var(--mono)}
+.inp.ghost{color:var(--faint);font-weight:500}
+.del{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--faint);margin:0 auto}
+.rnd{width:27px;height:27px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mut);margin:0 auto;cursor:pointer}
+.rnd.on{background:var(--green);border-color:var(--green);color:#04140d}
+.chk{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;margin:0 auto;cursor:pointer}
+.chk.on{background:var(--green);border-color:var(--green);color:#04140d}
+.set{padding:7px 4px;border-radius:11px;margin-bottom:5px;background:var(--surf2)}
+.set.done{background:var(--greenbg);border:1px solid rgba(61,220,151,.3)}
+.set.done .inp{background:transparent;border-color:transparent;color:var(--green)}
+.set.done .sn{color:var(--green)}
+.mini{font-size:10px;color:var(--mut);margin-top:12px;text-align:center}
+.mini b{color:var(--green)}
+/* B grid: check(num) | prev | kg | reps | del */
+.gB{grid-template-columns:30px 1fr 50px 50px 30px}
+/* A grid: num | prev | kg | reps | check */
+.gA{grid-template-columns:26px 1fr 50px 50px 32px}
+/* swipe illustration */
+.swipe-wrap{position:relative;border-radius:11px;margin-bottom:5px;overflow:hidden}
+.swipe-red{position:absolute;inset:0;background:var(--red);display:flex;align-items:center;justify-content:flex-end;padding-right:16px;font-size:13px;font-weight:800;color:#fff;border-radius:11px}
+.swipe-red .di{display:flex;flex-direction:column;align-items:center;gap:1px}
+.swipe-red .di span{font-size:16px}
+.set.slid{transform:translateX(-72px);position:relative;background:var(--surf2)}
+.arrow{font-size:10px;color:var(--faint);font-family:var(--mono);text-align:center;margin:3px 0 8px}
+.foot{font-size:9px;color:var(--faint);font-family:var(--mono);margin-top:22px;text-align:center}
+</style></head>
+<body><div class="wrap">
+<h1>Check + Delete — 2 finalists</h1>
+<div class="lead">Both let you <b>check off each set</b> AND still <b>delete a set</b>. Green = done. Comparing how each keeps delete reachable.</div>
+
+<div class="row">
+
+<!-- B -->
+<div class="col">
+<div class="card">
+  <div class="exn">Flat chest press</div>
+  <div class="cue">Barbell · squeeze at top</div>
+  <div class="head gB"><div style="text-align:center">✓</div><div>PREVIOUS</div><div style="text-align:center">KG</div><div style="text-align:center">REPS</div><div></div></div>
+  <div class="set done gB"><div class="rnd on">✓</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="del">×</div></div>
+  <div class="set done gB"><div class="rnd on">✓</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="del">×</div></div>
+  <div class="set gB"><div class="rnd">3</div><div class="prev">40×8</div><div class="inp ghost">42</div><div class="inp ghost">8</div><div class="del">×</div></div>
+  <div class="mini"><b>2 of 3 sets done</b> · tap the number to check · × removes a set</div>
+</div>
+<div class="cap"><b>B · Number = check, × stays</b> — the set-number circle becomes a green ✓ when done; the × delete keeps its spot at the end.<span class="k">Everything visible. No gestures. Most compact.</span></div>
+</div>
+
+<!-- A + swipe -->
+<div class="col">
+<div class="card">
+  <div class="exn">Flat chest press</div>
+  <div class="cue">Barbell · squeeze at top</div>
+  <div class="head gA"><div style="text-align:center">SET</div><div>PREVIOUS</div><div style="text-align:center">KG</div><div style="text-align:center">REPS</div><div style="text-align:center">✓</div></div>
+  <div class="set done gA"><div class="sn">1</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="chk on">✓</div></div>
+  <!-- row being swiped to reveal delete -->
+  <div class="swipe-wrap">
+    <div class="swipe-red"><div class="di"><span>🗑</span>Delete</div></div>
+    <div class="set slid gA"><div class="sn">2</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="chk on">✓</div></div>
+  </div>
+  <div class="arrow">← swipe a row left to reveal Delete</div>
+  <div class="set gA"><div class="sn">3</div><div class="prev">40×8</div><div class="inp ghost">42</div><div class="inp ghost">8</div><div class="chk"></div></div>
+  <div class="mini"><b>Checkbox at the end</b> · swipe left on a row to delete it</div>
+</div>
+<div class="cap"><b>A · Checkbox + swipe-to-delete</b> — the classic Hevy/Strong feel: ✓ box at the end, swipe a row left for a red Delete.<span class="k">Cleanest row, but delete is a hidden gesture.</span></div>
+</div>
+
+</div>
+
+<div class="foot">green = done/logged · KG & REPS stay editable in both · checking a set does NOT start a rest timer</div>
+</div></body></html>
