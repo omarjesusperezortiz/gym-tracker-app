@@ -74,3 +74,21 @@ export function resolveExerciseId(row: { slot?: string; slotId?: string | null }
   if (row.slotId) return row.slotId;
   return exerciseId(row.slot ?? '');
 }
+
+// Stable id for the SPECIFIC exercise a slot is trained with — i.e. the catalog
+// variation selected via the equipment tabs (bar/cable/machine/db). Falls back
+// to the movement's own id when the variation can't be resolved (custom slot,
+// no variations, or unknown kind), so new writes are always id-tagged.
+//
+// This is what makes logged history exercise-precise: "Vertical pull" logged on
+// Cable stores the "Wide-Grip Lat Pulldown" id, distinct from the Barbell "Pull-up"
+// id — so the demo gif, muscles and last-time hints track the exact exercise.
+export function variationExerciseId(slot: string, kind?: string): string {
+  if (kind) {
+    for (const plan of Object.values(catalog.plans)) {
+      const v = plan.variations?.[slot]?.[kind as keyof (typeof plan.variations)[string]];
+      if (v?.name) return exerciseId(v.name);
+    }
+  }
+  return exerciseId(slot);
+}

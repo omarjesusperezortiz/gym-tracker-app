@@ -104,6 +104,7 @@ describe('finishWorkout', () => {
           {
             slot: 'Flat chest press',
             slot_id: 'flat_chest_press',
+            exercise_id: 'barbell_bench_press_medium_grip',
             kind: 'bar',
             done: true,
             force: false,
@@ -112,7 +113,7 @@ describe('finishWorkout', () => {
               { weight: '42', reps: '8', rpe: null },
             ],
           },
-          { slot: 'Lateral raise', slot_id: 'lateral_raise', kind: 'db', done: true, force: false, sets: [] },
+          { slot: 'Lateral raise', slot_id: 'lateral_raise', exercise_id: 'lateral_raise', kind: 'db', done: true, force: false, sets: [] },
         ],
       },
     });

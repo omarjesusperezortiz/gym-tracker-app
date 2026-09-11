@@ -1,4 +1,4 @@
-import { slugify, exerciseId, exerciseName, isKnownExerciseId, resolveExerciseId } from '../logic/exercise-id';
+import { slugify, exerciseId, exerciseName, isKnownExerciseId, resolveExerciseId, variationExerciseId } from '../logic/exercise-id';
 
 describe('slugify', () => {
   it('lowercases, strips punctuation, and underscores spaces/slashes', () => {
@@ -45,5 +45,21 @@ describe('resolveExerciseId — bridges old and new rows', () => {
     const legacy = resolveExerciseId({ slot: 'Flat chest press' });
     const modern = resolveExerciseId({ slot: 'Flat chest press', slotId: 'flat_chest_press' });
     expect(legacy).toBe(modern);
+  });
+});
+
+describe('variationExerciseId — specific exercise per equipment kind', () => {
+  it('resolves the SPECIFIC variation id for a movement + equipment', () => {
+    // "Flat chest press" on different equipment maps to different exercises.
+    const bar = variationExerciseId('Flat chest press', 'bar');
+    const db = variationExerciseId('Flat chest press', 'db');
+    expect(bar).not.toBe(db);
+    expect(bar.length).toBeGreaterThan(0);
+    expect(db.length).toBeGreaterThan(0);
+  });
+
+  it('falls back to the movement id when the variation is unknown', () => {
+    expect(variationExerciseId('Flat chest press')).toBe(exerciseId('Flat chest press'));
+    expect(variationExerciseId('Some custom thing', 'bar')).toBe(exerciseId('Some custom thing'));
   });
 });

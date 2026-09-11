@@ -1,6 +1,6 @@
 import { getSupabase } from './client';
 import type { Kind, LoggedSet, LoggedSlot } from '../types';
-import { exerciseId, resolveExerciseId } from '../logic/exercise-id';
+import { exerciseId, resolveExerciseId, variationExerciseId } from '../logic/exercise-id';
 
 // One logged slot instance, flattened out of a workout — used for the global
 // per-exercise "last time" lookup. Mirrors the web app's `lastFor`.
@@ -122,6 +122,7 @@ export async function finishWorkout(entry: FinishedWorkout): Promise<string> {
     slots: entry.slots.map((sl) => ({
       slot: sl.slot,
       slot_id: exerciseId(sl.slot),
+      exercise_id: variationExerciseId(sl.slot, sl.kind),
       kind: sl.kind,
       done: sl.done,
       force: sl.force,
@@ -159,6 +160,7 @@ export async function updateWorkout(entry: UpdateWorkout): Promise<string> {
     slots: entry.slots.map((sl) => ({
       slot: sl.slot,
       slot_id: exerciseId(sl.slot),
+      exercise_id: variationExerciseId(sl.slot, sl.kind),
       kind: sl.kind,
       done: sl.done,
       force: sl.force,
