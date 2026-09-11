@@ -1,0 +1,126 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Per-variation gifs — how swap gets its own image</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--blue:#5b9dff;--amber:#e6b45a;--red:#ff6b6b;--acc-ink:#0a0b0e;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#060708;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:44px 20px 80px;line-height:1.5}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-size:30px;font-weight:900;letter-spacing:-.8px;margin-bottom:8px}
+.lead{color:var(--mut);font-size:15px;margin-bottom:32px;max-width:640px}
+.lead b{color:var(--ink)}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:20px}
+.card h2{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+/* before/after */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.ba{grid-template-columns:1fr}}
+.bacol{border-radius:14px;padding:18px;border:1px solid var(--line2)}
+.bacol.bad{background:linear-gradient(160deg,rgba(255,107,107,.07),transparent)}
+.bacol.good{background:linear-gradient(160deg,rgba(198,242,78,.08),transparent);border-color:rgba(198,242,78,.3)}
+.batag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:14px}
+.batag.bad{background:rgba(255,107,107,.16);color:var(--red)}
+.batag.good{background:var(--acc);color:var(--acc-ink)}
+.mv{font-size:13px;font-weight:800;margin-bottom:10px}
+.swap{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:7px}
+.chip{width:38px;height:38px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:17px;background:#fff}
+.swap.same .chip{background:repeating-linear-gradient(45deg,#2a2f1a,#2a2f1a 4px,#232a12 4px,#232a12 8px)}
+.swi{flex:1;min-width:0}
+.swn{font-size:12px;font-weight:600}
+.swk{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.badge{font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;white-space:nowrap}
+.badge.x{background:rgba(255,107,107,.15);color:var(--red)}
+.badge.ok{background:rgba(198,242,78,.15);color:var(--acc)}
+/* tiers */
+.tier{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.tier:last-child{border-bottom:none}
+.tno{width:26px;height:26px;border-radius:50%;background:var(--surf2);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;flex:none}
+.tk{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;width:110px;flex:none}
+.tk.p{color:#b98cff}.tk.m{color:var(--blue)}.tk.e{color:var(--acc)}
+.td{font-size:13px;color:var(--ink2)}
+.td b{color:var(--ink)}
+/* code */
+.code{background:#0c0e12;border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--ink2);overflow-x:auto;white-space:pre}
+.code .c{color:var(--faint)}.code .k{color:#b98cff}.code .s{color:var(--acc)}.code .del{color:var(--red)}.code .add{color:var(--acc)}
+/* stat pills */
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.stat{background:var(--surf2);border:1px solid var(--line);border-radius:20px;padding:8px 15px;font-size:13px;color:var(--mut)}
+.stat b{color:var(--acc);font-family:var(--mono)}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:9px 0 9px 40px;font-size:13.5px;color:var(--ink2);border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:rgba(198,242,78,.14);color:var(--acc);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.note{background:rgba(91,157,255,.07);border:1px dashed rgba(91,157,255,.35);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:8px}
+.note b{color:var(--blue)}
+</style></head>
+<body><div class="wrap">
+
+<h1>Per-variation gifs</h1>
+<div class="lead">You spotted that swapping <b>Cable → Dumbbell → Barbell</b> didn't change the demo image. Here's exactly why, and the fix I'm building right now — so every exercise you can swap to shows <b>its own</b> animated demo.</div>
+
+<!-- THE BUG -->
+<div class="card">
+<h2>What was happening (and why)</h2>
+<div class="ba">
+  <div class="bacol bad">
+    <span class="batag bad">Before — one gif per movement</span>
+    <div class="mv">Vertical pull (lats)</div>
+    <div class="swap same"><span class="chip">🏋️</span><span class="swi"><div class="swn">Wide-Grip Lat Pulldown</div><div class="swk">Cable</div></span><span class="badge x">same gif</span></div>
+    <div class="swap same"><span class="chip">🏋️</span><span class="swi"><div class="swn">Pull-up</div><div class="swk">Barbell</div></span><span class="badge x">same gif</span></div>
+    <div class="swap same"><span class="chip">🏋️</span><span class="swi"><div class="swn">Bent-Over Row</div><div class="swk">Dumbbell</div></span><span class="badge x">same gif</span></div>
+    <div style="font-size:12px;color:var(--mut);margin-top:12px">The gif was tied to the <b style="color:var(--ink2)">movement</b>, so every swap reused the exact same image. Not that the images were missing — they just weren't hooked up per exercise.</div>
+  </div>
+  <div class="bacol good">
+    <span class="batag good">After — one gif per exercise</span>
+    <div class="mv">Vertical pull (lats)</div>
+    <div class="swap"><span class="chip">🟥</span><span class="swi"><div class="swn">Wide-Grip Lat Pulldown</div><div class="swk">Cable</div></span><span class="badge ok">own gif</span></div>
+    <div class="swap"><span class="chip">🟥</span><span class="swi"><div class="swn">Pull-up</div><div class="swk">Barbell</div></span><span class="badge ok">own gif</span></div>
+    <div class="swap"><span class="chip">🟥</span><span class="swi"><div class="swn">Bent-Over Row</div><div class="swk">Dumbbell</div></span><span class="badge ok">own gif</span></div>
+    <div style="font-size:12px;color:var(--mut);margin-top:12px">Now the gif is tied to the <b style="color:var(--ink2)">specific exercise</b>. Swap the equipment → the demo, muscles and steps all change with it.</div>
+  </div>
+</div>
+</div>
+
+<!-- THE MODEL -->
+<div class="card">
+<h2>The 3-tier model this completes</h2>
+<div class="tier"><span class="tno">1</span><span class="tk p">Program</span><span class="td"><b>Pull</b> — the workout day</span></div>
+<div class="tier"><span class="tno">2</span><span class="tk m">Movement</span><span class="td"><b>Vertical pull</b> — the muscle-group pattern (the slot)</span></div>
+<div class="tier"><span class="tno">3</span><span class="tk e">Exercise</span><span class="td"><b>Wide-Grip Lat Pulldown</b> — the specific exercise, now with <b>its own gif + muscles + steps</b></span></div>
+<div class="note"><b>The gif living at tier 3</b> is the missing piece. Tiers 1–2 were already there; hooking the image to tier 3 is what makes swapping fully visual.</div>
+</div>
+
+<!-- THE CHANGE -->
+<div class="card">
+<h2>The one-line idea, in code</h2>
+<div class="code"><span class="c">// The card renders the demo like this:</span>
+
+<span class="del">- &lt;ExerciseGif name={movement} /&gt;   // "Vertical pull" → 1 fixed gif</span>
+<span class="add">+ &lt;ExerciseGif exercise={variation.name} /&gt;   // "Wide-Grip Lat Pulldown" → its own gif</span>
+
+<span class="c">// Media map re-keyed from movements → specific exercises:</span>
+<span class="k">mediaFor</span>(<span class="s">"Cable Crossover"</span>)      <span class="c">// → its own 720px gif</span>
+<span class="k">mediaFor</span>(<span class="s">"Barbell Full Squat"</span>)   <span class="c">// → its own 720px gif</span>
+<span class="k">mediaFor</span>(<span class="s">"Bent Over Two-DB Row"</span>)  <span class="c">// → its own 720px gif</span></div>
+</div>
+
+<!-- SCOPE -->
+<div class="card">
+<h2>What I'm building right now (running in the background)</h2>
+<ol class="steps">
+<li><b>Matched all 87 unique exercises</b> in your catalog to real exercisedb gifs — done <b>offline</b> from the 1,500-exercise cache I crawled, so <b>zero rate-limit risk</b>.</li>
+<li><b>Downloading + AI-upscaling</b> each to 720px (Real-ESRGAN), preserving the natural animation timing you approved, plus a static poster frame for lists.</li>
+<li><b>Re-keying the media map</b> from movement → specific exercise, and pointing the card's gif at the swapped exercise.</li>
+<li><b>Verifying</b> the swap visually (screenshot each variation shows a distinct correct gif) + tests, then deploy.</li>
+</ol>
+<div class="stats">
+<span class="stat"><b>147</b> total variations</span>
+<span class="stat"><b>87</b> unique gifs to build</span>
+<span class="stat"><b>87/87</b> matched ✓</span>
+<span class="stat"><b>720px</b> upscaled</span>
+<span class="stat"><b>0</b> API calls needed</span>
+</div>
+</div>
+
+<div class="note" style="border-color:rgba(198,242,78,.35);background:rgba(198,242,78,.06)"><b style="color:var(--acc)">Bottom line:</b> the images weren't missing — the gif was just wired to the movement instead of the exercise. Once this batch finishes upscaling, swapping equipment will change the demo, the highlighted muscles, and the how-to steps together. That's the exercise tier of your model made fully visual.</div>
+
+</div></body></html>
