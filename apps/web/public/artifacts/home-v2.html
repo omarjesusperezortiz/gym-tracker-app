@@ -1,0 +1,137 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home redesign v2 — reference-inspired</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:34px 18px 70px}
+.wrap{max-width:1120px;margin:0 auto}
+h1{font-size:26px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:14px;margin-bottom:26px;max-width:660px;line-height:1.5}
+.lead b{color:var(--ink)}
+.row{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.cap{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);text-align:center;max-width:320px}
+.cap b{color:var(--acc)}
+/* phone */
+.ph{width:330px;height:710px;background:var(--bg);border-radius:34px;border:1px solid var(--line2);padding:20px 16px 0;overflow:hidden;display:flex;flex-direction:column;position:relative}
+/* header */
+.top{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d6f24e,#7a8a2e);flex:none}
+.hi{flex:1}
+.hi .wb{font-size:11px;color:var(--mut)}
+.hi .nm{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.bell{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:15px}
+/* hero */
+.hero{border-radius:20px;overflow:hidden;position:relative;height:150px;margin-bottom:18px;display:flex;flex-direction:column;justify-content:center;padding:18px 20px;background:linear-gradient(100deg,#1a1d16 0%,#14160f 44%,#20250f 100%),radial-gradient(circle at 22% 60%,rgba(214,242,78,.18),transparent 55%);border:1px solid var(--line)}
+.hero.photo{background:linear-gradient(90deg,rgba(10,11,14,.15),rgba(10,11,14,.75)),linear-gradient(120deg,#3a3f2a,#14160f),radial-gradient(circle at 25% 40%,rgba(255,255,255,.13),transparent 45%)}
+.hero .ht{font-size:16px;font-weight:700;color:var(--ink2);max-width:60%;margin-left:auto;text-align:right}
+.hero .big{font-size:34px;font-weight:900;text-align:right;margin-left:auto;letter-spacing:-1px}
+.hero .big small{font-size:14px;font-weight:600;color:var(--mut)}
+.hero .cta{align-self:flex-end;margin-top:10px;background:var(--acc);color:var(--acc-ink);font-size:13px;font-weight:800;padding:10px 18px;border-radius:22px}
+/* filter chips */
+.chips{display:flex;gap:9px;margin-bottom:20px;overflow:hidden}
+.chip{flex:1;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px 4px;text-align:center;font-size:12.5px;font-weight:600;color:var(--mut)}
+.chip.on{background:var(--surf2);color:var(--ink);border-color:var(--line2)}
+/* section head */
+.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}
+.sh .t{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.sh .a{font-size:12px;font-weight:800;color:var(--acc)}
+/* workout rows */
+.wl{display:flex;flex-direction:column;gap:11px}
+.wc{display:flex;align-items:center;gap:13px;background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:11px}
+.wt{width:74px;height:60px;border-radius:11px;flex:none;background:#fff center/cover;display:flex;align-items:center;justify-content:center;font-size:26px}
+.wi{flex:1;min-width:0}
+.wn{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px}
+.wm{font-size:11.5px;color:var(--mut)}
+.wm b{color:var(--ink2);font-weight:600}
+.go{color:var(--mut);font-size:18px;flex:none}
+/* nav */
+.nav{position:absolute;left:16px;right:16px;bottom:14px;height:58px;background:var(--surf);border:1px solid var(--line2);border-radius:20px;display:flex;align-items:center;justify-content:space-around;padding:0 8px}
+.ni{color:var(--faint);font-size:17px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.ni.on{color:var(--acc-ink)}
+.ni.on .pill{background:var(--acc);border-radius:16px;padding:8px 16px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800}
+/* mini stats variant */
+.stats{display:flex;gap:8px;margin-bottom:18px}
+.st{flex:1;background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:11px 8px;text-align:center}
+.st .n{font-size:20px;font-weight:800;color:var(--acc);font-family:var(--mono)}
+.st .l{font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+.note{background:var(--surf);border:1px dashed var(--line2);border-radius:14px;padding:16px 18px;margin-top:30px;font-size:13px;color:var(--ink2);line-height:1.6;max-width:1120px}
+.note b{color:var(--acc)}
+.note .k{color:#ff8080}
+</style></head>
+<body><div class="wrap">
+<h1>Home redesign v2 — like your reference</h1>
+<div class="lead">Killing the <b class="k" style="color:#ff8080">Gym/Calisthenics/Travel mode cards</b> and the meaningless <b class="k" style="color:#ff8080">"N days"</b> label. Instead: a hero, muscle-focus filter chips, and a <b>Suggested Workout</b> list with exercise thumbnails + real info (exercises · minutes) — modeled on the reference you sent.</div>
+
+<div class="row">
+
+<!-- A: closest to reference -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av"></div><div class="hi"><div class="wb">Welcome back</div><div class="nm">Omar</div></div><div class="bell">🔔</div></div>
+  <div class="hero photo">
+    <div class="ht">Keep your streak alive!</div>
+    <div class="big">3<small> this week</small></div>
+    <div class="cta">Start today →</div>
+  </div>
+  <div class="chips">
+    <div class="chip on">Full Body</div><div class="chip">Upper</div><div class="chip">Lower</div><div class="chip">Core</div>
+  </div>
+  <div class="sh"><span class="t">Suggested</span><span class="a">See all</span></div>
+  <div class="wl">
+    <div class="wc"><span class="wt">💪</span><span class="wi"><div class="wn">Full Upper</div><div class="wm"><b>6 exercises</b> · ~45 min · chest·back·arms</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt">🙌</span><span class="wi"><div class="wn">Push</div><div class="wm"><b>6 exercises</b> · ~40 min · chest·shoulders·triceps</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt">🧲</span><span class="wi"><div class="wn">Pull</div><div class="wm"><b>6 exercises</b> · ~40 min · back·biceps</div></span><span class="go">›</span></div>
+  </div>
+  <div class="nav"><div class="ni on"><span class="pill">🏠 Home</span></div><div class="ni">📅</div><div class="ni">📈</div><div class="ni">👤</div></div>
+</div>
+<div class="cap"><b>A.</b> Closest to reference — hero + muscle-focus chips + suggested list w/ real "exercises · minutes"</div>
+</div>
+
+<!-- B: hero + stats strip + suggested -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av"></div><div class="hi"><div class="wb">Good evening</div><div class="nm">Omar</div></div><div class="bell">🔔</div></div>
+  <div class="hero">
+    <div class="ht">Ready to train?</div>
+    <div class="big" style="color:var(--acc)">Upper<small style="display:block;color:var(--mut);font-size:12px;text-align:right">recommended today</small></div>
+    <div class="cta">Start today →</div>
+  </div>
+  <div class="stats"><div class="st"><div class="n">3</div><div class="l">This week</div></div><div class="st"><div class="n">12</div><div class="l">Total</div></div><div class="st"><div class="n">5</div><div class="l">Streak</div></div></div>
+  <div class="sh"><span class="t">Your workouts</span><span class="a">See all</span></div>
+  <div class="wl">
+    <div class="wc"><span class="wt">💪</span><span class="wi"><div class="wn">Full Upper</div><div class="wm"><b>6 exercises</b> · ~45 min</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt">🙌</span><span class="wi"><div class="wn">Push</div><div class="wm"><b>6 exercises</b> · ~40 min</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt">🦵</span><span class="wi"><div class="wn">Legs &amp; Core</div><div class="wm"><b>6 exercises</b> · ~50 min</div></span><span class="go">›</span></div>
+  </div>
+  <div class="nav"><div class="ni on"><span class="pill">🏠 Home</span></div><div class="ni">📅</div><div class="ni">📈</div><div class="ni">👤</div></div>
+</div>
+<div class="cap"><b>B.</b> Hero + keep the 3-stat strip + suggested list (no chips)</div>
+</div>
+
+<!-- C: big exercise-photo rows -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av"></div><div class="hi"><div class="wb">Welcome back</div><div class="nm">Omar</div></div><div class="bell">🔔</div></div>
+  <div class="hero photo">
+    <div class="ht">3 sessions this week</div>
+    <div class="big">Let's go</div>
+    <div class="cta">Start today →</div>
+  </div>
+  <div class="sh" style="margin-top:2px"><span class="t">Today's plan</span><span class="a">Change</span></div>
+  <div class="wl">
+    <div class="wc"><span class="wt" style="background:linear-gradient(135deg,#c9cfd6,#8b93a0);font-size:13px;color:#1a1d22;font-weight:800">BENCH</span><span class="wi"><div class="wn">Flat chest press</div><div class="wm"><b>4 × 8–10</b> · barbell · chest</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt" style="background:linear-gradient(135deg,#c9cfd6,#8b93a0);font-size:13px;color:#1a1d22;font-weight:800">ROW</span><span class="wi"><div class="wn">Horizontal row</div><div class="wm"><b>4 × 8–10</b> · cable · back</div></span><span class="go">›</span></div>
+    <div class="wc"><span class="wt" style="background:linear-gradient(135deg,#c9cfd6,#8b93a0);font-size:12px;color:#1a1d22;font-weight:800">PRESS</span><span class="wi"><div class="wn">Overhead press</div><div class="wm"><b>3 × 8–12</b> · barbell · shoulders</div></span><span class="go">›</span></div>
+  </div>
+  <div class="nav"><div class="ni on"><span class="pill">🏠 Home</span></div><div class="ni">📅</div><div class="ni">📈</div><div class="ni">👤</div></div>
+</div>
+<div class="cap"><b>C.</b> Home shows TODAY'S exercises directly (with demo thumbnails), tap to jump in</div>
+</div>
+
+</div>
+
+<div class="note"><b>What changes vs now:</b> (1) the <span class="k">Gym/Calisthenics/Travel mode cards are gone</span> from Home — mode becomes a small setting (or lives in Profile), since you rarely switch it; (2) the <span class="k">"N days" label is gone</span> — replaced with real, meaningful info: <b>"6 exercises · ~45 min"</b> or the actual set scheme; (3) a proper <b>Suggested/Your Workouts</b> list with demo thumbnails like the reference. All data is REAL (your sessions, exercise counts, schemes, muscles). <b>A</b> = closest to the reference · <b>B</b> = keeps your streak stats · <b>C</b> = shows today's actual exercises. Minutes are estimated from set count (~7 min/exercise).</div>
+
+</div></body></html>
