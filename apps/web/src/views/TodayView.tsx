@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { HeroTitle } from '../components/HeroTitle';
+import { ExerciseGif } from '../components/ExerciseGif';
+import '../styles/exercise-gif.css';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
 import { usePrefs } from '../lib/useProfileData';
@@ -100,6 +102,7 @@ export function TodayView() {
             <div className="today-exlist">
               {active.exercises.map((x, i) => (
                 <div className="today-ex" key={x + i}>
+                  <ExerciseGif name={x} size="thumb" hideWhenMissing />
                   <span className="today-exn">{i + 1}</span>
                   {x}
                 </div>

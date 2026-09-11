@@ -3,6 +3,8 @@ import { isTimeScheme, KIND_LABEL } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
+import { ExerciseGif } from '../components/ExerciseGif';
+import '../styles/exercise-gif.css';
 import { ghostFor } from '../lib/ghost';
 import type { ProgressionSuggestion } from '../lib/progression';
 import { IconArrowDown, IconArrowUp, IconCheck, IconTrash } from '../lib/icons';
@@ -134,6 +136,7 @@ export function ExerciseCard({
       )}
 
       <div className="detail">
+        <ExerciseGif name={slot} size="card" badge hideWhenMissing />
         {vr && (
           <>
             <div className="exvarname">{vr.name}</div>

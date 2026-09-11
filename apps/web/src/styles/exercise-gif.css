@@ -1,0 +1,65 @@
+/* Exercise demonstration gif — white tile so the 3D render pops on the dark UI. */
+.exgif {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exgif img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* size presets */
+.exgif-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 11px;
+}
+/* Compact thumb for tight list rows (e.g. Today). */
+.today-ex .exgif-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+}
+.exgif-card {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 12px;
+}
+.exgif-detail {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+}
+
+/* "Demo" badge */
+.exgif-badge {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--acc-ink, #0a0b0e);
+  background: var(--acc, #c6f24e);
+  padding: 2px 7px;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+/* fallback tile — muscle glyph on a dark surface (no broken image) */
+.exgif-fallback {
+  background: var(--surf2, #1c1f24);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.09));
+}
+.exgif-glyph {
+  font-size: 1.4em;
+  filter: grayscale(0.2);
+  opacity: 0.7;
+}

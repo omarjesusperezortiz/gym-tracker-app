@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createSupabase, setSupabase } from '@gym-tracker/core';
 import App from './App';
+import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import './styles.css';
 
 // Register the Supabase client before anything renders — core's getSupabase()
@@ -9,8 +10,12 @@ import './styles.css';
 // first render (AuthContext, TrainView's finishWorkout, etc).
 setSupabase(createSupabase(window.localStorage));
 
+// Dev showcase route (no login) — mounts the real components with the exercise
+// gifs so we can review the integration. Reached at ?showcase=exercises.
+const showcase = new URLSearchParams(window.location.search).get('showcase');
+
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  <StrictMode>{showcase === 'exercises' ? <ExerciseShowcase /> : <App />}</StrictMode>
 );
+
+
