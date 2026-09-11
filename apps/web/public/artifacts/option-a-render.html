@@ -1,0 +1,149 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Option A — component render proposal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:40px 24px 70px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:30px;font-weight:900;letter-spacing:-.8px;margin-bottom:4px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:6px}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:30px}
+.flow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+.step{display:flex;flex-direction:column;align-items:center;gap:10px}
+.caption{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.caption b{color:var(--acc)}
+.chevron{align-self:center;color:var(--faint);font-size:30px;padding-top:120px}
+/* phone */
+.phone{width:270px;height:560px;background:var(--bg);border-radius:30px;border:1px solid var(--line2);padding:18px 14px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.ph-top{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--acc);margin-bottom:2px}
+.ph-h{font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:14px}
+.search{background:var(--surf2);border:1px solid var(--line2);border-radius:10px;padding:9px 11px;color:var(--mut);font-size:11.5px;margin-bottom:12px}
+/* muscle group grid */
+.mg-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mg{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:14px 10px;display:flex;flex-direction:column;gap:7px;min-height:82px;justify-content:center}
+.mg.sel{border-color:var(--acc);background:linear-gradient(160deg,rgba(198,242,78,.14),rgba(198,242,78,.02))}
+.mg .ic{font-size:22px}
+.mg .nm{font-size:12.5px;font-weight:700}
+.mg .ct{font-size:10px;color:var(--mut)}
+/* exercise list */
+.ex-row{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:8px;margin-bottom:8px}
+.ex-row.sel{border-color:var(--acc)}
+.ex-th{width:46px;height:46px;border-radius:9px;background:#fff;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ex-m{flex:1;min-width:0}
+.ex-m .n{font-size:12.5px;font-weight:700;text-transform:capitalize}
+.ex-m .s{font-size:10px;color:var(--mut);text-transform:capitalize}
+.ex-add{width:26px;height:26px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none;font-size:14px}
+.ex-chev{color:var(--faint);font-size:15px}
+/* detail */
+.d-gif{background:#fff;border-radius:14px;aspect-ratio:1;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:60px;position:relative}
+.d-gif .badge{position:absolute;top:8px;left:8px;background:var(--acc);color:var(--acc-ink);font-size:8px;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:20px}
+.d-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.d-tag{font-size:10px;font-weight:600;color:var(--mut);background:var(--surf2);border:1px solid var(--line);border-radius:20px;padding:4px 9px;text-transform:capitalize}
+.d-tag.on{color:var(--acc-ink);background:var(--acc);border-color:var(--acc)}
+.d-step{display:flex;gap:8px;font-size:10.5px;color:var(--mut);line-height:1.4;margin-bottom:7px}
+.d-step b{color:var(--acc)}
+.d-cta{margin-top:auto;background:var(--acc);color:var(--acc-ink);border:none;border-radius:11px;padding:12px;font-weight:800;font-size:13px;font-family:inherit;text-align:center}
+/* train card */
+.tc{background:var(--surf);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.tc-h{display:flex;align-items:center;gap:8px;padding:10px 11px}
+.tc-n{width:24px;height:24px;border-radius:7px;background:var(--acc);color:var(--acc-ink);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+.tc-nm{font-size:12.5px;font-weight:800;flex:1;text-transform:capitalize}
+.tc-sc{font-size:10px;color:var(--acc);font-family:var(--mono);background:var(--surf2);border:1px solid var(--line);padding:3px 7px;border-radius:7px}
+.tc-gif{margin:0 11px 10px;background:#fff;border-radius:10px;aspect-ratio:16/10;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:40px}
+.tc-sets{padding:0 11px 11px;font-size:10px}
+.tc-hdr{display:grid;grid-template-columns:20px 1fr 1fr 1fr;gap:6px;color:var(--faint);font-weight:700;text-transform:uppercase;font-size:8px;margin-bottom:5px}
+.tc-r{display:grid;grid-template-columns:20px 1fr 1fr 1fr;gap:6px;align-items:center;margin-bottom:5px}
+.tc-r .g{color:var(--faint);font-family:var(--mono)}
+.tc-inp{background:var(--surf2);border:1px solid var(--line);border-radius:6px;padding:5px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--faint)}
+/* data note */
+.note{background:var(--surf);border:1px dashed var(--line2);border-radius:12px;padding:16px 18px;margin-top:34px;font-size:12.5px;color:var(--ink2);line-height:1.7}
+.note b{color:var(--acc)}
+.note code{font-family:var(--mono);font-size:11px;background:var(--surf2);padding:2px 6px;border-radius:5px;color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+<h1>Option A — how the components render</h1>
+<div class="sub">Muscle group → specific exercise, all code-controlled. The user browses <b style="color:var(--acc)">by muscle</b>, picks an exercise, and it drops into the session.</div>
+<div class="meta">Gym Tracker · component render proposal · Option A</div>
+
+<div class="flow">
+
+<!-- 1 muscle groups -->
+<div class="step">
+<div class="phone">
+  <div class="ph-top">Add exercise</div>
+  <div class="ph-h">Muscle group</div>
+  <div class="search">🔍  Search all exercises…</div>
+  <div class="mg-grid">
+    <div class="mg sel"><span class="ic">🎯</span><span class="nm">Chest</span><span class="ct">8 exercises</span></div>
+    <div class="mg"><span class="ic">🔙</span><span class="nm">Back</span><span class="ct">7 exercises</span></div>
+    <div class="mg"><span class="ic">💪</span><span class="nm">Shoulders</span><span class="ct">9 exercises</span></div>
+    <div class="mg"><span class="ic">🦾</span><span class="nm">Arms</span><span class="ct">10 exercises</span></div>
+    <div class="mg"><span class="ic">🦵</span><span class="nm">Legs</span><span class="ct">8 exercises</span></div>
+    <div class="mg"><span class="ic">🧱</span><span class="nm">Core</span><span class="ct">6 exercises</span></div>
+  </div>
+</div>
+<div class="caption"><b>1.</b> Browse by muscle</div>
+</div>
+
+<div class="chevron">›</div>
+
+<!-- 2 exercise list -->
+<div class="step">
+<div class="phone">
+  <div class="ph-top">Chest · 8 exercises</div>
+  <div class="ph-h">Pick exercise</div>
+  <div class="ex-row sel"><div class="ex-th">🏋️</div><div class="ex-m"><div class="n">Barbell Bench Press</div><div class="s">Barbell · pectorals</div></div><div class="ex-add">+</div></div>
+  <div class="ex-row"><div class="ex-th">🏋️</div><div class="ex-m"><div class="n">Incline Bench Press</div><div class="s">Barbell · upper chest</div></div><div class="ex-add">+</div></div>
+  <div class="ex-row"><div class="ex-th">🔗</div><div class="ex-m"><div class="n">Cable Fly</div><div class="s">Cable · pectorals</div></div><div class="ex-add">+</div></div>
+  <div class="ex-row"><div class="ex-th">🤸</div><div class="ex-m"><div class="n">Chest Dip</div><div class="s">Bodyweight · pectorals</div></div><div class="ex-add">+</div></div>
+  <div class="ex-row"><div class="ex-th">🏋️</div><div class="ex-m"><div class="n">Dumbbell Press</div><div class="s">Dumbbell · pectorals</div></div><div class="ex-add">+</div></div>
+</div>
+<div class="caption"><b>2.</b> Choose the specific one</div>
+</div>
+
+<div class="chevron">›</div>
+
+<!-- 3 detail -->
+<div class="step">
+<div class="phone">
+  <div class="ph-top">Exercise</div>
+  <div class="ph-h" style="font-size:16px">Barbell Bench Press</div>
+  <div class="d-gif">🏋️<span class="badge">Demo</span></div>
+  <div class="d-tags"><span class="d-tag on">Pectorals</span><span class="d-tag">Triceps</span><span class="d-tag">Barbell</span></div>
+  <div class="d-step"><b>1</b><span>Lie flat, grip slightly wider than shoulders.</span></div>
+  <div class="d-step"><b>2</b><span>Lower the bar to mid-chest, elbows ~45°.</span></div>
+  <div class="d-step"><b>3</b><span>Press up to lockout, shoulder blades tucked.</span></div>
+  <div class="d-cta">Add to session</div>
+</div>
+<div class="caption"><b>3.</b> Review &amp; add</div>
+</div>
+
+<div class="chevron">›</div>
+
+<!-- 4 in session -->
+<div class="step">
+<div class="phone">
+  <div class="ph-top">Training · Gym</div>
+  <div class="ph-h" style="font-style:italic;text-transform:uppercase">Full Upper.</div>
+  <div class="tc">
+    <div class="tc-h"><div class="tc-n">1</div><div class="tc-nm">Barbell Bench Press</div><div class="tc-sc">4×8</div></div>
+    <div class="tc-gif">🏋️</div>
+    <div class="tc-sets">
+      <div class="tc-hdr"><div>Set</div><div>Prev</div><div>Kg</div><div>Reps</div></div>
+      <div class="tc-r"><div class="g">1</div><div class="g">40×8</div><div class="tc-inp">42.5</div><div class="tc-inp">8</div></div>
+      <div class="tc-r"><div class="g">2</div><div class="g">40×8</div><div class="tc-inp">42.5</div><div class="tc-inp">8</div></div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--faint);text-align:center;margin-top:12px">…same card as today, now backed by a real exercise ID</div>
+</div>
+<div class="caption"><b>4.</b> Logs against exercise ID</div>
+</div>
+
+</div>
+
+<div class="note">
+<b>What changes under the hood (Option A):</b> the picker browses <code>muscleGroups[]</code> → <code>exercises: Record&lt;group, Exercise[]&gt;</code> (code-controlled, no user-custom). Selecting one writes its stable <code>exercise_id</code> into the session slot, and every logged set stores <code>exercise_id</code> — so history, gifs, muscle tags and steps all come from one source of truth. <b>The Train card itself looks identical to today</b> — just backed by a real exercise instead of a text name.
+</div>
+
+</div></body></html>

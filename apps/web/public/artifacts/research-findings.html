@@ -1,0 +1,143 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research — how real apps model this</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--blue:#5b9dff;--amber:#e6b45a;--violet:#b98cff;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:44px 26px 80px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto}
+h1{font-size:31px;font-weight:900;letter-spacing:-.9px;margin-bottom:6px}
+.sub{color:var(--mut);font-size:15px;margin-bottom:6px}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:20px}
+.verdict{background:linear-gradient(160deg,rgba(230,180,90,.12),rgba(230,180,90,.02));border:1px solid rgba(230,180,90,.35);border-radius:14px;padding:18px 20px;margin-bottom:8px;font-size:14px;color:var(--ink2)}
+.verdict b{color:var(--amber)}
+h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+/* app cards */
+.apps{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.apps{grid-template-columns:1fr}}
+.app{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.app .nm{font-size:16px;font-weight:800;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.app .src{font-size:10px;font-family:var(--mono);color:var(--faint);margin-bottom:11px}
+.app .chain{font-family:var(--mono);font-size:11.5px;line-height:1.8;color:var(--ink2);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:10px}
+.app .chain .r{color:var(--violet)}.app .chain .e{color:var(--acc)}.app .chain .t{color:var(--amber)}.app .chain .c{color:var(--faint)}
+.app .take{font-size:12px;color:var(--mut);line-height:1.5}
+.tiers{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;margin-left:auto}
+.t2{background:rgba(91,157,255,.14);color:var(--blue)}
+.t3{background:rgba(198,242,78,.14);color:var(--acc)}
+/* finding banner */
+.finding{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:6px}
+.finding .big{font-size:17px;font-weight:800;margin-bottom:10px}
+.finding .big .h{color:var(--amber)}
+.finding p{font-size:13px;color:var(--ink2);line-height:1.65}
+/* rec model */
+.rec{background:linear-gradient(160deg,rgba(198,242,78,.1),rgba(198,242,78,.02));border:1px solid rgba(198,242,78,.35);border-radius:16px;padding:22px 24px;margin-top:6px}
+.rec h3{font-size:16px;font-weight:800;color:var(--acc);margin-bottom:6px}
+.rec .lead{font-size:13px;color:var(--ink2);margin-bottom:16px}
+.schema{font-family:var(--mono);font-size:12px;line-height:1.9;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:16px 18px;color:var(--ink2);overflow-x:auto}
+.schema .k{color:var(--acc)}.schema .b{color:var(--blue)}.schema .v{color:var(--violet)}.schema .c{color:var(--faint)}.schema .t{color:var(--amber)}
+.borrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:720px){.borrow{grid-template-columns:1fr}}
+.bcard{background:var(--surf2);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.bcard .h{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.bcard.keep .h{color:var(--blue)}.bcard.add .h{color:var(--acc)}
+.bcard ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.bcard li{font-size:12px;color:var(--ink2);display:flex;gap:7px}
+.bcard li span{flex:none}
+.bcard .ck{color:var(--acc)}.bcard .bl{color:var(--blue)}
+code{font-family:var(--mono);font-size:11px;background:var(--bg);padding:2px 6px;border-radius:5px;color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+<h1>Research — how real apps model it</h1>
+<div class="sub">Ground truth from Hevy's live API spec, Strong's CSV export, Jefit &amp; Fitbod sites.</div>
+<div class="meta">Gym Tracker · Hevy · Strong · Jefit · Fitbod · verified by curl (no Chrome)</div>
+
+<div class="verdict"><b>⚡ Headline:</b> <b>None</b> of the four apps use a 3-tier movement-slot layer. All ship <b>2 tiers</b> — routine → specific exercise directly — with <b>muscle group as a TAG</b> on the exercise. Your 3-tier idea is <b>more structured than any shipping app</b> (a real differentiator), but you should borrow their proven exercise atom and layer your movement slot on top.</div>
+
+<h2>What each app actually does</h2>
+<div class="apps">
+<div class="app">
+  <div class="nm">🟣 Hevy <span class="tiers t2">2-tier</span></div>
+  <div class="src">live OpenAPI spec · api.hevyapp.com/docs</div>
+  <div class="chain"><span class="r">Routine</span>
+  └─ exercises[].<span class="e">exercise_template_id</span>  <span class="c">// direct ref</span>
+     └─ <span class="e">ExerciseTemplate</span>
+        ├─ <span class="t">primary_muscle_group</span>  <span class="c">// TAG</span>
+        ├─ secondary_muscle_groups[]
+        └─ equipment</div>
+  <div class="take">Routine points at a specific exercise <b>by ID</b>. Muscle group is a field on the template, never a slot. Swaps = change the id. <code>superset_id</code> groups exercises.</div>
+</div>
+
+<div class="app">
+  <div class="nm">🔵 Strong <span class="tiers t2">2-tier</span></div>
+  <div class="src">real CSV export schema</div>
+  <div class="chain"><span class="r">Workout Name</span>
+  └─ <span class="e">Exercise Name</span>
+     └─ sets (weight, reps…)
+  <span class="c">// NO muscle column at all</span></div>
+  <div class="take">Simplest possible model. Flat workout → exercise. Muscle group isn't even stored in the routine/log.</div>
+</div>
+
+<div class="app">
+  <div class="nm">🟢 Jefit <span class="tiers t2">2-tier</span></div>
+  <div class="src">jefit.com · 1,294-exercise DB</div>
+  <div class="chain"><span class="r">Plan</span> → <span class="r">Day</span> <span class="c">("Day 1 – Chest")</span>
+  └─ <span class="e">Exercises</span>  <span class="c">// tagged Back / Machine</span></div>
+  <div class="take">Middle layer is a <b>training DAY</b>, not a movement slot. Muscle + equipment are tags used only for browsing/filtering.</div>
+</div>
+
+<div class="app">
+  <div class="nm">🟠 Fitbod <span class="tiers t3">muscle-aware</span></div>
+  <div class="src">fitbod.me · recovery model</div>
+  <div class="chain"><span class="r">Session</span>
+  └─ <span class="v">target muscles</span> <span class="c">// COMPUTED from recovery</span>
+     └─ <span class="e">auto-picked exercises</span></div>
+  <div class="take">The only one reasoning at muscle level — but it's a <b>generator algorithm</b>, not a stored schema. The muscle "slot" is transient, not an entity you fill.</div>
+</div>
+</div>
+
+<h2>The finding, plainly</h2>
+<div class="finding">
+<div class="big">Industry pattern = <span class="h">(a) routine → specific exercises, muscle group as a tag.</span></div>
+<p>Pattern (b) — persisted, swappable <b>movement slots</b> — is used by <b>nobody</b>. Alternatives/swaps are all faked by editing the routine to point at a different exercise. Your instinct (a real "Vertical pull" slot that owns a chosen exercise + alternatives) is a genuine <b>upgrade</b> over what ships today — the research validates it conceptually (Fitbod's muscle targeting, "alternatives" everywhere) while noting nobody has stored it as an explicit slot.</p>
+</div>
+
+<h2>★ Recommended model — borrow their atom, add your layer</h2>
+<div class="rec">
+<h3>Hevy's exercise foundation + your movement slot on top</h3>
+<div class="lead">Take the battle-tested <b>ExerciseTemplate + muscle-group tag</b> (proven by Hevy), and add the one layer they lack — a real <b>movement slot</b> with a chosen exercise + alternatives.</div>
+<div class="schema"><span class="c">// LEVEL 3 — the battle-tested atom (adopt Hevy's shape)</span>
+<span class="k">ExerciseTemplate</span> {
+  <span class="b">id</span>: <span class="t">"LEprlgG"</span>,           <span class="c">// stable (exercisedb)</span>
+  name: <span class="t">"Cable Lat Pulldown"</span>,
+  <span class="v">primary_muscle_group</span>: <span class="t">"lats"</span>,   <span class="c">// TAG</span>
+  secondary: [<span class="t">"biceps"</span>],
+  equipment: <span class="t">"cable"</span>, gif, poster, steps
+}
+
+<span class="c">// LEVEL 2 — YOUR novel layer: the movement slot</span>
+<span class="k">MovementSlot</span> {
+  pattern: <span class="t">"Vertical pull"</span>,         <span class="c">// what to train</span>
+  <span class="v">target_muscle_group</span>: <span class="t">"lats"</span>,
+  <span class="b">selected_exercise_id</span>: <span class="t">"LEprlgG"</span>, <span class="c">// Hevy-style directness</span>
+  alternative_exercise_ids: [<span class="t">"pullup"</span>, <span class="t">"pullover"</span>], <span class="c">// first-class swap</span>
+  scheme: <span class="t">"4×6–10"</span>
+}
+
+<span class="c">// LEVEL 1 — Program</span>
+<span class="k">Program</span> <span class="t">"Pull"</span> { slots: MovementSlot[] }</div>
+
+<div class="borrow">
+<div class="bcard keep"><div class="h">↳ Borrow from Hevy (proven)</div><ul>
+<li><span class="bl">•</span> First-class <code>exercise_template</code> with stable id</li>
+<li><span class="bl">•</span> <code>muscle_group</code> as an enum tag + secondary[]</li>
+<li><span class="bl">•</span> equipment tag; swaps by exercise id</li>
+</ul></div>
+<div class="bcard add"><div class="h">+ Your addition (the differentiator)</div><ul>
+<li><span class="ck">✓</span> <code>MovementSlot</code> as a real persisted entity</li>
+<li><span class="ck">✓</span> <code>selected + alternatives[]</code> = first-class swapping</li>
+<li><span class="ck">✓</span> filters alternatives by matching muscle/equipment tag</li>
+</ul></div>
+</div>
+</div>
+
+</div></body></html>

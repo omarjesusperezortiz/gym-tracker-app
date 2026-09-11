@@ -1,0 +1,149 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program → Movement → Exercise</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--blue:#5b9dff;--amber:#e6b45a;--violet:#b98cff;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:44px 26px 80px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto}
+h1{font-size:32px;font-weight:900;letter-spacing:-.9px;margin-bottom:6px}
+.sub{color:var(--mut);font-size:15px;margin-bottom:6px}
+.sub b{color:var(--acc)}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:34px}
+h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:42px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+/* 3-tier ladder */
+.ladder{display:flex;flex-direction:column;gap:0}
+.tier{display:flex;align-items:stretch;gap:0}
+.tier-badge{width:150px;flex:none;display:flex;flex-direction:column;justify-content:center;padding:20px;border-radius:14px 0 0 14px}
+.tier-badge .lvl{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.tier-badge .nm{font-size:19px;font-weight:900;margin-top:3px}
+.tier-badge .role{font-size:11px;margin-top:6px;opacity:.85;line-height:1.4}
+.t1 .tier-badge{background:linear-gradient(150deg,var(--violet),#7b52d4);color:#fff}
+.t2 .tier-badge{background:linear-gradient(150deg,var(--blue),#3f78d8);color:#fff}
+.t3 .tier-badge{background:linear-gradient(150deg,var(--acc),var(--acc-d));color:var(--acc-ink)}
+.tier-body{flex:1;background:var(--surf);border:1px solid var(--line);border-left:none;border-radius:0 14px 14px 0;padding:18px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:700;background:var(--surf2);border:1px solid var(--line2);border-radius:9px;padding:8px 13px}
+.chip.hot{background:rgba(198,242,78,.14);border-color:var(--acc);color:var(--acc)}
+.chip.b{background:rgba(91,157,255,.12);border-color:rgba(91,157,255,.35);color:var(--blue)}
+.chip.v{background:rgba(185,140,255,.12);border-color:rgba(185,140,255,.35);color:var(--violet)}
+.chip small{display:block;font-size:9.5px;font-weight:500;color:var(--mut);margin-top:2px;text-transform:none}
+.down{display:flex;justify-content:center;padding:9px 0}
+.down span{color:var(--faint);font-size:22px}
+.down small{color:var(--faint);font-size:11px;font-family:var(--mono);align-self:center;margin-left:8px}
+/* concrete example table */
+.exwrap{background:var(--surf);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.exhead{background:linear-gradient(150deg,var(--violet),#7b52d4);color:#fff;padding:14px 20px;font-weight:900;font-size:17px;display:flex;align-items:center;gap:10px}
+.exhead .tg{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
+.movement{border-bottom:1px solid var(--line)}
+.mv-head{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--surf2)}
+.mv-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);flex:none}
+.mv-name{font-size:14px;font-weight:800;color:var(--blue)}
+.mv-tag{font-size:10.5px;color:var(--mut);background:var(--surf3);border:1px solid var(--line);border-radius:20px;padding:3px 9px}
+.mv-scheme{margin-left:auto;font-size:11px;font-family:var(--mono);color:var(--acc);background:var(--bg);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
+.ex-opts{padding:12px 20px 16px 42px;display:flex;flex-direction:column;gap:8px}
+.ex-opt{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:9px 11px}
+.ex-opt.chosen{border-color:var(--acc);background:linear-gradient(160deg,rgba(198,242,78,.1),rgba(198,242,78,.01))}
+.ex-th{width:40px;height:40px;border-radius:8px;background:#fff;flex:none;display:flex;align-items:center;justify-content:center;font-size:19px}
+.ex-info{flex:1}
+.ex-info .n{font-size:12.5px;font-weight:700}
+.ex-info .s{font-size:10px;color:var(--mut)}
+.ex-pick{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 9px;border-radius:20px}
+.ex-pick.on{background:var(--acc);color:var(--acc-ink)}
+.ex-pick.off{background:var(--surf3);color:var(--mut)}
+.idtag{font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-left:6px}
+/* now vs proposed */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.cmp{grid-template-columns:1fr}}
+.cbox{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.cbox.good{border-color:rgba(198,242,78,.4)}
+.cbox .ct{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.cbox.now .ct{color:var(--amber)}.cbox.good .ct{color:var(--acc)}
+.code{font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--ink2)}
+.code .k{color:var(--acc)}.code .b{color:var(--blue)}.code .v{color:var(--violet)}.code .c{color:var(--faint)}.code .t{color:var(--amber)}
+.note{background:var(--surf);border:1px dashed var(--line2);border-radius:12px;padding:16px 18px;margin-top:16px;font-size:13px;color:var(--ink2);line-height:1.7}
+.note b{color:var(--acc)}
+.q{background:linear-gradient(160deg,rgba(91,157,255,.1),rgba(91,157,255,.02));border:1px solid rgba(91,157,255,.3);border-radius:12px;padding:16px 18px;margin-top:16px;font-size:13px;color:var(--ink2)}
+.q b{color:var(--blue)}
+</style></head>
+<body><div class="wrap">
+<h1>Your model — confirmed ✓</h1>
+<div class="sub"><b>Program</b> → <b>Movement</b> (muscle-group pattern) → <b>Specific exercise</b> (by ID)</div>
+<div class="meta">Gym Tracker · the 3 levels, explained visually</div>
+
+<h2>The three levels</h2>
+<div class="ladder">
+<div class="tier t1">
+  <div class="tier-badge"><div class="lvl">Level 1</div><div class="nm">Program</div><div class="role">The workout day / template</div></div>
+  <div class="tier-body"><span class="chip v">Pull</span><span class="chip v">Push</span><span class="chip v">Legs</span><span class="chip" style="opacity:.5">Chest</span><span class="chip" style="opacity:.5">Back</span><span class="chip" style="opacity:.5">Arms…</span></div>
+</div>
+<div class="down"><span>↓</span><small>a program contains several movements</small></div>
+<div class="tier t2">
+  <div class="tier-badge"><div class="lvl">Level 2</div><div class="nm">Movement</div><div class="role">A muscle-group pattern — WHAT to train</div></div>
+  <div class="tier-body"><span class="chip b">Vertical pull <small>lats</small></span><span class="chip b">Horizontal row <small>back</small></span><span class="chip b">Biceps curl <small>biceps</small></span><span class="chip b">Rear delts <small>rear delts</small></span></div>
+</div>
+<div class="down"><span>↓</span><small>each movement is trained by ONE specific exercise (swappable)</small></div>
+<div class="tier t3">
+  <div class="tier-badge"><div class="lvl">Level 3</div><div class="nm">Exercise</div><div class="role">The specific exercise — HOW (has gif, steps)</div></div>
+  <div class="tier-body"><span class="chip hot">Cable Lat Pulldown <small>id: LEprlgG · gif · steps</small></span><span class="chip">Pull-up <small>id: … </small></span><span class="chip">Lat Pullover <small>id: …</small></span></div>
+</div>
+</div>
+
+<h2>Concrete example — inside "Pull"</h2>
+<div class="exwrap">
+<div class="exhead">🔙 Pull <span class="tg">Program</span> <span style="font-size:11px;font-weight:500;opacity:.8">back · biceps · rear delts</span></div>
+
+<div class="movement">
+  <div class="mv-head"><span class="mv-dot"></span><span class="mv-name">Vertical pull</span><span class="mv-tag">lats</span><span class="mv-scheme">4 × 6–10</span></div>
+  <div class="ex-opts">
+    <div class="ex-opt chosen"><div class="ex-th">🔗</div><div class="ex-info"><div class="n">Cable Lat Pulldown <span class="idtag">id: LEprlgG</span></div><div class="s">Cable · lats · biceps assist</div></div><span class="ex-pick on">Chosen</span></div>
+    <div class="ex-opt"><div class="ex-th">🤸</div><div class="ex-info"><div class="n">Pull-up</div><div class="s">Bodyweight · lats</div></div><span class="ex-pick off">Swap →</span></div>
+    <div class="ex-opt"><div class="ex-th">🏋️</div><div class="ex-info"><div class="n">Lat Pullover</div><div class="s">Dumbbell · lats</div></div><span class="ex-pick off">Swap →</span></div>
+  </div>
+</div>
+
+<div class="movement">
+  <div class="mv-head"><span class="mv-dot"></span><span class="mv-name">Horizontal row</span><span class="mv-tag">back</span><span class="mv-scheme">4 × 8–10</span></div>
+  <div class="ex-opts">
+    <div class="ex-opt chosen"><div class="ex-th">🏋️</div><div class="ex-info"><div class="n">Barbell Bent-Over Row <span class="idtag">id: eZyBC3j</span></div><div class="s">Barbell · upper back · biceps</div></div><span class="ex-pick on">Chosen</span></div>
+    <div class="ex-opt"><div class="ex-th">🔗</div><div class="ex-info"><div class="n">Seated Cable Row</div><div class="s">Cable · upper back</div></div><span class="ex-pick off">Swap →</span></div>
+  </div>
+</div>
+
+<div class="movement" style="border-bottom:none">
+  <div class="mv-head"><span class="mv-dot"></span><span class="mv-name">Biceps curl</span><span class="mv-tag">biceps</span><span class="mv-scheme">3 × 10–12</span></div>
+  <div class="ex-opts">
+    <div class="ex-opt chosen"><div class="ex-th">🏋️</div><div class="ex-info"><div class="n">Dumbbell Biceps Curl <span class="idtag">id: …</span></div><div class="s">Dumbbell · biceps</div></div><span class="ex-pick on">Chosen</span></div>
+    <div class="ex-opt"><div class="ex-th">🏋️</div><div class="ex-info"><div class="n">Barbell Curl</div><div class="s">Barbell · biceps</div></div><span class="ex-pick off">Swap →</span></div>
+  </div>
+</div>
+</div>
+
+<div class="q"><b>How to read it:</b> "Pull" (program) lists <b>movements</b> — Vertical pull, Horizontal row, Biceps curl. Each movement is filled by <b>one specific exercise</b> (the "Chosen" one, which carries the gif + steps + logs). You can <b>swap</b> it for another exercise that trains the same movement/muscle — that's the flexibility you keep.</div>
+
+<h2>What changes in the data</h2>
+<div class="cmp">
+<div class="cbox now">
+<div class="ct">▲ Now — flat text</div>
+<div class="code">Pull.slots = [
+  <span class="t">"Vertical pull (lats)"</span>,   <span class="c">// just a string</span>
+  <span class="t">"Horizontal row"</span>,
+  <span class="t">"Biceps curl"</span>,
+]
+<span class="c">// no specific exercise, no id,</span>
+<span class="c">// gif matched loosely by name</span></div>
+</div>
+<div class="cbox good">
+<div class="ct">✓ Proposed — movement + exercise id</div>
+<div class="code">Pull.slots = [
+  { <span class="b">movement</span>:<span class="t">"Vertical pull"</span>,
+    <span class="v">muscle</span>:<span class="t">"lats"</span>,
+    <span class="k">exerciseId</span>:<span class="t">"LEprlgG"</span> <span class="c">// specific</span> },
+  …
+]
+<span class="c">// gif/steps/logs come from the id</span></div>
+</div>
+</div>
+
+<div class="note"><b>Bottom line:</b> your instinct is exactly right. <b>Program</b> = Pull. <b>Movement</b> = "Vertical pull" (the muscle-group pattern — what you train). <b>Exercise</b> = "Cable Lat Pulldown" (the specific thing you actually do, with its gif + steps + history, referenced by a stable id). Today we only have levels 1 &amp; 2 as loose text; the change adds level 3 as a real, swappable, code-controlled entity.</div>
+
+</div></body></html>

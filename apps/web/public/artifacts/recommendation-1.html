@@ -1,0 +1,176 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recommendation 1 — explained</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--blue:#5b9dff;--amber:#e6b45a;--violet:#b98cff;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:44px 26px 80px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto}
+.tagline{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+h1{font-size:32px;font-weight:900;letter-spacing:-.9px;margin-bottom:8px}
+.sub{color:var(--mut);font-size:15px;margin-bottom:6px;line-height:1.55}
+.sub b{color:var(--ink)}
+.meta{color:var(--faint);font-size:12px;font-family:var(--mono);margin-bottom:16px}
+.oneline{background:linear-gradient(160deg,rgba(198,242,78,.12),rgba(198,242,78,.02));border:1px solid rgba(198,242,78,.35);border-radius:14px;padding:18px 22px;font-size:15px;color:var(--ink2);line-height:1.6}
+.oneline b{color:var(--acc)}
+h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:42px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+/* the two pieces */
+.pieces{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.pieces{grid-template-columns:1fr}}
+.piece{border-radius:16px;padding:20px 22px;border:1px solid}
+.piece.atom{background:rgba(91,157,255,.06);border-color:rgba(91,157,255,.3)}
+.piece.slot{background:rgba(198,242,78,.06);border-color:rgba(198,242,78,.3)}
+.piece .lbl{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.piece.atom .lbl{color:var(--blue)}.piece.slot .lbl{color:var(--acc)}
+.piece .nm{font-size:19px;font-weight:900;margin-bottom:4px}
+.piece .from{font-size:11px;color:var(--mut);margin-bottom:14px}
+.code{font-family:var(--mono);font-size:12px;line-height:1.85;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px;color:var(--ink2);overflow-x:auto}
+.code .k{color:var(--acc)}.code .b{color:var(--blue)}.code .v{color:var(--violet)}.code .c{color:var(--faint)}.code .t{color:var(--amber)}
+.piece .why{font-size:12px;color:var(--mut);margin-top:12px;line-height:1.55}
+.piece .why b{color:var(--ink2)}
+/* how they connect */
+.connect{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:wrap}
+.node{text-align:center;padding:14px 18px;border-radius:12px;min-width:150px}
+.node .t{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.node .n{font-size:15px;font-weight:800;margin-top:4px}
+.node .d{font-size:10.5px;margin-top:4px;opacity:.85}
+.n-prog{background:linear-gradient(150deg,var(--violet),#7b52d4);color:#fff}
+.n-slot{background:linear-gradient(150deg,var(--acc),var(--acc-d));color:var(--acc-ink)}
+.n-atom{background:linear-gradient(150deg,var(--blue),#3f78d8);color:#fff}
+.link{color:var(--faint);font-family:var(--mono);font-size:11px;padding:0 14px;text-align:center}
+.link .a{font-size:20px;display:block;color:var(--mut)}
+/* pull worked example */
+.demo{background:var(--surf);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.demo-h{background:linear-gradient(150deg,var(--violet),#7b52d4);color:#fff;padding:13px 20px;font-weight:900;font-size:16px;display:flex;align-items:center;gap:10px}
+.demo-h .tg{font-size:9.5px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:20px;text-transform:uppercase}
+.slotrow{padding:16px 20px;border-bottom:1px solid var(--line)}
+.slotrow:last-child{border-bottom:none}
+.sr-top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.sr-dot{width:9px;height:9px;border-radius:50%;background:var(--acc);flex:none}
+.sr-pat{font-size:14px;font-weight:800;color:var(--acc)}
+.sr-mus{font-size:10px;color:var(--mut);background:var(--surf3);border:1px solid var(--line);border-radius:20px;padding:3px 9px}
+.sr-sch{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--amber);background:var(--bg);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
+.opts{display:flex;flex-direction:column;gap:7px;padding-left:19px}
+.opt{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 11px}
+.opt.sel{border-color:var(--acc);background:linear-gradient(160deg,rgba(198,242,78,.1),rgba(198,242,78,.01))}
+.opt .th{width:36px;height:36px;border-radius:8px;background:#fff;flex:none;display:flex;align-items:center;justify-content:center;font-size:17px}
+.opt .i{flex:1}.opt .i .n{font-size:12px;font-weight:700}.opt .i .s{font-size:9.5px;color:var(--mut)}
+.opt .id{font-family:var(--mono);font-size:9px;color:var(--faint)}
+.opt .pk{font-size:9px;font-weight:800;text-transform:uppercase;padding:4px 9px;border-radius:20px}
+.opt .pk.on{background:var(--acc);color:var(--acc-ink)}.opt .pk.off{background:var(--surf3);color:var(--mut)}
+/* swap flow */
+.swap{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+@media(max-width:640px){.swap{grid-template-columns:1fr}}
+.swap-box{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px}
+.swap-box .h{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:8px}
+.swap-box code{font-family:var(--mono);font-size:11.5px;color:var(--ink2);display:block;line-height:1.7}
+.swap-box code b{color:var(--acc)}
+.swap-arrow{font-size:24px;color:var(--acc);text-align:center}
+.benefit{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+@media(max-width:640px){.benefit{grid-template-columns:1fr}}
+.ben{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+.ben .h{font-size:13px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.ben.g .h{color:var(--acc)}.ben.b .h{color:var(--blue)}
+.ben p{font-size:12px;color:var(--mut);line-height:1.55}
+/* build steps */
+.steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+.steps li{counter-increment:s;font-size:13.5px;padding-left:40px;position:relative;color:var(--ink2);line-height:1.5}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:27px;height:27px;border-radius:8px;background:var(--acc);color:var(--acc-ink);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.steps li b{color:var(--ink)}
+.steps code{font-family:var(--mono);font-size:11px;background:var(--surf2);padding:2px 6px;border-radius:5px;color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+<div class="tagline">★ Recommendation #1 — explained</div>
+<h1>Hevy's exercise atom + your Movement slot</h1>
+<div class="sub">Keep the <b>battle-tested exercise entity</b> the whole industry uses, and add the <b>one layer they all skip</b>: a real, swappable movement slot. You get proven foundations <i>and</i> your differentiator.</div>
+<div class="meta">Gym Tracker · the recommended architecture</div>
+
+<div class="oneline"><b>In one sentence:</b> A <b>Program</b> (Pull) is a list of <b>Movement slots</b> (Vertical pull, Horizontal row…). Each slot holds <b>one chosen exercise</b> (Cable Lat Pulldown, by stable ID) plus a list of <b>alternatives</b> you can swap to — and every exercise carries its own gif, muscle tag, equipment and steps.</div>
+
+<h2>The two building blocks</h2>
+<div class="pieces">
+<div class="piece atom">
+<div class="lbl">Block 1 · borrowed from Hevy (proven)</div>
+<div class="nm">ExerciseTemplate</div>
+<div class="from">The specific exercise — the atom Hevy, Strong &amp; Jefit all use.</div>
+<div class="code"><span class="k">ExerciseTemplate</span> {
+  <span class="b">id</span>: <span class="t">"LEprlgG"</span>,        <span class="c">// stable, from exercisedb</span>
+  name: <span class="t">"Cable Lat Pulldown"</span>,
+  <span class="v">primaryMuscle</span>: <span class="t">"lats"</span>,  <span class="c">// the TAG</span>
+  secondary: [<span class="t">"biceps"</span>],
+  equipment: <span class="t">"cable"</span>,
+  gif, poster, steps
+}</div>
+<div class="why"><b>Why:</b> it's the tested atom — stable id survives renames, muscle/equipment tags power search &amp; swap, and it owns the gif + steps so history is unambiguous.</div>
+</div>
+<div class="piece slot">
+<div class="lbl">Block 2 · your addition (the differentiator)</div>
+<div class="nm">MovementSlot</div>
+<div class="from">The layer NO shipping app stores — a real "Vertical pull" slot.</div>
+<div class="code"><span class="k">MovementSlot</span> {
+  pattern: <span class="t">"Vertical pull"</span>,   <span class="c">// WHAT to train</span>
+  <span class="v">targetMuscle</span>: <span class="t">"lats"</span>,
+  <span class="b">selectedExerciseId</span>: <span class="t">"LEprlgG"</span>,  <span class="c">// chosen</span>
+  alternativeIds: [<span class="t">"pullup"</span>, <span class="t">"pullover"</span>],
+  scheme: <span class="t">"4×6–10"</span>
+}</div>
+<div class="why"><b>Why:</b> makes "Vertical pull" a first-class thing that <b>owns</b> a chosen exercise + swap options — instead of a loose text label that guesses at a gif.</div>
+</div>
+</div>
+
+<h2>How the three levels connect</h2>
+<div class="connect">
+<div class="node n-prog"><div class="t">Level 1</div><div class="n">Program</div><div class="d">Pull</div></div>
+<div class="link"><span class="a">→</span>has many</div>
+<div class="node n-slot"><div class="t">Level 2</div><div class="n">MovementSlot</div><div class="d">Vertical pull · lats</div></div>
+<div class="link"><span class="a">→</span>points at (by id)</div>
+<div class="node n-atom"><div class="t">Level 3</div><div class="n">ExerciseTemplate</div><div class="d">Cable Lat Pulldown</div></div>
+</div>
+
+<h2>Worked example — inside "Pull"</h2>
+<div class="demo">
+<div class="demo-h">🔙 Pull <span class="tg">Program</span> <span style="font-weight:500;font-size:11px;opacity:.85">back · biceps · rear delts</span></div>
+<div class="slotrow">
+  <div class="sr-top"><span class="sr-dot"></span><span class="sr-pat">Vertical pull</span><span class="sr-mus">lats</span><span class="sr-sch">4 × 6–10</span></div>
+  <div class="opts">
+    <div class="opt sel"><div class="th">🔗</div><div class="i"><div class="n">Cable Lat Pulldown</div><div class="s">Cable · lats · biceps</div></div><span class="id">LEprlgG</span><span class="pk on">Chosen</span></div>
+    <div class="opt"><div class="th">🤸</div><div class="i"><div class="n">Pull-up</div><div class="s">Bodyweight · lats</div></div><span class="pk off">Swap</span></div>
+    <div class="opt"><div class="th">🏋️</div><div class="i"><div class="n">Lat Pullover</div><div class="s">Dumbbell · lats</div></div><span class="pk off">Swap</span></div>
+  </div>
+</div>
+<div class="slotrow">
+  <div class="sr-top"><span class="sr-dot"></span><span class="sr-pat">Horizontal row</span><span class="sr-mus">back</span><span class="sr-sch">4 × 8–10</span></div>
+  <div class="opts">
+    <div class="opt sel"><div class="th">🏋️</div><div class="i"><div class="n">Barbell Bent-Over Row</div><div class="s">Barbell · upper back</div></div><span class="id">eZyBC3j</span><span class="pk on">Chosen</span></div>
+    <div class="opt"><div class="th">🔗</div><div class="i"><div class="n">Seated Cable Row</div><div class="s">Cable · upper back</div></div><span class="pk off">Swap</span></div>
+  </div>
+</div>
+</div>
+
+<h2>How swapping works (the payoff)</h2>
+<div class="swap">
+<div class="swap-box"><div class="h">Before swap</div><code>slot.pattern = <b>"Vertical pull"</b>
+slot.selectedExerciseId
+   = <b>"LEprlgG"</b>
+<span style="color:var(--faint)">→ Cable Lat Pulldown</span></code></div>
+<div class="swap-arrow">→</div>
+<div class="swap-box"><div class="h">Tap "Swap" → pick Pull-up</div><code>slot.pattern = <b>"Vertical pull"</b>  <span style="color:var(--faint)">(unchanged)</span>
+slot.selectedExerciseId
+   = <b>"pullup"</b>
+<span style="color:var(--faint)">→ Pull-up (new gif/steps)</span></code></div>
+</div>
+<div class="benefit">
+<div class="ben g"><div class="h">✓ What you gain</div><p>The slot stays "Vertical pull" — only the chosen exercise changes. Alternatives are pre-filtered to the same muscle, so swaps always make sense. Logs keep the exercise ID, so history is clean.</p></div>
+<div class="ben b"><div class="h">↳ What Hevy/Strong do instead</div><p>They have no slot — you delete the exercise and add a different one by hand, with no notion that it's "the same movement." Your model makes swapping first-class.</p></div>
+</div>
+
+<h2>What it takes to build</h2>
+<ol class="steps">
+<li><b>Restructure the code catalog</b> into <code>exerciseTemplates</code> (fold today's 31 movements + the exercisedb media map into ID-keyed entities with muscle/equipment tags).</li>
+<li><b>Turn each session slot into a MovementSlot</b> — <code>pattern</code>, <code>targetMuscle</code>, <code>selectedExerciseId</code>, <code>alternativeIds[]</code>, <code>scheme</code>. All still code-controlled (your no-custom rule).</li>
+<li><b>Add one DB column:</b> <code>workout_slots.exercise_id</code> so logged history references the real exercise, not a text name.</li>
+<li><b>Wire the UI:</b> Train card shows the chosen exercise's gif; a "Swap" action lists the slot's alternatives (filtered by muscle tag). The Add-exercise picker browses by muscle group.</li>
+<li><b>Migrate existing text slots → IDs</b> once (name→id map), keeping the text as a fallback so nothing breaks.</li>
+</ol>
+
+</div></body></html>
