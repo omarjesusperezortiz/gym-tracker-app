@@ -8,6 +8,10 @@ vi.mock('../lib/useWorkouts', () => ({
   useWorkouts: () => ({ history: [], loading: false, error: null, refetch: vi.fn() }),
 }));
 
+vi.mock('../lib/useProfileData', () => ({
+  usePrefs: () => ({ data: { displayName: 'Omar', avatar: 'lime' } }),
+}));
+
 describe('HomeView', () => {
   it('lists the gym plan sessions from the catalog, grouped broad vs focused', () => {
     render(
@@ -33,9 +37,9 @@ describe('HomeView', () => {
     );
 
     // The hero badge greets by time of day (or "Welcome" on first run).
-    expect(screen.getByText(/^(Good (morning|afternoon|evening)|Welcome)$/)).toBeInTheDocument();
-    // "Choose your mode" section + the 3-stat this-week strip.
-    expect(screen.getByText('Choose your mode')).toBeInTheDocument();
+    expect(screen.getAllByText(/^(Good (morning|afternoon|evening)|Welcome)$/).length).toBeGreaterThan(0);
+    // "Mode" section + the 3-stat this-week strip.
+    expect(screen.getByText('Mode')).toBeInTheDocument();
     expect(screen.getByText('This week')).toBeInTheDocument();
     expect(screen.getByText('Total')).toBeInTheDocument();
     expect(screen.getByText('Day streak')).toBeInTheDocument();

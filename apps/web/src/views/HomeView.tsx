@@ -3,10 +3,14 @@ import type { PlanKey } from '@gym-tracker/core';
 // Recap-owned styles (empty nudge, picker thumb polish) + new home redesign.
 import '../styles/recap-extras.css';
 import '../styles/home-redesign.css';
+import '../styles/exercise-gif.css';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
+import { usePrefs } from '../lib/useProfileData';
 import { weeklyRecap } from '../lib/recap';
 import { dayColor } from '../lib/colors';
+import { Avatar } from '../components/Avatar';
+import { ExerciseGif } from '../components/ExerciseGif';
 import { IconChev } from '../lib/icons';
 
 interface InProgress {
@@ -41,9 +45,14 @@ function greeting(): string {
   return 'Good evening';
 }
 
+function estMinutes(slotCount: number): number {
+  return Math.max(15, Math.round((slotCount * 7) / 5) * 5);
+}
+
 export function HomeView() {
   const { state, dispatch } = useAppState();
   const { history } = useWorkouts();
+  const prefs = usePrefs().data ?? undefined;
   const { plan } = state;
   const P = catalog.plans[plan];
 
@@ -69,6 +78,15 @@ export function HomeView() {
 
   return (
     <div className="dash">
+      {/* Avatar header */}
+      <div className="home-head">
+        <Avatar avatarKey={prefs?.avatar} size={44} />
+        <div className="home-head-hi">
+          <div className="home-head-wb">{greeting()}</div>
+          <div className="home-head-nm">{prefs?.displayName || 'Athlete'}</div>
+        </div>
+      </div>
+
       {/* Welcome hero — image-background card (reused for first-time welcome). */}
       <div className={`home-hero${firstTime ? ' first' : ''}`}>
         <span className="home-hero-badge">{firstTime ? 'Welcome' : greeting()}</span>
@@ -142,12 +160,11 @@ export function HomeView() {
         </>
       )}
 
-      {/* Choose your mode — Gym / Calisthenics / Travel as image mode cards. */}
-      <div className="sec-label">Choose your mode</div>
+      {/* Mode — Gym / Calisthenics / Travel as image mode cards (2 per row). */}
+      <div className="sec-label">Mode</div>
       <div className="mode-grid">
         {(Object.keys(catalog.plans) as PlanKey[]).map((pk) => {
           const pl = catalog.plans[pk];
-          const n = Object.keys(pl.sessions).length;
           return (
             <button
               key={pk}
@@ -155,7 +172,6 @@ export function HomeView() {
               onClick={() => dispatch({ type: 'SET_PLAN', plan: pk })}
             >
               <span className="mode-ico">{pl.icon}</span>
-              <span className="mode-count">{n}d</span>
               <span className="mode-name">{pl.label}</span>
             </button>
           );
@@ -180,15 +196,20 @@ export function HomeView() {
               {gk.map((k) => {
                 const s = P.sessions[k];
                 const col = dayColor(plan, k);
+                const firstEx = s.slots[0]?.[0] ?? '';
                 return (
                   <div className="dayrow" key={k} onClick={() => openSession(plan, k)}>
                     <div className="dbar" style={{ background: col }} />
-                    <div className="dnum">{s.emoji}</div>
+                    <div className="dthumb">
+                      <ExerciseGif name={firstEx} size="thumb" poster hideWhenMissing />
+                      <span className="dthumb-emoji">{s.emoji}</span>
+                    </div>
                     <div className="dinfo">
                       <div className="dname">{s.name}</div>
-                      <div className="dmus" title={s.muscles}>{s.muscles}</div>
+                      <div className="dmus" title={s.muscles}>
+                        {s.slots.length} exercises · ~{estMinutes(s.slots.length)} min
+                      </div>
                     </div>
-                    <div className="dcount">{s.slots.length} ex</div>
                     <div className="dgo">
                       <IconChev />
                     </div>

@@ -164,3 +164,21 @@
   font-weight: 800;
   letter-spacing: -0.2px;
 }
+
+/* Avatar header row (top of Home) */
+.home-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.home-head-hi { flex: 1; min-width: 0; }
+.home-head-wb { font-size: 11px; color: var(--mut); }
+.home-head-nm { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; }
+
+/* Mode grid: Travel (3rd, odd last) spans full width on its own row */
+.mode-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* Session pick rows: gif thumbnail instead of bare emoji */
+.dthumb {
+  position: relative; width: 52px; height: 44px; flex: none; border-radius: 10px;
+  overflow: hidden; background: var(--surf2); display: flex; align-items: center; justify-content: center;
+}
+.dthumb .exgif, .dthumb .exgif-thumb { width: 52px; height: 44px; border-radius: 10px; }
+.dthumb-emoji { position: absolute; font-size: 20px; z-index: 0; }
+.dthumb .exgif { position: relative; z-index: 1; }
