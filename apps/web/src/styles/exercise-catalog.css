@@ -1,0 +1,178 @@
+/* Full exercise catalog page (dev showcase). */
+.excat {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 20px) 14px 60px;
+  color: var(--ink);
+}
+.excat-head h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.excat-head p {
+  font-size: 13px;
+  color: var(--mut);
+  margin: 6px 0 14px;
+  line-height: 1.45;
+}
+.excat-search {
+  width: 100%;
+  background: var(--surf2);
+  border: 1px solid var(--line2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 20px;
+}
+.excat-search:focus {
+  outline: none;
+  border-color: var(--acc);
+}
+
+.excat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.excat-card {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.excat-card:active {
+  transform: scale(0.98);
+}
+.excat-gif {
+  background: #fff;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.excat-gif img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.excat-meta {
+  padding: 10px 12px 12px;
+}
+.excat-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 7px;
+}
+.excat-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.excat-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mut);
+  background: var(--surf2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 4px 9px;
+  text-transform: capitalize;
+}
+.excat-tag.on {
+  color: var(--acc-ink);
+  background: var(--acc);
+  border-color: var(--acc);
+}
+
+/* detail sheet */
+.excat-sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+.excat-sheet-in {
+  background: var(--bg);
+  border: 1px solid var(--line2);
+  border-radius: 22px 22px 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 22px 18px calc(env(safe-area-inset-bottom) + 28px);
+  position: relative;
+}
+.excat-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surf2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 15px;
+  z-index: 2;
+}
+.excat-detail-gif {
+  background: #fff;
+  border-radius: 18px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.excat-detail-gif img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.excat-sheet-in h2 {
+  font-size: 21px;
+  font-weight: 800;
+  text-transform: capitalize;
+  margin-bottom: 12px;
+}
+.excat-steps {
+  margin: 16px 0 8px 18px;
+  padding: 0;
+}
+.excat-steps li {
+  font-size: 13px;
+  color: var(--mut);
+  line-height: 1.5;
+  margin-bottom: 9px;
+}
+.excat-poster-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+.excat-cap {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  margin-bottom: 6px;
+}
+.excat-mini {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  border-radius: 10px;
+  object-fit: contain;
+}

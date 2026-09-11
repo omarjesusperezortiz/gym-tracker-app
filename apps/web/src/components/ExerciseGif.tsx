@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { mediaFor, gifUrl, type ExerciseMedia } from '@gym-tracker/core';
+import { mediaFor, gifUrl, posterUrl, type ExerciseMedia } from '@gym-tracker/core';
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
 
@@ -12,14 +12,23 @@ interface ExerciseGifProps {
   badge?: boolean;
   /** When true, render nothing (instead of a fallback tile) if we have no media. */
   hideWhenMissing?: boolean;
+  /** Static first-frame image instead of the animated gif (calmer for lists). */
+  poster?: boolean;
 }
 
 /**
- * Renders an exercise demonstration gif on a white tile. Falls back to a muscle
- * emoji glyph when we don't have media mapped for this movement yet, so the UI
- * never shows a broken image. Reused across Today, Train, the picker and detail.
+ * Renders an exercise demonstration on a white tile — animated gif by default,
+ * or a static poster frame when `poster` is set (used in list contexts like
+ * Today where motion is distracting). Falls back to a muscle glyph when we have
+ * no media, so the UI never shows a broken image.
  */
-export function ExerciseGif({ name, size = 'thumb', badge = false, hideWhenMissing = false }: ExerciseGifProps) {
+export function ExerciseGif({
+  name,
+  size = 'thumb',
+  badge = false,
+  hideWhenMissing = false,
+  poster = false,
+}: ExerciseGifProps) {
   const media = mediaFor(name);
   const [failed, setFailed] = useState(false);
 
@@ -32,15 +41,14 @@ export function ExerciseGif({ name, size = 'thumb', badge = false, hideWhenMissi
     );
   }
 
+  const src = poster
+    ? posterUrl(media as ExerciseMedia, MEDIA_BASE)
+    : gifUrl(media as ExerciseMedia, MEDIA_BASE);
+
   return (
     <div className={`exgif exgif-${size}`}>
       {badge && <span className="exgif-badge">Demo</span>}
-      <img
-        src={gifUrl(media as ExerciseMedia, MEDIA_BASE)}
-        alt={`${name} demonstration`}
-        loading="lazy"
-        onError={() => setFailed(true)}
-      />
+      <img src={src} alt={`${name} demonstration`} loading="lazy" onError={() => setFailed(true)} />
     </div>
   );
 }

@@ -102,7 +102,7 @@ export function TodayView() {
             <div className="today-exlist">
               {active.exercises.map((x, i) => (
                 <div className="today-ex" key={x + i}>
-                  <ExerciseGif name={x} size="thumb" hideWhenMissing />
+                  <ExerciseGif name={x} size="thumb" poster hideWhenMissing />
                   <span className="today-exn">{i + 1}</span>
                   {x}
                 </div>

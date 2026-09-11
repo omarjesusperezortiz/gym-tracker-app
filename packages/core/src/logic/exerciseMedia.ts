@@ -181,3 +181,8 @@ export function mediaFor(name: string): ExerciseMedia | null {
 export function gifUrl(media: ExerciseMedia, base: string): string {
   return `${base}${media.id}.gif`;
 }
+
+/** Static poster (first-frame JPG) URL — used where we want an image, not motion. */
+export function posterUrl(media: ExerciseMedia, base: string): string {
+  return `${base}posters/${media.id}.jpg`;
+}
