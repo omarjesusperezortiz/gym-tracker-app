@@ -1470,7 +1470,7 @@ export function mediaForExercise(exerciseName: string | undefined, movement: str
 
 /** Full gif URL for a media entry, given the app's media base path. */
 export function gifUrl(media: ExerciseMedia, base: string): string {
-  return `${base}${media.id}.gif`;
+  return `${base}${media.id}.webp`;
 }
 
 /** Static poster (first-frame JPG) URL — used where we want an image, not motion. */

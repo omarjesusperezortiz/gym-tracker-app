@@ -18,7 +18,7 @@ describe('exercise media integrity', () => {
   for (const [name, media] of entries) {
     describe(name, () => {
       it('gif file exists on disk', () => {
-        expect(existsSync(join(PUBLIC, `${media.id}.gif`))).toBe(true);
+        expect(existsSync(join(PUBLIC, `${media.id}.webp`))).toBe(true);
       });
       it('poster image exists on disk', () => {
         expect(existsSync(join(PUBLIC, 'posters', `${media.id}.jpg`))).toBe(true);
@@ -58,7 +58,7 @@ describe('variation media integrity', () => {
 
   for (const [name, media] of entries) {
     it(`${name}: gif + poster exist on disk`, () => {
-      expect(existsSync(join(PUBLIC, `${media.id}.gif`))).toBe(true);
+      expect(existsSync(join(PUBLIC, `${media.id}.webp`))).toBe(true);
       expect(existsSync(join(PUBLIC, 'posters', `${media.id}.jpg`))).toBe(true);
     });
   }
