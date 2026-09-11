@@ -1,0 +1,116 @@
+/* Swap-exercise sheet. */
+.swap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-bottom: 4px;
+}
+.swap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line2);
+  border-radius: 13px;
+  color: var(--ink);
+  transition: 0.15s;
+}
+.swap-row:active {
+  transform: scale(0.985);
+}
+.swap-row.active {
+  border-color: var(--acc);
+  background: linear-gradient(160deg, rgba(198, 242, 78, 0.12), rgba(198, 242, 78, 0.02));
+}
+.swap-thumb {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #fff;
+}
+.swap-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 20px;
+}
+.swap-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.swap-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+.swap-kind {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.swap-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acc);
+  display: inline-block;
+}
+.swap-check {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swap-check svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* The Swap trigger button on the exercise card. */
+.exvarname {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ex-swap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line2);
+  border-radius: 20px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink2);
+  cursor: pointer;
+  font-family: inherit;
+}
+.ex-swap:active {
+  transform: scale(0.96);
+}
+.ex-swap svg {
+  width: 13px;
+  height: 13px;
+}

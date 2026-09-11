@@ -1,13 +1,15 @@
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { isTimeScheme, KIND_LABEL, mediaFor } from '@gym-tracker/core';
+import { useState } from 'react';
+import { isTimeScheme, mediaFor } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { SwapSheet } from './SwapSheet';
 import '../styles/exercise-gif.css';
+import '../styles/swap-sheet.css';
 import { ghostFor } from '../lib/ghost';
 import type { ProgressionSuggestion } from '../lib/progression';
-import { IconArrowDown, IconArrowUp, IconCheck, IconTrash } from '../lib/icons';
+import { IconArrowDown, IconArrowUp, IconCheck, IconSwap, IconTrash } from '../lib/icons';
 
 export interface ExerciseCardProps {
   index: number;
@@ -79,6 +81,7 @@ export function ExerciseCard({
   const vr = variationsForSlot[kind] || Object.values(variationsForSlot)[0];
   const cue = vr ? plan.cues[vr.name] || '' : '';
   const kinds = Object.keys(variationsForSlot) as Kind[];
+  const [swapOpen, setSwapOpen] = useState(false);
 
   return (
     <div className={`ex${done ? ' done' : ''}`}>
@@ -118,28 +121,28 @@ export function ExerciseCard({
       )}
 
       {kinds.length > 1 && (
-        <ToggleGroup.Root
-          type="single"
-          className="seg"
-          value={kind}
-          // Single-select ToggleGroup deselects (value: '') when you click the
-          // already-active item — this switcher must always keep exactly one
-          // equipment kind selected, so an empty value is simply ignored.
-          onValueChange={(value) => value && onKindChange(value as Kind)}
-        >
-          {kinds.map((kk) => (
-            <ToggleGroup.Item key={kk} value={kk} className={`segi${kk === kind ? ' active' : ''}`}>
-              {KIND_LABEL[kk] || kk}
-              {loggedKinds?.has(kk) && <span className="segi-dot" aria-label="previously logged" />}
-            </ToggleGroup.Item>
-          ))}
-        </ToggleGroup.Root>
+        <SwapSheet
+          open={swapOpen}
+          onClose={() => setSwapOpen(false)}
+          movement={slot}
+          variations={variationsForSlot}
+          current={kind}
+          loggedKinds={loggedKinds}
+          onPick={(k) => onKindChange(k)}
+        />
       )}
 
       <div className="detail">
         {vr && (
           <>
-            <div className="exvarname">{vr.name}</div>
+            <div className="exvarname">
+              {vr.name}
+              {kinds.length > 1 && (
+                <button className="ex-swap" onClick={() => setSwapOpen(true)} aria-label={`Swap ${slot} exercise`}>
+                  <IconSwap /> Swap
+                </button>
+              )}
+            </div>
             {cue && <div className="cue">{cue}</div>}
           </>
         )}
