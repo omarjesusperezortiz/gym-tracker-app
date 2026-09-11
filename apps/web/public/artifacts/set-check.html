@@ -1,0 +1,97 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Per-set check — prototypes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--green:#3ddc97;--greenbg:rgba(61,220,151,.12);--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:34px 18px 70px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:26px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:14px;margin-bottom:28px;max-width:700px;line-height:1.55}
+.lead b{color:var(--ink)}
+.row{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.cap{font-size:12.5px;font-weight:700;color:var(--ink2);text-align:center;max-width:320px;line-height:1.55}
+.cap b{color:var(--acc);font-weight:800}
+.cap .k{color:var(--faint);font-size:11px;display:block;margin-top:4px}
+/* card */
+.card{width:340px;background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:16px 15px}
+.exn{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px}
+.cue{font-size:11.5px;color:var(--mut);margin-bottom:14px}
+/* header + rows */
+.head,.set{display:grid;align-items:center;gap:8px}
+.head{grid-template-columns:26px 1fr 52px 52px 34px;margin-bottom:8px;padding:0 4px}
+.head div{font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--faint)}
+.set{grid-template-columns:26px 1fr 52px 52px 34px;padding:7px 4px;border-radius:11px;margin-bottom:5px;background:var(--surf2)}
+.sn{font-size:13px;font-weight:800;color:var(--mut);text-align:center}
+.prev{font-size:11px;color:var(--faint);font-family:var(--mono)}
+.inp{background:#0e1014;border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center;font-size:13px;font-weight:700;color:var(--ink);font-family:var(--mono)}
+.inp.ghost{color:var(--faint);font-weight:500}
+/* check styles */
+.chk{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;margin:0 auto;cursor:pointer}
+.chk.on{background:var(--green);border-color:var(--green);color:#04140d}
+.rnd{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--faint);margin:0 auto}
+.rnd.on{background:var(--green);border-color:var(--green);color:#04140d}
+/* done row states */
+.set.done{background:var(--greenbg);border:1px solid rgba(61,220,151,.3)}
+.set.done .inp{background:transparent;border-color:transparent;color:var(--green)}
+.set.done .sn{color:var(--green)}
+.set.doneleft{position:relative}
+.set.doneleft .sn{color:var(--green)}
+.badge{display:inline-block;background:var(--green);color:#04140d;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;margin-left:6px}
+.mini{font-size:10px;color:var(--mut);margin-top:12px;text-align:center}
+.mini b{color:var(--green)}
+.foot{font-size:9px;color:var(--faint);font-family:var(--mono);margin-top:6px;text-align:center}
+</style></head>
+<body><div class="wrap">
+<h1>Per-set check — 3 designs</h1>
+<div class="lead">You want to tick off <b>each set</b> as you finish it (not just the whole exercise). Green = logged/done. Here are 3 ways to add it to the set table. The current row is <b>SET · PREVIOUS · KG · REPS</b>.</div>
+
+<div class="row">
+
+<!-- A: trailing checkbox (Hevy style) -->
+<div class="col">
+<div class="card">
+  <div class="exn">Flat chest press</div>
+  <div class="cue">Barbell · squeeze at top</div>
+  <div class="head"><div style="text-align:center">SET</div><div>PREVIOUS</div><div style="text-align:center">KG</div><div style="text-align:center">REPS</div><div style="text-align:center">✓</div></div>
+  <div class="set done"><div class="sn">1</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="chk on">✓</div></div>
+  <div class="set done"><div class="sn">2</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="chk on">✓</div></div>
+  <div class="set"><div class="sn">3</div><div class="prev">40×8</div><div class="inp ghost">42</div><div class="inp ghost">8</div><div class="chk"></div></div>
+  <div class="mini"><b>2 of 3 sets done</b></div>
+</div>
+<div class="cap"><b>A · Trailing checkbox</b> — a square check at the end of each row (like Hevy/Strong). Tap it → row turns green.<span class="k">Most familiar. One extra column.</span></div>
+</div>
+
+<!-- B: whole-row tap, check on the SET number -->
+<div class="col">
+<div class="card">
+  <div class="exn">Flat chest press</div>
+  <div class="cue">Barbell · squeeze at top</div>
+  <div class="head"><div style="text-align:center">✓</div><div>PREVIOUS</div><div style="text-align:center">KG</div><div style="text-align:center">REPS</div><div></div></div>
+  <div class="set done doneleft"><div class="rnd on">✓</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div></div></div>
+  <div class="set done doneleft"><div class="rnd on">✓</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div></div></div>
+  <div class="set"><div class="rnd">3</div><div class="prev">40×8</div><div class="inp ghost">42</div><div class="inp ghost">8</div><div></div></div>
+  <div class="mini"><b>Tap the set number</b> to check it off</div>
+</div>
+<div class="cap"><b>B · Number becomes the check</b> — the SET number circle turns into a green ✓ when done. No extra column.<span class="k">Compact. Set # doubles as the toggle.</span></div>
+</div>
+
+<!-- C: tap whole row -->
+<div class="col">
+<div class="card">
+  <div class="exn">Flat chest press</div>
+  <div class="cue">Barbell · squeeze at top</div>
+  <div class="head"><div style="text-align:center">SET</div><div>PREVIOUS</div><div style="text-align:center">KG</div><div style="text-align:center">REPS</div><div style="text-align:center">✓</div></div>
+  <div class="set done"><div class="sn">1 ✓</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="rnd on" style="width:22px;height:22px;font-size:12px">✓</div></div>
+  <div class="set"><div class="sn">2</div><div class="prev">40×8</div><div class="inp">42</div><div class="inp">8</div><div class="rnd" style="width:22px;height:22px">›</div></div>
+  <div class="set"><div class="sn">3</div><div class="prev">40×8</div><div class="inp ghost">42</div><div class="inp ghost">8</div><div class="rnd" style="width:22px;height:22px">›</div></div>
+  <div class="mini">Tap <b>anywhere on the row</b> to mark it done (small ✓ on the right)</div>
+</div>
+<div class="cap"><b>C · Tap whole row</b> — tapping any part of a filled row marks it done (row goes green, small ✓ appears). Big tap target.<span class="k">Easiest to hit mid-set, but can conflict with editing.</span></div>
+</div>
+
+</div>
+
+<div class="foot">Green = done/logged · all three keep KG/REPS editing · checking a set does NOT start a rest timer (per your earlier request)</div>
+</div></body></html>
