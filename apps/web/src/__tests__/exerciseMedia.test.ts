@@ -33,8 +33,15 @@ describe('exercise media integrity', () => {
     });
   }
 
-  it('no duplicate gif ids across different movements', () => {
-    const ids = entries.map(([, m]) => m.id);
-    expect(new Set(ids).size).toBe(ids.length);
+  it('no accidental duplicate gif ids (aliases allowed)', () => {
+    // "Plank" and "Plank (core)" are the same movement and deliberately share a
+    // gif. Any other id appearing twice would be an accidental mismapping.
+    const KNOWN_ALIASES = new Set(['Plank (core)']);
+    const seen = new Map<string, string>();
+    for (const [name, m] of entries) {
+      if (KNOWN_ALIASES.has(name)) continue;
+      expect(seen.has(m.id), `${name} reuses gif id already used by ${seen.get(m.id)}`).toBe(false);
+      seen.set(m.id, name);
+    }
   });
 });
