@@ -30,6 +30,8 @@
   width: 100%;
   aspect-ratio: 16 / 11;
   border-radius: 12px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.09));
+  margin-bottom: 14px;
 }
 .exgif-detail {
   width: 100%;
