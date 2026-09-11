@@ -1,0 +1,166 @@
+/* Home redesign — welcome hero, this-week strip, mode cards. */
+
+/* Welcome hero (image-background card, reused for first-time welcome). */
+.home-hero {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  padding: 18px;
+  margin-bottom: 16px;
+  min-height: 168px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 46px;
+  background:
+    linear-gradient(180deg, rgba(10, 11, 14, 0.15), rgba(10, 11, 14, 0.82)),
+    linear-gradient(140deg, #2a2f1a, #141810),
+    radial-gradient(circle at 78% 22%, rgba(198, 242, 78, 0.32), transparent 60%);
+}
+.home-hero.first {
+  background:
+    linear-gradient(180deg, rgba(10, 11, 14, 0.1), rgba(10, 11, 14, 0.8)),
+    linear-gradient(140deg, #23301c, #10140c),
+    radial-gradient(circle at 75% 25%, rgba(198, 242, 78, 0.4), transparent 62%);
+}
+.home-hero-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.14);
+  padding: 4px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+.home-hero-title {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+  line-height: 1.08;
+}
+.home-hero-title .a {
+  color: var(--acc);
+}
+.home-hero-sub {
+  font-size: 12.5px;
+  color: var(--ink2);
+  margin-top: 6px;
+  max-width: 85%;
+}
+.home-hero-cta {
+  margin-top: 14px;
+  align-self: flex-start;
+  background: var(--acc);
+  color: var(--acc-ink);
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+}
+.home-hero-cta:active {
+  transform: scale(0.97);
+}
+
+/* This-week 3-stat strip. */
+.home-stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.home-stat {
+  flex: 1;
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.hs-n {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--acc);
+  font-family: var(--mono);
+  line-height: 1;
+}
+.hs-l {
+  font-size: 9.5px;
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 5px;
+}
+
+/* Mode cards — Gym / Calisthenics / Travel as image tiles. */
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+.mode-card {
+  position: relative;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  padding: 14px 10px 12px;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 2px;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: inherit;
+  overflow: hidden;
+  text-align: left;
+}
+.mode-card:active {
+  transform: scale(0.98);
+}
+.mode-gym {
+  background:
+    linear-gradient(160deg, #2a2f1a, #0d0f08),
+    radial-gradient(circle at 72% 20%, rgba(198, 242, 78, 0.28), transparent 62%);
+}
+.mode-cal {
+  background:
+    linear-gradient(160deg, #1a2430, #0a0f14),
+    radial-gradient(circle at 72% 20%, rgba(91, 157, 255, 0.28), transparent 62%);
+}
+.mode-travel {
+  background:
+    linear-gradient(160deg, #2e2418, #120d08),
+    radial-gradient(circle at 72% 20%, rgba(230, 180, 90, 0.28), transparent 62%);
+}
+.mode-card.active {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 1px var(--acc);
+}
+.mode-ico {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  font-size: 22px;
+}
+.mode-count {
+  position: absolute;
+  top: 13px;
+  right: 11px;
+  font-size: 10px;
+  color: var(--mut);
+  font-family: var(--mono);
+}
+.mode-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}

@@ -6,6 +6,7 @@ import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import { PickerShowcase } from './dev/PickerShowcase';
 import { ExerciseAudit } from './dev/ExerciseAudit';
 import { ExercisesView } from './views/ExercisesView';
+import { HomeViewShowcase } from './dev/HomeViewShowcase';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -28,6 +29,10 @@ createRoot(document.getElementById('root')!).render(
       <ExerciseAudit />
     ) : showcase === 'library' ? (
       <ExercisesView />
+    ) : showcase === 'home' ? (
+      <div className="wrap">
+        <HomeViewShowcase />
+      </div>
     ) : (
       <App />
     )}

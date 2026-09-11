@@ -1,11 +1,11 @@
 import { catalog } from '@gym-tracker/core';
 import type { PlanKey } from '@gym-tracker/core';
-// Recap-owned styles (glass recap card, empty nudge, picker thumb polish).
+// Recap-owned styles (empty nudge, picker thumb polish) + new home redesign.
 import '../styles/recap-extras.css';
-import { PageHeader } from '../components/PageHeader';
-import { WeeklyRecapCard } from '../components/WeeklyRecap';
+import '../styles/home-redesign.css';
 import { useAppState } from '../state/AppState';
 import { useWorkouts } from '../lib/useWorkouts';
+import { weeklyRecap } from '../lib/recap';
 import { dayColor } from '../lib/colors';
 import { IconChev } from '../lib/icons';
 
@@ -47,7 +47,8 @@ export function HomeView() {
   const { plan } = state;
   const P = catalog.plans[plan];
 
-  const total = history.length;
+  const recap = weeklyRecap(history);
+  const total = history.filter((w) => w.type === 'workout').length;
 
   const ip = inProgressSessions(state.live);
   const keys = Object.keys(P.sessions);
@@ -60,11 +61,62 @@ export function HomeView() {
     dispatch({ type: 'OPEN_SESSION', plan: pk, sess: sk });
   }
 
+  const firstTime = total === 0;
+  // Pick a session to launch from the hero: continue an in-progress one, else the
+  // first quick-pick of the current plan.
+  const heroSession =
+    ip[0] ?? (keys.length ? { plan, day: keys[0], done: 0, total: 0 } : null);
+
   return (
     <div className="dash">
-      <PageHeader title={greeting()} subtitle={`${P.icon} ${P.label} mode · pick today's session below.`} />
+      {/* Welcome hero — image-background card (reused for first-time welcome). */}
+      <div className={`home-hero${firstTime ? ' first' : ''}`}>
+        <span className="home-hero-badge">{firstTime ? 'Welcome' : greeting()}</span>
+        <div className="home-hero-title">
+          {firstTime ? (
+            <>
+              Let&apos;s start
+              <br />
+              <span className="a">training.</span>
+            </>
+          ) : (
+            <>
+              Ready to
+              <br />
+              <span className="a">train?</span>
+            </>
+          )}
+        </div>
+        <div className="home-hero-sub">
+          {firstTime
+            ? 'Pick a mode and your first session below.'
+            : `${recap.workouts} session${recap.workouts === 1 ? '' : 's'} this week — keep it going.`}
+        </div>
+        {heroSession && (
+          <button
+            className="home-hero-cta"
+            onClick={() => openSession(heroSession.plan, heroSession.day)}
+          >
+            {ip[0] ? 'Resume session' : "Start today's session"} →
+          </button>
+        )}
+      </div>
 
-      <WeeklyRecapCard history={history} onStart={() => dispatch({ type: 'SET_VIEW', view: 'today' })} />
+      {/* Straightforward "this week" 3-stat strip. */}
+      <div className="home-stats">
+        <div className="home-stat">
+          <div className="hs-n">{recap.workouts}</div>
+          <div className="hs-l">This week</div>
+        </div>
+        <div className="home-stat">
+          <div className="hs-n">{total}</div>
+          <div className="hs-l">Total</div>
+        </div>
+        <div className="home-stat">
+          <div className="hs-n">{recap.streak}</div>
+          <div className="hs-l">Day streak</div>
+        </div>
+      </div>
 
       {ip.length > 0 && (
         <>
@@ -90,41 +142,40 @@ export function HomeView() {
         </>
       )}
 
-      {total === 0 && (
-        <div className="empty" style={{ marginBottom: 4 }}>
-          No workouts yet — your week, total and streak fill in once you finish your first.
-          <br />
-          <button className="btn acc" style={{ marginTop: 12 }} onClick={() => dispatch({ type: 'SET_VIEW', view: 'today' })}>
-            Start your first workout
-          </button>
-        </div>
-      )}
-
-      <div className="sec-label">Mode</div>
-      <div className="plan-grid">
+      {/* Choose your mode — Gym / Calisthenics / Travel as image mode cards. */}
+      <div className="sec-label">Choose your mode</div>
+      <div className="mode-grid">
         {(Object.keys(catalog.plans) as PlanKey[]).map((pk) => {
           const pl = catalog.plans[pk];
           const n = Object.keys(pl.sessions).length;
           return (
-            <div
+            <button
               key={pk}
-              className={`plancard${pk === plan ? ' active' : ''}`}
+              className={`mode-card mode-${pk}${pk === plan ? ' active' : ''}`}
               onClick={() => dispatch({ type: 'SET_PLAN', plan: pk })}
             >
-              <div className="pe">{pl.icon}</div>
-              <div className="pl">{pl.label}</div>
-              <div className="ps">{n} days</div>
-            </div>
+              <span className="mode-ico">{pl.icon}</span>
+              <span className="mode-count">{n}d</span>
+              <span className="mode-name">{pl.label}</span>
+            </button>
           );
         })}
       </div>
+
+      {firstTime && (
+        <div className="empty" style={{ marginBottom: 4 }}>
+          No workouts yet — your week, total and streak fill in once you finish your first.
+        </div>
+      )}
 
       {groups.map(([g, label]) => {
         const gk = keys.filter((k) => (P.sessions[k].group || 'focused') === g);
         if (!gk.length) return null;
         return (
           <div key={g}>
-            <div className="sec-label">{label}</div>
+            <div className="sec-label">
+              {P.label} · {label}
+            </div>
             <div className="day-list">
               {gk.map((k) => {
                 const s = P.sessions[k];

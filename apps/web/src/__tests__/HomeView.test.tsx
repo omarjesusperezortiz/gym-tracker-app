@@ -20,25 +20,30 @@ describe('HomeView', () => {
     for (const session of gymSessions) {
       expect(screen.getByText(session.name)).toBeInTheDocument();
     }
-    expect(screen.getByText('Quick picks')).toBeInTheDocument();
-    expect(screen.getByText('Focused')).toBeInTheDocument();
+    // Group labels are now prefixed with the plan name, e.g. "Gym · Quick picks".
+    expect(screen.getByText(/· Quick picks$/)).toBeInTheDocument();
+    expect(screen.getByText(/· Focused$/)).toBeInTheDocument();
   });
 
-  it('greets the user and shows the active mode plus the glass stat tiles', () => {
+  it('shows the welcome hero, the this-week stat strip, and mode cards', () => {
     const { container } = render(
       <AppStateProvider>
         <HomeView />
       </AppStateProvider>
     );
 
-    expect(screen.getByText(/^Good (morning|afternoon|evening)$/)).toBeInTheDocument();
-    expect(screen.getByText(/mode · pick today's session below\./)).toBeInTheDocument();
-    // Weekly stats now live in the WeeklyRecap card (the duplicate .cal-stats
-    // tile row was removed); the empty-state recap shows a "this week" prompt.
-    expect(container.querySelectorAll('.cal-stats .stat')).toHaveLength(0);
+    // The hero badge greets by time of day (or "Welcome" on first run).
+    expect(screen.getByText(/^(Good (morning|afternoon|evening)|Welcome)$/)).toBeInTheDocument();
+    // "Choose your mode" section + the 3-stat this-week strip.
+    expect(screen.getByText('Choose your mode')).toBeInTheDocument();
+    expect(screen.getByText('This week')).toBeInTheDocument();
+    expect(screen.getByText('Total')).toBeInTheDocument();
+    expect(screen.getByText('Day streak')).toBeInTheDocument();
+    // Three mode cards.
+    expect(container.querySelectorAll('.mode-card')).toHaveLength(Object.keys(catalog.plans).length);
   });
 
-  it('shows the plan picker for every plan in the catalog', () => {
+  it('shows a mode card for every plan in the catalog', () => {
     render(
       <AppStateProvider>
         <HomeView />
