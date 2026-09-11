@@ -4,6 +4,7 @@ import { createSupabase, setSupabase } from '@gym-tracker/core';
 import App from './App';
 import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import './styles.css';
+import './styles/mobile-shell.css';
 
 // Register the Supabase client before anything renders — core's getSupabase()
 // throws if called before this, and several components call it during their

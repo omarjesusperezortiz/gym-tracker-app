@@ -1,0 +1,75 @@
+/* Mobile-shell: on wide screens, constrain the whole app to a phone-width
+   column centered on the page (like viewing it on a phone), with all the
+   position:fixed chrome clamped to that same column so nothing spans the full
+   desktop width. Phones (< 640px) are unaffected. */
+
+@media (min-width: 640px) {
+  :root {
+    --shell-w: 430px;
+  }
+
+  html,
+  body {
+    background: #050608;
+  }
+
+  /* The app column itself. */
+  #root {
+    width: var(--shell-w);
+    max-width: 100%;
+    margin-inline: auto;
+    min-height: 100dvh;
+    position: relative;
+    background: var(--bg);
+    border-inline: 1px solid var(--line, rgba(255, 255, 255, 0.09));
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+  }
+
+  /* Clamp full-bleed fixed elements to the shell column (they use left:0/right:0
+     which would otherwise stretch across the whole desktop viewport). */
+  .offlinebar,
+  .dock,
+  .wrap-train > header {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    width: var(--shell-w);
+    max-width: 100%;
+  }
+
+  /* Bottom sheets / modals that slide up full-bleed. */
+  .sheet,
+  .excat-sheet-in {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    width: var(--shell-w) !important;
+    max-width: 100%;
+  }
+
+  /* Full-screen overlays (dim + center their own content) — keep them within
+     the shell so the dim doesn't cover the whole desktop. */
+  .modal,
+  .lightbox,
+  .excat-sheet {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: var(--shell-w);
+    max-width: 100%;
+  }
+
+  /* The floating nav pill is already centered via left:50%; keep it within the
+     shell width. */
+  .nav {
+    max-width: calc(var(--shell-w) - 32px);
+  }
+
+  /* The exercise catalog + wrap already center via max-width; make sure they
+     never exceed the shell. */
+  .excat,
+  .wrap {
+    max-width: 100%;
+  }
+}
