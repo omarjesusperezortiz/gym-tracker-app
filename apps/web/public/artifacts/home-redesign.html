@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home redesign — prototypes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#141619;--surf2:#1c1f24;--surf3:#232830;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#e3e6ec;--mut:#8b90a0;--faint:#5a5f6e;--acc:#c6f24e;--acc-d:#a8d63e;--acc-ink:#0a0b0e;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:40px 20px 70px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-size:28px;font-weight:900;letter-spacing:-.7px;margin-bottom:5px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:30px}
+.row{display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.cap{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.cap b{color:var(--acc)}
+/* phone */
+.ph{width:300px;height:640px;background:var(--bg);border-radius:32px;border:1px solid var(--line2);padding:18px 15px;overflow:hidden;display:flex;flex-direction:column}
+.greet{font-size:13px;color:var(--mut);margin-bottom:2px}
+.gtitle{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-bottom:14px}
+.gtitle .a{color:var(--acc)}
+/* this-week strip (straightforward) */
+.week{display:flex;gap:8px;margin-bottom:18px}
+.wk{flex:1;background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:11px 8px;text-align:center}
+.wk .n{font-size:20px;font-weight:800;color:var(--acc);font-family:var(--mono)}
+.wk .l{font-size:9.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+/* section label */
+.sl{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:6px 0 10px}
+/* category grid (like reference) */
+.cats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:18px}
+.cat{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:7px}
+.cat.on{border-color:var(--acc);background:linear-gradient(160deg,rgba(198,242,78,.14),rgba(198,242,78,.02))}
+.cat .ic{font-size:24px}
+.cat .nm{font-size:12px;font-weight:700}
+.cat .ct{font-size:9px;color:var(--mut)}
+/* big image category cards (variant B) */
+.bigcats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.bigcat{border-radius:16px;overflow:hidden;position:relative;height:130px;display:flex;align-items:flex-end;padding:12px;border:1px solid var(--line)}
+.bigcat.gym{background:linear-gradient(160deg,#2a2f1a,#0d0f08),radial-gradient(circle at 70% 20%,rgba(198,242,78,.25),transparent)}
+.bigcat.cal{background:linear-gradient(160deg,#1a2430,#0a0f14),radial-gradient(circle at 70% 20%,rgba(91,157,255,.25),transparent)}
+.bigcat.trav{background:linear-gradient(160deg,#2e2418,#120d08),radial-gradient(circle at 70% 20%,rgba(230,180,90,.25),transparent)}
+.bigcat .bt{font-size:18px;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.3px}
+.bigcat .bs{position:absolute;top:12px;left:12px;font-size:22px}
+.bigcat .bn{position:absolute;top:13px;right:12px;font-size:10px;color:var(--mut);font-family:var(--mono)}
+/* session rows */
+.days{display:flex;flex-direction:column;gap:7px}
+.day{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:9px 11px}
+.day .e{font-size:19px;flex:none}
+.day .di{flex:1;min-width:0}
+.day .dn{font-size:13px;font-weight:700}
+.day .dm{font-size:10px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.day .dc{font-size:10px;color:var(--faint);font-family:var(--mono)}
+.day .dbar{width:3px;align-self:stretch;border-radius:3px;flex:none}
+/* welcome hero (variant C) */
+.hero{border-radius:18px;overflow:hidden;position:relative;height:180px;margin-bottom:16px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,11,14,.1),rgba(10,11,14,.85)),linear-gradient(140deg,#2a2f1a,#141810),radial-gradient(circle at 75% 25%,rgba(198,242,78,.35),transparent 60%)}
+.hero .ht{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1.1}
+.hero .ht .a{color:var(--acc)}
+.hero .hs{font-size:12px;color:var(--ink2);margin-top:5px;max-width:80%}
+.hero .hb{margin-top:12px;align-self:flex-start;background:var(--acc);color:var(--acc-ink);font-size:12px;font-weight:800;padding:9px 16px;border-radius:10px}
+.hero .hbadge{position:absolute;top:14px;left:14px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:rgba(255,255,255,.14);padding:4px 9px;border-radius:20px}
+.note{background:var(--surf);border:1px dashed var(--line2);border-radius:12px;padding:15px 17px;margin-top:26px;font-size:12.5px;color:var(--ink2);line-height:1.65}
+.note b{color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+<h1>Home redesign — 3 directions</h1>
+<div class="sub">Grouping Gym / Calisthenics / Travel like the reference app, a straightforward "this week", and a welcome hero option.</div>
+
+<div class="row">
+
+<!-- A: category grid -->
+<div class="col">
+<div class="ph">
+  <div class="greet">Good evening, Omar</div>
+  <div class="gtitle">Ready to <span class="a">train?</span></div>
+  <div class="week">
+    <div class="wk"><div class="n">3</div><div class="l">This week</div></div>
+    <div class="wk"><div class="n">12</div><div class="l">Total</div></div>
+    <div class="wk"><div class="n">5</div><div class="l">Streak</div></div>
+  </div>
+  <div class="sl">Choose your mode</div>
+  <div class="cats">
+    <div class="cat on"><span class="ic">🏋️</span><span class="nm">Gym</span><span class="ct">9 days</span></div>
+    <div class="cat"><span class="ic">🤸</span><span class="nm">Calisthenics</span><span class="ct">6 days</span></div>
+    <div class="cat"><span class="ic">✈️</span><span class="nm">Travel</span><span class="ct">4 days</span></div>
+  </div>
+  <div class="sl">Gym · sessions</div>
+  <div class="days">
+    <div class="day"><span class="dbar" style="background:#c6f24e"></span><span class="e">💪</span><span class="di"><div class="dn">Full Upper</div><div class="dm">chest·back·shoulders·arms</div></span><span class="dc">6 ex</span></div>
+    <div class="day"><span class="dbar" style="background:#5b9dff"></span><span class="e">🙌</span><span class="di"><div class="dn">Push</div><div class="dm">chest·shoulders·triceps</div></span><span class="dc">6 ex</span></div>
+    <div class="day"><span class="dbar" style="background:#e6b45a"></span><span class="e">🧲</span><span class="di"><div class="dn">Pull</div><div class="dm">back·biceps·rear delts</div></span><span class="dc">6 ex</span></div>
+  </div>
+</div>
+<div class="cap"><b>A.</b> Category grid (icons)</div>
+</div>
+
+<!-- B: big image category cards -->
+<div class="col">
+<div class="ph">
+  <div class="greet">Good evening, Omar</div>
+  <div class="gtitle">Ready to <span class="a">train?</span></div>
+  <div class="week">
+    <div class="wk"><div class="n">3</div><div class="l">This week</div></div>
+    <div class="wk"><div class="n">12</div><div class="l">Total</div></div>
+    <div class="wk"><div class="n">5</div><div class="l">Streak</div></div>
+  </div>
+  <div class="sl">Choose your mode</div>
+  <div class="bigcats">
+    <div class="bigcat gym"><span class="bs">🏋️</span><span class="bn">9d</span><span class="bt">Gym</span></div>
+    <div class="bigcat cal"><span class="bs">🤸</span><span class="bn">6d</span><span class="bt">Calisthenics</span></div>
+    <div class="bigcat trav"><span class="bs">✈️</span><span class="bn">4d</span><span class="bt">Travel</span></div>
+    <div class="bigcat" style="background:linear-gradient(160deg,#241a2e,#0f0a14),radial-gradient(circle at 70% 20%,rgba(185,140,255,.25),transparent)"><span class="bs">🎯</span><span class="bn">focus</span><span class="bt">Focused</span></div>
+  </div>
+  <div class="sl">Gym · quick picks</div>
+  <div class="days">
+    <div class="day"><span class="dbar" style="background:#c6f24e"></span><span class="e">💪</span><span class="di"><div class="dn">Full Upper</div><div class="dm">chest·back·shoulders</div></span><span class="dc">6 ex</span></div>
+    <div class="day"><span class="dbar" style="background:#5b9dff"></span><span class="e">🙌</span><span class="di"><div class="dn">Push</div><div class="dm">chest·shoulders·triceps</div></span><span class="dc">6 ex</span></div>
+  </div>
+</div>
+<div class="cap"><b>B.</b> Big image mode cards</div>
+</div>
+
+<!-- C: welcome hero + grid -->
+<div class="col">
+<div class="ph">
+  <div class="hero">
+    <span class="hbadge">Welcome back</span>
+    <div class="ht">Let's build<br><span class="a">upper body.</span></div>
+    <div class="hs">3 sessions this week — keep the streak alive.</div>
+    <div class="hb">Start today's session →</div>
+  </div>
+  <div class="sl">Choose your mode</div>
+  <div class="cats">
+    <div class="cat on"><span class="ic">🏋️</span><span class="nm">Gym</span><span class="ct">9 days</span></div>
+    <div class="cat"><span class="ic">🤸</span><span class="nm">Calisth.</span><span class="ct">6 days</span></div>
+    <div class="cat"><span class="ic">✈️</span><span class="nm">Travel</span><span class="ct">4 days</span></div>
+  </div>
+  <div class="sl">Gym · sessions</div>
+  <div class="days">
+    <div class="day"><span class="dbar" style="background:#c6f24e"></span><span class="e">💪</span><span class="di"><div class="dn">Full Upper</div><div class="dm">chest·back·shoulders</div></span><span class="dc">6 ex</span></div>
+    <div class="day"><span class="dbar" style="background:#5b9dff"></span><span class="e">🙌</span><span class="di"><div class="dn">Push</div><div class="dm">chest·shoulders·triceps</div></span><span class="dc">6 ex</span></div>
+  </div>
+</div>
+<div class="cap"><b>C.</b> Welcome hero + grid</div>
+</div>
+
+</div>
+
+<div class="note"><b>What changed from today's Home:</b> (1) <b>"This week"</b> is now a clean 3-stat strip (this week / total / streak) instead of the bigger recap card; (2) your <b>Gym / Calisthenics / Travel</b> plans become the top "Choose your mode" category grid (A: icons like the reference app · B: big image tiles · C: same grid under a welcome hero); (3) the selected mode's sessions list below. The <b>welcome hero (C)</b> is the image-background idea — good for first-time welcome / notifications / promos. All content stays REAL (your actual plans + sessions), no fake data.</div>
+
+</div></body></html>
