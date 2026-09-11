@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { exerciseMedia } from '@gym-tracker/core';
+import { exerciseMedia, variationMedia } from '@gym-tracker/core';
 
 // Validates the exercise-media map: every mapped movement must have a real
 // mirrored gif + poster on disk, plus complete metadata. Guards against broken
@@ -44,4 +44,22 @@ describe('exercise media integrity', () => {
       seen.set(m.id, name);
     }
   });
+});
+
+// Per-variation media (specific exercise gifs behind the equipment tabs) — every
+// entry must have a real mirrored gif + poster so switching tabs never shows a
+// broken image.
+describe('variation media integrity', () => {
+  const entries = Object.entries(variationMedia);
+
+  it('has the full catalog of variations mapped', () => {
+    expect(entries.length).toBeGreaterThanOrEqual(80);
+  });
+
+  for (const [name, media] of entries) {
+    it(`${name}: gif + poster exist on disk`, () => {
+      expect(existsSync(join(PUBLIC, `${media.id}.gif`))).toBe(true);
+      expect(existsSync(join(PUBLIC, 'posters', `${media.id}.jpg`))).toBe(true);
+    });
+  }
 });

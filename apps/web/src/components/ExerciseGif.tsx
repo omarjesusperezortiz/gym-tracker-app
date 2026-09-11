@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { mediaFor, gifUrl, posterUrl, type ExerciseMedia } from '@gym-tracker/core';
+import { mediaFor, mediaForExercise, gifUrl, posterUrl, type ExerciseMedia } from '@gym-tracker/core';
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
 
 interface ExerciseGifProps {
   /** Catalog movement name (slot[0]). */
   name: string;
+  /** Specific exercise (equipment variation) name — when set, its own gif is used. */
+  exercise?: string;
   /** Visual size preset. */
   size?: 'thumb' | 'card' | 'detail';
   /** Show the small "Demo" badge (card/detail only). */
@@ -21,20 +23,25 @@ interface ExerciseGifProps {
 /**
  * Renders an exercise demonstration on a white tile — animated gif by default,
  * or a static poster frame when `poster` is set (used in list contexts like
- * Today where motion is distracting). When we have no gif for this movement, it
- * shows `fallbackImg` if provided, else a muscle glyph — so the UI never shows a
- * broken image.
+ * Today where motion is distracting). When `exercise` is given, the demo tracks
+ * that specific variation (e.g. the selected equipment tab); otherwise it falls
+ * back to the movement's gif. When we have no gif it shows `fallbackImg` if
+ * provided, else a muscle glyph — so the UI never shows a broken image.
  */
 export function ExerciseGif({
   name,
+  exercise,
   size = 'thumb',
   badge = false,
   hideWhenMissing = false,
   poster = false,
   fallbackImg = null,
 }: ExerciseGifProps) {
-  const media = mediaFor(name);
-  const [failed, setFailed] = useState(false);
+  const media = exercise ? mediaForExercise(exercise, name) : mediaFor(name);
+  // Re-mount the <img> when the resolved gif changes so a swap doesn't get stuck
+  // on a stale error state.
+  const [failedId, setFailedId] = useState<string | null>(null);
+  const failed = media != null && failedId === media.id;
 
   if (!media || failed) {
     if (fallbackImg) {
@@ -59,7 +66,13 @@ export function ExerciseGif({
   return (
     <div className={`exgif exgif-${size}`}>
       {badge && <span className="exgif-badge">Demo</span>}
-      <img src={src} alt={`${name} demonstration`} loading="lazy" onError={() => setFailed(true)} />
+      <img
+        key={media.id}
+        src={src}
+        alt={`${exercise || name} demonstration`}
+        loading="lazy"
+        onError={() => setFailedId(media.id)}
+      />
     </div>
   );
 }

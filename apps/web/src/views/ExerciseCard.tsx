@@ -1,5 +1,5 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { isTimeScheme, KIND_LABEL, mediaFor } from '@gym-tracker/core';
+import { isTimeScheme, KIND_LABEL, mediaForExercise } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
@@ -73,12 +73,12 @@ export function ExerciseCard({
   const { kind, done, sets } = state;
   const timeBased = isTimeScheme(scheme);
   const weighted = kind !== 'bw';
-  const hasGif = mediaFor(slot) != null;
-
   const variationsForSlot = plan.variations[slot] || {};
   const vr = variationsForSlot[kind] || Object.values(variationsForSlot)[0];
   const cue = vr ? plan.cues[vr.name] || '' : '';
   const kinds = Object.keys(variationsForSlot) as Kind[];
+  // A demo gif exists if the selected variation has one, or the movement does.
+  const hasGif = mediaForExercise(vr?.name, slot) != null;
 
   return (
     <div className={`ex${done ? ' done' : ''}`}>
@@ -146,7 +146,7 @@ export function ExerciseCard({
         {/* One demonstration visual: the animated gif when we have it, otherwise
             fall back to the variation's start/finish photo pair. Never both. */}
         {hasGif ? (
-          <ExerciseGif name={slot} size="card" badge />
+          <ExerciseGif name={slot} exercise={vr?.name} size="card" badge />
         ) : (
           vr && (
             <div className="imgs">
