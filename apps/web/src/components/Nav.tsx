@@ -1,10 +1,9 @@
 import { useAppState, type View } from '../state/AppState';
-import { IconToday, IconHome, IconCal, IconProgress, IconMeal, IconProfile, IconTrain } from '../lib/icons';
+import { IconToday, IconHome, IconCal, IconProgress, IconMeal, IconProfile } from '../lib/icons';
 
 const NAVS: { v: View; label: string; Icon: () => JSX.Element }[] = [
   { v: 'today', label: 'Today', Icon: IconToday },
   { v: 'home', label: 'Home', Icon: IconHome },
-  { v: 'exercises', label: 'Exercises', Icon: IconTrain },
   { v: 'calendar', label: 'Calendar', Icon: IconCal },
   { v: 'progress', label: 'Progress', Icon: IconProgress },
   { v: 'meals', label: 'Nutrition', Icon: IconMeal },
