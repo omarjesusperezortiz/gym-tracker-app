@@ -1,21 +1,13 @@
 import { useMemo, useState } from 'react';
-import { addableExercises, KIND_LABEL, type AddedSlot, type Plan, type Session } from '@gym-tracker/core';
+import { addableByGroup, addableExercises, KIND_LABEL, type AddedSlot, type Plan, type Session } from '@gym-tracker/core';
 import { Sheet } from '../components/Sheet';
 import { Segmented } from '../components/PrefControls';
+import { ExerciseGif } from '../components/ExerciseGif';
 import { IconChev } from '../lib/icons';
 // Owns the .add-thumb-empty placeholder styling; importing here guarantees the
 // picker's polish applies wherever the sheet mounts, independent of Home.
 import '../styles/recap-extras.css';
-
-// Subtle lime dumbbell shown instead of a blank box when an exercise has no
-// preview image, so every row reads as a deliberate thumbnail.
-function DumbbellIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M6.5 6.5l11 11M2 6l4-4M18 22l4-4M3 3l1 1M20 20l1 1M3.5 9.5l6-6M14.5 20.5l6-6" />
-    </svg>
-  );
-}
+import '../styles/exercise-gif.css';
 
 export type AddScope = 'today' | 'permanent';
 
@@ -39,6 +31,7 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
   const [query, setQuery] = useState('');
 
   const addable = useMemo(() => addableExercises(plan, session), [plan, session]);
+  const grouped = useMemo(() => addableByGroup(plan, session), [plan, session]);
   const term = query.trim().toLowerCase();
   const matches = term ? addable.filter((a) => a.slot.toLowerCase().includes(term)) : addable;
 
@@ -47,10 +40,33 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
     setQuery('');
   }
 
+  // One picker row — reused by the flat (search) and grouped (browse) views.
+  function Row({ slot, kinds }: { slot: string; kinds: import('@gym-tracker/core').Kind[] }) {
+    const preview = addable.find((a) => a.slot === slot)?.preview ?? null;
+    return (
+      <button className="add-row" onClick={() => add(slot)} disabled={busy}>
+        <ExerciseGif name={slot} size="thumb" poster fallbackImg={preview?.img} />
+        <span className="add-info">
+          <span className="add-name">{slot}</span>
+          <span className="add-kinds">
+            {kinds.map((k) => (
+              <span className="add-kind" key={k}>
+                {KIND_LABEL[k] || k}
+              </span>
+            ))}
+          </span>
+        </span>
+        <span className="add-go">
+          <IconChev />
+        </span>
+      </button>
+    );
+  }
+
   return (
     <Sheet open={open} onClose={onClose} title="Add exercise">
       <h2>Add exercise</h2>
-      <div className="sh-sub">Pick a movement to add to this session.</div>
+      <div className="sh-sub">Browse by muscle group, or search.</div>
 
       <Segmented
         value={scope}
@@ -76,37 +92,36 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
         onChange={(e) => setQuery(e.target.value)}
       />
 
-      <div className="add-list">
-        {matches.map((a) => (
-          <button key={a.slot} className="add-row" onClick={() => add(a.slot)} disabled={busy}>
-            {a.preview?.img ? (
-              <img className="add-thumb" src={a.preview.img} alt="" loading="lazy" />
-            ) : (
-              <span className="add-thumb add-thumb-empty" aria-hidden="true">
-                <DumbbellIcon />
-              </span>
-            )}
-            <span className="add-info">
-              <span className="add-name">{a.slot}</span>
-              <span className="add-kinds">
-                {a.kinds.map((k) => (
-                  <span className="add-kind" key={k}>
-                    {KIND_LABEL[k] || k}
-                  </span>
-                ))}
-              </span>
-            </span>
-            <span className="add-go">
-              <IconChev />
-            </span>
-          </button>
-        ))}
-        {!matches.length && (
-          <div className="pempty">
-            {term ? 'No matching exercises.' : 'Everything in the catalog is already in this session.'}
-          </div>
-        )}
-      </div>
+      {term ? (
+        // Search view — flat list of matches.
+        <div className="add-list">
+          {matches.map((a) => (
+            <Row key={a.slot} slot={a.slot} kinds={a.kinds} />
+          ))}
+          {!matches.length && <div className="pempty">No matching exercises.</div>}
+        </div>
+      ) : (
+        // Browse view — grouped by muscle group.
+        <div className="add-list">
+          {grouped.map((g) => (
+            <div className="add-group" key={g.group.key}>
+              <div className="add-group-head">
+                <span className="add-group-emoji" aria-hidden="true">
+                  {g.group.emoji}
+                </span>
+                {g.group.label}
+                <span className="add-group-count">{g.exercises.length}</span>
+              </div>
+              {g.exercises.map((a) => (
+                <Row key={a.slot} slot={a.slot} kinds={a.kinds} />
+              ))}
+            </div>
+          ))}
+          {!grouped.length && (
+            <div className="pempty">Everything in the catalog is already in this session.</div>
+          )}
+        </div>
+      )}
     </Sheet>
   );
 }

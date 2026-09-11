@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createSupabase, setSupabase } from '@gym-tracker/core';
 import App from './App';
 import { ExerciseShowcase } from './dev/ExerciseShowcase';
+import { PickerShowcase } from './dev/PickerShowcase';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -16,7 +17,9 @@ setSupabase(createSupabase(window.localStorage));
 const showcase = new URLSearchParams(window.location.search).get('showcase');
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>{showcase === 'exercises' ? <ExerciseShowcase /> : <App />}</StrictMode>
+  <StrictMode>
+    {showcase === 'exercises' ? <ExerciseShowcase /> : showcase === 'picker' ? <PickerShowcase /> : <App />}
+  </StrictMode>
 );
 
 

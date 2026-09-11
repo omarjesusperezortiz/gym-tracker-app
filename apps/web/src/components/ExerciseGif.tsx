@@ -14,13 +14,16 @@ interface ExerciseGifProps {
   hideWhenMissing?: boolean;
   /** Static first-frame image instead of the animated gif (calmer for lists). */
   poster?: boolean;
+  /** Fallback image URL (e.g. free-exercise-db photo) shown when we have no gif yet. */
+  fallbackImg?: string | null;
 }
 
 /**
  * Renders an exercise demonstration on a white tile — animated gif by default,
  * or a static poster frame when `poster` is set (used in list contexts like
- * Today where motion is distracting). Falls back to a muscle glyph when we have
- * no media, so the UI never shows a broken image.
+ * Today where motion is distracting). When we have no gif for this movement, it
+ * shows `fallbackImg` if provided, else a muscle glyph — so the UI never shows a
+ * broken image.
  */
 export function ExerciseGif({
   name,
@@ -28,11 +31,19 @@ export function ExerciseGif({
   badge = false,
   hideWhenMissing = false,
   poster = false,
+  fallbackImg = null,
 }: ExerciseGifProps) {
   const media = mediaFor(name);
   const [failed, setFailed] = useState(false);
 
   if (!media || failed) {
+    if (fallbackImg) {
+      return (
+        <div className={`exgif exgif-${size}`}>
+          <img src={fallbackImg} alt={`${name} demonstration`} loading="lazy" />
+        </div>
+      );
+    }
     if (hideWhenMissing) return null;
     return (
       <div className={`exgif exgif-${size} exgif-fallback`} aria-label={name} role="img">
