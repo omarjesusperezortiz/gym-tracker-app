@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home — compact layouts</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;padding:34px 18px 70px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:26px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:14px;margin-bottom:26px;max-width:680px;line-height:1.5}
+.lead b{color:var(--ink)}
+.row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;align-items:center;gap:11px}
+.cap{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);text-align:center;max-width:300px;line-height:1.5}
+.cap b{color:var(--acc)}
+.savew{font-family:var(--mono);font-size:10px;color:var(--acc);font-weight:600}
+/* phone */
+.ph{width:300px;height:600px;background:var(--bg);border-radius:32px;border:1px solid var(--line2);padding:18px 15px 0;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.fold{position:absolute;left:0;right:0;border-top:2px dashed rgba(214,242,78,.4);pointer-events:none}
+.fold::after{content:'screen fold';position:absolute;right:6px;top:2px;font-size:8px;color:var(--acc);font-family:var(--mono)}
+/* header */
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d6f24e,#7a8a2e);flex:none;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hi{flex:1;min-width:0}
+.hi .wb{font-size:10px;color:var(--mut)}
+.hi .nm{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.startbtn{background:var(--acc);color:var(--acc-ink);font-size:12px;font-weight:800;padding:9px 14px;border-radius:20px;white-space:nowrap}
+/* slim stat line */
+.statline{display:flex;align-items:center;gap:14px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:16px}
+.sl-item{display:flex;align-items:baseline;gap:5px}
+.sl-item .n{font-size:16px;font-weight:800;color:var(--acc);font-family:var(--mono)}
+.sl-item .l{font-size:10px;color:var(--mut)}
+.sl-sep{width:1px;height:16px;background:var(--line2)}
+/* mini hero */
+.mhero{border-radius:16px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(100deg,#20250f,#14160f),radial-gradient(circle at 85% 30%,rgba(214,242,78,.2),transparent 55%);border:1px solid var(--line)}
+.mhero .mh-t{font-size:12px;color:var(--mut)}
+.mhero .mh-b{font-size:18px;font-weight:900;letter-spacing:-.4px}
+.mhero .mh-cta{background:var(--acc);color:var(--acc-ink);font-size:12px;font-weight:800;padding:9px 14px;border-radius:18px}
+/* mode 2x2 */
+.sl2{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:2px 0 9px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.mode{position:relative;border-radius:13px;border:1px solid var(--line);padding:12px;min-height:56px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.mode.gym{background:linear-gradient(150deg,#2a2f1a,#0d0f08),radial-gradient(circle at 80% 20%,rgba(214,242,78,.26),transparent 60%)}
+.mode.cal{background:linear-gradient(150deg,#1a2430,#0a0f14),radial-gradient(circle at 80% 20%,rgba(91,157,255,.26),transparent 60%)}
+.mode.trav{background:linear-gradient(150deg,#2e2418,#120d08),radial-gradient(circle at 80% 20%,rgba(230,180,90,.26),transparent 60%)}
+.mode.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.mode .mi{position:absolute;top:9px;right:10px;font-size:16px}
+.mode .mn{font-size:13px;font-weight:800}
+/* picks */
+.pk{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:9px;margin-bottom:8px;position:relative;overflow:hidden}
+.pk .bar{position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px}
+.pk .pt{width:46px;height:40px;border-radius:9px;flex:none;background:#fff center/cover;display:flex;align-items:center;justify-content:center;font-size:20px;margin-left:5px}
+.pk .pi{flex:1;min-width:0}
+.pk .pn{font-size:13px;font-weight:700}
+.pk .pm{font-size:10.5px;color:var(--mut)}
+</style></head>
+<body><div class="wrap">
+<h1>Home — 3 compact layouts</h1>
+<div class="lead">Goal: get the actual <b>workouts visible without scrolling</b>. Right now the big hero + 3 stat tiles push them below the fold. Dashed line = roughly where the screen ends. All data is real.</div>
+
+<div class="row">
+
+<!-- A: header CTA + slim stat line -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av">💪</div><div class="hi"><div class="wb">Good evening</div><div class="nm">Omar</div></div><div class="startbtn">Start ▶</div></div>
+  <div class="statline"><div class="sl-item"><span class="n">4</span><span class="l">this week</span></div><span class="sl-sep"></span><div class="sl-item"><span class="n">12</span><span class="l">total</span></div><span class="sl-sep"></span><div class="sl-item"><span class="n">🔥2</span><span class="l">streak</span></div></div>
+  <div class="sl2">Mode</div>
+  <div class="modes"><div class="mode gym on"><span class="mi">🏋️</span><span class="mn">Gym</span></div><div class="mode cal"><span class="mi">🤸</span><span class="mn">Calisthenics</span></div><div class="mode trav"><span class="mi">✈️</span><span class="mn">Travel</span></div></div>
+  <div class="sl2">Gym · Quick picks</div>
+  <div class="pk"><span class="bar" style="background:#d6f24e"></span><span class="pt">💪</span><span class="pi"><div class="pn">Full Upper</div><div class="pm">6 exercises · ~45 min</div></span></div>
+  <div class="pk"><span class="bar" style="background:#ff8a5b"></span><span class="pt">🙌</span><span class="pi"><div class="pn">Push</div><div class="pm">6 exercises · ~40 min</div></span></div>
+  <div class="fold" style="top:530px"></div>
+</div>
+<div class="cap"><b>A.</b> No hero. Start button in header · slim 1-line stats. <span class="savew">saves ~230px</span></div>
+</div>
+
+<!-- B: mini hero, no stat tiles -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av">💪</div><div class="hi"><div class="wb">Good evening</div><div class="nm">Omar</div></div></div>
+  <div class="mhero"><div><div class="mh-t">Recommended today</div><div class="mh-b">Full Upper</div></div><div class="mh-cta">Start ▶</div></div>
+  <div class="sl2">Mode</div>
+  <div class="modes"><div class="mode gym on"><span class="mi">🏋️</span><span class="mn">Gym</span></div><div class="mode cal"><span class="mi">🤸</span><span class="mn">Calisthenics</span></div><div class="mode trav"><span class="mi">✈️</span><span class="mn">Travel</span></div></div>
+  <div class="sl2">Gym · Quick picks</div>
+  <div class="pk"><span class="bar" style="background:#d6f24e"></span><span class="pt">💪</span><span class="pi"><div class="pn">Full Upper</div><div class="pm">6 exercises · ~45 min</div></span></div>
+  <div class="pk"><span class="bar" style="background:#ff8a5b"></span><span class="pt">🙌</span><span class="pi"><div class="pn">Push</div><div class="pm">6 exercises · ~40 min</div></span></div>
+  <div class="fold" style="top:545px"></div>
+</div>
+<div class="cap"><b>B.</b> Slim MINI-hero (one line + Start), stats dropped from Home. <span class="savew">saves ~150px</span></div>
+</div>
+
+<!-- C: everything tightened, stats as tiny chips under name -->
+<div class="col">
+<div class="ph">
+  <div class="top"><div class="av">💪</div><div class="hi"><div class="nm">Hey, Omar</div><div class="wb" style="margin-top:2px">🗓 4 this week · 🔥 2 streak</div></div><div class="startbtn">Start ▶</div></div>
+  <div class="sl2" style="margin-top:4px">Mode</div>
+  <div class="modes"><div class="mode gym on"><span class="mi">🏋️</span><span class="mn">Gym</span></div><div class="mode cal"><span class="mi">🤸</span><span class="mn">Calisthenics</span></div><div class="mode trav"><span class="mi">✈️</span><span class="mn">Travel</span></div></div>
+  <div class="sl2">Gym · Quick picks</div>
+  <div class="pk"><span class="bar" style="background:#d6f24e"></span><span class="pt">💪</span><span class="pi"><div class="pn">Full Upper</div><div class="pm">6 exercises · ~45 min</div></span></div>
+  <div class="pk"><span class="bar" style="background:#ff8a5b"></span><span class="pt">🙌</span><span class="pi"><div class="pn">Push</div><div class="pm">6 exercises · ~40 min</div></span></div>
+  <div class="pk"><span class="bar" style="background:#5b9dff"></span><span class="pt">🧲</span><span class="pi"><div class="pn">Pull</div><div class="pm">6 exercises · ~40 min</div></span></div>
+  <div class="fold" style="top:560px"></div>
+</div>
+<div class="cap"><b>C.</b> Most compact. Stats become a tiny line under the name, no hero at all. <span class="savew">saves ~280px</span></div>
+</div>
+
+</div>
+</div></body></html>
