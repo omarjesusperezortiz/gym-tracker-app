@@ -4,8 +4,6 @@ import {
   muscleGroups,
   groupForMovement,
   mediaFor,
-  gifUrl,
-  KIND_LABEL,
   type Plan,
   type Kind,
   type MuscleGroup,
@@ -13,10 +11,10 @@ import {
 } from '@gym-tracker/core';
 import { PageHeader } from '../components/PageHeader';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { ExerciseDetailSheet } from '../components/ExerciseDetailSheet';
 import '../styles/exercise-gif.css';
 import '../styles/exercise-library.css';
 
-const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
 const gym = catalog.plans.gym as unknown as Plan;
 
 interface LibEntry {
@@ -30,11 +28,11 @@ interface LibEntry {
 
 // Real in-app Exercise Library. Browse the full catalog by muscle group, tap a
 // movement to see its demo, worked muscles, equipment variations and how-to
-// steps. Reference screen (read-only) — the picker is where you add to a session.
+// steps (via the shared ExerciseDetailSheet).
 export function ExercisesView() {
   const [filter, setFilter] = useState<MuscleGroup | 'all'>('all');
   const [query, setQuery] = useState('');
-  const [open, setOpen] = useState<LibEntry | null>(null);
+  const [open, setOpen] = useState<string | null>(null);
 
   const entries: LibEntry[] = useMemo(() => {
     return Object.entries(gym.variations)
@@ -102,7 +100,7 @@ export function ExercisesView() {
           </div>
           <div className="lib-grid">
             {b.items.map((e) => (
-              <button className="lib-card" key={e.movement} onClick={() => setOpen(e)}>
+              <button className="lib-card" key={e.movement} onClick={() => setOpen(e.movement)}>
                 <div className="lib-card-media">
                   <ExerciseGif name={e.movement} size="card" poster fallbackImg={e.fallbackImg} />
                 </div>
@@ -120,57 +118,7 @@ export function ExercisesView() {
       ))}
       {!byGroup.length && <div className="pempty">No matching exercises.</div>}
 
-      {open && (
-        <div className="lib-sheet" onClick={() => setOpen(null)}>
-          <div className="lib-sheet-in" onClick={(ev) => ev.stopPropagation()}>
-            <button className="lib-close" onClick={() => setOpen(null)} aria-label="Close">
-              ✕
-            </button>
-            <div className="lib-detail-media">
-              {open.media ? (
-                <img src={gifUrl(open.media, MEDIA_BASE)} alt={open.movement} />
-              ) : open.fallbackImg ? (
-                <img src={open.fallbackImg} alt={open.movement} />
-              ) : (
-                <span className="lib-detail-glyph">🏋️</span>
-              )}
-            </div>
-            <h2 className="lib-detail-title">{open.movement}</h2>
-            <div className="lib-card-tags">
-              {open.media?.target && <span className="lib-tag on">{open.media.target}</span>}
-              {open.media?.secondary.map((s) => (
-                <span className="lib-tag" key={s}>
-                  {s}
-                </span>
-              ))}
-            </div>
-
-            <div className="lib-detail-label">Equipment variations</div>
-            <div className="lib-vars">
-              {open.variations.map((v) => (
-                <div className="lib-var" key={v.kind}>
-                  <img className="lib-var-img" src={v.img} alt="" loading="lazy" />
-                  <div className="lib-var-info">
-                    <span className="lib-var-kind">{KIND_LABEL[v.kind] || v.kind}</span>
-                    <span className="lib-var-name">{v.name}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {open.media?.steps && open.media.steps.length > 0 && (
-              <>
-                <div className="lib-detail-label">How to</div>
-                <ol className="lib-steps">
-                  {open.media.steps.map((s, i) => (
-                    <li key={i}>{s}</li>
-                  ))}
-                </ol>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <ExerciseDetailSheet movement={open} onClose={() => setOpen(null)} />
     </div>
   );
 }

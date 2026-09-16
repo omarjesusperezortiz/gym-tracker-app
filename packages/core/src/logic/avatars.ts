@@ -1,16 +1,28 @@
-// Avatar presets — emoji + gradient color, chosen in Profile and shown in the
-// Home header. Kept as a small fixed set (no uploads / storage): the pref stores
-// just the key. Framework-agnostic so both web and mobile can render them.
+// Avatar presets — cartoon PORTRAIT illustrations (DiceBear-generated SVGs)
+// plus a fallback set of emoji-on-gradient tiles for users who prefer symbols.
+// The pref stores just the `key`; both web and mobile look up the preset here.
 
 export interface AvatarPreset {
   key: string;
-  emoji: string;
-  /** CSS gradient (two stops) for the tile background. */
-  from: string;
-  to: string;
+  /** True for illustrated character portraits (rendered from a bundled SVG). */
+  portrait?: boolean;
+  /** Emoji character used when the preset is glyph-based (portrait=false). */
+  emoji?: string;
+  /** CSS gradient stops for glyph-based tiles. */
+  from?: string;
+  to?: string;
 }
 
-export const AVATARS: AvatarPreset[] = [
+// Portrait keys must match the filenames in apps/web/public/avatars/portrait-<key>.svg
+// (12 curated illustrated characters generated via DiceBear `avataaars`).
+const PORTRAIT_KEYS = [
+  'ryan', 'mia', 'zoe', 'leo', 'aria', 'kai',
+  'omar', 'sara', 'jax', 'nova', 'rex', 'luna',
+] as const;
+
+const PORTRAITS: AvatarPreset[] = PORTRAIT_KEYS.map((k) => ({ key: k, portrait: true }));
+
+const GLYPHS: AvatarPreset[] = [
   { key: 'lime', emoji: '💪', from: '#d6f24e', to: '#7a8a2e' },
   { key: 'flame', emoji: '🔥', from: '#ff8a3d', to: '#c23b1e' },
   { key: 'bolt', emoji: '⚡', from: '#ffd93d', to: '#d69a1e' },
@@ -25,7 +37,14 @@ export const AVATARS: AvatarPreset[] = [
   { key: 'tiger', emoji: '🐯', from: '#ffa53d', to: '#c26b1e' },
 ];
 
-export const DEFAULT_AVATAR = AVATARS[0];
+// PORTRAITS first — the new default. GLYPHS remain available for backward
+// compatibility (old picks) and users who want a symbol.
+export const AVATARS: AvatarPreset[] = [...PORTRAITS, ...GLYPHS];
+
+export const AVATAR_PORTRAITS = PORTRAITS;
+export const AVATAR_GLYPHS = GLYPHS;
+
+export const DEFAULT_AVATAR = PORTRAITS[0];
 
 export function avatarFor(key: string | null | undefined): AvatarPreset {
   return AVATARS.find((a) => a.key === key) ?? DEFAULT_AVATAR;

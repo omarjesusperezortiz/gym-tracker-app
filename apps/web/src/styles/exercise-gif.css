@@ -1,7 +1,11 @@
-/* Exercise demonstration gif — white tile so the 3D render pops on the dark UI. */
+/* Exercise demonstration gif — dark tinted panel with mix-blend-mode so the
+ * white background of the exercisedb figure blends away and only the drawing
+ * survives, sitting cleanly on the dark theme. Keeps a subtle lime glow. */
 .exgif {
   position: relative;
-  background: #fff;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(214, 242, 78, 0.14), transparent 65%),
+    linear-gradient(135deg, #262a34, #101318);
   overflow: hidden;
   flex: none;
   display: flex;
@@ -12,6 +16,18 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* The exercisedb frame is a dark figure on solid white. `screen` blend inverts
+   * the multiply logic on a light-tinted underlay: white pixels stay white on
+   * light bg / go transparent on our dark bg, dark lines survive. `multiply`
+   * gives the opposite. On a dark surface we want the LINES to show white/light
+   * against the tint, so we invert the frame first, then screen it. */
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+/* Fallback tile keeps its dark treatment (no image, just the muscle glyph). */
+.exgif-fallback img {
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 /* size presets */
@@ -64,4 +80,24 @@
   font-size: 1.4em;
   filter: grayscale(0.2);
   opacity: 0.7;
+}
+
+/* Tap-to-open exercise detail on the demo image */
+.ex-demo-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: visible;
+}
+.ex-demo-btn:focus-visible {
+  outline: 2px solid var(--acc, #c6f24e);
+  outline-offset: 2px;
+}
+.ex-demo-btn:active .exgif {
+  transform: scale(0.99);
+  transition: transform 0.1s;
 }

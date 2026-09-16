@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { isTimeScheme, KIND_LABEL, mediaForExercise } from '@gym-tracker/core';
 import type { Kind, Plan, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { ExerciseDetailSheet } from '../components/ExerciseDetailSheet';
 import '../styles/exercise-gif.css';
 import { ghostFor } from '../lib/ghost';
 import type { ProgressionSuggestion } from '../lib/progression';
@@ -73,6 +75,7 @@ export function ExerciseCard({
 }: ExerciseCardProps) {
   const [slot, scheme, force] = slotDef;
   const { kind, done, sets } = state;
+  const [detailOpen, setDetailOpen] = useState(false);
   const timeBased = isTimeScheme(scheme);
   const weighted = kind !== 'bw';
   const variationsForSlot = plan.variations[slot] || {};
@@ -148,7 +151,14 @@ export function ExerciseCard({
         {/* One demonstration visual: the animated gif when we have it, otherwise
             fall back to the variation's start/finish photo pair. Never both. */}
         {hasGif ? (
-          <ExerciseGif name={slot} exercise={vr?.name} size="card" badge />
+          <button
+            type="button"
+            className="ex-demo-btn"
+            onClick={() => setDetailOpen(true)}
+            aria-label={`Show ${slot} instructions and variations`}
+          >
+            <ExerciseGif name={slot} exercise={vr?.name} size="card" badge />
+          </button>
         ) : (
           vr && (
             <div className="imgs">
@@ -258,6 +268,10 @@ export function ExerciseCard({
           )}
         </div>
       </div>
+      <ExerciseDetailSheet
+        movement={detailOpen ? slot : null}
+        onClose={() => setDetailOpen(false)}
+      />
     </div>
   );
 }
