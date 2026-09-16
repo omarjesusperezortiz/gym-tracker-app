@@ -1,0 +1,480 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gym Tracker — Full Redesign Prototypes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{
+  --bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--surf3:#252a34;
+  --line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);
+  --ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;
+  --acc:#d6f24e;--acc-ink:#0a0b0e;--acc-dim:rgba(214,242,78,.12);
+  --grn:#3ddc97;--red:#ff6b6b;--org:#ffa53d;--yel:#ffd93d;--blu:#5b9dff;--pur:#b98cff;
+  --mono:'JetBrains Mono',monospace
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050608;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;padding:38px 20px 100px}
+.wrap{max-width:1400px;margin:0 auto}
+h1{font-size:34px;font-weight:900;letter-spacing:-1.1px;margin-bottom:8px}
+.lead{color:var(--mut);font-size:15px;margin-bottom:36px;max-width:800px;line-height:1.6}
+.lead b{color:var(--ink)}
+.lead .k{color:var(--acc);font-weight:700}
+h2{font-size:26px;font-weight:900;letter-spacing:-.7px;margin:52px 0 8px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink)}
+h2 .em{margin-right:10px}
+.hsub{color:var(--mut);font-size:14px;margin-bottom:22px;max-width:800px;line-height:1.6}
+.hsub b{color:var(--acc)}
+.row{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;align-items:flex-start}
+.col{display:flex;flex-direction:column;align-items:center;gap:13px;flex:0 0 auto}
+.cap{font-size:12.5px;font-weight:700;color:var(--ink2);text-align:center;max-width:330px;line-height:1.55}
+.cap b{color:var(--acc);font-weight:800}
+.cap .k{color:var(--faint);font-size:11px;display:block;margin-top:5px}
+
+/* PHONE FRAME */
+.ph{width:340px;height:705px;background:var(--bg);border-radius:36px;border:1px solid var(--line2);padding:20px 16px 88px;overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.5)}
+.ph-scroll{flex:1;overflow-y:auto;padding-right:4px;margin-right:-4px;scrollbar-width:none}
+.ph-scroll::-webkit-scrollbar{display:none}
+
+/* 5-TAB BOTTOM NAV (fixes 6→5, drops Today) */
+.nav{position:absolute;left:12px;right:12px;bottom:12px;height:60px;background:rgba(30,33,40,.98);backdrop-filter:blur(20px);border:1px solid var(--line2);border-radius:22px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 30px rgba(0,0,0,.4)}
+.ni{color:var(--faint);font-size:16px;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-weight:600;padding:6px 8px;border-radius:14px}
+.ni .lb{font-size:9.5px;letter-spacing:.02em;text-transform:none;color:var(--mut)}
+.ni.on{color:var(--acc-ink);background:var(--acc)}
+.ni.on .lb{color:var(--acc-ink);font-weight:800}
+
+/* HEADER (avatar + name + optional start) */
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d6f24e,#7a8a2e);flex:none;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;color:#0a0b0e;font-weight:900}
+.av img{width:100%;height:100%;object-fit:cover}
+.hi{flex:1;min-width:0}
+.hi .wb{font-size:10.5px;color:var(--mut)}
+.hi .nm{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.startbtn{background:var(--acc);color:var(--acc-ink);font-size:12.5px;font-weight:800;padding:9px 14px;border-radius:20px;white-space:nowrap;border:none;cursor:pointer;font-family:inherit}
+.gear{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--mut)}
+
+/* SLIM STAT LINE */
+.statline{display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:13px;padding:11px 15px;margin-bottom:18px}
+.sl-item{display:flex;align-items:baseline;gap:5px}
+.sl-item .n{font-size:16px;font-weight:800;color:var(--acc);font-family:var(--mono)}
+.sl-item .l{font-size:10.5px;color:var(--mut)}
+.sl-sep{width:1px;height:16px;background:var(--line2)}
+
+/* SECTION LABEL */
+.sl2{font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:20px 0 10px;display:flex;justify-content:space-between;align-items:baseline}
+.sl2 .see{color:var(--acc);font-size:11px}
+.sl2:first-child{margin-top:2px}
+
+/* MODE 2x2 */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:8px}
+.mode{position:relative;border-radius:14px;border:1px solid var(--line);padding:12px 14px;min-height:72px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;overflow:hidden}
+.mode.gym{background:linear-gradient(150deg,#2a2f1a,#0d0f08),radial-gradient(circle at 80% 20%,rgba(214,242,78,.28),transparent 60%)}
+.mode.cal{background:linear-gradient(150deg,#1a2430,#0a0f14),radial-gradient(circle at 80% 20%,rgba(91,157,255,.28),transparent 60%)}
+.mode.trav{background:linear-gradient(150deg,#2e2418,#120d08),radial-gradient(circle at 80% 20%,rgba(230,180,90,.28),transparent 60%)}
+.mode.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.mode .mi{position:absolute;top:10px;right:12px;font-size:20px;opacity:.9}
+.mode .mn{font-size:14px;font-weight:800;letter-spacing:-.2px}
+
+/* PICK ROW — with tinted thumbnail (no more white bg) */
+.pk{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px;position:relative;overflow:hidden}
+.pk .bar{position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px}
+.pk .pt{width:52px;height:44px;border-radius:10px;flex:none;background:linear-gradient(135deg,var(--surf3),#1a1d24);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;position:relative;margin-left:5px}
+.pk .pt::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(214,242,78,.15),transparent 70%)}
+.pk .pi{flex:1;min-width:0}
+.pk .pn{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.pk .pm{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk .pm b{color:var(--ink2);font-weight:600}
+
+/* -------- PROFILE-SPECIFIC -------- */
+/* Identity hero (audit fix: identity → achievement → account) */
+.id-hero{background:linear-gradient(160deg,#1a1d24,#0d0f14);border:1px solid var(--line);border-radius:20px;padding:18px 16px 16px;margin-bottom:14px;text-align:center;position:relative}
+.id-hero .av-big{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#d6f24e,#7a8a2e);margin:2px auto 8px;display:flex;align-items:center;justify-content:center;font-size:36px;color:#0a0b0e;overflow:hidden;font-weight:900}
+.id-hero .name{font-size:19px;font-weight:900;letter-spacing:-.4px}
+.id-hero .handle{font-size:12px;color:var(--mut);margin-top:1px}
+.id-hero .edit{margin-top:12px;background:var(--surf3);color:var(--ink);border:1px solid var(--line2);font-size:12px;font-weight:700;padding:8px 16px;border-radius:16px}
+/* 3-stat headline (table stakes) */
+.stat3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.stat3 .card{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:12px 8px;text-align:center}
+.stat3 .n{font-size:19px;font-weight:900;color:var(--acc);font-family:var(--mono);letter-spacing:-.5px}
+.stat3 .l{font-size:9.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+/* PR preview row */
+.prlist{display:flex;flex-direction:column;gap:8px}
+.prrow{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.prrow .em{font-size:20px}
+.prrow .who{flex:1;min-width:0}
+.prrow .who .n{font-size:13.5px;font-weight:700}
+.prrow .who .d{font-size:10.5px;color:var(--mut)}
+.prrow .val{font-family:var(--mono);font-size:14px;font-weight:800;color:var(--acc)}
+/* settings groups */
+.setlist{display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.setrow{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit}
+.setrow:last-child{border-bottom:none}
+.setrow .icn{width:28px;height:28px;border-radius:8px;background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.setrow .lb{flex:1;text-align:left;font-size:13.5px;font-weight:600}
+.setrow .rt{font-size:11.5px;color:var(--mut);font-family:var(--mono)}
+.setrow .chev{color:var(--faint);font-size:14px}
+.setrow.danger .lb{color:var(--red)}
+.setrow.danger .icn{color:var(--red)}
+
+/* -------- AVATAR OPTIONS -------- */
+.av-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px}
+.av-opt{aspect-ratio:1;border-radius:14px;border:2px solid transparent;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;background:var(--surf2)}
+.av-opt.on{border-color:var(--acc);box-shadow:0 0 0 2px rgba(214,242,78,.25)}
+.av-opt img{width:100%;height:100%;object-fit:cover}
+/* SVG illustrations (Micah-style / DiceBear-style avatars) */
+.av-mo{background:linear-gradient(135deg,#3d5a80,#293b56);color:#fff;font-size:36px}
+.av-mw{background:linear-gradient(135deg,#e07856,#a04429);color:#fff;font-size:36px}
+.av-mb{background:linear-gradient(135deg,#4a2a6b,#2a1440);color:#fff;font-size:36px}
+.av-fo{background:linear-gradient(135deg,#e8a758,#c26b1e);color:#fff;font-size:36px}
+.av-fw{background:linear-gradient(135deg,#5b9dff,#2e4a8a);color:#fff;font-size:36px}
+.av-fb{background:linear-gradient(135deg,#3ddc97,#1e8a5c);color:#fff;font-size:36px}
+.av-a1{background:linear-gradient(135deg,#ff6b6b,#c23b3b);color:#fff;font-size:38px}
+.av-a2{background:linear-gradient(135deg,#b98cff,#6a3fd6);color:#fff;font-size:38px}
+.av-a3{background:linear-gradient(135deg,#ffd93d,#b8860b);color:#0a0b0e;font-size:38px;font-weight:900}
+
+/* -------- LIBRARY CARDS with tinted image -------- */
+.lib-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lib-card{background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.lib-card .thumb{aspect-ratio:1.1;background:linear-gradient(135deg,var(--surf3),#101318);display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.lib-card .thumb::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 35%,rgba(214,242,78,.12),transparent 65%)}
+.lib-card .lc-info{padding:10px 11px 12px}
+.lib-card .lc-name{font-size:13px;font-weight:800;letter-spacing:-.2px;margin-bottom:3px}
+.lib-card .lc-meta{font-size:10.5px;color:var(--mut)}
+.lib-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+.lib-chip{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:7px 13px;font-size:11.5px;font-weight:600;color:var(--mut);white-space:nowrap;flex:none}
+.lib-chip.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.searchbar{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:9px}
+
+/* -------- EXERCISE DETAIL MODAL -------- */
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:5;border-radius:36px 36px 0 0;display:flex;align-items:flex-end;padding:0}
+.modal{width:100%;max-height:85%;background:var(--bg);border-radius:22px 22px 0 0;padding:14px 16px 20px;overflow-y:auto;box-shadow:0 -8px 32px rgba(0,0,0,.5);scrollbar-width:none}
+.modal::-webkit-scrollbar{display:none}
+.modal-handle{width:36px;height:4px;background:var(--line2);border-radius:2px;margin:0 auto 12px}
+.modal-close{position:absolute;top:14px;right:18px;color:var(--mut);font-size:20px;z-index:1}
+.md-title{font-size:19px;font-weight:900;letter-spacing:-.4px}
+.md-sub{font-size:12px;color:var(--mut);margin-bottom:14px}
+.md-hero{aspect-ratio:1.4;background:linear-gradient(135deg,var(--surf3),#0e1116);border-radius:14px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:78px;margin-bottom:14px;position:relative;overflow:hidden}
+.md-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(214,242,78,.18),transparent 60%)}
+.md-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.md-tag{font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:6px;background:var(--surf);border:1px solid var(--line);color:var(--ink2)}
+.md-tag.prim{background:var(--acc-dim);border-color:rgba(214,242,78,.35);color:var(--acc)}
+.md-sh{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:12px 0 8px}
+.md-step{display:flex;gap:11px;padding:8px 0;font-size:12.5px;color:var(--ink2);line-height:1.5}
+.md-step .no{width:22px;height:22px;border-radius:50%;background:var(--acc);color:var(--acc-ink);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex:none;font-family:var(--mono)}
+.md-vars{display:flex;flex-direction:column;gap:7px}
+.md-var{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:9px}
+.md-var .vt{width:42px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--surf3),#101318);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
+.md-var .vi{flex:1;min-width:0}
+.md-var .vn{font-size:13px;font-weight:700}
+.md-var .vm{font-size:10.5px;color:var(--mut)}
+.md-var .veq{font-size:9.5px;font-weight:800;color:var(--acc);padding:3px 7px;background:var(--acc-dim);border-radius:5px}
+
+/* -------- MEALS 3-macro consistent bars -------- */
+.macros{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:14px}
+.macros-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px}
+.macros-total{font-size:22px;font-weight:900;color:var(--acc);font-family:var(--mono)}
+.macros-goal{font-size:11px;color:var(--mut)}
+.macro{margin-bottom:9px}
+.macro:last-child{margin-bottom:0}
+.macro-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-bottom:4px}
+.macro-lbl b{color:var(--ink2);font-weight:700}
+.macro-bar{height:6px;background:var(--surf2);border-radius:3px;overflow:hidden}
+.macro-bar .fill{height:100%;border-radius:3px}
+.macro.p .fill{background:#ff6b6b;width:65%}
+.macro.c .fill{background:var(--yel);width:40%}
+.macro.f .fill{background:var(--blu);width:55%}
+.meal-sec{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:9px}
+.meal-h{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.meal-h .n{font-weight:800}
+.meal-h .k{color:var(--mut);font-family:var(--mono)}
+.meal-add{font-size:12px;color:var(--acc);font-weight:700}
+
+/* -------- PROGRESS charts -------- */
+.chart{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.chart-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.chart-t{font-size:13px;font-weight:800}
+.chart-r{font-size:10px;color:var(--mut);font-family:var(--mono)}
+.chart-big{font-size:24px;font-weight:900;color:var(--acc);font-family:var(--mono);letter-spacing:-.5px}
+.chart-delta{font-size:11px;color:var(--grn);font-weight:700;margin-left:8px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:60px;margin-top:12px}
+.bar{flex:1;background:linear-gradient(180deg,var(--acc),rgba(214,242,78,.35));border-radius:3px 3px 0 0;min-height:8%}
+.range{display:flex;gap:6px;margin-top:12px}
+.range .rc{flex:1;background:var(--surf2);border:1px solid var(--line);border-radius:8px;padding:5px 0;text-align:center;font-size:10.5px;color:var(--mut);font-weight:700}
+.range .rc.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.line-svg{width:100%;height:70px;display:block}
+
+/* -------- CALENDAR -------- */
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal-mo{font-size:16px;font-weight:800}
+.cal-arrows{display:flex;gap:8px}
+.cal-arr{width:28px;height:28px;border-radius:50%;background:var(--surf);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--mut)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px}
+.cal-dow{font-size:9.5px;color:var(--faint);text-align:center;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 0}
+.cal-d{aspect-ratio:1;background:var(--surf);border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);position:relative}
+.cal-d.out{color:var(--faint);background:transparent}
+.cal-d.done{background:var(--acc-dim);border:1px solid rgba(214,242,78,.35);color:var(--acc);font-weight:800}
+.cal-d.done::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;background:var(--acc);border-radius:50%}
+.cal-d.today{background:var(--acc);color:var(--acc-ink);font-weight:900}
+.hist-row{display:flex;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-bottom:8px;align-items:center}
+.hist-row .date{font-size:11px;color:var(--mut);font-family:var(--mono);text-align:center;min-width:36px}
+.hist-row .date b{font-size:16px;color:var(--ink);font-weight:900;display:block}
+.hist-row .h-info{flex:1;min-width:0}
+.hist-row .h-n{font-size:13.5px;font-weight:800}
+.hist-row .h-s{font-size:10.5px;color:var(--mut)}
+.hist-row .rep{font-size:11px;color:var(--acc);font-weight:800}
+
+/* -------- HOME quick continue -------- */
+.resume{background:linear-gradient(150deg,rgba(214,242,78,.15),rgba(214,242,78,.03));border:1px solid rgba(214,242,78,.3);border-radius:14px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.resume .re-em{font-size:26px}
+.resume .re-i{flex:1}
+.resume .re-i .n{font-size:14px;font-weight:800}
+.resume .re-i .s{font-size:11px;color:var(--mut)}
+.resume .re-btn{background:var(--acc);color:var(--acc-ink);font-size:12px;font-weight:800;padding:8px 12px;border-radius:16px}
+
+/* section spacers */
+.footnote{font-size:11px;color:var(--faint);text-align:center;padding:40px 10px 0;line-height:1.7;font-family:var(--mono);max-width:900px;margin:0 auto}
+</style></head>
+<body><div class="wrap">
+
+<h1>Gym Tracker — Full Redesign</h1>
+<div class="lead">Every view redesigned per the <b>UX audit</b>: Profile now leads with identity + 3-stat headline + grouped settings; images use dark-theme <b>tinted backgrounds</b> (no more glaring white); nav drops from 6 to <span class="k">5 tabs</span> (Today merges into Home); each session/exercise card is tappable → <b>Exercise Detail modal</b> with instructions + variations. Real data throughout.</div>
+
+<!-- ============== HOME + TODAY (merged) ============== -->
+<h2><span class="em">🏠</span>Home <span style="font-size:15px;color:var(--faint);font-weight:600">(Today + Home merged → 1 tab)</span></h2>
+<div class="hsub">Fixes: <b>white thumbnails → tinted</b>, mode 2×2, quick-start hero rolled into header. Includes an in-progress <b>"Resume"</b> card that would live-continue an active session.</div>
+<div class="row">
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="av">💪</div><div class="hi"><div class="wb">Good evening</div><div class="nm">Omar</div></div><button class="startbtn">Start ▶</button></div>
+  <div class="statline"><div class="sl-item"><span class="n">4</span><span class="l">this week</span></div><span class="sl-sep"></span><div class="sl-item"><span class="n">12</span><span class="l">total</span></div><span class="sl-sep"></span><div class="sl-item"><span class="n">🔥2</span><span class="l">streak</span></div></div>
+  <div class="resume"><span class="re-em">💪</span><span class="re-i"><div class="n">Full Upper (in progress)</div><div class="s">2 of 6 done · tap to resume</div></span><span class="re-btn">Resume ▶</span></div>
+  <div class="sl2">Mode</div>
+  <div class="modes"><div class="mode gym on"><span class="mi">🏋️</span><span class="mn">Gym</span></div><div class="mode cal"><span class="mi">🤸</span><span class="mn">Calisthenics</span></div><div class="mode trav"><span class="mi">✈️</span><span class="mn">Travel</span></div></div>
+  <div class="sl2">Gym · Quick picks <span class="see">See all</span></div>
+  <div class="pk"><span class="bar" style="background:#d6f24e"></span><span class="pt">💪</span><span class="pi"><div class="pn">Full Upper</div><div class="pm"><b>6 exercises</b> · ~45 min · chest·back·arms</div></span></div>
+  <div class="pk"><span class="bar" style="background:#ff8a5b"></span><span class="pt">🙌</span><span class="pi"><div class="pn">Push</div><div class="pm"><b>6 exercises</b> · ~40 min · chest·shoulders·triceps</div></span></div>
+  <div class="pk"><span class="bar" style="background:#5b9dff"></span><span class="pt">🧲</span><span class="pi"><div class="pn">Pull</div><div class="pm"><b>6 exercises</b> · ~40 min · back·biceps</div></span></div>
+</div><div class="nav"><div class="ni on"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap">Home. Tinted image thumbnails, 2×2 mode grid, resume banner when a session is in progress.</div></div>
+</div>
+
+<!-- ============== PROFILE — THE MAIN TARGET ============== -->
+<h2><span class="em">👤</span>Profile <span style="font-size:14px;color:var(--acc);font-weight:700">redesigned per benchmark</span></h2>
+<div class="hsub">Follows the industry-standard <b>Identity → Achievement → Account</b> pattern (Hevy/Strong/Whoop). Opens with an <b>identity hero</b>, then the near-universal <b>3-stat headline row</b>, then a preview of PRs, then grouped settings behind clear section headers. A gear icon opens preferences in a separate screen.</div>
+<div class="row">
+
+<!-- Profile main -->
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:2px"><div class="gear">⚙</div></div>
+  <div class="id-hero">
+    <div class="av-big">💪</div>
+    <div class="name">Omar Perez</div>
+    <div class="handle">@omar · joined Aug 2026</div>
+    <button class="edit">Edit profile</button>
+  </div>
+  <div class="stat3">
+    <div class="card"><div class="n">12</div><div class="l">Workouts</div></div>
+    <div class="card"><div class="n">3.4k</div><div class="l">Volume kg</div></div>
+    <div class="card"><div class="n">🔥 2</div><div class="l">Day streak</div></div>
+  </div>
+  <div class="sl2">Personal records <span class="see">See all</span></div>
+  <div class="prlist">
+    <div class="prrow"><span class="em">🏆</span><span class="who"><div class="n">Barbell Bench Press</div><div class="d">3 days ago</div></span><span class="val">62.5 kg</span></div>
+    <div class="prrow"><span class="em">🏆</span><span class="who"><div class="n">Barbell Full Squat</div><div class="d">1 week ago</div></span><span class="val">80 kg</span></div>
+    <div class="prrow"><span class="em">🏆</span><span class="who"><div class="n">Wide-Grip Pulldown</div><div class="d">2 weeks ago</div></span><span class="val">50 kg</span></div>
+  </div>
+  <div class="sl2">Body</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">📏</span><span class="lb">Height</span><span class="rt">178 cm</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">⚖️</span><span class="lb">Weight</span><span class="rt">75 kg</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🎯</span><span class="lb">Goal</span><span class="rt">Build muscle</span><span class="chev">›</span></button>
+  </div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni on"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap">Profile — identity hero + 3-stat + PR preview + grouped Body settings.</div></div>
+
+<!-- Settings screen (opens from gear) -->
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="gear" style="border:none">‹</div><div class="hi"><div class="nm">Settings</div></div></div>
+  <div class="sl2">Preferences</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">📱</span><span class="lb">Units</span><span class="rt">kg / cm</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">⏱</span><span class="lb">Rest timer</span><span class="rt">1:30</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🔔</span><span class="lb">Notifications</span><span class="rt">On</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🎨</span><span class="lb">Appearance</span><span class="rt">Dark</span><span class="chev">›</span></button>
+  </div>
+  <div class="sl2">Integrations</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">🍎</span><span class="lb">Apple Health</span><span class="rt">Off</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">📊</span><span class="lb">Google Fit</span><span class="rt">Off</span><span class="chev">›</span></button>
+  </div>
+  <div class="sl2">Data &amp; privacy</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">⬇️</span><span class="lb">Export my data</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🔒</span><span class="lb">Privacy</span><span class="chev">›</span></button>
+  </div>
+  <div class="sl2">Account</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">👤</span><span class="lb">Account</span><span class="rt">omar@…</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">↪</span><span class="lb">Sign out</span><span class="chev">›</span></button>
+    <button class="setrow danger"><span class="icn">🗑</span><span class="lb">Delete account</span><span class="chev">›</span></button>
+  </div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni on"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap">Settings — chunked into Preferences · Integrations · Data & Privacy · Account. Delete de-emphasized at the very bottom.</div></div>
+
+<!-- Avatar options -->
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="gear" style="border:none">‹</div><div class="hi"><div class="nm">Choose avatar</div><div class="wb" style="margin-top:2px">Illustrated portraits, not emoji</div></div></div>
+  <div class="sl2">Portraits</div>
+  <div class="av-grid">
+    <div class="av-opt on av-mo">👤</div>
+    <div class="av-opt av-mw">👨</div>
+    <div class="av-opt av-mb">🧔</div>
+    <div class="av-opt av-fo">👩</div>
+    <div class="av-opt av-fw">🧑</div>
+    <div class="av-opt av-fb">👧</div>
+  </div>
+  <div class="sl2">Athletes</div>
+  <div class="av-grid">
+    <div class="av-opt av-a1">🏋️</div>
+    <div class="av-opt av-a2">🏃</div>
+    <div class="av-opt av-a3">🤸</div>
+  </div>
+  <div class="sl2">Or upload</div>
+  <div class="setlist">
+    <button class="setrow"><span class="icn">📷</span><span class="lb">Take a photo</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🖼</span><span class="lb">Choose from library</span><span class="chev">›</span></button>
+    <button class="setrow"><span class="icn">🎲</span><span class="lb">Generate one (DiceBear)</span><span class="chev">›</span></button>
+  </div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni on"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Better avatars:</b> illustrated portraits (6) + athlete styles (3) + photo upload / DiceBear-generated. No more emoji-on-gradient.</div></div>
+
+</div>
+
+<!-- ============== EXERCISE LIBRARY + DETAIL MODAL ============== -->
+<h2><span class="em">🏋️</span>Exercise Library <span style="font-size:14px;color:var(--faint);font-weight:600">— tinted thumbs + tap → detail modal</span></h2>
+<div class="hsub">Fixes the <b>white-background image</b> issue app-wide (tinted card thumbs). Tap any card → the <b>Exercise Detail modal</b> slides up with the demo, muscles, how-to steps, and every equipment <b>variation</b>.</div>
+<div class="row">
+
+<!-- Library grid -->
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="hi"><div class="nm">Exercises</div><div class="wb" style="margin-top:1px">31 movements · browse by muscle</div></div></div>
+  <div class="searchbar">🔍 Search exercises</div>
+  <div class="lib-chips"><div class="lib-chip on">All</div><div class="lib-chip">Chest</div><div class="lib-chip">Back</div><div class="lib-chip">Shoulders</div><div class="lib-chip">Arms</div><div class="lib-chip">Legs</div><div class="lib-chip">Core</div></div>
+  <div class="sl2">Chest · 4</div>
+  <div class="lib-grid">
+    <div class="lib-card"><div class="thumb">💪</div><div class="lc-info"><div class="lc-name">Flat chest press</div><div class="lc-meta">Pectorals · 3 options</div></div></div>
+    <div class="lib-card"><div class="thumb">🎯</div><div class="lc-info"><div class="lc-name">Incline press</div><div class="lc-meta">Upper chest · 2 options</div></div></div>
+    <div class="lib-card"><div class="thumb">🙌</div><div class="lc-info"><div class="lc-name">Chest fly</div><div class="lc-meta">Pectorals · 2 options</div></div></div>
+    <div class="lib-card"><div class="thumb">💥</div><div class="lc-info"><div class="lc-name">Dips</div><div class="lc-meta">Chest · 2 options</div></div></div>
+  </div>
+</div><div class="nav"><div class="ni on"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Library</b> — thumbnails now use dark tinted panels with a subtle lime glow. No more glaring white.</div></div>
+
+<!-- Detail modal open -->
+<div class="col"><div class="ph"><div class="ph-scroll" style="filter:brightness(.5)">
+  <div class="top"><div class="hi"><div class="nm">Exercises</div><div class="wb" style="margin-top:1px">31 movements</div></div></div>
+  <div class="searchbar">🔍 Search exercises</div>
+  <div class="lib-chips"><div class="lib-chip on">All</div><div class="lib-chip">Chest</div><div class="lib-chip">Back</div></div>
+  <div class="sl2">Chest · 4</div>
+  <div class="lib-grid">
+    <div class="lib-card"><div class="thumb">💪</div><div class="lc-info"><div class="lc-name">Flat chest press</div><div class="lc-meta">Pectorals · 3 options</div></div></div>
+    <div class="lib-card"><div class="thumb">🎯</div><div class="lc-info"><div class="lc-name">Incline press</div><div class="lc-meta">Upper chest · 2 options</div></div></div>
+  </div>
+</div>
+<div class="modal-overlay"><div class="modal">
+  <div class="modal-handle"></div>
+  <span class="modal-close">✕</span>
+  <div class="md-title">Flat chest press</div>
+  <div class="md-sub">Barbell Bench Press — Medium Grip</div>
+  <div class="md-hero">💪</div>
+  <div class="md-tags">
+    <span class="md-tag prim">Pectorals</span>
+    <span class="md-tag">Triceps</span>
+    <span class="md-tag">Front deltoids</span>
+  </div>
+  <div class="md-sh">How to</div>
+  <div class="md-step"><span class="no">1</span><span>Lie back on a flat bench holding a barbell with a medium, shoulder-width grip.</span></div>
+  <div class="md-step"><span class="no">2</span><span>Lower the bar to the middle of your chest with control, elbows about 45°.</span></div>
+  <div class="md-step"><span class="no">3</span><span>Press the bar back up in a straight line, exhaling as you push.</span></div>
+  <div class="md-sh">Variations</div>
+  <div class="md-vars">
+    <div class="md-var"><span class="vt">💪</span><span class="vi"><div class="vn">Dumbbell Bench Press</div><div class="vm">Pectorals · triceps</div></span><span class="veq">DB</span></div>
+    <div class="md-var"><span class="vt">🎯</span><span class="vi"><div class="vn">Machine Chest Press</div><div class="vm">Pectorals</div></span><span class="veq">MACH</span></div>
+    <div class="md-var"><span class="vt">💥</span><span class="vi"><div class="vn">Cable Chest Press</div><div class="vm">Pectorals · shoulders</div></span><span class="veq">CABLE</span></div>
+  </div>
+</div></div>
+<div class="nav" style="opacity:.4"><div class="ni on"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Exercise Detail modal</b> — slides up on tap. Big demo, muscles, numbered how-to, and every variation w/ equipment badge.</div></div>
+
+</div>
+
+<!-- ============== PROGRESS ============== -->
+<h2><span class="em">📈</span>Progress <span style="font-size:14px;color:var(--faint);font-weight:600">— 2D line/bar, one metric per card</span></h2>
+<div class="hsub">Per NN/g: <b>no gauges, no 3D charts</b> — length-based 2D bars and lines only. One metric per card, range selector on every chart, PRs celebrated.</div>
+<div class="row">
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="hi"><div class="nm">Progress</div><div class="wb" style="margin-top:1px">Last 3 months</div></div></div>
+  <div class="chart">
+    <div class="chart-h"><span class="chart-t">Workouts / week</span><span class="chart-r">MAX 5</span></div>
+    <div><span class="chart-big">4.2</span><span class="chart-delta">▲ 15%</span></div>
+    <div class="bars"><div class="bar" style="height:35%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:75%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:70%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:85%"></div><div class="bar" style="height:78%"></div><div class="bar" style="height:95%"></div></div>
+    <div class="range"><div class="rc">1M</div><div class="rc on">3M</div><div class="rc">1Y</div><div class="rc">All</div></div>
+  </div>
+  <div class="chart">
+    <div class="chart-h"><span class="chart-t">Bench Press · Best</span><span class="chart-r">62.5 kg</span></div>
+    <div><span class="chart-big">62.5</span><span class="chart-delta">▲ 5 kg</span></div>
+    <svg class="line-svg" viewBox="0 0 280 70"><path d="M 0 55 L 30 50 L 60 48 L 90 40 L 120 42 L 150 30 L 180 28 L 210 22 L 240 20 L 280 12" stroke="#d6f24e" stroke-width="2.5" fill="none" stroke-linejoin="round"/><path d="M 0 55 L 30 50 L 60 48 L 90 40 L 120 42 L 150 30 L 180 28 L 210 22 L 240 20 L 280 12 L 280 70 L 0 70 Z" fill="url(#g1)" opacity=".2"/><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6f24e"/><stop offset="1" stop-color="#d6f24e" stop-opacity="0"/></linearGradient></defs></svg>
+    <div class="range"><div class="rc">1M</div><div class="rc on">3M</div><div class="rc">1Y</div></div>
+  </div>
+  <div class="chart">
+    <div class="chart-h"><span class="chart-t">Bodyweight</span><span class="chart-r">75 kg</span></div>
+    <div><span class="chart-big">75.0</span><span style="font-size:11px;color:var(--mut);margin-left:8px">stable</span></div>
+    <svg class="line-svg" viewBox="0 0 280 70"><path d="M 0 30 L 30 32 L 60 28 L 90 34 L 120 30 L 150 28 L 180 32 L 210 30 L 240 28 L 280 30" stroke="#5b9dff" stroke-width="2.5" fill="none"/></svg>
+  </div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni on"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Progress</b> — one metric per card, big current value + delta, 2D charts, range selector.</div></div>
+</div>
+
+<!-- ============== CALENDAR / HISTORY ============== -->
+<h2><span class="em">🗓</span>Calendar &amp; History <span style="font-size:14px;color:var(--faint);font-weight:600">— dual view (month + list)</span></h2>
+<div class="hsub">Month grid at top shows the streak visually (lime = trained). Below it, workout history as tappable cards with a fast <b>"Repeat"</b> shortcut.</div>
+<div class="row">
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="hi"><div class="nm">Calendar</div></div></div>
+  <div class="cal-head"><div class="cal-mo">September 2026</div><div class="cal-arrows"><div class="cal-arr">‹</div><div class="cal-arr">›</div></div></div>
+  <div class="cal-grid">
+    <div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div><div class="cal-dow">S</div>
+    <div class="cal-d out">31</div><div class="cal-d">1</div><div class="cal-d done">2</div><div class="cal-d">3</div><div class="cal-d done">4</div><div class="cal-d">5</div><div class="cal-d done">6</div>
+    <div class="cal-d">7</div><div class="cal-d done">8</div><div class="cal-d">9</div><div class="cal-d done">10</div><div class="cal-d">11</div><div class="cal-d done">12</div><div class="cal-d today">13</div>
+    <div class="cal-d">14</div><div class="cal-d">15</div><div class="cal-d">16</div><div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d">19</div><div class="cal-d">20</div>
+    <div class="cal-d">21</div><div class="cal-d">22</div><div class="cal-d">23</div><div class="cal-d">24</div><div class="cal-d">25</div><div class="cal-d">26</div><div class="cal-d">27</div>
+  </div>
+  <div class="sl2">Recent workouts</div>
+  <div class="hist-row"><div class="date">SEP<b>12</b></div><div class="h-info"><div class="h-n">Pull day</div><div class="h-s">6 exercises · 42 min · 2.1k kg volume</div></div><span class="rep">Repeat ↻</span></div>
+  <div class="hist-row"><div class="date">SEP<b>10</b></div><div class="h-info"><div class="h-n">Push day</div><div class="h-s">6 exercises · 45 min · PR ⭐</div></div><span class="rep">Repeat ↻</span></div>
+  <div class="hist-row"><div class="date">SEP<b>8</b></div><div class="h-info"><div class="h-n">Full Upper</div><div class="h-s">6 exercises · 50 min</div></div><span class="rep">Repeat ↻</span></div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni on"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Calendar</b> — month grid + recent list w/ 1-tap "Repeat this workout".</div></div>
+</div>
+
+<!-- ============== MEALS ============== -->
+<h2><span class="em">🥗</span>Meals <span style="font-size:14px;color:var(--faint);font-weight:600">— consistent macro bars</span></h2>
+<div class="hsub">Fixes: <b>no more "—" placeholders</b>. Big calorie total, 3 consistent macro bars, meal sections with quick "+ Add" affordance.</div>
+<div class="row">
+<div class="col"><div class="ph"><div class="ph-scroll">
+  <div class="top"><div class="hi"><div class="nm">Meals</div><div class="wb" style="margin-top:1px">Wednesday</div></div><button class="startbtn">+ Log</button></div>
+  <div class="macros">
+    <div class="macros-head"><span class="macros-total">1,420</span><span class="macros-goal">of 2,200 kcal · 780 left</span></div>
+    <div class="macro p"><div class="macro-lbl"><b>Protein</b><span>98 / 150 g</span></div><div class="macro-bar"><div class="fill"></div></div></div>
+    <div class="macro c"><div class="macro-lbl"><b>Carbs</b><span>120 / 300 g</span></div><div class="macro-bar"><div class="fill"></div></div></div>
+    <div class="macro f"><div class="macro-lbl"><b>Fat</b><span>44 / 80 g</span></div><div class="macro-bar"><div class="fill"></div></div></div>
+  </div>
+  <div class="sl2">Today's meals</div>
+  <div class="meal-sec"><div class="meal-h"><span class="n">🌅 Breakfast</span><span class="k">420 kcal</span></div><div style="font-size:11px;color:var(--mut)">Oats · eggs · banana</div></div>
+  <div class="meal-sec"><div class="meal-h"><span class="n">☀️ Lunch</span><span class="k">640 kcal</span></div><div style="font-size:11px;color:var(--mut)">Chicken rice bowl</div></div>
+  <div class="meal-sec"><div class="meal-h"><span class="n">🌙 Dinner</span><span class="meal-add">+ Add</span></div></div>
+  <div class="meal-sec"><div class="meal-h"><span class="n">🍿 Snacks</span><span class="k">360 kcal</span></div><div style="font-size:11px;color:var(--mut)">Protein bar · yogurt</div></div>
+</div><div class="nav"><div class="ni"><span>🏠</span><span class="lb">Home</span></div><div class="ni"><span>🗓</span><span class="lb">Calendar</span></div><div class="ni"><span>📈</span><span class="lb">Progress</span></div><div class="ni on"><span>🥗</span><span class="lb">Meals</span></div><div class="ni"><span>👤</span><span class="lb">Profile</span></div></div></div>
+<div class="cap"><b>Meals</b> — big calorie total, 3 consistent macro bars, meal sections with quick + Add.</div></div>
+</div>
+
+<div class="footnote">
+  Prototype only — no code changed. Every screen benchmarked against Hevy, Strong, Whoop &amp; Apple Fitness per the audit.<br>
+  Follow-up items: rebuild the Travel plan (bodyweight/band, no gym movements — currently duplicates Gym) · real avatar images (illustrated or upload) · Exercise Detail modal as a shipped feature.
+</div>
+</div></body></html>
