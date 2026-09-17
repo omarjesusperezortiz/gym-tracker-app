@@ -169,10 +169,18 @@ export function VarCurateShowcase() {
                     <div className="vc-realname">exercisedb: {it.name}</div>
                     <div className="vc-tags">
                       {it.targetMuscles[0] && <span className="vc-tag vc-tag-p">{it.targetMuscles[0]}</span>}
+                      {it.secondaryMuscles.slice(0, 3).map((m) => (
+                        <span key={m} className="vc-tag vc-tag-s">+{m}</span>
+                      ))}
                       {it.equipments.map((e) => (
                         <span key={e} className="vc-tag">{e}</span>
                       ))}
                     </div>
+                    {it.instructions[0] && (
+                      <div className="vc-hint">
+                        {it.instructions[0].replace(/^Step:\d+\s*/i, '')}
+                      </div>
+                    )}
                     <div className="vc-actions">
                       <button
                         type="button"

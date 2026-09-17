@@ -27,33 +27,6 @@
   {
     "slot": "Biceps curl",
     "kind": "db",
-    "label": "Hammer Curl",
-    "exerciseId": "slDvUAU",
-    "name": "dumbbell hammer curl",
-    "gifUrl": "https://static.exercisedb.dev/media/slDvUAU.gif",
-    "targetMuscles": [
-      "biceps"
-    ],
-    "secondaryMuscles": [
-      "forearms"
-    ],
-    "equipments": [
-      "dumbbell"
-    ],
-    "instructions": [
-      "Step:1 Stand up straight with a dumbbell in each hand, palms facing your torso.",
-      "Step:2 Keep your elbows close to your torso and rotate the palms of your hands until they are facing forward.",
-      "Step:3 This will be your starting position.",
-      "Step:4 Now, keeping the upper arms stationary, exhale and curl the weights while contracting your biceps.",
-      "Step:5 Continue to raise the weights until your biceps are fully contracted and the dumbbells are at shoulder level.",
-      "Step:6 Hold the contracted position for a brief pause as you squeeze your biceps.",
-      "Step:7 Then, inhale and slowly begin to lower the dumbbells back to the starting position.",
-      "Step:8 Repeat for the recommended amount of repetitions."
-    ]
-  },
-  {
-    "slot": "Biceps curl",
-    "kind": "db",
     "label": "Concentration Curl",
     "exerciseId": "gvsWLQw",
     "name": "dumbbell concentration curl",
@@ -100,32 +73,6 @@
       "Step:3 Lower the dumbbells slowly to the sides of your chest, keeping your elbows at a 90-degree angle.",
       "Step:4 Pause for a moment, then push the dumbbells back up to the starting position, fully extending your arms.",
       "Step:5 Repeat for the desired number of repetitions."
-    ]
-  },
-  {
-    "slot": "Flat chest press",
-    "kind": "db",
-    "label": "Incline DB Press",
-    "exerciseId": "ns0SIbU",
-    "name": "dumbbell incline bench press",
-    "gifUrl": "https://static.exercisedb.dev/media/ns0SIbU.gif",
-    "targetMuscles": [
-      "pectorals"
-    ],
-    "secondaryMuscles": [
-      "shoulders",
-      "triceps"
-    ],
-    "equipments": [
-      "dumbbell"
-    ],
-    "instructions": [
-      "Step:1 Set up an incline bench at a 45-degree angle.",
-      "Step:2 Sit on the bench with your feet flat on the ground and your back pressed firmly against the bench.",
-      "Step:3 Hold a dumbbell in each hand, palms facing forward, and lift them to shoulder height.",
-      "Step:4 Slowly lower the dumbbells to the sides of your chest, keeping your elbows at a 90-degree angle.",
-      "Step:5 Push the dumbbells back up to the starting position, fully extending your arms.",
-      "Step:6 Repeat for the desired number of repetitions."
     ]
   },
   {
@@ -345,32 +292,6 @@
     ]
   },
   {
-    "slot": "Squat",
-    "kind": "bar",
-    "label": "Goblet Squat",
-    "exerciseId": "yn8yg1r",
-    "name": "dumbbell goblet squat",
-    "gifUrl": "https://static.exercisedb.dev/media/yn8yg1r.gif",
-    "targetMuscles": [
-      "quads"
-    ],
-    "secondaryMuscles": [
-      "glutes",
-      "hamstrings",
-      "calves"
-    ],
-    "equipments": [
-      "dumbbell"
-    ],
-    "instructions": [
-      "Step:1 Stand with your feet shoulder-width apart, holding a dumbbell vertically against your chest with both hands.",
-      "Step:2 Keeping your chest up and core engaged, lower your body down into a squat position by pushing your hips back and bending your knees.",
-      "Step:3 Continue lowering until your thighs are parallel to the ground, or as low as you can comfortably go.",
-      "Step:4 Pause for a moment at the bottom, then push through your heels to return to the starting position.",
-      "Step:5 Repeat for the desired number of repetitions."
-    ]
-  },
-  {
     "slot": "Overhead press",
     "kind": "db",
     "label": "Arnold Press",
@@ -449,32 +370,6 @@
     ]
   },
   {
-    "slot": "Triceps pushdown/ext",
-    "kind": "cable",
-    "label": "Overhead Rope",
-    "exerciseId": "2IxROQ1",
-    "name": "cable overhead triceps extension (rope attachment)",
-    "gifUrl": "https://static.exercisedb.dev/media/2IxROQ1.gif",
-    "targetMuscles": [
-      "triceps"
-    ],
-    "secondaryMuscles": [
-      "shoulders"
-    ],
-    "equipments": [
-      "cable"
-    ],
-    "instructions": [
-      "Step:1 Attach a rope to a cable machine at a high position.",
-      "Step:2 Stand facing away from the machine with your feet shoulder-width apart.",
-      "Step:3 Grasp the rope with both hands, palms facing each other, and bring your hands above your head.",
-      "Step:4 Keep your upper arms close to your head and your elbows pointing forward.",
-      "Step:5 Slowly lower the rope behind your head by bending your elbows.",
-      "Step:6 Pause for a moment, then extend your arms back up to the starting position.",
-      "Step:7 Repeat for the desired number of repetitions."
-    ]
-  },
-  {
     "slot": "Hamstring / RDL",
     "kind": "bar",
     "label": "Barbell RDL",
@@ -500,60 +395,6 @@
       "Step:6 Once you feel a stretch in your hamstrings, push your hips forward and stand up straight.",
       "Step:7 Squeeze your glutes at the top of the movement.",
       "Step:8 Lower the barbell back down to the starting position and repeat for the desired number of repetitions."
-    ]
-  },
-  {
-    "slot": "Hamstring / RDL",
-    "kind": "bar",
-    "label": "Sumo Deadlift",
-    "exerciseId": "KgI0tqW",
-    "name": "barbell sumo deadlift",
-    "gifUrl": "https://static.exercisedb.dev/media/KgI0tqW.gif",
-    "targetMuscles": [
-      "glutes"
-    ],
-    "secondaryMuscles": [
-      "hamstrings",
-      "quadriceps",
-      "lower back"
-    ],
-    "equipments": [
-      "barbell"
-    ],
-    "instructions": [
-      "Step:1 Stand with your feet wider than shoulder-width apart, toes pointing outwards.",
-      "Step:2 Place a barbell on the ground in front of you, centered between your feet.",
-      "Step:3 Bend your knees and lower your hips, keeping your back straight and chest up, to grip the barbell with an overhand grip.",
-      "Step:4 Engage your core and drive through your heels to lift the barbell off the ground, extending your hips and knees simultaneously.",
-      "Step:5 As you lift, keep your chest up and back straight, and push your hips forward to fully engage your glutes.",
-      "Step:6 Pause for a moment at the top, then slowly lower the barbell back down to the starting position, maintaining control throughout the movement.",
-      "Step:7 Repeat for the desired number of repetitions."
-    ]
-  },
-  {
-    "slot": "Hamstring / RDL",
-    "kind": "bar",
-    "label": "Conventional Deadlift",
-    "exerciseId": "ila4NZS",
-    "name": "barbell deadlift",
-    "gifUrl": "https://static.exercisedb.dev/media/ila4NZS.gif",
-    "targetMuscles": [
-      "glutes"
-    ],
-    "secondaryMuscles": [
-      "hamstrings",
-      "lower back"
-    ],
-    "equipments": [
-      "barbell"
-    ],
-    "instructions": [
-      "Step:1 Stand with your feet shoulder-width apart and the barbell on the ground in front of you.",
-      "Step:2 Bend your knees and hinge at the hips to lower your torso and grip the barbell with an overhand grip, hands slightly wider than shoulder-width apart.",
-      "Step:3 Keep your back straight and chest lifted as you drive through your heels to lift the barbell off the ground, extending your hips and knees.",
-      "Step:4 As you stand up straight, squeeze your glutes and keep your core engaged.",
-      "Step:5 Lower the barbell back down to the ground by bending at the hips and knees, keeping your back straight.",
-      "Step:6 Repeat for the desired number of repetitions."
     ]
   },
   {
@@ -683,31 +524,6 @@
       "Step:3 Keep your arm straight and slowly raise it out to the side until it is parallel to the ground.",
       "Step:4 Pause for a moment at the top, then slowly lower your arm back down to the starting position.",
       "Step:5 Repeat for the desired number of repetitions, then switch sides."
-    ]
-  },
-  {
-    "slot": "Side lateral raise",
-    "kind": "cable",
-    "label": "Bent-Over Lateral",
-    "exerciseId": "x825CZm",
-    "name": "cable seated rear lateral raise",
-    "gifUrl": "https://static.exercisedb.dev/media/x825CZm.gif",
-    "targetMuscles": [
-      "delts"
-    ],
-    "secondaryMuscles": [
-      "traps",
-      "rhomboids"
-    ],
-    "equipments": [
-      "cable"
-    ],
-    "instructions": [
-      "Step:1 Sit on a bench facing the cable machine with your feet flat on the ground.",
-      "Step:2 Grasp the cable handles with an overhand grip and extend your arms straight in front of you.",
-      "Step:3 Keeping your arms straight, slowly raise them out to the sides until they are parallel to the floor.",
-      "Step:4 Pause for a moment at the top, then slowly lower your arms back to the starting position.",
-      "Step:5 Repeat for the desired number of repetitions."
     ]
   }
 ]

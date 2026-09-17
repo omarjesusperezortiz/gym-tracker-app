@@ -171,3 +171,18 @@
   color: var(--mut, #9297a6);
 }
 .vc-err { color: #ff6b6b; }
+
+.vc-tag-s {
+  background: rgba(91,157,255,.14);
+  color: #5b9dff;
+}
+.vc-hint {
+  font-size: 11.5px;
+  color: var(--mut, #9297a6);
+  line-height: 1.45;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
