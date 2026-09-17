@@ -270,6 +270,7 @@ export function ExerciseCard({
       </div>
       <ExerciseDetailSheet
         movement={detailOpen ? slot : null}
+        kind={kind}
         onClose={() => setDetailOpen(false)}
       />
     </div>
