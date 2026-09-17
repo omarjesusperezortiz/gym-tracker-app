@@ -239,3 +239,22 @@
 .lib-detail-sub{font-size:12px;color:var(--mut,#9297a6);margin-top:-4px;margin-bottom:8px;letter-spacing:.01em}
 /* Highlight the currently-selected variation in the list */
 .lib-var.on{border-color:var(--acc,#c6f24e);box-shadow:0 0 0 1px var(--acc,#c6f24e)}
+
+/* Bottom-sheet animations (were referenced but never defined — that's why the
+   modal wasn't animating up; combined with a header backdrop-filter creating a
+   containing block, position:fixed pinned it to the top). */
+@keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideup {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+/* Drag-handle indicator at the top of the sheet — signals it's a bottom sheet. */
+.lib-sheet-in::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line2, rgba(255,255,255,.16));
+  margin: 0 auto 12px;
+}

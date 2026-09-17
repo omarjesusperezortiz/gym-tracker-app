@@ -1,3 +1,5 @@
+import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
 import { catalog, mediaFor, mediaForExercise, gifUrl, KIND_LABEL, type Plan, type Kind, type ExerciseMedia } from '@gym-tracker/core';
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
@@ -45,7 +47,21 @@ export function ExerciseDetailSheet({ movement, kind, onClose }: ExerciseDetailS
   const displayTitle = activeVarName ?? movement;
   const displaySubtitle = activeVarName ? movement : null;
 
-  return (
+  // Lock body scroll while the sheet is open (prevents scroll leaking through
+  // to the page behind and lets the sheet drive its own overflow).
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  // Render in a portal attached to <body> — this guarantees `position: fixed`
+  // is measured against the viewport, not against any ancestor whose filter/
+  // transform/backdrop-filter would otherwise create a new containing block
+  // (our sticky header does exactly that, which pinned the sheet to the top).
+  return createPortal(
     <div className="lib-sheet" onClick={onClose} role="dialog" aria-modal="true" aria-label={displayTitle}>
       <div className="lib-sheet-in" onClick={(ev) => ev.stopPropagation()}>
         <button className="lib-close" onClick={onClose} aria-label="Close">
@@ -99,6 +115,7 @@ export function ExerciseDetailSheet({ movement, kind, onClose }: ExerciseDetailS
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
