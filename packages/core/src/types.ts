@@ -3,7 +3,18 @@
 export type Kind = 'bar' | 'cable' | 'machine' | 'db' | 'bw';
 export type PlanKey = 'gym' | 'cal' | 'travel';
 
-export interface Variation { name: string; img: string; img2: string }
+export interface Variation {
+  name: string;
+  img: string;
+  img2: string;
+  /**
+   * Optional additional variations available for the SAME equipment kind
+   * (e.g. within Dumbbell: Standing / Hammer / Incline / Concentration curl).
+   * The parent `name/img/img2` is the DEFAULT selection; `alts` lists the
+   * alternatives. Undefined = single variation, unchanged from before.
+   */
+  alts?: Variation[];
+}
 
 // slots are tuples: [slotName, scheme, force] e.g. ["Flat chest press", "4 × 8–10", ""]
 export type Slot = [string, string, string];

@@ -6,9 +6,20 @@ import { ExerciseShowcase } from './dev/ExerciseShowcase';
 import { PickerShowcase } from './dev/PickerShowcase';
 import { ExerciseAudit } from './dev/ExerciseAudit';
 import { ExercisesView } from './views/ExercisesView';
-import { HomeViewShowcase, ProfileViewShowcase, TodayViewShowcase, CalendarViewShowcase, ProgressViewShowcase, MealsViewShowcase } from './dev/HomeViewShowcase';
+import {
+  HomeViewShowcase,
+  ProfileViewShowcase,
+  TodayViewShowcase,
+  CalendarViewShowcase,
+  ProgressViewShowcase,
+  MealsViewShowcase,
+} from './dev/HomeViewShowcase';
 import { CardShowcase } from './dev/CardShowcase';
 import { Home2Showcase } from './dev/Home2Showcase';
+import { VarCurateShowcase } from './dev/VarCurateShowcase';
+import { TestIndex } from './dev/TestIndex';
+import './styles/var-curate.css';
+import './styles/test-index.css';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -17,44 +28,56 @@ import './styles/mobile-shell.css';
 // first render (AuthContext, TrainView's finishWorkout, etc).
 setSupabase(createSupabase(window.localStorage));
 
-// Dev showcase route (no login) — mounts the real components with the exercise
-// gifs so we can review the integration. Reached at ?showcase=exercises.
-const showcase = new URLSearchParams(window.location.search).get('showcase');
+// Login-free test/dev routes reached at ?test=<name>. Land on ?test=index (or
+// just ?test= with an empty value) to see every available page in one list —
+// the entry point for prototyping and QA. `?showcase=` still works for the old
+// deep links (Nuxt-friendly muscle memory).
+const params = new URLSearchParams(window.location.search);
+const route = params.get('test') ?? params.get('showcase') ?? null;
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    {showcase === 'exercises' ? (
-      <ExerciseShowcase />
-    ) : showcase === 'picker' ? (
-      <PickerShowcase />
-    ) : showcase === 'audit' ? (
-      <ExerciseAudit />
-    ) : showcase === 'library' ? (
-      <ExercisesView />
-    ) : showcase === 'home' ? (
-      <div className="wrap">
-        <HomeViewShowcase />
-      </div>
-    ) : showcase === 'card' ? (
-      <CardShowcase />
-    ) : showcase === 'home2' ? (
-      <Home2Showcase />
-    ) : showcase === 'profile' ? (
-      <div className="wrap">
-        <ProfileViewShowcase />
-      </div>
-    ) : showcase === 'today' ? (
-      <TodayViewShowcase />
-    ) : showcase === 'calendar' ? (
-      <CalendarViewShowcase />
-    ) : showcase === 'progress' ? (
-      <ProgressViewShowcase />
-    ) : showcase === 'meals' ? (
-      <MealsViewShowcase />
-    ) : (
-      <App />
-    )}
-  </StrictMode>
-);
+function render() {
+  switch (route) {
+    case '':
+    case 'index':
+      return <TestIndex />;
+    case 'exercises':
+      return <ExerciseShowcase />;
+    case 'picker':
+      return <PickerShowcase />;
+    case 'audit':
+      return <ExerciseAudit />;
+    case 'library':
+      return <ExercisesView />;
+    case 'home':
+      return (
+        <div className="wrap">
+          <HomeViewShowcase />
+        </div>
+      );
+    case 'card':
+      return <CardShowcase />;
+    case 'home2':
+      return <Home2Showcase />;
+    case 'profile':
+      return (
+        <div className="wrap">
+          <ProfileViewShowcase />
+        </div>
+      );
+    case 'today':
+      return <TodayViewShowcase />;
+    case 'calendar':
+      return <CalendarViewShowcase />;
+    case 'progress':
+      return <ProgressViewShowcase />;
+    case 'meals':
+      return <MealsViewShowcase />;
+    case 'varcurate':
+      return <VarCurateShowcase />;
+    default:
+      // Any other value (or none) → real app.
+      return <App />;
+  }
+}
 
-
+createRoot(document.getElementById('root')!).render(<StrictMode>{render()}</StrictMode>);
