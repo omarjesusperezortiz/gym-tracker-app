@@ -28,12 +28,30 @@ import './styles/mobile-shell.css';
 // first render (AuthContext, TrainView's finishWorkout, etc).
 setSupabase(createSupabase(window.localStorage));
 
-// Login-free test/dev routes reached at ?test=<name>. Land on ?test=index (or
-// just ?test= with an empty value) to see every available page in one list —
-// the entry point for prototyping and QA. `?showcase=` still works for the old
-// deep links (Nuxt-friendly muscle memory).
-const params = new URLSearchParams(window.location.search);
-const route = params.get('test') ?? params.get('showcase') ?? null;
+// Dev/test routes. The primary URL shape is HASH-based (`/#/test`, `/#/test/card`)
+// because GitHub Pages doesn't serve custom paths — a hash never leaves the
+// server, so /gym-tracker-app/#/test loads index.html and we route in the
+// browser. Legacy `?test=` / `?showcase=` links still work for muscle memory.
+function parseRoute(): string | null {
+  const hash = window.location.hash.replace(/^#\/?/, ''); // "#/test/card" → "test/card"
+  if (hash.startsWith('test')) {
+    const rest = hash.slice(4).replace(/^\/+/, ''); // "" or "card"
+    return rest || 'index';
+  }
+  const params = new URLSearchParams(window.location.search);
+  return params.get('test') ?? params.get('showcase') ?? null;
+}
+
+let route = parseRoute();
+window.addEventListener('hashchange', () => {
+  // Any change in the /#/test/<slug> segment needs a re-mount so switching
+  // between test pages from the index feels instant.
+  const next = parseRoute();
+  if (next !== route) {
+    route = next;
+    root.render(<StrictMode>{render()}</StrictMode>);
+  }
+});
 
 function render() {
   switch (route) {
@@ -75,9 +93,10 @@ function render() {
     case 'varcurate':
       return <VarCurateShowcase />;
     default:
-      // Any other value (or none) → real app.
+      // No route → real app.
       return <App />;
   }
 }
 
-createRoot(document.getElementById('root')!).render(<StrictMode>{render()}</StrictMode>);
+const root = createRoot(document.getElementById('root')!);
+root.render(<StrictMode>{render()}</StrictMode>);

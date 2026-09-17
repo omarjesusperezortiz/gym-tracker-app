@@ -40,8 +40,8 @@ export function TestIndex() {
       <header className="ti-head">
         <div className="ti-title">Test index</div>
         <div className="ti-sub">
-          Every login-free page in one list. Reach any of these directly with
-          <span className="ti-code"> ?test=&lt;slug&gt;</span>.
+          Every login-free page in one list. Deep-link any of these as
+          <span className="ti-code"> /#/test/&lt;slug&gt;</span>.
         </div>
       </header>
 
@@ -56,13 +56,13 @@ export function TestIndex() {
                 <a
                   key={r.slug}
                   className="ti-card"
-                  href={`${base}/?test=${r.slug}`}
+                  href={`${base}/#/test/${r.slug}`}
                 >
                   <div className="ti-emoji">{r.emoji}</div>
                   <div className="ti-body">
                     <div className="ti-name">{r.title}</div>
                     <div className="ti-desc">{r.desc}</div>
-                    <div className="ti-slug">?test={r.slug}</div>
+                    <div className="ti-slug">/#/test/{r.slug}</div>
                   </div>
                   <div className="ti-chev">›</div>
                 </a>
