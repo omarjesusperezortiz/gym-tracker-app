@@ -46,13 +46,24 @@ function parseRoute(): string | null {
   return params.get('test') ?? params.get('showcase') ?? null;
 }
 
+// Test/dev routes that should escape the phone-width shell and use the full
+// viewport (desktop-first curation tools, catalog explorers, etc).
+const DESKTOP_ROUTES = new Set(['edb']);
+
+function applyDesktopClass(r: string | null) {
+  const wants = r != null && DESKTOP_ROUTES.has(r);
+  document.body.classList.toggle('desktop-route', wants);
+}
+
 let route = parseRoute();
+applyDesktopClass(route);
 window.addEventListener('hashchange', () => {
   // Any change in the /#/test/<slug> segment needs a re-mount so switching
   // between test pages from the index feels instant.
   const next = parseRoute();
   if (next !== route) {
     route = next;
+    applyDesktopClass(route);
     root.render(<StrictMode>{render()}</StrictMode>);
   }
 });

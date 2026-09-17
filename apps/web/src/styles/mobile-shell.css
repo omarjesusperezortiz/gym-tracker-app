@@ -1,7 +1,10 @@
 /* Mobile-shell: on wide screens, constrain the whole app to a phone-width
    column centered on the page (like viewing it on a phone), with all the
    position:fixed chrome clamped to that same column so nothing spans the full
-   desktop width. Phones (< 640px) are unaffected. */
+   desktop width. Phones (< 640px) are unaffected.
+
+   ESCAPE HATCH: `body.desktop-route` opts out entirely — used by test/dev
+   pages that WANT the full viewport (EdbLibrary, future desktop tools). */
 
 @media (min-width: 640px) {
   :root {
@@ -14,7 +17,7 @@
   }
 
   /* The app column itself. */
-  #root {
+  body:not(.desktop-route) #root {
     width: var(--shell-w);
     max-width: 100%;
     margin-inline: auto;
@@ -28,9 +31,9 @@
 
   /* Clamp full-bleed fixed elements to the shell column (they use left:0/right:0
      which would otherwise stretch across the whole desktop viewport). */
-  .offlinebar,
-  .dock,
-  .wrap-train > header {
+  body:not(.desktop-route) .offlinebar,
+  body:not(.desktop-route) .dock,
+  body:not(.desktop-route) .wrap-train > header {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%);
@@ -39,8 +42,8 @@
   }
 
   /* Bottom sheets / modals that slide up full-bleed. */
-  .sheet,
-  .excat-sheet-in {
+  body:not(.desktop-route) .sheet,
+  body:not(.desktop-route) .excat-sheet-in {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%);
@@ -50,9 +53,9 @@
 
   /* Full-screen overlays (dim + center their own content) — keep them within
      the shell so the dim doesn't cover the whole desktop. */
-  .modal,
-  .lightbox,
-  .excat-sheet {
+  body:not(.desktop-route) .modal,
+  body:not(.desktop-route) .lightbox,
+  body:not(.desktop-route) .excat-sheet {
     left: 50%;
     right: auto;
     transform: translateX(-50%);
@@ -62,14 +65,14 @@
 
   /* The floating nav pill is already centered via left:50%; keep it within the
      shell width. */
-  .nav {
+  body:not(.desktop-route) .nav {
     max-width: calc(var(--shell-w) - 32px);
   }
 
   /* The exercise catalog + wrap already center via max-width; make sure they
      never exceed the shell. */
-  .excat,
-  .wrap {
+  body:not(.desktop-route) .excat,
+  body:not(.desktop-route) .wrap {
     max-width: 100%;
   }
 }
