@@ -16,16 +16,12 @@ import {
 } from './dev/HomeViewShowcase';
 import { CardShowcase } from './dev/CardShowcase';
 import { Home2Showcase } from './dev/Home2Showcase';
-import { VarCurateShowcase } from './dev/VarCurateShowcase';
 import { CatalogExplorer } from './dev/CatalogExplorer';
 import { EdbLibrary } from './dev/EdbLibrary';
-import { VarLab } from './dev/VarLab';
 import { TestIndex } from './dev/TestIndex';
-import './styles/var-curate.css';
 import './styles/test-index.css';
 import './styles/catalog-explorer.css';
 import './styles/edb-library.css';
-import './styles/var-lab.css';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -107,14 +103,10 @@ function render() {
       return <ProgressViewShowcase />;
     case 'meals':
       return <MealsViewShowcase />;
-    case 'varcurate':
-      return <VarCurateShowcase />;
     case 'catalog':
       return <CatalogExplorer />;
     case 'edb':
       return <EdbLibrary />;
-    case 'varlab':
-      return <VarLab />;
     default:
       // No route → real app.
       return <App />;
