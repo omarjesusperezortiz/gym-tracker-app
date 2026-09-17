@@ -26,6 +26,18 @@ export interface ExerciseDetailSheetProps {
 // all equipment variations, and the numbered how-to steps. Used by the Exercise
 // Library (tap a card) AND by ExerciseCard on Train (tap the demo image).
 export function ExerciseDetailSheet({ movement, kind, onClose }: ExerciseDetailSheetProps) {
+  // Lock body scroll while the sheet is open — MUST run before any early return
+  // (Rules of Hooks) so the cleanup fires when movement transitions to null.
+  // Otherwise body.overflow='hidden' sticks and you can't scroll after closing.
+  useEffect(() => {
+    if (!movement) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [movement]);
+
   if (!movement) return null;
 
   const vars = (gym.variations[movement] || {}) as Partial<Record<Kind, { name: string; img: string }>>;
@@ -46,16 +58,6 @@ export function ExerciseDetailSheet({ movement, kind, onClose }: ExerciseDetailS
   const fallbackImg = activeVar?.img ?? variations[0]?.img ?? null;
   const displayTitle = activeVarName ?? movement;
   const displaySubtitle = activeVarName ? movement : null;
-
-  // Lock body scroll while the sheet is open (prevents scroll leaking through
-  // to the page behind and lets the sheet drive its own overflow).
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
 
   // Render in a portal attached to <body> — this guarantees `position: fixed`
   // is measured against the viewport, not against any ancestor whose filter/
