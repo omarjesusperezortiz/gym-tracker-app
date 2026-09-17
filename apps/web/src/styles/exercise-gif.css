@@ -3,7 +3,7 @@
  * pure white against the dark UI, kept understated. */
 .exgif {
   position: relative;
-  background: #eef0f3;
+  background: #fff;
   overflow: hidden;
   flex: none;
   display: flex;
