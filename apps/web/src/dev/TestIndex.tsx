@@ -23,6 +23,7 @@ const ROUTES: TestRoute[] = [
   { slug: 'picker', title: 'Picker sheet', desc: 'AddExerciseSheet / muscle-first picker.', emoji: '🔎', category: 'Components' },
 
   // Curation tools
+  { slug: 'edb', title: 'ExerciseDB library (1,500)', desc: 'Full mirror — search + filter every exercise. Desktop-first with sidebar filters.', emoji: '📖', category: 'Curation tools' },
   { slug: 'catalog', title: 'Catalog explorer', desc: 'Every plan → session → exercise → variation, in one place.', emoji: '📚', category: 'Curation tools' },
   { slug: 'varcurate', title: 'Variation curation', desc: 'Approve/reject tier-1 same-equipment variations.', emoji: '✅', category: 'Curation tools' },
   { slug: 'audit', title: 'QA audit page', desc: 'Cross-view issue tracker.', emoji: '🔍', category: 'Curation tools' },

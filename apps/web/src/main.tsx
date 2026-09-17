@@ -18,10 +18,12 @@ import { CardShowcase } from './dev/CardShowcase';
 import { Home2Showcase } from './dev/Home2Showcase';
 import { VarCurateShowcase } from './dev/VarCurateShowcase';
 import { CatalogExplorer } from './dev/CatalogExplorer';
+import { EdbLibrary } from './dev/EdbLibrary';
 import { TestIndex } from './dev/TestIndex';
 import './styles/var-curate.css';
 import './styles/test-index.css';
 import './styles/catalog-explorer.css';
+import './styles/edb-library.css';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -96,6 +98,8 @@ function render() {
       return <VarCurateShowcase />;
     case 'catalog':
       return <CatalogExplorer />;
+    case 'edb':
+      return <EdbLibrary />;
     default:
       // No route → real app.
       return <App />;
