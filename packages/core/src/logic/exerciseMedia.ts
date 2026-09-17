@@ -99,9 +99,12 @@ export const exerciseMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Overhead press": {
-    id: "Kyd9Rz5",
+    id: "wdRZISl",
     target: "delts",
-    secondary: ["triceps", "upper back"],
+    secondary: [
+      "triceps",
+      "upper back"
+    ],
     equip: "barbell",
     steps: [
       "Stand with your feet shoulder-width apart and hold the barbell with an overhand grip, slightly wider than shoulder-width.",
@@ -1344,15 +1347,14 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Standing Military Press": {
-    id: "CggQhII",
+    id: "wdRZISl",
     target: "delts",
-    secondary: ["triceps", "upper chest"],
-    equip: "leverage machine",
+    secondary: ["triceps", "upper back"],
+    equip: "barbell",
     steps: [
-      "Adjust the seat height and position yourself on the machine with your back against the backrest.",
-      "Grasp the handles with an overhand grip and position your hands slightly wider than shoulder-width apart.",
-      "Push the handles upward until your arms are fully extended, but do not lock your elbows.",
-      "Pause for a moment at the top, then slowly lower the handles back down to the starting position.",
+      "Stand with feet shoulder-width apart, holding a barbell at collarbone level with a close, shoulder-width overhand grip.",
+      "Brace your core and keep your chest up. Press the bar straight up over your head until your arms are fully extended.",
+      "Lower the bar under control back to your collarbones without flaring your elbows out.",
     ],
   },
   "Stiff-Legged Dumbbell Deadlift": {
