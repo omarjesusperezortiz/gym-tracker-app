@@ -6,7 +6,12 @@ import { exerciseId, resolveExerciseId, variationExerciseId } from '../logic/exe
 // per-exercise "last time" lookup. Mirrors the web app's `lastFor`.
 export interface HistorySlotEntry {
   slot: string; // display name (may be legacy-only on old rows)
-  slotId: string; // resolved stable id (from slot_id, or derived from the name)
+  slotId: string; // resolved stable id at MOVEMENT level (from slot_id, or derived from the name)
+  /** Resolved stable id at VARIATION level (specific exercise, e.g. barbell_bench_press).
+   *  Prefers the persisted `exercise_id` column; falls back to catalog-derived
+   *  variationExerciseId(slot, kind) for legacy rows. Same as slotId when no
+   *  variation is resolvable (bw movements, unknowns). */
+  exerciseId: string;
   kind: Kind;
   date: string;
   sets: LoggedSet[];
@@ -17,6 +22,7 @@ interface WorkoutRow {
   workout_slots: {
     slot: string;
     slot_id: string | null;
+    exercise_id: string | null;
     kind: Kind;
     position: number;
     workout_sets: { weight: string | null; reps: string | null; position: number }[] | null;
@@ -26,7 +32,7 @@ interface WorkoutRow {
 export async function fetchHistory(): Promise<HistorySlotEntry[]> {
   const { data, error } = await getSupabase()
     .from('workouts')
-    .select('date, workout_slots(slot, slot_id, kind, position, workout_sets(weight, reps, position))')
+    .select('date, workout_slots(slot, slot_id, exercise_id, kind, position, workout_sets(weight, reps, position))')
     .eq('type', 'workout')
     .order('date', { ascending: false });
   if (error) throw error;
@@ -41,34 +47,60 @@ export async function fetchHistory(): Promise<HistorySlotEntry[]> {
       if (!sets.length) continue;
       // Bridge old (name-only) and new (id-tagged) rows to a canonical id.
       const slotId = resolveExerciseId({ slot: s.slot, slotId: s.slot_id });
-      out.push({ slot: s.slot, slotId, kind: s.kind, date: w.date, sets });
+      // Prefer persisted exercise_id (variation); fall back to catalog-derived
+      // resolution using slot+kind; ultimately fall back to slotId (movement).
+      const exerciseIdResolved =
+        s.exercise_id ??
+        variationExerciseId(s.slot, s.kind) ??
+        slotId;
+      out.push({ slot: s.slot, slotId, exerciseId: exerciseIdResolved, kind: s.kind, date: w.date, sets });
     }
   }
   return out;
 }
 
-// Global per-exercise history: the most recent time this exercise (slot) was
-// logged, across ANY session/plan — preferring the same equipment kind, else any kind.
-// Matches by stable exercise ID so it's rename-safe and bridges old/new rows.
-export function lastFor(history: HistorySlotEntry[], slot: string, kind: Kind): LoggedSet[] | null {
-  const id = exerciseId(slot);
-  let bestSame: LoggedSet[] | null = null;
-  let bestSameT = -1;
+// Global per-exercise history: the most recent time this specific EXERCISE
+// (movement + equipment variation) was logged. Preferring exact variation match
+// so swapping Cable → Dumbbell no longer bleeds each other's history. Falls
+// back to same-movement/same-kind, then same-movement/any-kind, so legacy rows
+// without an exercise_id still show something useful.
+//
+// `variationId` is the resolved id for the CURRENT (slot, kind) pair as computed
+// by variationExerciseId — pass null when you want movement-level matching only.
+export function lastFor(
+  history: HistorySlotEntry[],
+  slot: string,
+  kind: Kind,
+  variationId?: string | null,
+): LoggedSet[] | null {
+  const movementId = exerciseId(slot);
+  const targetVar = variationId ?? variationExerciseId(slot, kind) ?? null;
+
+  let bestExactVar: LoggedSet[] | null = null;
+  let bestExactVarT = -1;
+  let bestSameKind: LoggedSet[] | null = null;
+  let bestSameKindT = -1;
   let bestAny: LoggedSet[] | null = null;
   let bestAnyT = -1;
+
   for (const e of history) {
-    if (e.slotId !== id) continue;
+    if (e.slotId !== movementId) continue;
     const t = Date.parse(e.date) || 0;
     if (t > bestAnyT) {
       bestAnyT = t;
       bestAny = e.sets;
     }
-    if (e.kind === kind && t > bestSameT) {
-      bestSameT = t;
-      bestSame = e.sets;
+    if (e.kind === kind && t > bestSameKindT) {
+      bestSameKindT = t;
+      bestSameKind = e.sets;
+    }
+    if (targetVar && e.exerciseId === targetVar && t > bestExactVarT) {
+      bestExactVarT = t;
+      bestExactVar = e.sets;
     }
   }
-  return bestSame || bestAny;
+  // Prefer exact variation → same equipment kind → any kind (for legacy fallback).
+  return bestExactVar || bestSameKind || bestAny;
 }
 
 // The equipment kind used in the MOST RECENT logged entry for this slot (any

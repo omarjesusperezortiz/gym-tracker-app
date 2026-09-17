@@ -1559,367 +1559,159 @@ export const catalog = {
    "label": "Travel",
    "icon": "✈️",
    "sessions": {
-    "fullupper": {
-     "name": "Full Upper",
-     "emoji": "💪",
-     "group": "broad",
-     "muscles": "chest·back·shoulders·arms",
-     "slots": [
-      [
-       "Flat chest press",
-       "4 × 8–10",
-       ""
-      ],
-      [
-       "Horizontal row",
-       "4 × 8–10",
-       ""
-      ],
-      [
-       "Overhead press",
-       "3 × 8–12",
-       ""
-      ],
-      [
-       "Vertical pull (lats)",
-       "3 × 8–10",
-       ""
-      ],
-      [
-       "Biceps curl",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Triceps pushdown/ext",
-       "3 × 10–12",
-       ""
-      ]
-     ]
-    },
-    "push": {
-     "name": "Push",
-     "emoji": "🙌",
-     "group": "broad",
-     "muscles": "chest·shoulders·triceps + core",
-     "slots": [
-      [
-       "Flat chest press",
-       "4 × 6–10",
-       "5 × 3–5 heavy"
-      ],
-      [
-       "Incline press",
-       "3 × 8–12",
-       ""
-      ],
-      [
-       "Overhead press",
-       "3 × 8–12",
-       ""
-      ],
-      [
-       "Side lateral raise",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Triceps pushdown/ext",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Plank (core)",
-       "3 × 45s",
-       ""
-      ]
-     ]
-    },
-    "pull": {
-     "name": "Pull",
-     "emoji": "🧲",
-     "group": "broad",
-     "muscles": "back·biceps·rear delts",
-     "slots": [
-      [
-       "Vertical pull (lats)",
-       "4 × 6–10",
-       "weighted 5 × 3–5"
-      ],
-      [
-       "Horizontal row",
-       "4 × 8–10",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Shrugs (traps)",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Biceps curl",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Hammer curl",
-       "3 × 10–12",
-       ""
-      ]
-     ]
-    },
     "fullbody": {
      "name": "Full Body",
-     "emoji": "🔥",
+     "emoji": "\ud83d\udd25",
      "group": "broad",
-     "muscles": "a bit of everything (short/travel)",
+     "muscles": "push \u00b7 pull \u00b7 legs \u00b7 core",
      "slots": [
       [
        "Squat",
-       "3 × 10–12",
+       "3 \u00d7 12\u201315",
        ""
       ],
       [
        "Flat chest press",
-       "3 × 8–12",
+       "3 \u00d7 10\u201315",
        ""
       ],
       [
        "Horizontal row",
-       "3 × 8–12",
+       "3 \u00d7 10\u201312",
        ""
       ],
       [
        "Overhead press",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Leg raise (core)",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Plank (core)",
-       "3 × 45s",
-       ""
-      ]
-     ]
-    },
-    "chest": {
-     "name": "Chest",
-     "emoji": "🎯",
-     "group": "focused",
-     "muscles": "chest · triceps assist",
-     "slots": [
-      [
-       "Flat chest press",
-       "4 × 6–10",
-       "5 × 3–5 heavy"
-      ],
-      [
-       "Incline press",
-       "3 × 8–12",
-       ""
-      ],
-      [
-       "Chest fly",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Chest dip",
-       "3 × 8–12",
-       ""
-      ],
-      [
-       "Plank (core)",
-       "3 × 45s",
-       ""
-      ]
-     ]
-    },
-    "back": {
-     "name": "Back",
-     "emoji": "🪃",
-     "group": "focused",
-     "muscles": "lats · traps · rear delts",
-     "slots": [
-      [
-       "Vertical pull (lats)",
-       "4 × 6–10",
-       "weighted 5 × 3–5"
-      ],
-      [
-       "Horizontal row",
-       "4 × 8–12",
-       ""
-      ],
-      [
-       "Lat pullover / straight-arm",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Shrugs (traps)",
-       "3 × 12–15",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 × 15",
-       ""
-      ]
-     ]
-    },
-    "shoulders": {
-     "name": "Shoulders",
-     "emoji": "🔺",
-     "group": "focused",
-     "muscles": "delts (front·side·rear)",
-     "slots": [
-      [
-       "Overhead press",
-       "4 × 6–10",
-       "5 × 4–6 heavy"
-      ],
-      [
-       "Side lateral raise",
-       "4 × 12–20",
-       ""
-      ],
-      [
-       "Front raise",
-       "3 × 10–15",
-       ""
-      ],
-      [
-       "Upright row",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 × 15",
-       ""
-      ]
-     ]
-    },
-    "arms": {
-     "name": "Arms",
-     "emoji": "💥",
-     "group": "focused",
-     "muscles": "biceps · triceps · forearms",
-     "slots": [
-      [
-       "Biceps curl",
-       "4 × 8–12",
-       ""
-      ],
-      [
-       "Triceps pushdown/ext",
-       "4 × 8–12",
-       ""
-      ],
-      [
-       "Hammer curl",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Overhead triceps",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Forearm / wrist",
-       "3 × 15–20",
-       ""
-      ]
-     ]
-    },
-    "legs": {
-     "name": "Legs & Core",
-     "emoji": "🦵",
-     "group": "focused",
-     "muscles": "legs (maintenance) · core",
-     "slots": [
-      [
-       "Squat",
-       "3 × 8–12",
+       "3 \u00d7 8\u201312",
        ""
       ],
       [
        "Lunge",
-       "3 × 12/leg",
-       ""
-      ],
-      [
-       "Hamstring / RDL",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Calf raise",
-       "3 × 15–20",
-       ""
-      ],
-      [
-       "Leg raise (core)",
-       "3 × 12–15",
+       "3 \u00d7 10 each",
        ""
       ],
       [
        "Plank (core)",
-       "3 × 45–60s",
+       "3 \u00d7 45s",
+       ""
+      ],
+      [
+       "Leg raise (core)",
+       "3 \u00d7 12\u201315",
        ""
       ]
      ]
     },
-    "core": {
-     "name": "Core",
-     "emoji": "🎯",
-     "group": "focused",
-     "muscles": "abs · obliques · lower back",
+    "upper": {
+     "name": "Upper",
+     "emoji": "\ud83d\udcaa",
+     "group": "broad",
+     "muscles": "chest \u00b7 back \u00b7 shoulders \u00b7 arms",
      "slots": [
       [
-       "Plank",
-       "3 × 40–60s",
+       "Incline press",
+       "3 \u00d7 10\u201315",
        ""
       ],
       [
-       "Hanging/Lying Leg Raise",
-       "3 × 12–15",
+       "Vertical pull (lats)",
+       "4 \u00d7 6\u201310",
+       ""
+      ],
+      [
+       "Chest dip",
+       "3 \u00d7 6\u201312",
+       ""
+      ],
+      [
+       "Side lateral raise",
+       "3 \u00d7 12\u201315",
+       ""
+      ],
+      [
+       "Biceps curl",
+       "3 \u00d7 10\u201312",
+       ""
+      ],
+      [
+       "Overhead triceps",
+       "3 \u00d7 10\u201312",
+       ""
+      ],
+      [
+       "Rear delts",
+       "3 \u00d7 15",
+       ""
+      ]
+     ]
+    },
+    "lower_core": {
+     "name": "Lower + Core",
+     "emoji": "\ud83e\uddb5",
+     "group": "broad",
+     "muscles": "legs \u00b7 glutes \u00b7 core",
+     "slots": [
+      [
+       "Hamstring / RDL",
+       "3 \u00d7 10\u201315",
+       ""
+      ],
+      [
+       "Calf raise",
+       "3 \u00d7 15\u201320",
        ""
       ],
       [
        "Bicycle Crunch",
-       "3 × 20",
-       ""
-      ],
-      [
-       "Russian Twist",
-       "3 × 20",
+       "3 \u00d7 20",
        ""
       ],
       [
        "Side Plank",
-       "3 × 30s/side",
-       ""
-      ],
-      [
-       "Pallof Press (anti-rotation)",
-       "3 × 10/side",
+       "3 \u00d7 30s each",
        ""
       ],
       [
        "Reverse Crunch",
-       "3 × 15",
+       "3 \u00d7 15",
+       ""
+      ],
+      [
+       "Pallof Press (anti-rotation)",
+       "3 \u00d7 10 each",
+       ""
+      ]
+     ]
+    },
+    "quick": {
+     "name": "Quick 15",
+     "emoji": "\u26a1",
+     "group": "broad",
+     "muscles": "short travel session \u00b7 arms \u00b7 shoulders \u00b7 core",
+     "slots": [
+      [
+       "Hammer curl",
+       "3 \u00d7 12",
+       ""
+      ],
+      [
+       "Chest fly",
+       "3 \u00d7 12\u201315",
+       ""
+      ],
+      [
+       "Front raise",
+       "3 \u00d7 12",
+       ""
+      ],
+      [
+       "Russian Twist",
+       "3 \u00d7 20",
+       ""
+      ],
+      [
+       "Shrugs (traps)",
+       "3 \u00d7 15",
        ""
       ]
      ]

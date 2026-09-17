@@ -56,6 +56,7 @@ describe('fetchHistory', () => {
       {
         slot: 'Flat chest press',
         slotId: 'flat_chest_press',
+        exerciseId: 'barbell_bench_press_medium_grip',
         kind: 'bar',
         date: '2024-02-01',
         sets: [

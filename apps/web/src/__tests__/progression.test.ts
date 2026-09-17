@@ -31,8 +31,8 @@ describe('computeStreak', () => {
 
 describe('bestWeight / topEnteredWeight', () => {
   const history: HistorySlotEntry[] = [
-    { slot: 'Flat chest press', slotId: 'flat_chest_press', kind: 'bar', date: '2026-09-01', sets: [{ w: '60', r: '8' }, { w: '62.5', r: '6' }] },
-    { slot: 'Flat chest press', slotId: 'flat_chest_press', kind: 'db', date: '2026-09-05', sets: [{ w: '55', r: '10' }] },
+    { slot: 'Flat chest press', slotId: 'flat_chest_press', exerciseId: 'barbell_bench_press_medium_grip', kind: 'bar', date: '2026-09-01', sets: [{ w: '60', r: '8' }, { w: '62.5', r: '6' }] },
+    { slot: 'Flat chest press', slotId: 'flat_chest_press', exerciseId: 'dumbbell_bench_press', kind: 'db', date: '2026-09-05', sets: [{ w: '55', r: '10' }] },
   ];
 
   it('finds the heaviest weight ever logged for an exercise, any kind', () => {

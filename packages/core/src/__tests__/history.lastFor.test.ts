@@ -1,12 +1,15 @@
 import { lastFor, lastKindFor, kindsLoggedFor, type HistorySlotEntry } from '../supabase/history';
-import { exerciseId } from '../logic/exercise-id';
+import { exerciseId, variationExerciseId } from '../logic/exercise-id';
 
 function entry(overrides: Partial<HistorySlotEntry>): HistorySlotEntry {
   const slot = overrides.slot ?? 'Flat chest press';
+  const kind = overrides.kind ?? 'bar';
+  const slotId = overrides.slotId ?? exerciseId(slot);
   return {
     slot,
-    slotId: overrides.slotId ?? exerciseId(slot),
-    kind: 'bar',
+    slotId,
+    exerciseId: overrides.exerciseId ?? variationExerciseId(slot, kind) ?? slotId,
+    kind,
     date: '2024-01-01',
     sets: [{ w: '40', r: '8' }],
     ...overrides,
@@ -51,6 +54,18 @@ describe('lastFor', () => {
       entry({ date: '2024-03-01', sets: [{ w: '40', r: '8' }] }),
     ];
     expect(lastFor(history, 'Flat chest press', 'bar')).toEqual([{ w: '55', r: '5' }]);
+  });
+
+  it('isolates variations: swapping cable ↔ dumbbell tabs does not bleed history', () => {
+    // Vertical pull has distinct cable (wide-grip lat pulldown) + dumbbell (row) variations.
+    const history: HistorySlotEntry[] = [
+      entry({ slot: 'Vertical pull (lats)', kind: 'cable', date: '2024-03-01', sets: [{ w: '50', r: '10' }] }),
+      entry({ slot: 'Vertical pull (lats)', kind: 'db', date: '2024-04-01', sets: [{ w: '18', r: '12' }] }),
+    ];
+    // Asking for cable returns the cable entry — not the more recent DB one.
+    expect(lastFor(history, 'Vertical pull (lats)', 'cable')).toEqual([{ w: '50', r: '10' }]);
+    // Asking for DB returns the DB entry — not the cable one.
+    expect(lastFor(history, 'Vertical pull (lats)', 'db')).toEqual([{ w: '18', r: '12' }]);
   });
 });
 
