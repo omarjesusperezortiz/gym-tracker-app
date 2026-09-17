@@ -1,0 +1,239 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Same-equipment variations — options</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--surf3:#252a34;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--acc-dim:rgba(214,242,78,.14);--grn:#3ddc97;--red:#ff6b6b;--org:#ffa53d;--yel:#ffd93d;--blu:#5b9dff;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#05060a;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55;padding:38px 20px 100px}
+.wrap{max-width:1220px;margin:0 auto}
+h1{font-size:34px;font-weight:900;letter-spacing:-1.1px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:15px;margin-bottom:12px;max-width:840px;line-height:1.6}
+.lead b{color:var(--ink)} .lead .k{color:var(--acc);font-weight:700}
+.q{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0 28px;font-size:14px;color:var(--ink2)}
+.q b{color:var(--acc)}
+h2{font-size:24px;font-weight:900;letter-spacing:-.6px;margin:44px 0 6px;padding-top:22px;border-top:1px solid var(--line)}
+.hsub{color:var(--mut);font-size:13px;margin-bottom:16px}
+.hsub b{color:var(--ink2)}
+.opt{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-bottom:18px}
+.opt.a{border-color:rgba(61,220,151,.35);background:linear-gradient(150deg,rgba(61,220,151,.06),transparent)}
+.opt.b{border-color:rgba(91,157,255,.35);background:linear-gradient(150deg,rgba(91,157,255,.06),transparent)}
+.opt.c{border-color:rgba(185,140,255,.35);background:linear-gradient(150deg,rgba(185,140,255,.06),transparent)}
+.opt.d{border-color:rgba(146,151,166,.25);background:linear-gradient(150deg,rgba(146,151,166,.06),transparent);opacity:.85}
+.opth{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.badge{font-family:var(--mono);font-size:11px;font-weight:900;padding:4px 10px;border-radius:8px;letter-spacing:.02em}
+.opt.a .badge{background:rgba(61,220,151,.16);color:var(--grn)}
+.opt.b .badge{background:rgba(91,157,255,.16);color:var(--blu)}
+.opt.c .badge{background:rgba(185,140,255,.16);color:#c8a4ff}
+.opt.d .badge{background:rgba(146,151,166,.16);color:var(--mut)}
+.opt h3{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.opt .tag{font-size:11.5px;color:var(--mut);font-weight:700}
+.opt .summary{font-size:14px;color:var(--ink2);margin:2px 0 14px;line-height:1.6}
+.opt .summary b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:12px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.col h4{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--surf2);color:var(--ink2);border:1px solid var(--line)}
+.pill.good{background:rgba(61,220,151,.14);color:var(--grn);border-color:transparent}
+.pill.mid{background:rgba(255,217,61,.14);color:var(--yel);border-color:transparent}
+.pill.bad{background:rgba(255,107,107,.14);color:var(--red);border-color:transparent}
+ul.dot{list-style:none;padding:0;margin:0}
+ul.dot li{position:relative;padding:5px 0 5px 22px;font-size:13.5px;color:var(--ink2)}
+ul.dot li::before{content:'';position:absolute;left:6px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+ul.dot li.neg::before{background:var(--red)}
+ul.dot li.warn::before{background:var(--yel)}
+.mock{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin-top:12px;max-width:340px}
+.mock .mt{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px}
+.mock .ms{font-size:11.5px;color:var(--mut);margin-bottom:10px}
+.mock .sec{font-size:9.5px;font-weight:900;color:var(--faint);letter-spacing:.09em;text-transform:uppercase;margin:12px 0 6px}
+.mock .row{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:5px;display:flex;align-items:center;gap:9px;font-size:12px}
+.mock .row.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.mock .row .thm{width:34px;height:28px;border-radius:6px;background:#eef0f3;flex:none}
+.mock .row .nm{flex:1;font-weight:700}
+.mock .row .eq{font-family:var(--mono);font-size:9.5px;color:var(--acc);background:var(--acc-dim);padding:2px 5px;border-radius:4px}
+.mock .row .r{color:var(--faint);font-size:14px}
+.mock .tabs{display:flex;gap:5px;margin-bottom:10px}
+.mock .tab{font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--surf2);color:var(--mut)}
+.mock .tab.on{background:var(--acc);color:var(--acc-ink)}
+.recap{background:linear-gradient(150deg,rgba(214,242,78,.10),rgba(214,242,78,.02));border:1px solid rgba(214,242,78,.28);border-radius:14px;padding:16px 20px;margin:32px 0 8px}
+.recap h3{color:var(--acc);font-size:14px;font-weight:800;margin-bottom:8px}
+.recap p{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.meta{display:flex;gap:16px;font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:10px}
+.meta b{color:var(--ink2)}
+</style></head><body><div class="wrap">
+
+<h1>Same-equipment variations — 4 options</h1>
+<div class="lead">
+  <b>The point you raised:</b> "in dumbbells we can do different variations for the same muscle" — hammer curl, standing curl, incline curl, concentration curl all use dumbbells but hit biceps slightly differently. Right now the app supports <b>one variation per equipment kind</b> (bar / cable / machine / db / bw). Each option below shows how we could expose more.
+</div>
+
+<div class="q">
+  <b>Current data model (for context):</b><br>
+  <code style="font-family:var(--mono);font-size:12px;color:var(--acc)">
+  variations["Biceps curl"] = &#123; bar: "Barbell Curl", db: "Dumbbell Curl", cable: "Cable Curl" &#125;
+  </code><br>
+  One name per kind → one exercise_id per kind → one demo per kind. That's why swapping tabs currently only shows one option per equipment.
+</div>
+
+<!-- OPTION A -->
+<div class="opt a">
+  <div class="opth">
+    <span class="badge">A · SAFE + FAST</span>
+    <h3>Modal-only "See more like this" section</h3>
+    <span class="tag">Est. 1 day · Zero data model change</span>
+  </div>
+  <div class="summary">
+    Keep the app exactly as it is — <b>one variation per equipment kind picks the primary demo</b>. The detail modal gains a new section below "Equipment variations" called <b>"Similar (same muscle)"</b> that fetches 3–5 other exercises with the same target muscle from exercisedb and lists them as read-only reference.
+  </div>
+  <div class="grid">
+    <div class="col">
+      <h4>How it looks</h4>
+      <div class="mock">
+        <div class="mt">Barbell Curl</div>
+        <div class="ms">Biceps curl · Biceps · Forearms</div>
+        <div class="sec">Equipment variations (current)</div>
+        <div class="row on"><span class="thm"></span><span class="nm">Barbell Curl</span><span class="eq">BAR</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Cable Curl</span><span class="eq">CABLE</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Dumbbell Curl</span><span class="eq">DB</span></div>
+        <div class="sec" style="color:var(--grn)">▸ Similar exercises (NEW)</div>
+        <div class="row"><span class="thm"></span><span class="nm">Hammer Curl</span><span class="eq">DB</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Concentration Curl</span><span class="eq">DB</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Preacher Curl</span><span class="eq">BENCH</span></div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>What it changes</h4>
+      <div class="pill-row"><span class="pill good">No DB migration</span><span class="pill good">No workout flow change</span><span class="pill good">No logging changes</span><span class="pill mid">Read-only list</span></div>
+      <ul class="dot">
+        <li>Same picker, same tabs, same save/history logic</li>
+        <li>Modal becomes an educational reference — "here's what else you could do"</li>
+        <li>You'd still have to swap the exercise manually if you want to log a different one</li>
+        <li class="neg">Doesn't actually let you log a hammer curl instead of a barbell curl in Train</li>
+      </ul>
+      <h4 style="margin-top:14px">Effort breakdown</h4>
+      <ul class="dot">
+        <li>Extend ExerciseDetailSheet with a new section (~1h)</li>
+        <li>Query exercisedb by target muscle at build time (~2h)</li>
+        <li>Cache list in the catalog so it works offline (~2h)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION B -->
+<div class="opt b">
+  <div class="opth">
+    <span class="badge">B · BIG UX WIN</span>
+    <h3>Multiple variations per equipment kind (schema change)</h3>
+    <span class="tag">Est. 3–4 days · New data shape</span>
+  </div>
+  <div class="summary">
+    Change <code style="font-family:var(--mono);color:var(--acc)">variations[movement][kind]</code> from <b>one entry</b> to <b>an array</b>. When you tap the DB tab you get a mini-picker of dumbbell options (Hammer / Standing / Incline / Concentration). One is chosen as your active variation; the rest are just a swipe away.
+  </div>
+  <div class="grid">
+    <div class="col">
+      <h4>How it looks</h4>
+      <div class="mock">
+        <div class="mt">Biceps curl</div>
+        <div class="ms">4 × 8–10</div>
+        <div class="tabs"><span class="tab">Bar</span><span class="tab">Cable</span><span class="tab on">DB</span><span class="tab">Machine</span></div>
+        <div class="sec" style="color:var(--acc)">▸ Which dumbbell variation? (NEW)</div>
+        <div class="row on"><span class="thm"></span><span class="nm">Standing Dumbbell Curl</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Hammer Curl</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Incline Curl</span></div>
+        <div class="row"><span class="thm"></span><span class="nm">Concentration Curl</span></div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>What it changes</h4>
+      <div class="pill-row"><span class="pill good">Real workout impact</span><span class="pill good">Per-variation history</span><span class="pill mid">Catalog rewrite</span><span class="pill bad">Migration required</span></div>
+      <ul class="dot">
+        <li>Each variation gets its own <code style="font-family:var(--mono)">exercise_id</code> and history</li>
+        <li>The lastFor keying we just fixed already supports this cleanly</li>
+        <li>Picker sheet needs a new second step (kind → specific variation)</li>
+        <li class="warn">All 31 movements × 4 kinds need multi-variation lists curated</li>
+        <li class="neg">Persisted <code style="font-family:var(--mono)">exercise_id</code> already stores the specific one — safe, but the picker UX is 2 taps not 1</li>
+      </ul>
+      <h4 style="margin-top:14px">Effort breakdown</h4>
+      <ul class="dot">
+        <li>Rewrite catalog with variation arrays (~1 day)</li>
+        <li>Extend picker sheet with sub-picker (~1 day)</li>
+        <li>Curate variations per (movement × kind) — 31 × 4 = 124 pairs (~1 day, incremental)</li>
+        <li>New tests + migration story (~½ day)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION C -->
+<div class="opt c">
+  <div class="opth">
+    <span class="badge">C · BEST OF BOTH</span>
+    <h3>Do both A and B</h3>
+    <span class="tag">Est. 4–5 days · Ship A this week, B next</span>
+  </div>
+  <div class="summary">
+    <b>Phase 1:</b> ship Option A now (modal gets the reference list, zero risk). <b>Phase 2:</b> once you've used it and know which similar exercises you actually pick, promote them into real catalog variations (Option B).
+  </div>
+  <div class="grid">
+    <div class="col">
+      <h4>Why this is often the right call</h4>
+      <ul class="dot">
+        <li>Ships something useful in day 1 (modal list)</li>
+        <li>Uses your real usage to drive the catalog rewrite — no guessing which variations matter</li>
+        <li>Splits risk: schema change happens once you know the shape</li>
+        <li>You can log an exercise swap manually via the modal in the meantime</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>What ships when</h4>
+      <div class="pill-row"><span class="pill good">Week 1: modal list live</span><span class="pill mid">Week 2–3: schema rewrite</span></div>
+      <ul class="dot">
+        <li><b>Now:</b> curl modal shows Hammer / Concentration / Preacher as read-only refs</li>
+        <li><b>Later:</b> those become tappable in the picker → logged with their own exercise_id</li>
+        <li><b>Bonus:</b> if you never actually use Preacher Curl, it never has to become a real variation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION D -->
+<div class="opt d">
+  <div class="opth">
+    <span class="badge">D · DEFER</span>
+    <h3>Ship just the modal image resize, table the variations question</h3>
+    <span class="tag">Est. 5 min · Already done above</span>
+  </div>
+  <div class="summary">
+    The modal image is now landscape / white / smaller. That's already deployed. Punt the same-equipment-variations question to later — focus on other items on the backlog (Travel plan bodyweight polish, image audit, fallback chain).
+  </div>
+  <div class="grid">
+    <div class="col">
+      <h4>When this is the right call</h4>
+      <ul class="dot">
+        <li>You're the only user and rarely need alternatives — the current 1-per-kind is enough</li>
+        <li>You'd rather ship the audit-driven fixes first (bad demos, travel plan)</li>
+        <li>Same-equipment variations feel like a "nice to have" not a "must have"</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Cost of deferring</h4>
+      <ul class="dot">
+        <li class="warn">If you later want per-variation history for hammer vs standard curl, that data doesn't exist yet</li>
+        <li class="warn">Each week you use the app without this = one week of biceps history mixed into "Barbell Curl"</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="recap">
+  <h3>My recommendation</h3>
+  <p>Go with <b>C</b>: ship A this session (the modal already has the variations section, and I can extend it with a "Similar exercises" pull in half a day), then plan B for a dedicated day once you see which similar picks you'd actually promote to real catalog variations. This avoids curating 124 variation entries you might not use.</p>
+</div>
+
+<div class="meta">
+  <span><b>Modal image:</b> already fixed → landscape (16:11), white background, smaller</span>
+  <span><b>Waiting on:</b> your pick — A / B / C / D</span>
+</div>
+
+</div></body></html>
