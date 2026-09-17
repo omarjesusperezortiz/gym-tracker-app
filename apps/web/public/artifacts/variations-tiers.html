@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Variations planning — Option B</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap');
+:root{--bg:#0a0b0e;--surf:#16181d;--surf2:#1e2127;--surf3:#252a34;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#f5f7fa;--ink2:#dfe3ea;--mut:#9297a6;--faint:#5a5f6e;--acc:#d6f24e;--acc-ink:#0a0b0e;--acc-dim:rgba(214,242,78,.14);--grn:#3ddc97;--red:#ff6b6b;--org:#ffa53d;--yel:#ffd93d;--blu:#5b9dff;--pur:#b98cff;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#05060a;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55;padding:38px 20px 100px}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.lead{color:var(--mut);font-size:14.5px;margin-bottom:22px;max-width:820px;line-height:1.6}
+.lead b{color:var(--ink)} .lead .k{color:var(--acc);font-weight:700}
+h2{font-size:22px;font-weight:900;letter-spacing:-.5px;margin:40px 0 4px;padding-top:20px;border-top:1px solid var(--line)}
+.hsub{color:var(--mut);font-size:13px;margin-bottom:14px}
+.hsub b{color:var(--acc)}
+.tier{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin-bottom:14px}
+.tier.t1{border-color:rgba(61,220,151,.35);background:linear-gradient(150deg,rgba(61,220,151,.06),transparent)}
+.tier.t2{border-color:rgba(255,217,61,.30);background:linear-gradient(150deg,rgba(255,217,61,.05),transparent)}
+.tier.t3{border-color:rgba(146,151,166,.25);background:linear-gradient(150deg,rgba(146,151,166,.05),transparent)}
+.th{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.badge{font-family:var(--mono);font-size:10.5px;font-weight:900;padding:4px 10px;border-radius:6px}
+.tier.t1 .badge{background:rgba(61,220,151,.18);color:var(--grn)}
+.tier.t2 .badge{background:rgba(255,217,61,.18);color:var(--yel)}
+.tier.t3 .badge{background:rgba(146,151,166,.14);color:var(--mut)}
+.tier h3{font-size:17px;font-weight:800;letter-spacing:-.2px}
+.cnt{font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:700}
+.tier p{font-size:13.5px;color:var(--ink2);margin:4px 0 10px}
+.tier ul{list-style:none;padding:0;margin:0}
+.tier li{position:relative;padding:4px 0 4px 20px;font-size:13px;color:var(--ink2)}
+.tier li::before{content:'';position:absolute;left:6px;top:11px;width:6px;height:6px;border-radius:50%}
+.tier.t1 li::before{background:var(--grn)}
+.tier.t2 li::before{background:var(--yel)}
+.tier.t3 li::before{background:var(--mut)}
+
+.matrix{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:0;margin-top:22px;overflow:hidden}
+.matrix h3{font-size:14px;font-weight:800;padding:14px 18px;background:var(--surf2);border-bottom:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--surf2);color:var(--mut);font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+th.eq{width:60px;text-align:center}
+td.mov{font-weight:800;color:var(--ink);white-space:nowrap}
+td.eq{text-align:center}
+.v{display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:5px;margin:1px 2px 1px 0;font-weight:600;background:var(--surf2);color:var(--ink2)}
+.v.p{background:var(--acc);color:var(--acc-ink);font-weight:800}
+.tag-single{font-size:11px;color:var(--faint);font-style:italic}
+.tag-none{font-size:11px;color:var(--faint)}
+
+.qs{background:linear-gradient(150deg,rgba(214,242,78,.10),rgba(214,242,78,.02));border:1px solid rgba(214,242,78,.28);border-radius:14px;padding:16px 20px;margin:32px 0 12px}
+.qs h3{color:var(--acc);font-size:14px;font-weight:800;margin-bottom:8px}
+.qs p{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.qs ol{margin:10px 0 0 22px;font-size:13.5px}
+.qs li{padding:4px 0;color:var(--ink2)}
+.qs li b{color:var(--acc)}
+.foot{color:var(--faint);font-size:11px;font-family:var(--mono);margin-top:30px;text-align:center;line-height:1.7}
+</style></head><body><div class="wrap">
+
+<h1>Option B — variations planning</h1>
+<div class="lead">
+  You said <b>B but need to think about which variations</b>. Right. The naive answer — "every movement × every kind gets 3-4 variations" — is <b>~120 movement/kind pairs × ~3.5 = ~400 exercise entries</b> to curate. That's not shippable in a session and half will never get used. Below is my proposed <b>3-tier plan</b> so we build the right ~80 first and add on demand.
+</div>
+
+<h2>🎯 The 3-tier strategy</h2>
+<div class="hsub">Bucket every movement × kind pair by <b>how much variety actually matters</b> in the real world. Only Tier 1 gets built now.</div>
+
+<div class="tier t1">
+  <div class="th"><span class="badge">TIER 1 · BUILD NOW</span><h3>Movements with real, distinct, popular variations</h3><span class="cnt">~10 movements · ~30 entries</span></div>
+  <p>Where the variation choice <b>actually changes the training stimulus</b> — different angle, different muscle emphasis, different equipment feel. These are the ones you'd notice in your log.</p>
+  <ul>
+    <li><b>Biceps curl</b> (db) — Hammer / Standing / Incline / Concentration</li>
+    <li><b>Chest press</b> (db) — Flat / Incline / Decline</li>
+    <li><b>Vertical pull</b> (cable) — Wide-grip / Close-grip / Underhand / Neutral-grip</li>
+    <li><b>Horizontal row</b> (db) — 2-arm / Single-arm / Chest-supported</li>
+    <li><b>Squat</b> (bar) — Back / Front / Goblet</li>
+    <li><b>Overhead press</b> (db) — Standing / Seated / Arnold</li>
+    <li><b>Triceps ext</b> (cable) — Rope pushdown / Bar pushdown / Overhead rope</li>
+    <li><b>Hamstring/RDL</b> (bar) — Conventional / Sumo / Romanian</li>
+    <li><b>Lunge</b> (db) — Walking / Static / Reverse / Bulgarian split</li>
+    <li><b>Side lateral raise</b> (cable) — Standing single-arm / Bent / Y-raise</li>
+  </ul>
+</div>
+
+<div class="tier t2">
+  <div class="th"><span class="badge">TIER 2 · ADD LATER</span><h3>Movements with 2 useful variations, low-priority to curate</h3><span class="cnt">~10 movements · ~20 entries</span></div>
+  <p>Meaningful alternatives exist but the delta is small or you'd rarely rotate. Ship after Tier 1 lands and only if you find yourself wanting them.</p>
+  <ul>
+    <li>Incline press · Chest fly · Chest dip</li>
+    <li>Rear delts · Front raise · Shrugs</li>
+    <li>Hammer curl · Overhead triceps · Forearm/wrist</li>
+    <li>Calf raise · Leg raise · Plank</li>
+  </ul>
+</div>
+
+<div class="tier t3">
+  <div class="th"><span class="badge">TIER 3 · SKIP</span><h3>Movements where the current single variation is enough</h3><span class="cnt">~11 movements · 0 entries</span></div>
+  <p>The exercise is either simple (single canonical form) or the "variations" would be cosmetic — swapping wouldn't change the training in a meaningful way. Leaving these as-is is the right call.</p>
+  <ul>
+    <li>Pallof Press, Russian Twist, Side Plank, Reverse Crunch — canonical core work</li>
+    <li>Bicycle Crunch, Air Bike, Butt Lift — canonical core work</li>
+    <li>Upright row, Lat pullover — small, specific movement</li>
+    <li>Bench Dips (bw fallback) — single form</li>
+    <li>Kettlebell Two Arm Military Press — kb has one main form</li>
+  </ul>
+</div>
+
+<h2>📋 Concrete tier 1 build list</h2>
+<div class="hsub">This is what I'd curate first — <b>10 movements × ~3 variations = ~30 entries.</b> Each variation gets a name, a demo id from exercisedb, and how-to steps. <b>P</b> = current primary (already exists), rest are new.</div>
+
+<div class="matrix">
+  <h3>Tier 1 — movement × variation matrix</h3>
+  <table>
+    <tr><th>Movement</th><th class="eq">Kind</th><th>Variations to add</th></tr>
+    <tr><td class="mov">Biceps curl</td><td class="eq">DB</td><td><span class="v p">Standing Curl</span><span class="v">Hammer</span><span class="v">Incline</span><span class="v">Concentration</span></td></tr>
+    <tr><td class="mov">Flat chest press</td><td class="eq">DB</td><td><span class="v p">Flat DB Press</span><span class="v">Incline DB Press</span><span class="v">Decline DB Press</span></td></tr>
+    <tr><td class="mov">Vertical pull (lats)</td><td class="eq">CABLE</td><td><span class="v p">Wide-Grip Pulldown</span><span class="v">Close-grip</span><span class="v">Underhand</span><span class="v">Neutral-grip</span></td></tr>
+    <tr><td class="mov">Horizontal row</td><td class="eq">DB</td><td><span class="v p">Two-DB Row</span><span class="v">Single-arm</span><span class="v">Chest-supported</span></td></tr>
+    <tr><td class="mov">Squat</td><td class="eq">BAR</td><td><span class="v p">Back Squat</span><span class="v">Front Squat</span><span class="v">Goblet</span></td></tr>
+    <tr><td class="mov">Overhead press</td><td class="eq">DB</td><td><span class="v p">Standing DB Press</span><span class="v">Seated</span><span class="v">Arnold</span></td></tr>
+    <tr><td class="mov">Triceps pushdown/ext</td><td class="eq">CABLE</td><td><span class="v p">Rope Pushdown</span><span class="v">Bar Pushdown</span><span class="v">Overhead Rope</span></td></tr>
+    <tr><td class="mov">Hamstring / RDL</td><td class="eq">BAR</td><td><span class="v p">Barbell RDL</span><span class="v">Sumo Deadlift</span><span class="v">Conventional Deadlift</span></td></tr>
+    <tr><td class="mov">Lunge</td><td class="eq">DB</td><td><span class="v p">DB Walking Lunge</span><span class="v">Static Lunge</span><span class="v">Reverse Lunge</span><span class="v">Bulgarian Split Squat</span></td></tr>
+    <tr><td class="mov">Side lateral raise</td><td class="eq">CABLE</td><td><span class="v p">Single-arm Cable Lateral</span><span class="v">Y-raise</span><span class="v">Bent-over Lateral</span></td></tr>
+  </table>
+</div>
+
+<h2>🏗️ How B actually ships</h2>
+<div class="hsub">Once the list above is locked, the code work is predictable.</div>
+
+<div class="qs">
+  <h3>Implementation plan</h3>
+  <ol>
+    <li><b>Data model:</b> extend <code style="font-family:var(--mono);color:var(--acc)">variations[movement][kind]</code> from single object to <code style="font-family:var(--mono);color:var(--acc)">{ default: name, options: [{name, mediaId, steps}] }</code>. Backward-compatible: single-variation movements read <code style="font-family:var(--mono);color:var(--acc)">.default</code>.</li>
+    <li><b>Catalog:</b> add the ~30 tier-1 variation entries. Fetch exercisedb demos, upscale to 480px WebP, mirror to public/exercise-media (same pipeline we used for OHP).</li>
+    <li><b>Persistence:</b> already covered — <code style="font-family:var(--mono);color:var(--acc)">exercise_id</code> column already stores the specific variation. No migration needed.</li>
+    <li><b>UI — ExerciseCard:</b> when a kind has multiple options, show a small chevron next to the kind tab → tap opens a variation picker sheet. Selected variation drives the demo image, name, steps, and exercise_id on save.</li>
+    <li><b>UI — modal:</b> the "Equipment variations" list becomes an "All variations" list (grouped by kind), the active one highlighted.</li>
+    <li><b>lastFor:</b> already prefers exact variation match — just works.</li>
+    <li><b>Tests:</b> add coverage for multi-variation selection + persistence.</li>
+  </ol>
+</div>
+
+<div class="qs" style="border-color:rgba(91,157,255,.28);background:linear-gradient(150deg,rgba(91,157,255,.08),rgba(91,157,255,.01))">
+  <h3 style="color:var(--blu)">Effort estimate (revised, tier-1 only)</h3>
+  <ol>
+    <li>Data model + catalog schema change · <b>~2 hours</b></li>
+    <li>Curate + mirror 30 variation entries · <b>~½ day</b> (largely automated by exercisedb API + our webp pipeline)</li>
+    <li>Variation picker sheet on ExerciseCard · <b>~½ day</b></li>
+    <li>Modal update · <b>~1 hour</b></li>
+    <li>Tests + verification · <b>~2 hours</b></li>
+  </ol>
+  <p style="margin-top:10px"><b>Total:</b> ~1.5 days shipped. Then tier 2 later, on demand.</p>
+</div>
+
+<div class="foot">
+  Once you approve the tier-1 list — or edit it — I can start on the schema + catalog and have it live shortly after.<br>
+  Anything you want to add / cut / swap in the tier-1 matrix?
+</div>
+
+</div></body></html>
