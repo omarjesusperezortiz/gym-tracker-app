@@ -18,10 +18,12 @@ import { CardShowcase } from './dev/CardShowcase';
 import { Home2Showcase } from './dev/Home2Showcase';
 import { CatalogExplorer } from './dev/CatalogExplorer';
 import { EdbLibrary } from './dev/EdbLibrary';
+import { TagsDashboard } from './dev/TagsDashboard';
 import { TestIndex } from './dev/TestIndex';
 import './styles/test-index.css';
 import './styles/catalog-explorer.css';
 import './styles/edb-library.css';
+import './styles/tags-dashboard.css';
 import './styles.css';
 import './styles/mobile-shell.css';
 
@@ -46,7 +48,7 @@ function parseRoute(): string | null {
 
 // Test/dev routes that should escape the phone-width shell and use the full
 // viewport (desktop-first curation tools, catalog explorers, etc).
-const DESKTOP_ROUTES = new Set(['edb', 'varlab']);
+const DESKTOP_ROUTES = new Set(['edb', 'tags']);
 
 function applyDesktopClass(r: string | null) {
   const wants = r != null && DESKTOP_ROUTES.has(r);
@@ -107,6 +109,8 @@ function render() {
       return <CatalogExplorer />;
     case 'edb':
       return <EdbLibrary />;
+    case 'tags':
+      return <TagsDashboard />;
     default:
       // No route → real app.
       return <App />;
