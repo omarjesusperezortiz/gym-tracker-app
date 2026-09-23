@@ -10,6 +10,13 @@
 export interface ExerciseMedia {
   /** exercisedb id (also the gif filename, <id>.gif). */
   id: string;
+  /**
+   * Optional override for the demo image URL. When present, gifUrl() returns
+   * this instead of `<base><id>.webp`. Use for exercises where EDB has no
+   * good match (or the mapped id is a mislabel) and you have a correct
+   * external image (e.g. free-exercise-db photo).
+   */
+  imgOverride?: string;
   /** Primary worked muscle (exercisedb targetMuscle). */
   target: string;
   /** Secondary muscles. */
@@ -423,15 +430,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Band Pull Apart": {
-    id: "VtTbiP3",
-    target: "glutes",
-    secondary: ["hamstrings", "lower back"],
+    // No EDB match for band pull apart — the local VtTbiP3.webp is actually
+    // "band pull through" (glutes). Use free-exercise-db photo instead, which
+    // shows the correct movement (rear delts + rhomboids).
+    id: "band-pull-apart-fed",
+    imgOverride: "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
+    target: "delts",
+    secondary: ["rhomboids", "trapezius"],
     equip: "band",
     steps: [
-      "Attach a resistance band to a sturdy anchor point at ground level.",
-      "Stand facing away from the anchor point with your feet shoulder-width apart.",
-      "Step forward to create tension in the band, keeping your knees slightly bent.",
-      "Hinge at the hips and push your glutes back, maintaining a slight bend in your knees.",
+      "Hold a resistance band with both hands in front of you at shoulder height, arms extended.",
+      "Grip the band with your palms facing down and your hands shoulder-width apart.",
+      "Keeping your arms straight, pull the band apart by squeezing your shoulder blades together.",
+      "Return to the starting position with control, keeping tension on the band throughout.",
     ],
   },
   "Barbell Bench Press - Medium Grip": {
@@ -1472,10 +1483,12 @@ export function mediaForExercise(exerciseName: string | undefined, movement: str
 
 /** Full gif URL for a media entry, given the app's media base path. */
 export function gifUrl(media: ExerciseMedia, base: string): string {
+  if (media.imgOverride) return media.imgOverride;
   return `${base}${media.id}.webp`;
 }
 
 /** Static poster (first-frame JPG) URL — used where we want an image, not motion. */
 export function posterUrl(media: ExerciseMedia, base: string): string {
+  if (media.imgOverride) return media.imgOverride;
   return `${base}posters/${media.id}.jpg`;
 }

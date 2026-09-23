@@ -17,10 +17,13 @@ describe('exercise media integrity', () => {
 
   for (const [name, media] of entries) {
     describe(name, () => {
-      it('gif file exists on disk', () => {
+      // Entries with imgOverride use an external URL (e.g. free-exercise-db)
+      // instead of a mirrored local asset, so skip the on-disk checks.
+      const usesExternal = !!media.imgOverride;
+      it.skipIf(usesExternal)('gif file exists on disk', () => {
         expect(existsSync(join(PUBLIC, `${media.id}.webp`))).toBe(true);
       });
-      it('poster image exists on disk', () => {
+      it.skipIf(usesExternal)('poster image exists on disk', () => {
         expect(existsSync(join(PUBLIC, 'posters', `${media.id}.jpg`))).toBe(true);
       });
       it('has a target muscle and equipment', () => {
@@ -57,7 +60,8 @@ describe('variation media integrity', () => {
   });
 
   for (const [name, media] of entries) {
-    it(`${name}: gif + poster exist on disk`, () => {
+    const usesExternal = !!media.imgOverride;
+    it.skipIf(usesExternal)(`${name}: gif + poster exist on disk`, () => {
       expect(existsSync(join(PUBLIC, `${media.id}.webp`))).toBe(true);
       expect(existsSync(join(PUBLIC, 'posters', `${media.id}.jpg`))).toBe(true);
     });
