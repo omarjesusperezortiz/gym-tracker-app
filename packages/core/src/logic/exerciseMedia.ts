@@ -1094,15 +1094,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "One-Arm Dumbbell Row": {
-    id: "6cKQC5E",
-    target: "delts",
-    secondary: ["traps", "biceps"],
+    // Was wrongly mapped to id "6cKQC5E" which is actually "dumbbell one arm
+    // UPRIGHT row" (a lateral-raise-like shoulder movement), so the 3D anatomy
+    // render highlighted the deltoid instead of the lats. Correct EDB id for
+    // the actual bent-over one-arm row is C0MA9bC (target=lats).
+    id: "C0MA9bC",
+    target: "lats",
+    secondary: ["rhomboids", "trapezius", "biceps", "rear deltoids"],
     equip: "dumbbell",
     steps: [
-      "Stand with your feet shoulder-width apart, holding a dumbbell in one hand with an overhand grip.",
-      "Let the dumbbell hang at arm's length in front of your thighs, with your palm facing your body.",
-      "Keeping your back straight and your core engaged, exhale and lift the dumbbell straight up towards your chin, leading with your elbow.",
-      "Pause for a moment at the top, then inhale and slowly lower the dumbbell back down to the starting position.",
+      "Place one knee and the same-side hand on a flat bench for support, back parallel to the floor.",
+      "Hold a dumbbell in the opposite hand with your arm hanging straight down.",
+      "Row the dumbbell up towards your hip by driving your elbow back and squeezing your shoulder blade in.",
+      "Lower the dumbbell under control until your arm is fully extended, then repeat.",
     ],
   },
   "Pallof Press": {
