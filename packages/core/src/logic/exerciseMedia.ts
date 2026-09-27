@@ -738,15 +738,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Dip Machine": {
-    id: "9WTm7dq",
+    // Real assisted-dip machine — user kneels on a pad, machine offsets
+    // bodyweight so beginners can complete the movement. This is what a
+    // "Machine" tab under Chest dip should show, not a duplicate of the
+    // parallel-bar bodyweight version.
+    id: "PAgTVaK",
     target: "pectorals",
     secondary: ["triceps", "shoulders"],
-    equip: "body weight",
+    equip: "leverage machine",
     steps: [
-      "Position yourself on parallel bars with your arms fully extended and your body straight.",
-      "Lower your body by bending your elbows until your shoulders are below your elbows.",
-      "Push yourself back up to the starting position by straightening your arms.",
-      "Repeat for the desired number of repetitions.",
+      "Set the assist pad to a weight that lets you complete the target reps with clean form.",
+      "Kneel on the pad and grip the parallel handles with a slight forward lean to target the chest.",
+      "Lower yourself under control until your shoulders drop just below your elbows.",
+      "Press back up to the starting position without locking out at the top.",
     ],
   },
   "Dips - Chest Version": {

@@ -650,7 +650,7 @@ export const catalog = {
      }
     },
     "Chest dip": {
-     "bar": {
+     "bw": {
       "name": "Dips - Chest Version",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dips_-_Chest_Version/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dips_-_Chest_Version/1.jpg"
