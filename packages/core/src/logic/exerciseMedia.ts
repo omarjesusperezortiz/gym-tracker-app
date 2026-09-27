@@ -1070,15 +1070,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Machine Shoulder (Military) Press": {
-    id: "67n3r98",
+    // Was mapped to id "67n3r98" whose 3D render shows a standing person
+    // pressing a ring/plate overhead — not a real seated shoulder press
+    // machine. dNFYIU1 (lever shoulder press v.3) is the real machine
+    // with backrest + plate-loaded arms, deltoids highlighted correctly.
+    id: "dNFYIU1",
     target: "delts",
     secondary: ["triceps", "chest"],
     equip: "leverage machine",
     steps: [
-      "Adjust the seat height and position yourself on the machine with your back against the backrest.",
-      "Grasp the handles with an overhand grip and position your hands at shoulder level.",
-      "Push the handles upward until your arms are fully extended, but do not lock your elbows.",
-      "Pause for a moment at the top, then slowly lower the handles back down to the starting position.",
+      "Adjust the seat height so the handles sit at shoulder level, and sit with your back flat against the backrest.",
+      "Grasp the handles with an overhand grip, forearms roughly vertical.",
+      "Press the handles up until your arms are extended without locking the elbows.",
+      "Lower the handles under control back to shoulder level and repeat.",
     ],
   },
   "Machine Triceps Extension": {
