@@ -1234,15 +1234,20 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Seated Bent-Over Rear Delt Raise": {
-    id: "XUUD0Fs",
-    target: "upper back",
-    secondary: ["shoulders", "biceps"],
+    // Was id XUUD0Fs — actually a rear delt row on a flat bench (target=upper
+    // back), so the render highlighted the entire trapezius. 8DiFDVA is the
+    // real seated bent-over dumbbell rear fly: person perched on the edge of
+    // a bench, torso hinged forward, dumbbells flared out to the sides —
+    // isolates the rear deltoids cleanly.
+    id: "8DiFDVA",
+    target: "rear deltoids",
+    secondary: ["trapezius", "rhomboids"],
     equip: "dumbbell",
     steps: [
-      "Lie face down on a flat bench with a dumbbell in each hand, palms facing inwards.",
-      "Extend your arms straight down towards the floor, keeping a slight bend in your elbows.",
-      "Engaging your back muscles, lift the dumbbells up towards your chest, squeezing your shoulder blades together.",
-      "Pause for a moment at the top, then slowly lower the dumbbells back down to the starting position.",
+      "Sit on the edge of a flat bench with your feet flat on the floor, a dumbbell in each hand.",
+      "Hinge forward at the hips until your chest is close to your thighs, arms hanging straight down.",
+      "Keeping a small bend in your elbows, lift both dumbbells out to the sides in an arc until upper arms are parallel to the floor.",
+      "Squeeze the shoulder blades, then lower under control back to the starting position.",
     ],
   },
   "Seated Cable Rows": {

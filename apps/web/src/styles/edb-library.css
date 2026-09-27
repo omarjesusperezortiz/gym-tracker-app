@@ -310,17 +310,42 @@
 }
 .edb-detail-inner { position: relative; }
 .edb-detail-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
+  position: sticky;
+  top: 12px;
+  left: 100%;
+  transform: translateX(-100%);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: transparent;
-  color: #dfe3ea;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 22, 27, 0.92);
+  backdrop-filter: blur(8px);
+  color: #f5f7fa;
   font-family: inherit;
+  font-size: 18px;
+  line-height: 1;
   cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edb-detail-close:active { background: rgba(217, 200, 92, 0.92); color: #0a0b0e; }
+@media (max-width: 900px) {
+  .edb-detail-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    left: auto;
+    transform: none;
+    width: 44px;
+    height: 44px;
+    z-index: 100;
+  }
+  .edb-detail {
+    padding-top: 72px;
+  }
 }
 .edb-detail-media {
   aspect-ratio: 16 / 11;
