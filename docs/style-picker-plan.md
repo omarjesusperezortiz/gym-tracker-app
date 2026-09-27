@@ -13,15 +13,19 @@ style**, not equipment.
 |---|---|---|
 | Leg raise (core) | leg raise | Lying (bench), Hanging (bar), Captain's chair |
 | Hanging/Lying Leg Raise | leg raise | same as above |
-| Plank | plank hold | Forearm, High plank, Side plank, Weighted |
-| Side Plank | side plank | Forearm, Straight-arm, With leg raise |
+| Plank | plank hold | Forearm plank (default), High plank / power point (hCjGsRQ), Side plank, With twist (CosupLu), Kneeling tap-shoulder (h1ezqSu), Weighted (VBAWRPG) |
+| Side Plank | side plank | Forearm classic (RKjH6Lt), Incline (5VXmnV5), Hip adduction Copenhagen (VO2qeJg default), Hip abduction (WL4EmxJ) |
 | Squat | squat | Bodyweight, Goblet, Barbell back, Front, Zercher |
 | Push-up | push-up | Standard, Wide, Diamond, Decline, Incline |
 | Chin-up | pull movement | Chin (supinated), Pull-up (pronated), Neutral, Weighted |
 | Dip | dip | Bench dip, Parallel bar, Ring, Weighted |
-| Calf raise | calf raise | Standing, Seated, Donkey, Smith machine |
+| Calf raise | calf raise | Standing lever (ykUOVze), Hack (2ORFMoR default), Sled angled (XDOiFns), Seated, Donkey, Smith |
 | Chest fly · Cable | crossover | Middle, High-to-low decline, Low-to-high, Standing, Upper chest |
 | Chest fly · Dumbbell | fly | Flat, Incline, Decline |
+| Butt Lift (Bridge) | glute bridge | Low bridge (flat), Pelvic tilt bridge, Marching bridge, Single-leg bridge |
+| Machine Bicep Curl | biceps machine | Preacher (default), Seated lever curl, Smith rack curl |
+| Standing Dumbbell Press | shoulder press | Seated bench (3d7wHyd default), Standing overhead (A6wtbuL), Standing palms-in (UilDHSs), Standing alternating (bBi35y3) |
+| Standing Dumbbell Triceps Extension | triceps ext | Seated overhead (kont8Ut default), Standing overhead (PdmaD0N) |
 
 ## Proposed UX
 

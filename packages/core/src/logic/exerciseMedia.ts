@@ -1089,15 +1089,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Machine Bicep Curl": {
-    id: "zILLZ98",
+    // Was id "zILLZ98" (smith machine curl — standing in a Smith rack). Slot
+    // implies a dedicated bicep curl machine. b6hQYMb (lever preacher curl)
+    // is the more common gym machine variant. TODO(style-picker): also expose
+    // seated lever curl (q6y3OhV) and smith curl (zILLZ98) as style options.
+    id: "b6hQYMb",
     target: "biceps",
     secondary: ["forearms"],
-    equip: "smith machine",
+    equip: "leverage machine",
     steps: [
-      "Adjust the height of the smith machine bar to be at waist level.",
-      "Stand facing the smith machine with your feet shoulder-width apart.",
-      "Grasp the bar with an underhand grip, hands slightly wider than shoulder-width apart.",
-      "Keep your elbows close to your sides and your upper arms stationary.",
+      "Adjust the preacher pad so your armpits sit at the top of the pad and your feet reach the floor.",
+      "Grip the handles with an underhand grip, arms fully extended over the pad.",
+      "Curl the handles up by contracting the biceps, keeping the upper arms flat against the pad.",
+      "Lower the handles under control until the arms are almost fully extended, then repeat.",
     ],
   },
   "Machine Shoulder (Military) Press": {
