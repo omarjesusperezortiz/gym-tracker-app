@@ -1769,9 +1769,9 @@ export const catalog = {
     },
     "Side lateral raise": {
      "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
+      "name": "Handstand Push-Up",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/1.jpg"
      }
     },
     "Plank (core)": {
@@ -1783,23 +1783,23 @@ export const catalog = {
     },
     "Rear delts": {
      "bw": {
-      "name": "Band Pull Apart",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/1.jpg"
+      "name": "Inverted Row",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/1.jpg"
      }
     },
     "Shrugs (traps)": {
      "bw": {
-      "name": "Superman",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
+      "name": "Inverted Row",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/1.jpg"
      }
     },
     "Hammer curl": {
      "bw": {
-      "name": "Chin-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/1.jpg"
+      "name": "Pullups",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/1.jpg"
      }
     },
     "Squat": {
@@ -1839,9 +1839,9 @@ export const catalog = {
     },
     "Front raise": {
      "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
+      "name": "Handstand Push-Up",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/1.jpg"
      }
     },
     "Upright row": {
@@ -1853,9 +1853,9 @@ export const catalog = {
     },
     "Overhead triceps": {
      "bw": {
-      "name": "Bench Dips",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/1.jpg"
+      "name": "Diamond Push-Up",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Diamond_Push-Up/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Diamond_Push-Up/1.jpg"
      }
     },
     "Forearm / wrist": {
@@ -1874,16 +1874,16 @@ export const catalog = {
     },
     "Hamstring / RDL": {
      "bw": {
-      "name": "Butt Lift (Bridge)",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Butt_Lift_Bridge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Butt_Lift_Bridge/1.jpg"
+      "name": "Standing Single Leg Curl",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Single_Leg_Curl/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Single_Leg_Curl/1.jpg"
      }
     },
     "Calf raise": {
      "bw": {
-      "name": "Donkey Calf Raises",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Donkey_Calf_Raises/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Donkey_Calf_Raises/1.jpg"
+      "name": "Standing Calf Raises",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/1.jpg"
      }
     },
     "Plank": {

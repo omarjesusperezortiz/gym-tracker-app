@@ -1519,6 +1519,43 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pull the bar down towards your chest, squeezing your shoulder blades together.",
     ],
   },
+
+  "Diamond Push-Up": {
+    id: "soIB2rj",
+    target: "triceps",
+    secondary: ["pectorals", "shoulders", "core"],
+    equip: "body weight",
+    steps: [
+      "Get into a push-up position and bring your hands together under your chest, thumbs and index fingers forming a diamond.",
+      "Keep your body in a straight line from head to heels, core braced.",
+      "Lower your chest toward your hands by bending your elbows, keeping them tracking back at ~45°.",
+      "Press back up to full extension, squeezing the triceps at the top.",
+    ],
+  },
+  "Handstand Push-Up": {
+    id: "rQxwMxO",
+    target: "delts",
+    secondary: ["triceps", "trapezius"],
+    equip: "body weight",
+    steps: [
+      "Kick up into a handstand against a wall with hands slightly wider than shoulder-width, fingers spread.",
+      "Keep your core tight and body in a straight line, heels lightly touching the wall for balance.",
+      "Lower your head toward the floor by bending your elbows until the top of your head lightly touches down.",
+      "Press back up to full lockout without arching the lower back.",
+    ],
+  },
+  "Standing Single Leg Curl": {
+    id: "C5jncD2",
+    target: "hamstrings",
+    secondary: ["glutes"],
+    equip: "body weight",
+    steps: [
+      "Stand tall, hold on to a wall or chair for balance if needed.",
+      "Shift your weight onto one leg and slightly bend the standing knee.",
+      "Curl the other heel up toward your glute by contracting the hamstring, keeping the thigh vertical.",
+      "Lower under control back to the starting position and repeat, then switch legs.",
+    ],
+  },
 };
 
 /** Look up media for a catalog movement name (null when we have none yet). */
