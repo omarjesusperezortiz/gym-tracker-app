@@ -20,6 +20,8 @@ style**, not equipment.
 | Chin-up | pull movement | Chin (supinated), Pull-up (pronated), Neutral, Weighted |
 | Dip | dip | Bench dip, Parallel bar, Ring, Weighted |
 | Calf raise | calf raise | Standing, Seated, Donkey, Smith machine |
+| Chest fly · Cable | crossover | Middle, High-to-low decline, Low-to-high, Standing, Upper chest |
+| Chest fly · Dumbbell | fly | Flat, Incline, Decline |
 
 ## Proposed UX
 

@@ -630,15 +630,25 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Cable Crossover": {
-    id: "UFGF6gk",
-    target: "upper back",
-    secondary: ["biceps", "forearms"],
+    // Was id "UFGF6gk" which is actually "cable rope crossover seated row"
+    // (target=upper back) — a row for the back, not a chest fly. Switch to
+    // xLYSdtg (cable middle fly), the standard chest-fly crossover.
+    // TODO(style-picker): expose the other cable-fly styles as picker
+    // variants once the style picker ships:
+    //   - Middle (xLYSdtg) ← default here
+    //   - High-to-low decline (7saC5zz)
+    //   - Low-to-high (FVmZVhk)
+    //   - Standing (Pr9Rhf4)
+    //   - Upper chest (j7XMAyn)
+    id: "xLYSdtg",
+    target: "pectorals",
+    secondary: ["shoulders"],
     equip: "cable",
     steps: [
-      "Sit on the rowing machine with your feet flat on the footrests and your knees slightly bent.",
-      "Grasp the cable ropes with an overhand grip, palms facing each other.",
-      "Lean back slightly, keeping your back straight and your core engaged.",
-      "Pull the cable ropes towards your chest, squeezing your shoulder blades together.",
+      "Set both cable pulleys to shoulder height and grab a handle in each hand, one step forward with a slight forward lean.",
+      "Start with arms out to the sides at shoulder height, a small bend in the elbows.",
+      "Bring both handles in front of your chest in a wide arc, squeezing the pecs together at the finish.",
+      "Reverse the motion under control back to the starting position without letting the elbows straighten.",
     ],
   },
   "Cable Crunch": {
@@ -850,15 +860,20 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Face Pull": {
-    id: "zCgxPbV",
-    target: "lats",
-    secondary: ["shoulders", "biceps"],
+    // Was id "zCgxPbV" which is a one-arm low cable (target=lats) — not a
+    // face pull. wqNPGCg is "cable rear delt row (with rope)" which is the
+    // same movement as a face pull: rope to face, elbows high, isolating
+    // rear delts + external rotators. EDB's catalog has no entry literally
+    // named "face pull" so this is the correct match.
+    id: "wqNPGCg",
+    target: "rear deltoids",
+    secondary: ["trapezius", "rhomboids", "external rotators"],
     equip: "cable",
     steps: [
-      "Attach a cable handle to a low pulley and stand facing the machine.",
-      "Grasp the handle with your left hand and step away from the machine, extending your arm fully.",
-      "Position your feet shoulder-width apart, with your knees slightly bent.",
-      "Keep your back straight and your core engaged throughout the exercise.",
+      "Attach a rope to a high pulley set slightly above head height.",
+      "Grip the rope with both hands, palms facing each other, and step back so the cable is taut.",
+      "Pull the rope towards your face, driving your elbows high and out to the sides.",
+      "Squeeze the rear delts, then return to the start under control.",
     ],
   },
   "Flat Bench Lying Leg Raise": {
