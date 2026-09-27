@@ -124,6 +124,18 @@ export function EdbLibrary() {
 
   return (
     <div className="edb-app">
+      <div className="edb-mobilebar">
+        <button
+          type="button"
+          className="edb-mobilebar-toggle"
+          onClick={() => document.body.classList.toggle('edb-filters-open')}
+        >
+          Filters
+        </button>
+        <div style={{ fontSize: 13, color: '#9aa0a6' }}>
+          {filtered.length} exercises
+        </div>
+      </div>
       <aside className="edb-side">
         <div className="edb-brand">
           <div className="edb-brand-title">ExerciseDB</div>

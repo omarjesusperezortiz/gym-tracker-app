@@ -12,9 +12,50 @@
 .edb-app:has(.edb-detail) { grid-template-columns: var(--side-w) 1fr var(--detail-w); }
 @media (max-width: 900px) {
   .edb-app { grid-template-columns: 1fr; }
-  .edb-side { position: sticky; top: 0; z-index: 5; }
+  /* Mobile: results grid comes first, sidebar collapses behind a toggle. */
+  .edb-app { display: block; }
+  .edb-side {
+    position: fixed;
+    inset: 56px 0 0 0;
+    z-index: 40;
+    max-height: none;
+    display: none;
+    background: #0a0b0e;
+    padding-bottom: 40px;
+  }
+  body.edb-filters-open .edb-side { display: block; }
+  .edb-main { padding-top: 56px; min-height: 100vh; }
+  .edb-mobilebar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    background: #101215;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .edb-mobilebar-toggle {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #1a1d24;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #f5f7fa;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  body.edb-filters-open .edb-mobilebar-toggle {
+    background: #d9c85c;
+    color: #0a0b0e;
+  }
   .edb-app:has(.edb-detail) { grid-template-columns: 1fr; }
-  .edb-detail { position: fixed; inset: 0; z-index: 20; }
+  .edb-detail { position: fixed; inset: 0; z-index: 60; }
+}
+/* Hide mobile bar entirely on desktop */
+@media (min-width: 901px) {
+  .edb-mobilebar { display: none; }
 }
 
 /* SIDEBAR */
