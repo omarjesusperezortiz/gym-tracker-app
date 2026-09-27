@@ -19,11 +19,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const RING_R = 52;
 const RING_C = 2 * Math.PI * RING_R;
 
+/**
+ * Format elapsed time. Negative values mean overtime (past the intended rest);
+ * render with a leading minus so the timer keeps counting up after 00:00.
+ */
 function mmss(totalSeconds: number): string {
-  const s = Math.max(0, Math.ceil(totalSeconds));
+  const overtime = totalSeconds < 0;
+  const s = Math.max(0, Math.ceil(Math.abs(totalSeconds)));
   const m = Math.floor(s / 60);
   const r = s % 60;
-  return `${m}:${r.toString().padStart(2, '0')}`;
+  return `${overtime ? '-' : ''}${m}:${r.toString().padStart(2, '0')}`;
 }
 
 // Short WebAudio chime — no asset needed and works from a user-gesture-primed
@@ -60,9 +65,13 @@ export interface RestTimerProps {
   seconds: number;
   /** Called when the user skips or the countdown completes and is dismissed. */
   onClose: () => void;
+  /** When true, timer is auto-started on each set-check (persisted upstream). */
+  autoRest?: boolean;
+  /** Flip the auto-rest preference. */
+  onToggleAutoRest?: () => void;
 }
 
-export function RestTimer({ seconds, onClose }: RestTimerProps) {
+export function RestTimer({ seconds, onClose, autoRest, onToggleAutoRest }: RestTimerProps) {
   // Absolute instant the rest ends; paused timers store the remaining ms instead.
   const [endsAt, setEndsAt] = useState<number>(() => Date.now() + seconds * 1000);
   const [pausedRemaining, setPausedRemaining] = useState<number | null>(null);
@@ -140,6 +149,8 @@ export function RestTimer({ seconds, onClose }: RestTimerProps) {
 
   const displayMs = paused ? (pausedRemaining as number) : remainingMs;
   const done = displayMs <= 0;
+  const overtime = displayMs < 0;
+  // Ring fills down to 0 then stays empty during overtime.
   const frac = Math.max(0, Math.min(1, displayMs / total));
   const dashOffset = RING_C * (1 - frac);
 
@@ -162,7 +173,7 @@ export function RestTimer({ seconds, onClose }: RestTimerProps) {
   }
 
   return (
-    <div className={`resttimer${flash ? ' flash' : ''}${done ? ' done' : ''}`} role="timer" aria-live="off">
+    <div className={`resttimer${flash ? ' flash' : ''}${done ? ' done' : ''}${overtime ? ' overtime' : ''}`} role="timer" aria-live="off">
       <div className="rt-inner">
         <div className="rt-ring">
           <svg width="128" height="128" viewBox="0 0 128 128">
@@ -179,11 +190,11 @@ export function RestTimer({ seconds, onClose }: RestTimerProps) {
           </svg>
           <div className="rt-center">
             <div className="rt-time">{mmss(displayMs / 1000)}</div>
-            <div className="rt-lbl">{done ? 'rest over' : paused ? 'paused' : 'rest'}</div>
+            <div className="rt-lbl">{overtime ? 'overtime' : paused ? 'paused' : 'rest'}</div>
           </div>
         </div>
         <div className="rt-ctrls">
-          <button className="rt-btn" onClick={togglePause} disabled={done}>
+          <button className="rt-btn" onClick={togglePause}>
             {paused ? 'Resume' : 'Pause'}
           </button>
           <button className="rt-btn" onClick={addFifteen}>
@@ -193,6 +204,20 @@ export function RestTimer({ seconds, onClose }: RestTimerProps) {
             {done ? 'Done' : 'Skip'}
           </button>
         </div>
+        {onToggleAutoRest && (
+          <button
+            type="button"
+            className={`rt-auto${autoRest ? ' on' : ''}`}
+            onClick={onToggleAutoRest}
+            aria-pressed={!!autoRest}
+          >
+            <span className="rt-auto-txt">
+              <span className="rt-auto-lbl">Auto-rest</span>
+              <span className="rt-auto-desc">Start automatically after each set check</span>
+            </span>
+            <span className="rt-auto-switch" aria-hidden />
+          </button>
+        )}
       </div>
     </div>
   );

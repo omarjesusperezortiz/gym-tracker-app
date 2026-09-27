@@ -68,6 +68,26 @@ export function TrainView() {
       }
       return next;
     });
+  // "Auto-rest" preference — persisted to localStorage. When on, checking a
+  // set done automatically starts the rest countdown. Default off, keeping
+  // the historical behavior where rest is a manual action.
+  const [autoRest, setAutoRest] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('autoRest') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const toggleAutoRest = () =>
+    setAutoRest((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem('autoRest', next ? '1' : '0');
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
   const startRest = () => {
     setRestSeconds(restPref);
     setRestNonce((n) => n + 1);
@@ -405,7 +425,14 @@ export function TrainView() {
               dispatch({ type: 'SET_KIND', key, planSlotKey: `${state.plan}|${sl[0]}`, kind, sets });
             }}
             onSetChange={(idx, field, value) => dispatch({ type: 'UPDATE_SET', key, index: idx, field, value })}
-            onToggleSetDone={(index) => dispatch({ type: 'TOGGLE_SET_DONE', key, index })}
+            onToggleSetDone={(index) => {
+              const wasDone = !!st.sets?.[index]?.done;
+              dispatch({ type: 'TOGGLE_SET_DONE', key, index });
+              // When flipping a set from open → done, auto-start the rest
+              // countdown if the user has enabled auto-rest. Un-checking does
+              // NOT start rest.
+              if (!wasDone && autoRest) startRest();
+            }}
             onAddSet={() => dispatch({ type: 'ADD_SET', key })}
             onDeleteSet={(index) => dispatch({ type: 'REMOVE_SET', key, index })}
             onZoom={setZoom}
@@ -439,7 +466,13 @@ export function TrainView() {
       <PrBurstStack items={bursts} onDone={dismissBurst} />
 
       {restSeconds != null && (
-        <RestTimer key={restNonce} seconds={restSeconds} onClose={() => setRestSeconds(null)} />
+        <RestTimer
+          key={restNonce}
+          seconds={restSeconds}
+          onClose={() => setRestSeconds(null)}
+          autoRest={autoRest}
+          onToggleAutoRest={toggleAutoRest}
+        />
       )}
 
       {celebration && (
