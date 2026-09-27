@@ -34,11 +34,13 @@ describe('lastFor', () => {
     expect(lastFor(history, 'Flat chest press', 'bar')).toEqual([{ w: '40', r: '8' }]);
   });
 
-  it('falls back to any kind when the requested kind was never logged', () => {
+  it('returns null when the requested kind was never logged (no cross-kind leak)', () => {
+    // Previously fell back to *any* prior kind, which leaked cable weights into
+    // dumbbell inputs (etc). We prefer showing empty over showing misleading numbers.
     const history: HistorySlotEntry[] = [
       entry({ kind: 'db', date: '2024-01-01', sets: [{ w: '20', r: '10' }] }),
     ];
-    expect(lastFor(history, 'Flat chest press', 'bar')).toEqual([{ w: '20', r: '10' }]);
+    expect(lastFor(history, 'Flat chest press', 'bar')).toBeNull();
   });
 
   it('returns null when the slot was never logged', () => {

@@ -80,16 +80,10 @@ export function lastFor(
   let bestExactVarT = -1;
   let bestSameKind: LoggedSet[] | null = null;
   let bestSameKindT = -1;
-  let bestAny: LoggedSet[] | null = null;
-  let bestAnyT = -1;
 
   for (const e of history) {
     if (e.slotId !== movementId) continue;
     const t = Date.parse(e.date) || 0;
-    if (t > bestAnyT) {
-      bestAnyT = t;
-      bestAny = e.sets;
-    }
     if (e.kind === kind && t > bestSameKindT) {
       bestSameKindT = t;
       bestSameKind = e.sets;
@@ -99,8 +93,12 @@ export function lastFor(
       bestExactVar = e.sets;
     }
   }
-  // Prefer exact variation → same equipment kind → any kind (for legacy fallback).
-  return bestExactVar || bestSameKind || bestAny;
+  // Only prefill from data of the same kind or exact variation. Falling back
+  // to *any* prior kind (previous behavior) leaked values across equipment
+  // variations — e.g. switching Chest Fly from cable to dumbbell would ghost
+  // the cable weights, making the UI look like values were shared between
+  // exercises. Better to show empty placeholders than misleading numbers.
+  return bestExactVar || bestSameKind || null;
 }
 
 // The equipment kind used in the MOST RECENT logged entry for this slot (any
