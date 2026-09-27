@@ -349,15 +349,19 @@ export const exerciseMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Leg raise (core)": {
-    id: "I3tsCnC",
+    // Default variation: lying leg raise on a flat bench. Simpler + more
+    // accessible than hanging. A future "style picker" will let users
+    // switch between lying / hanging / captain's chair without changing
+    // equipment tabs.
+    id: "WhuFnR7",
     target: "abs",
     secondary: ["hip flexors"],
     equip: "body weight",
     steps: [
-      "Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
-      "Engage your core and lift your legs up in front of you, keeping them straight.",
-      "Continue lifting until your legs are parallel to the ground or as high as you can comfortably go.",
-      "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
+      "Lie flat on a bench with your legs extended and your hands gripping the sides for support.",
+      "Keep your legs straight (or with a small bend at the knees) and slowly raise them up toward the ceiling.",
+      "Stop when your hips start to lift off the bench, then squeeze your abs at the top.",
+      "Lower your legs back down under control without letting them touch the bench, and repeat.",
     ],
   },
   "Reverse Crunch": {
