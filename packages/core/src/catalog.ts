@@ -525,7 +525,7 @@ export const catalog = {
     },
     "Side lateral raise": {
      "cable": {
-      "name": "Cable Seated Lateral Raise",
+      "name": "Cable Lateral Raise",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Seated_Lateral_Raise/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Seated_Lateral_Raise/1.jpg"
      },

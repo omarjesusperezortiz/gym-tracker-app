@@ -522,15 +522,17 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Bench Dips": {
-    id: "05Cf2v8",
+    // Was id "05Cf2v8" (impossible dips on parallel bars) — not a bench dip.
+    // RrLske5 is the classic bench dip (hands on bench behind you, knees bent).
+    id: "RrLske5",
     target: "triceps",
     secondary: ["chest", "shoulders"],
     equip: "body weight",
     steps: [
-      "Position yourself between two parallel bars with your arms fully extended and your body suspended in the air.",
-      "Bend your knees and cross your ankles.",
-      "Lower your body by bending your elbows until your upper arms are parallel to the ground.",
-      "Pause for a moment, then push yourself back up to the starting position by straightening your arms.",
+      "Sit on the edge of a bench, hands gripping the edge next to your hips, fingers forward.",
+      "Slide your hips off the bench, keeping your knees bent and feet flat on the floor.",
+      "Lower yourself by bending the elbows until your upper arms are roughly parallel to the floor.",
+      "Push back up through the palms to full lockout, keeping tension in the triceps.",
     ],
   },
   "Bent Over Barbell Row": {
@@ -570,15 +572,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Bodyweight Squat": {
-    id: "wfotm7S",
+    // Was id "wfotm7S" (bodyweight drop jump squat) — a plyometric jump,
+    // not a plain squat. QChZi3x (squat to overhead reach) is the closest
+    // pure squat in EDB free tier.
+    id: "QChZi3x",
     target: "glutes",
     secondary: ["quadriceps", "hamstrings", "calves"],
     equip: "body weight",
     steps: [
-      "Stand with your feet shoulder-width apart.",
-      "Lower your body into a squat position by bending your knees and pushing your hips back.",
-      "Jump up explosively, extending your hips, knees, and ankles.",
-      "While in mid-air, quickly bring your feet together.",
+      "Stand tall with your feet shoulder-width apart, toes slightly turned out.",
+      "Push your hips back and bend your knees to lower into a squat, keeping the chest up.",
+      "Descend until your thighs are parallel to the floor (or as low as comfortable).",
+      "Drive through your heels to stand back up to the starting position.",
     ],
   },
   "Bodyweight Walking Lunge": {
@@ -687,16 +692,16 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Keep your upper arms close to your head and your elbows pointing forward.",
     ],
   },
-  "Cable Seated Lateral Raise": {
+  "Cable Lateral Raise": {
     id: "goJ6ezq",
     target: "delts",
     secondary: ["traps", "triceps"],
     equip: "cable",
     steps: [
-      "Stand with your feet shoulder-width apart and grasp the cable handles with an overhand grip.",
-      "Keep your arms straight and your core engaged.",
-      "Raise your arms out to the sides until they are parallel to the floor.",
-      "Pause for a moment at the top, then slowly lower your arms back down to the starting position.",
+      "Stand next to a low cable pulley with the handle in the hand furthest from the machine.",
+      "Keep your working arm straight (small bend at elbow) and a strong stance.",
+      "Raise the handle out to the side until your arm is parallel to the floor.",
+      "Pause at the top, then lower the handle under control back to the starting position.",
     ],
   },
   "Cable Shoulder Press": {
