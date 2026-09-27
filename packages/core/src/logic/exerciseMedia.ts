@@ -434,12 +434,13 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Band Pull Apart": {
-    // No EDB match for band pull apart — the local VtTbiP3.webp is actually
-    // "band pull through" (glutes). Use free-exercise-db photo instead, which
-    // shows the correct movement (rear delts + rhomboids).
-    id: "band-pull-apart-fed",
-    imgOverride: "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
-    target: "delts",
+    // Was previously mapped to a free-exercise-db photo (imgOverride) because
+    // no EDB entry was literally named "band pull apart". Per Omar's rule
+    // (only real EDB 3D animations, no free-exercise-db imgOverride), switch
+    // to sTfvVsG (band reverse fly) — mechanically identical: band held with
+    // straight arms, flare out to the sides, squeezing rear delts + rhomboids.
+    id: "sTfvVsG",
+    target: "rear deltoids",
     secondary: ["rhomboids", "trapezius"],
     equip: "band",
     steps: [
@@ -990,15 +991,17 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Leg Press": {
-    id: "7zdxRTl",
+    // Was id "7zdxRTl" (smith leg press) — a floor Smith variant, not the
+    // standard 45° sled leg press. 10Z2DXU is the real 45° sled machine.
+    id: "10Z2DXU",
     target: "glutes",
     secondary: ["quadriceps", "hamstrings", "calves"],
-    equip: "smith machine",
+    equip: "leverage machine",
     steps: [
-      "Adjust the seat and footplate of the smith machine to a comfortable position.",
-      "Sit on the machine with your back against the backrest and your feet shoulder-width apart on the footplate.",
-      "Grasp the handles or sides of the machine for stability.",
-      "Push the footplate away from you by extending your legs, keeping your back against the backrest.",
+      "Sit on the leg press with your back flat against the pad and feet shoulder-width on the platform.",
+      "Release the safety handles and lower the platform by bending your knees until they reach ~90°.",
+      "Drive through your mid-foot to press the platform back up without locking out the knees.",
+      "Control the descent on the next rep — don't let the platform slam.",
     ],
   },
   "Leverage High Row": {
@@ -1154,15 +1157,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Palms-Down Dumbbell Wrist Curl Over A Bench": {
-    id: "2dImyQ8",
+    // Was id "2dImyQ8" (dumbbell seated palms UP wrist curl) — opposite grip.
+    // Slot name says palms-DOWN which is a REVERSE wrist curl targeting the
+    // wrist extensors. BLCvwr2 is the real seated palms-down reverse wrist curl.
+    id: "BLCvwr2",
     target: "forearms",
-    secondary: ["biceps", "shoulders"],
+    secondary: [],
     equip: "dumbbell",
     steps: [
-      "Sit on a bench with your feet flat on the ground and hold a dumbbell in each hand, palms facing up.",
-      "Rest your forearms on your thighs, allowing your wrists to hang off the edge.",
-      "Slowly curl your wrists upward, squeezing your forearms at the top of the movement.",
-      "Pause for a moment, then lower your wrists back down to the starting position.",
+      "Sit on a bench with a dumbbell in each hand, forearms resting on your thighs and palms facing DOWN.",
+      "Let your wrists hang off the edge of your knees so the dumbbells drop toward the floor.",
+      "Curl the dumbbells up by extending your wrists, keeping the forearms glued to the thighs.",
+      "Pause at the top, then lower the dumbbells under control back to the starting position.",
     ],
   },
   "Palms-Up Barbell Wrist Curl Over A Bench": {
@@ -1434,15 +1440,19 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Superman": {
-    id: "4GqRrAk",
-    target: "pectorals",
-    secondary: ["core", "shoulders"],
+    // Was id "4GqRrAk" (superman PUSH-UP) — advanced push-up, not the back
+    // extension. zhMwOwE is a 45° hyperextension bench, the closest EDB
+    // animation to a Superman back extension. Rule: no more free-exercise-db
+    // imgOverride photos, only real EDB 3D animations.
+    id: "zhMwOwE",
+    target: "lower back",
+    secondary: ["glutes", "hamstrings"],
     equip: "body weight",
     steps: [
-      "Start in a high plank position with your hands slightly wider than shoulder-width apart and your feet together.",
-      "Engage your core and lower your body towards the ground, keeping your elbows close to your sides.",
-      "As you lower your body, simultaneously lift your right arm and left leg off the ground, extending them straight out.",
-      "Pause for a moment at the top, then lower your arm and leg back down while pushing yourself back up to the starting position.",
+      "Position yourself on a 45° hyperextension bench with your ankles secured and hips on the pad.",
+      "Cross your arms over your chest and bend forward at the hips, keeping your back neutral.",
+      "Lift your torso by extending the hips until your body is in a straight line.",
+      "Pause briefly at the top, then lower back down under control and repeat.",
     ],
   },
   "Triceps Pushdown": {
