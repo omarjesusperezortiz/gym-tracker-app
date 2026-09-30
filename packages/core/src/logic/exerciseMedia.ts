@@ -1517,19 +1517,17 @@ export const variationMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Superman": {
-    // Was id "4GqRrAk" (superman PUSH-UP) — advanced push-up, not the back
-    // extension. zhMwOwE is a 45° hyperextension bench, the closest EDB
-    // animation to a Superman back extension. Rule: no more free-exercise-db
-    // imgOverride photos, only real EDB 3D animations.
-    id: "zhMwOwE",
-    target: "lower back",
-    secondary: ["glutes", "hamstrings"],
+    // Travel/floor default: upward-facing dog (01qpYSe) — pure prone floor
+    // extension, no bench needed. Was zhMwOwE (hyperextension bench).
+    id: "01qpYSe",
+    target: "spine",
+    secondary: ["glutes", "shoulders"],
     equip: "body weight",
     steps: [
-      "Position yourself on a 45° hyperextension bench with your ankles secured and hips on the pad.",
-      "Cross your arms over your chest and bend forward at the hips, keeping your back neutral.",
-      "Lift your torso by extending the hips until your body is in a straight line.",
-      "Pause briefly at the top, then lower back down under control and repeat.",
+      "Lie face-down on the floor, hands under your shoulders, tops of the feet on the ground.",
+      "Press through your hands to lift your chest and hips off the floor, arms nearly straight.",
+      "Squeeze your glutes and open your chest, keeping shoulders down away from ears.",
+      "Lower back down with control and repeat.",
     ],
   },
   "Triceps Pushdown": {
