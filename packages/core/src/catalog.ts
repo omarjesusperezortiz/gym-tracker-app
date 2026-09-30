@@ -1559,25 +1559,63 @@ export const catalog = {
    "label": "Travel",
    "icon": "✈️",
    "sessions": {
-    "fullbody": {
-     "name": "Full Body",
+    "fullbody_easy": {
+     "name": "Full Body · Easy",
      "emoji": "🔥",
      "group": "broad",
-     "muscles": "push · legs · core · pure floor",
+     "muscles": "everything · beginner · 15 min",
      "slots": [
       [
        "Squat",
-       "3 × 15–20",
+       "3 × 12",
        ""
       ],
       [
        "Push-up",
-       "3 × 10–15",
+       "3 × 8",
+       ""
+      ],
+      [
+       "Lunge",
+       "3 × 10 each",
+       ""
+      ],
+      [
+       "Superman",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Plank",
+       "3 × 30s",
+       ""
+      ]
+     ]
+    },
+    "fullbody_med": {
+     "name": "Full Body · Medium",
+     "emoji": "🔥",
+     "group": "broad",
+     "muscles": "everything · intermediate · 25 min",
+     "slots": [
+      [
+       "Squat",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Push-up",
+       "4 × 12",
        ""
       ],
       [
        "Lunge",
        "3 × 12 each",
+       ""
+      ],
+      [
+       "Diamond Push-up",
+       "3 × 10",
        ""
       ],
       [
@@ -1597,35 +1635,101 @@ export const catalog = {
       ]
      ]
     },
-    "upper": {
-     "name": "Upper",
-     "emoji": "💪",
+    "fullbody_hard": {
+     "name": "Full Body · Hard",
+     "emoji": "🔥",
      "group": "broad",
-     "muscles": "chest · shoulders · triceps · back",
+     "muscles": "everything · advanced · 35 min",
      "slots": [
       [
-       "Push-up",
-       "3 × 15",
+       "Pistol Squat",
+       "3 × 6 each",
+       ""
+      ],
+      [
+       "Archer Push-up",
+       "3 × 6 each",
+       ""
+      ],
+      [
+       "Sissy Squat",
+       "3 × 12",
        ""
       ],
       [
        "Handstand Push-up",
-       "3 × 5–10",
+       "4 × 8",
+       ""
+      ],
+      [
+       "Plyo Push-up",
+       "3 × 8",
+       ""
+      ],
+      [
+       "L-Sit Hold",
+       "3 × 20s",
+       ""
+      ]
+     ]
+    },
+    "push_easy": {
+     "name": "Push · Easy",
+     "emoji": "💥",
+     "group": "broad",
+     "muscles": "chest · shoulders · triceps · beginner · 15 min",
+     "slots": [
+      [
+       "Push-up",
+       "3 × 8",
        ""
       ],
       [
        "Diamond Push-up",
-       "3 × 10–12",
+       "3 × 6",
        ""
       ],
       [
-       "Superman",
-       "3 × 15",
+       "Kneeling Triceps Ext",
+       "3 × 10",
        ""
       ],
       [
-       "Rear delt stretch",
+       "Rear Delt Stretch",
        "3 × 30s",
+       ""
+      ]
+     ]
+    },
+    "push_med": {
+     "name": "Push · Medium",
+     "emoji": "💥",
+     "group": "broad",
+     "muscles": "chest · shoulders · triceps · 25 min",
+     "slots": [
+      [
+       "Push-up",
+       "4 × 12",
+       ""
+      ],
+      [
+       "Handstand Push-up",
+       "3 × 8",
+       ""
+      ],
+      [
+       "Diamond Push-up",
+       "3 × 10",
+       ""
+      ],
+      [
+       "Hindu Push-up",
+       "3 × 10",
+       ""
+      ],
+      [
+       "Close-grip Push-up",
+       "3 × 10",
        ""
       ],
       [
@@ -1635,19 +1739,151 @@ export const catalog = {
       ]
      ]
     },
-    "lower_core": {
-     "name": "Lower + Core",
-     "emoji": "🦵",
+    "push_hard": {
+     "name": "Push · Hard",
+     "emoji": "💥",
      "group": "broad",
-     "muscles": "legs · glutes · core",
+     "muscles": "chest · shoulders · triceps · advanced · 35 min",
      "slots": [
       [
-       "Squat",
-       "3 × 20",
+       "Handstand Push-up",
+       "4 × 10",
        ""
       ],
       [
-       "Lunge",
+       "Archer Push-up",
+       "3 × 8 each",
+       ""
+      ],
+      [
+       "Plyo Push-up",
+       "3 × 10",
+       ""
+      ],
+      [
+       "Diamond Push-up",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Clap Push-up",
+       "3 × 6",
+       ""
+      ],
+      [
+       "Single Arm Push-up",
+       "3 × 5 each",
+       ""
+      ]
+     ]
+    },
+    "pull_easy": {
+     "name": "Pull · Easy",
+     "emoji": "🎯",
+     "group": "broad",
+     "muscles": "back · rear delts · postural · 10 min",
+     "slots": [
+      [
+       "Cobra (Upward Dog)",
+       "3 × 12",
+       ""
+      ],
+      [
+       "Rear Delt Stretch",
+       "3 × 30s",
+       ""
+      ],
+      [
+       "Sphinx",
+       "3 × 30s",
+       ""
+      ],
+      [
+       "Standing Archer",
+       "3 × 10 each",
+       ""
+      ]
+     ]
+    },
+    "pull_med": {
+     "name": "Pull · Medium",
+     "emoji": "🎯",
+     "group": "broad",
+     "muscles": "back · rear delts · postural · 15 min",
+     "slots": [
+      [
+       "Cobra (Upward Dog)",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Lower Back Curl",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Standing Archer",
+       "3 × 12 each",
+       ""
+      ],
+      [
+       "Plank (postural)",
+       "3 × 45s",
+       ""
+      ],
+      [
+       "Rear Delt Stretch",
+       "3 × 30s",
+       ""
+      ]
+     ]
+    },
+    "legs_easy": {
+     "name": "Legs · Easy",
+     "emoji": "🦵",
+     "group": "broad",
+     "muscles": "legs · glutes · beginner · 15 min",
+     "slots": [
+      [
+       "Squat",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Walking Lunge",
+       "3 × 12 each",
+       ""
+      ],
+      [
+       "Glute Bridge",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Standing Calf Raise",
+       "3 × 20",
+       ""
+      ]
+     ]
+    },
+    "legs_med": {
+     "name": "Legs · Medium",
+     "emoji": "🦵",
+     "group": "broad",
+     "muscles": "legs · glutes · 25 min",
+     "slots": [
+      [
+       "Squat",
+       "4 × 20",
+       ""
+      ],
+      [
+       "Walking Lunge",
+       "3 × 15 each",
+       ""
+      ],
+      [
+       "Split Squats",
        "3 × 12 each",
        ""
       ],
@@ -1658,45 +1894,73 @@ export const catalog = {
       ],
       [
        "Standing Calf Raise",
-       "3 × 20",
+       "4 × 20",
        ""
       ],
       [
        "Glute Bridge",
        "3 × 15",
        ""
-      ],
+      ]
+     ]
+    },
+    "legs_hard": {
+     "name": "Legs · Hard",
+     "emoji": "🦵",
+     "group": "broad",
+     "muscles": "legs · glutes · advanced · 35 min",
+     "slots": [
       [
-       "Side Plank",
-       "3 × 30s each",
+       "Pistol Squat",
+       "4 × 8 each",
        ""
       ],
       [
-       "Reverse Crunch",
+       "Sissy Squat",
        "3 × 15",
+       ""
+      ],
+      [
+       "Split Squats",
+       "3 × 15 each",
+       ""
+      ],
+      [
+       "Curtsey Squat",
+       "3 × 10 each",
+       ""
+      ],
+      [
+       "Single Leg Bridge",
+       "3 × 12 each",
+       ""
+      ],
+      [
+       "Standing Single Leg Curl",
+       "3 × 15 each",
+       ""
+      ],
+      [
+       "Standing Calf Raise",
+       "4 × 25",
        ""
       ]
      ]
     },
-    "quick": {
-     "name": "Quick 15",
-     "emoji": "⚡",
+    "core_easy": {
+     "name": "Core · Easy",
+     "emoji": "🎯",
      "group": "broad",
-     "muscles": "short travel session \· chest \· legs \· core",
+     "muscles": "abs · core · beginner · 12 min",
      "slots": [
       [
-       "Push-up",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Squat",
-       "3 × 20",
-       ""
-      ],
-      [
        "Plank",
-       "3 × 45s",
+       "3 × 30s",
+       ""
+      ],
+      [
+       "Bicycle Crunch",
+       "3 × 15",
        ""
       ],
       [
@@ -1705,136 +1969,530 @@ export const catalog = {
        ""
       ],
       [
+       "Glute Bridge",
+       "3 × 12",
+       ""
+      ]
+     ]
+    },
+    "core_med": {
+     "name": "Core · Medium",
+     "emoji": "🎯",
+     "group": "broad",
+     "muscles": "abs · core · obliques · 20 min",
+     "slots": [
+      [
+       "Plank",
+       "3 × 60s",
+       ""
+      ],
+      [
+       "Side Plank",
+       "3 × 45s each",
+       ""
+      ],
+      [
+       "Reverse Crunch",
+       "3 × 15",
+       ""
+      ],
+      [
        "Bicycle Crunch",
        "3 × 20",
+       ""
+      ],
+      [
+       "Russian Twist",
+       "3 × 25",
+       ""
+      ],
+      [
+       "Lying Leg-Hip Raise",
+       "3 × 12",
+       ""
+      ]
+     ]
+    },
+    "core_hard": {
+     "name": "Core · Hard",
+     "emoji": "🎯",
+     "group": "broad",
+     "muscles": "abs · core · elite · 25 min",
+     "slots": [
+      [
+       "L-Sit Hold",
+       "5 × 20s",
+       ""
+      ],
+      [
+       "V-Sit Hold",
+       "3 × 30s",
+       ""
+      ],
+      [
+       "Plank with Twist",
+       "3 × 12 each",
+       ""
+      ],
+      [
+       "Side Plank",
+       "3 × 60s each",
+       ""
+      ],
+      [
+       "Decline Crunch",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Reverse Crunch",
+       "3 × 20",
+       ""
+      ]
+     ]
+    },
+    "hiit_med": {
+     "name": "HIIT · Medium",
+     "emoji": "⚡",
+     "group": "broad",
+     "muscles": "legs · everything · cardio · 20 min",
+     "slots": [
+      [
+       "Burpee",
+       "5 × 10",
+       ""
+      ],
+      [
+       "Jack Jump",
+       "5 × 20",
+       ""
+      ],
+      [
+       "Bear Crawl",
+       "5 × 30s",
+       ""
+      ],
+      [
+       "Plyo Push-up",
+       "4 × 8",
+       ""
+      ],
+      [
+       "Squat",
+       "5 × 20",
+       ""
+      ]
+     ]
+    },
+    "hiit_hard": {
+     "name": "HIIT · Hard",
+     "emoji": "⚡",
+     "group": "broad",
+     "muscles": "legs · everything · cardio advanced · 30 min",
+     "slots": [
+      [
+       "Burpee",
+       "6 × 15",
+       ""
+      ],
+      [
+       "Clap Push-up",
+       "5 × 8",
+       ""
+      ],
+      [
+       "Star Jump",
+       "5 × 20",
+       ""
+      ],
+      [
+       "Bear Crawl",
+       "5 × 45s",
+       ""
+      ],
+      [
+       "Plyo Push-up",
+       "5 × 10",
+       ""
+      ],
+      [
+       "Pistol Squat",
+       "4 × 6 each",
+       ""
+      ],
+      [
+       "Jack Jump",
+       "5 × 25",
+       ""
+      ]
+     ]
+    },
+    "quick_easy": {
+     "name": "Quick 15",
+     "emoji": "⚡",
+     "group": "broad",
+     "muscles": "everything · quick · 10-15 min",
+     "slots": [
+      [
+       "Push-up",
+       "3 × 10",
+       ""
+      ],
+      [
+       "Squat",
+       "3 × 15",
+       ""
+      ],
+      [
+       "Plank",
+       "3 × 30s",
+       ""
+      ],
+      [
+       "Bicycle Crunch",
+       "3 × 15",
        ""
       ]
      ]
     }
    },
    "variations": {
-    "Squat": {
+    "Archer Push-up": {
      "bw": {
-      "name": "Squat to Overhead Reach",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Squat/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Squat/1.jpg"
+      "name": "Archer Push-up",
+      "img": "./exercise-media/posters/A9qxk2F.jpg",
+      "img2": "./exercise-media/posters/A9qxk2F.jpg"
      }
     },
-    "Push-up": {
+    "Bear Crawl": {
      "bw": {
-      "name": "Pushups",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/1.jpg"
-     }
-    },
-    "Lunge": {
-     "bw": {
-      "name": "Bodyweight Walking Lunge",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Walking_Lunge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Walking_Lunge/1.jpg"
-     }
-    },
-    "Superman": {
-     "bw": {
-      "name": "Superman",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
-     }
-    },
-    "Plank": {
-     "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
+      "name": "Bear Crawl",
+      "img": "./exercise-media/posters/0Yz8WdV.jpg",
+      "img2": "./exercise-media/posters/0Yz8WdV.jpg"
      }
     },
     "Bicycle Crunch": {
      "bw": {
       "name": "Air Bike",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Air_Bike/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Air_Bike/1.jpg"
+      "img": "./exercise-media/posters/1ZFqTDN.jpg",
+      "img2": "./exercise-media/posters/1ZFqTDN.jpg"
      }
     },
-    "Handstand Push-up": {
+    "Burpee": {
      "bw": {
-      "name": "Handstand Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Ups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Ups/1.jpg"
+      "name": "Burpee",
+      "img": "./exercise-media/posters/dK9394r.jpg",
+      "img2": "./exercise-media/posters/dK9394r.jpg"
+     }
+    },
+    "Clap Push-up": {
+     "bw": {
+      "name": "Clap Push-up",
+      "img": "./exercise-media/posters/wigSg76.jpg",
+      "img2": "./exercise-media/posters/wigSg76.jpg"
+     }
+    },
+    "Close-grip Push-up": {
+     "bw": {
+      "name": "Close-grip Push-up",
+      "img": "./exercise-media/posters/x6KpKpq.jpg",
+      "img2": "./exercise-media/posters/x6KpKpq.jpg"
+     }
+    },
+    "Cobra (Upward Dog)": {
+     "bw": {
+      "name": "Cobra Upward Dog",
+      "img": "./exercise-media/posters/01qpYSe.jpg",
+      "img2": "./exercise-media/posters/01qpYSe.jpg"
+     }
+    },
+    "Curtsey Squat": {
+     "bw": {
+      "name": "Curtsey Squat",
+      "img": "./exercise-media/posters/gUjqdei.jpg",
+      "img2": "./exercise-media/posters/gUjqdei.jpg"
+     }
+    },
+    "Decline Crunch": {
+     "bw": {
+      "name": "Decline Crunch",
+      "img": "./exercise-media/posters/9Ap7miY.jpg",
+      "img2": "./exercise-media/posters/9Ap7miY.jpg"
      }
     },
     "Diamond Push-up": {
      "bw": {
       "name": "Diamond Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups_-_Close_Triceps_Position/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups_-_Close_Triceps_Position/1.jpg"
-     }
-    },
-    "Rear delt stretch": {
-     "bw": {
-      "name": "Rear Deltoid Stretch",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rear_Deltoid_Stretch/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rear_Deltoid_Stretch/1.jpg"
-     }
-    },
-    "Standing Single Leg Curl": {
-     "bw": {
-      "name": "Standing Single Leg Curl",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Leg_Curl/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Leg_Curl/1.jpg"
-     }
-    },
-    "Standing Calf Raise": {
-     "bw": {
-      "name": "Bodyweight Standing Calf Raise",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/1.jpg"
+      "img": "./exercise-media/posters/soIB2rj.jpg",
+      "img2": "./exercise-media/posters/soIB2rj.jpg"
      }
     },
     "Glute Bridge": {
      "bw": {
       "name": "Glute Bridge March",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Glute_Bridge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Glute_Bridge/1.jpg"
+      "img": "./exercise-media/posters/GibBPPg.jpg",
+      "img2": "./exercise-media/posters/GibBPPg.jpg"
      }
     },
-    "Side Plank": {
+    "Handstand Push-up": {
      "bw": {
-      "name": "Side Bridge",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/1.jpg"
+      "name": "Handstand Push-Up",
+      "img": "./exercise-media/posters/rQxwMxO.jpg",
+      "img2": "./exercise-media/posters/rQxwMxO.jpg"
+     }
+    },
+    "Hindu Push-up": {
+     "bw": {
+      "name": "Hindu Push-up",
+      "img": "./exercise-media/posters/epOSYUZ.jpg",
+      "img2": "./exercise-media/posters/epOSYUZ.jpg"
+     }
+    },
+    "Jack Jump": {
+     "bw": {
+      "name": "Jack Jump",
+      "img": "./exercise-media/posters/1g5bPpA.jpg",
+      "img2": "./exercise-media/posters/1g5bPpA.jpg"
+     }
+    },
+    "Kneeling Triceps Ext": {
+     "bw": {
+      "name": "Kneeling Triceps Extension",
+      "img": "./exercise-media/posters/s0HKO2I.jpg",
+      "img2": "./exercise-media/posters/s0HKO2I.jpg"
+     }
+    },
+    "L-Sit Hold": {
+     "bw": {
+      "name": "L-Sit on Floor",
+      "img": "./exercise-media/posters/UpWmA5E.jpg",
+      "img2": "./exercise-media/posters/UpWmA5E.jpg"
+     }
+    },
+    "Lower Back Curl": {
+     "bw": {
+      "name": "Lower Back Curl",
+      "img": "./exercise-media/posters/ANbbry2.jpg",
+      "img2": "./exercise-media/posters/ANbbry2.jpg"
+     }
+    },
+    "Lunge": {
+     "bw": {
+      "name": "Bodyweight Walking Lunge",
+      "img": "./exercise-media/posters/IZVHb27.jpg",
+      "img2": "./exercise-media/posters/IZVHb27.jpg"
+     }
+    },
+    "Lying Leg-Hip Raise": {
+     "bw": {
+      "name": "Lying Leg-Hip Raise",
+      "img": "./exercise-media/posters/9IxJdtC.jpg",
+      "img2": "./exercise-media/posters/9IxJdtC.jpg"
+     }
+    },
+    "Pistol Squat": {
+     "bw": {
+      "name": "Pistol Squat",
+      "img": "./exercise-media/posters/nqs5HGV.jpg",
+      "img2": "./exercise-media/posters/nqs5HGV.jpg"
+     }
+    },
+    "Plank": {
+     "bw": {
+      "name": "Plank",
+      "img": "./exercise-media/posters/hCjGsRQ.jpg",
+      "img2": "./exercise-media/posters/hCjGsRQ.jpg"
+     }
+    },
+    "Plank (postural)": {
+     "bw": {
+      "name": "Plank",
+      "img": "./exercise-media/posters/hCjGsRQ.jpg",
+      "img2": "./exercise-media/posters/hCjGsRQ.jpg"
+     }
+    },
+    "Plank with Twist": {
+     "bw": {
+      "name": "Plank with Twist",
+      "img": "./exercise-media/posters/CosupLu.jpg",
+      "img2": "./exercise-media/posters/CosupLu.jpg"
+     }
+    },
+    "Plyo Push-up": {
+     "bw": {
+      "name": "Plyo Push-up",
+      "img": "./exercise-media/posters/Snj1wSv.jpg",
+      "img2": "./exercise-media/posters/Snj1wSv.jpg"
+     }
+    },
+    "Push-up": {
+     "bw": {
+      "name": "Pushups",
+      "img": "./exercise-media/posters/I4hDWkc.jpg",
+      "img2": "./exercise-media/posters/I4hDWkc.jpg"
+     }
+    },
+    "Rear Delt Stretch": {
+     "bw": {
+      "name": "Rear Deltoid Stretch",
+      "img": "./exercise-media/posters/xifhB5W.jpg",
+      "img2": "./exercise-media/posters/xifhB5W.jpg"
      }
     },
     "Reverse Crunch": {
      "bw": {
       "name": "Reverse Crunch",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Crunch/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Crunch/1.jpg"
+      "img": "./exercise-media/posters/nCU1Ekp.jpg",
+      "img2": "./exercise-media/posters/nCU1Ekp.jpg"
      }
     },
     "Russian Twist": {
      "bw": {
       "name": "Russian Twist",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/1.jpg"
+      "img": "./exercise-media/posters/XVDdcoj.jpg",
+      "img2": "./exercise-media/posters/XVDdcoj.jpg"
+     }
+    },
+    "Side Plank": {
+     "bw": {
+      "name": "Side Bridge",
+      "img": "./exercise-media/posters/RKjH6Lt.jpg",
+      "img2": "./exercise-media/posters/RKjH6Lt.jpg"
+     }
+    },
+    "Single Arm Push-up": {
+     "bw": {
+      "name": "Single Arm Push-up",
+      "img": "./exercise-media/posters/MUic5zN.jpg",
+      "img2": "./exercise-media/posters/MUic5zN.jpg"
+     }
+    },
+    "Single Leg Bridge": {
+     "bw": {
+      "name": "Single Leg Bridge",
+      "img": "./exercise-media/posters/rmEukuS.jpg",
+      "img2": "./exercise-media/posters/rmEukuS.jpg"
+     }
+    },
+    "Sissy Squat": {
+     "bw": {
+      "name": "Sissy Squat",
+      "img": "./exercise-media/posters/xdYPUtE.jpg",
+      "img2": "./exercise-media/posters/xdYPUtE.jpg"
+     }
+    },
+    "Sphinx": {
+     "bw": {
+      "name": "Sphinx",
+      "img": "./exercise-media/posters/DIVyqrU.jpg",
+      "img2": "./exercise-media/posters/DIVyqrU.jpg"
+     }
+    },
+    "Split Squats": {
+     "bw": {
+      "name": "Split Squats",
+      "img": "./exercise-media/posters/9E25EOx.jpg",
+      "img2": "./exercise-media/posters/9E25EOx.jpg"
+     }
+    },
+    "Squat": {
+     "bw": {
+      "name": "Squat",
+      "img": "./exercise-media/posters/QChZi3x.jpg",
+      "img2": "./exercise-media/posters/QChZi3x.jpg"
+     }
+    },
+    "Standing Archer": {
+     "bw": {
+      "name": "Standing Archer",
+      "img": "./exercise-media/posters/JF8AkMX.jpg",
+      "img2": "./exercise-media/posters/JF8AkMX.jpg"
+     }
+    },
+    "Standing Calf Raise": {
+     "bw": {
+      "name": "Bodyweight Standing Calf Raise",
+      "img": "./exercise-media/posters/bJYHBIN.jpg",
+      "img2": "./exercise-media/posters/bJYHBIN.jpg"
+     }
+    },
+    "Standing Single Leg Curl": {
+     "bw": {
+      "name": "Standing Single Leg Curl",
+      "img": "./exercise-media/posters/C5jncD2.jpg",
+      "img2": "./exercise-media/posters/C5jncD2.jpg"
+     }
+    },
+    "Star Jump": {
+     "bw": {
+      "name": "Star Jump",
+      "img": "./exercise-media/posters/HtfCpfi.jpg",
+      "img2": "./exercise-media/posters/HtfCpfi.jpg"
+     }
+    },
+    "Superman": {
+     "bw": {
+      "name": "Superman",
+      "img": "./exercise-media/posters/01qpYSe.jpg",
+      "img2": "./exercise-media/posters/01qpYSe.jpg"
+     }
+    },
+    "V-Sit Hold": {
+     "bw": {
+      "name": "V-Sit on Floor",
+      "img": "./exercise-media/posters/ZuXu4Eq.jpg",
+      "img2": "./exercise-media/posters/ZuXu4Eq.jpg"
+     }
+    },
+    "Walking Lunge": {
+     "bw": {
+      "name": "Bodyweight Walking Lunge",
+      "img": "./exercise-media/posters/IZVHb27.jpg",
+      "img2": "./exercise-media/posters/IZVHb27.jpg"
      }
     }
    },
    "cues": {
-    "Squat to Overhead Reach": "Push hips back · knees track over toes · reach tall at top.",
-    "Pushups": "Hands under shoulders · elbows ~45° · lower chest to just above floor.",
+    "Air Bike": "Slow controlled twists · opposite elbow to opposite knee.",
+    "Archer Push-up": "Weight on one arm · other extended · unilateral load.",
+    "Bear Crawl": "All fours · knees hover · crawl forward.",
+    "Bodyweight Standing Calf Raise": "Push through balls of feet · squeeze top · lower controlled.",
     "Bodyweight Walking Lunge": "Long step · back knee light kiss · torso tall.",
-    "Superman": "Prone · lift arms + legs · squeeze low back at top.",
+    "Burpee": "Squat · plank · push-up · jump up · repeat.",
+    "Clap Push-up": "Explode up · clap at top · land soft.",
+    "Close-grip Push-up": "Hands narrow · elbows tuck · triceps focus.",
+    "Cobra Upward Dog": "Press through hands · lift chest · open front.",
+    "Curtsey Squat": "Cross back leg behind · squat unilateral.",
+    "Decline Crunch": "Feet elevated · crunch up · slow down.",
+    "Diamond Push-Up": "Hands in triangle under chest · elbows track back · squeeze triceps.",
+    "Glute Bridge March": "Bridge held · slow knee lift · hips level.",
+    "Handstand Push-Up": "Feet on wall · lower head to floor · press strong · no arch.",
+    "Hindu Push-up": "Flow · pike → cobra → back to pike.",
+    "Jack Jump": "Star jump variant · full extension.",
+    "Kneeling Triceps Extension": "Kneel · hinge forward · triceps extend arms.",
+    "L-Sit on Floor": "Sit · press hands down · lift legs 90° · hold.",
+    "Lower Back Curl": "Prone · lift chest with lower back · squeeze.",
+    "Lying Leg-Hip Raise": "Lift legs + hips off floor · control descent.",
+    "Pistol Squat": "Single-leg squat · other leg forward · control descent.",
     "Plank": "Straight line head-to-heels · brace core · don't sag.",
-    "Air Bike": "Slow controlled twists · opposite elbow to opposite knee · full extension.",
-    "Handstand Push-Up": "Feet on wall · lower head to floor · press up strong · no low-back arch.",
-    "Diamond Push-Up": "Hands in triangle under chest · elbows track back · squeeze triceps top.",
-    "Rear Deltoid Stretch": "Arm across body · pull elbow toward opposite shoulder · isometric hold.",
+    "Plank with Twist": "Forearm plank · rotate through side plank · hips high.",
+    "Plyo Push-up": "Explosive · hands leave floor · soft landing.",
+    "Pushups": "Hands under shoulders · elbows ~45° · lower chest to just above floor.",
+    "Rear Deltoid Stretch": "Arm across body · pull elbow toward opposite shoulder · isometric.",
+    "Reverse Crunch": "Lift hips · knees to chest · controlled lower.",
+    "Russian Twist": "Sit tall · lean back · rotate side to side.",
+    "Side Bridge": "Stack shoulders · hips high · straight line.",
+    "Single Arm Push-up": "One arm behind back · wide base · slow eccentric.",
+    "Single Leg Bridge": "One foot planted · other extended · bridge unilateral.",
+    "Sissy Squat": "Lean back · knees forward · quads intense · balance.",
+    "Sphinx": "Forearms down · lift chest · passive extension hold.",
+    "Split Squats": "Feet split stance · back knee toward floor · vertical shin.",
+    "Squat": "Push hips back · knees over toes · reach tall at top.",
+    "Standing Archer": "Standing · one arm pulls · other extends · unilateral.",
     "Standing Single Leg Curl": "One leg planted · curl heel to glute · squeeze hamstring.",
-    "Bodyweight Standing Calf Raise": "Push through balls of feet · squeeze at top · lower controlled.",
-    "Glute Bridge March": "Bridge held · slow knee lift · hips level · squeeze glute working side.",
-    "Side Bridge": "Stack shoulders · hips high · straight line from head to heels.",
-    "Reverse Crunch": "Lift hips · knees toward chest · controlled lower.",
-    "Russian Twist": "Sit tall · lean back slightly · rotate torso side to side."
+    "Star Jump": "Explosive jump · arms + legs out.",
+    "Superman": "Prone · lift arms + legs · squeeze low back.",
+    "V-Sit on Floor": "Balance on sit bones · V-shape · hold."
    }
   },
  },

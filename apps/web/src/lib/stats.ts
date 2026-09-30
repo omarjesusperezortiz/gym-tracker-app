@@ -113,10 +113,10 @@ export const MUSCLE_GROUPS: MuscleGroup[] = ['push', 'pull', 'legs', 'core'];
 // press" a pull, so lat work is caught by "pull" (lat pullover, vertical pull).
 export function classifyMuscleGroup(slot: string): MuscleGroup {
   const s = slot.toLowerCase();
-  if (/plank|crunch|russian twist|leg raise|pallof|core/.test(s)) return 'core';
-  if (/squat|lunge|hamstring|rdl|calf|leg press|glute|bridge/.test(s)) return 'legs';
-  if (/row|pull|curl|rear delt|shrug|forearm|wrist|superman/.test(s)) return 'pull';
-  if (/press|dip|fly|lateral raise|front raise|triceps|push/.test(s)) return 'push';
+  if (/plank|crunch|russian twist|leg raise|pallof|core|bear crawl|l-sit|v-sit|leg-hip/.test(s)) return 'core';
+  if (/squat|lunge|hamstring|rdl|calf|leg press|glute|bridge|split squat|pistol|sissy|curtsey|burpee|jack jump|star jump/.test(s)) return 'legs';
+  if (/row|pull|curl|rear delt|shrug|forearm|wrist|superman|cobra|sphinx|archer|lower back/.test(s)) return 'pull';
+  if (/press|dip|fly|lateral raise|front raise|triceps|push|handstand|hindu|plyo|clap/.test(s)) return 'push';
   return 'other';
 }
 
