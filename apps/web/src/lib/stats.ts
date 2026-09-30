@@ -114,8 +114,8 @@ export const MUSCLE_GROUPS: MuscleGroup[] = ['push', 'pull', 'legs', 'core'];
 export function classifyMuscleGroup(slot: string): MuscleGroup {
   const s = slot.toLowerCase();
   if (/plank|crunch|russian twist|leg raise|pallof|core/.test(s)) return 'core';
-  if (/squat|lunge|hamstring|rdl|calf|leg press|glute/.test(s)) return 'legs';
-  if (/row|pull|curl|rear delt|shrug|forearm|wrist/.test(s)) return 'pull';
+  if (/squat|lunge|hamstring|rdl|calf|leg press|glute|bridge/.test(s)) return 'legs';
+  if (/row|pull|curl|rear delt|shrug|forearm|wrist|superman/.test(s)) return 'pull';
   if (/press|dip|fly|lateral raise|front raise|triceps|push/.test(s)) return 'push';
   return 'other';
 }

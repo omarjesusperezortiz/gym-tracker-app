@@ -1561,308 +1561,170 @@ export const catalog = {
    "sessions": {
     "fullbody": {
      "name": "Full Body",
-     "emoji": "\ud83d\udd25",
+     "emoji": "🔥",
      "group": "broad",
-     "muscles": "push \u00b7 pull \u00b7 legs \u00b7 core",
+     "muscles": "push · legs · core · pure floor",
      "slots": [
       [
        "Squat",
-       "3 \u00d7 12\u201315",
+       "3 × 15–20",
        ""
       ],
       [
-       "Flat chest press",
-       "3 \u00d7 10\u201315",
-       ""
-      ],
-      [
-       "Horizontal row",
-       "3 \u00d7 10\u201312",
-       ""
-      ],
-      [
-       "Overhead press",
-       "3 \u00d7 8\u201312",
+       "Push-up",
+       "3 × 10–15",
        ""
       ],
       [
        "Lunge",
-       "3 \u00d7 10 each",
+       "3 × 12 each",
        ""
       ],
       [
-       "Plank (core)",
-       "3 \u00d7 45s",
+       "Superman",
+       "3 × 15",
        ""
       ],
       [
-       "Leg raise (core)",
-       "3 \u00d7 12\u201315",
+       "Plank",
+       "3 × 45s",
+       ""
+      ],
+      [
+       "Bicycle Crunch",
+       "3 × 20",
        ""
       ]
      ]
     },
     "upper": {
      "name": "Upper",
-     "emoji": "\ud83d\udcaa",
+     "emoji": "💪",
      "group": "broad",
-     "muscles": "chest \u00b7 back \u00b7 shoulders \u00b7 arms",
+     "muscles": "chest · shoulders · triceps · back",
      "slots": [
       [
-       "Incline press",
-       "3 \u00d7 10\u201315",
+       "Push-up",
+       "3 × 15",
        ""
       ],
       [
-       "Vertical pull (lats)",
-       "4 \u00d7 6\u201310",
+       "Handstand Push-up",
+       "3 × 5–10",
        ""
       ],
       [
-       "Chest dip",
-       "3 \u00d7 6\u201312",
+       "Diamond Push-up",
+       "3 × 10–12",
        ""
       ],
       [
-       "Side lateral raise",
-       "3 \u00d7 12\u201315",
+       "Superman",
+       "3 × 15",
        ""
       ],
       [
-       "Biceps curl",
-       "3 \u00d7 10\u201312",
+       "Rear delt stretch",
+       "3 × 30s",
        ""
       ],
       [
-       "Overhead triceps",
-       "3 \u00d7 10\u201312",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 \u00d7 15",
+       "Plank",
+       "3 × 45s",
        ""
       ]
      ]
     },
     "lower_core": {
      "name": "Lower + Core",
-     "emoji": "\ud83e\uddb5",
+     "emoji": "🦵",
      "group": "broad",
-     "muscles": "legs \u00b7 glutes \u00b7 core",
+     "muscles": "legs · glutes · core",
      "slots": [
       [
-       "Hamstring / RDL",
-       "3 \u00d7 10\u201315",
+       "Squat",
+       "3 × 20",
        ""
       ],
       [
-       "Calf raise",
-       "3 \u00d7 15\u201320",
+       "Lunge",
+       "3 × 12 each",
        ""
       ],
       [
-       "Bicycle Crunch",
-       "3 \u00d7 20",
+       "Standing Single Leg Curl",
+       "3 × 12 each",
+       ""
+      ],
+      [
+       "Standing Calf Raise",
+       "3 × 20",
+       ""
+      ],
+      [
+       "Glute Bridge",
+       "3 × 15",
        ""
       ],
       [
        "Side Plank",
-       "3 \u00d7 30s each",
+       "3 × 30s each",
        ""
       ],
       [
        "Reverse Crunch",
-       "3 \u00d7 15",
-       ""
-      ],
-      [
-       "Pallof Press (anti-rotation)",
-       "3 \u00d7 10 each",
+       "3 × 15",
        ""
       ]
      ]
     },
     "quick": {
      "name": "Quick 15",
-     "emoji": "\u26a1",
+     "emoji": "⚡",
      "group": "broad",
-     "muscles": "short travel session \u00b7 arms \u00b7 shoulders \u00b7 core",
+     "muscles": "short travel session \· chest \· legs \· core",
      "slots": [
       [
-       "Hammer curl",
-       "3 \u00d7 12",
+       "Push-up",
+       "3 × 15",
        ""
       ],
       [
-       "Chest fly",
-       "3 \u00d7 12\u201315",
+       "Squat",
+       "3 × 20",
        ""
       ],
       [
-       "Front raise",
-       "3 \u00d7 12",
+       "Plank",
+       "3 × 45s",
        ""
       ],
       [
        "Russian Twist",
-       "3 \u00d7 20",
+       "3 × 20",
        ""
       ],
       [
-       "Shrugs (traps)",
-       "3 \u00d7 15",
+       "Bicycle Crunch",
+       "3 × 20",
        ""
       ]
      ]
     }
    },
    "variations": {
-    "Flat chest press": {
-     "bw": {
-      "name": "Pushups",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/1.jpg"
-     }
-    },
-    "Horizontal row": {
-     "bw": {
-      "name": "Inverted Row",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/1.jpg"
-     }
-    },
-    "Overhead press": {
-     "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
-     }
-    },
-    "Vertical pull (lats)": {
-     "bw": {
-      "name": "Pullups",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/1.jpg"
-     }
-    },
-    "Biceps curl": {
-     "bw": {
-      "name": "Chin-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/1.jpg"
-     }
-    },
-    "Triceps pushdown/ext": {
-     "bw": {
-      "name": "Bench Dips",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/1.jpg"
-     }
-    },
-    "Incline press": {
-     "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
-     }
-    },
-    "Side lateral raise": {
-     "bw": {
-      "name": "Handstand Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/1.jpg"
-     }
-    },
-    "Plank (core)": {
-     "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
-     }
-    },
-    "Rear delts": {
-     "bw": {
-      "name": "Inverted Row",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/1.jpg"
-     }
-    },
-    "Shrugs (traps)": {
-     "bw": {
-      "name": "Inverted Row",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inverted_Row/1.jpg"
-     }
-    },
-    "Hammer curl": {
-     "bw": {
-      "name": "Pullups",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/1.jpg"
-     }
-    },
     "Squat": {
      "bw": {
-      "name": "Bodyweight Squat",
+      "name": "Squat to Overhead Reach",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Squat/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Squat/1.jpg"
      }
     },
-    "Leg raise (core)": {
-     "bw": {
-      "name": "Flat Bench Lying Leg Raise",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flat_Bench_Lying_Leg_Raise/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flat_Bench_Lying_Leg_Raise/1.jpg"
-     }
-    },
-    "Chest fly": {
+    "Push-up": {
      "bw": {
       "name": "Pushups",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/1.jpg"
-     }
-    },
-    "Chest dip": {
-     "bw": {
-      "name": "Bench Dips",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/1.jpg"
-     }
-    },
-    "Lat pullover / straight-arm": {
-     "bw": {
-      "name": "Superman",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
-     }
-    },
-    "Front raise": {
-     "bw": {
-      "name": "Handstand Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Up/1.jpg"
-     }
-    },
-    "Upright row": {
-     "bw": {
-      "name": "Band Pull Apart",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/1.jpg"
-     }
-    },
-    "Overhead triceps": {
-     "bw": {
-      "name": "Diamond Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Diamond_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Diamond_Push-Up/1.jpg"
-     }
-    },
-    "Forearm / wrist": {
-     "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
      }
     },
     "Lunge": {
@@ -1872,18 +1734,11 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Walking_Lunge/1.jpg"
      }
     },
-    "Hamstring / RDL": {
+    "Superman": {
      "bw": {
-      "name": "Standing Single Leg Curl",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Single_Leg_Curl/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Single_Leg_Curl/1.jpg"
-     }
-    },
-    "Calf raise": {
-     "bw": {
-      "name": "Standing Calf Raises",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/1.jpg"
+      "name": "Superman",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
      }
     },
     "Plank": {
@@ -1893,13 +1748,6 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
      }
     },
-    "Hanging/Lying Leg Raise": {
-     "bw": {
-      "name": "Flat Bench Lying Leg Raise",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flat_Bench_Lying_Leg_Raise/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flat_Bench_Lying_Leg_Raise/1.jpg"
-     }
-    },
     "Bicycle Crunch": {
      "bw": {
       "name": "Air Bike",
@@ -1907,11 +1755,46 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Air_Bike/1.jpg"
      }
     },
-    "Russian Twist": {
+    "Handstand Push-up": {
      "bw": {
-      "name": "Russian Twist",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/1.jpg"
+      "name": "Handstand Push-Up",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Ups/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Handstand_Push-Ups/1.jpg"
+     }
+    },
+    "Diamond Push-up": {
+     "bw": {
+      "name": "Diamond Push-Up",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups_-_Close_Triceps_Position/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups_-_Close_Triceps_Position/1.jpg"
+     }
+    },
+    "Rear delt stretch": {
+     "bw": {
+      "name": "Rear Deltoid Stretch",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rear_Deltoid_Stretch/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rear_Deltoid_Stretch/1.jpg"
+     }
+    },
+    "Standing Single Leg Curl": {
+     "bw": {
+      "name": "Standing Single Leg Curl",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Leg_Curl/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Leg_Curl/1.jpg"
+     }
+    },
+    "Standing Calf Raise": {
+     "bw": {
+      "name": "Bodyweight Standing Calf Raise",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/1.jpg"
+     }
+    },
+    "Glute Bridge": {
+     "bw": {
+      "name": "Glute Bridge March",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Glute_Bridge/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Glute_Bridge/1.jpg"
      }
     },
     "Side Plank": {
@@ -1921,44 +1804,22 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/1.jpg"
      }
     },
-    "Pallof Press (anti-rotation)": {
-     "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
-     }
-    },
     "Reverse Crunch": {
      "bw": {
       "name": "Reverse Crunch",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Crunch/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Crunch/1.jpg"
      }
+    },
+    "Russian Twist": {
+     "bw": {
+      "name": "Russian Twist",
+      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/0.jpg",
+      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/1.jpg"
+     }
     }
-   },
-   "cues": {
-    "Pushups": "Body straight, chest to floor, press up. Feet up = harder.",
-    "Inverted Row": "Under a bar/table, pull chest up, body straight.",
-    "Decline Push-Up": "Feet elevated push-up — shifts load to shoulders/upper chest. Bodyweight.",
-    "Pullups": "Pull chin over bar. Band-assist if needed.",
-    "Chin-Up": "Underhand pull-up — biceps + back.",
-    "Bench Dips": "Hands on bench behind you, lower & press up.",
-    "Side Lateral Raise": "Raise out to shoulder height, slight bend. Light.",
-    "Plank": "Forearms down, body straight, brace abs, hold. Don't let hips sag.",
-    "Band Pull Apart": "Band at chest, pull apart, squeeze blades.",
-    "Superman": "Face down, lift chest+legs, squeeze, lower.",
-    "Bodyweight Squat": "Sit back and down, knees track toes, stand.",
-    "Flat Bench Lying Leg Raise": "Lie down, raise legs with control, lower slow.",
-    "Bodyweight Walking Lunge": "Step forward, drop back knee, alternate.",
-    "Butt Lift (Bridge)": "On back, drive hips up, squeeze glutes.",
-    "Standing Calf Raises": "Rise onto toes, squeeze, lower slow. On a step for range.",
-    "Air Bike": "Alternate elbow to opposite knee, slow and controlled.",
-    "Russian Twist": "Seated, lean back, rotate side to side. Add weight to progress.",
-    "Side Bridge": "On side, forearm down, hips up, straight line, hold.",
-    "Reverse Crunch": "Knees up, curl hips toward chest, control down.",
-    "Donkey Calf Raises": "Bend at hips, rise onto toes, full squeeze, slow — bodyweight, no kit."
    }
-  }
+  },
  },
  "meals": {
   "principles": [

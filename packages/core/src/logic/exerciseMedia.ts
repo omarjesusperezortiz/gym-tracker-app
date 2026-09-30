@@ -1556,6 +1556,55 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Lower under control back to the starting position and repeat, then switch legs.",
     ],
   },
+
+  "Bodyweight Standing Calf Raise": {
+    id: "bJYHBIN",
+    target: "calves",
+    secondary: [],
+    equip: "body weight",
+    steps: [
+      "Stand tall with feet hip-width apart, arms at your sides for balance.",
+      "Push through the balls of your feet to raise your heels as high as possible.",
+      "Squeeze the calves at the top for a beat.",
+      "Lower back down under control and repeat.",
+    ],
+  },
+  "Glute Bridge March": {
+    id: "GibBPPg",
+    target: "glutes",
+    secondary: ["hamstrings", "core"],
+    equip: "body weight",
+    steps: [
+      "Lie on your back with knees bent and feet flat on the floor, arms at your sides.",
+      "Press through your heels to lift your hips into a straight-line bridge.",
+      "Keeping hips level, lift one knee toward your chest, then lower it back down.",
+      "Alternate legs while holding the bridge, then lower your hips at the end of the set.",
+    ],
+  },
+  "Rear Deltoid Stretch": {
+    id: "xifhB5W",
+    target: "rear deltoids",
+    secondary: ["trapezius"],
+    equip: "body weight",
+    steps: [
+      "Stand tall, bring one arm across your body at shoulder height.",
+      "Use your opposite hand to gently pull the elbow toward the opposite shoulder.",
+      "Hold the isometric stretch, feeling tension in the rear delt.",
+      "Release, switch sides, and repeat for the target time.",
+    ],
+  },
+  "Squat to Overhead Reach": {
+    id: "QChZi3x",
+    target: "quadriceps",
+    secondary: ["glutes", "hamstrings", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Stand with feet shoulder-width apart, toes slightly turned out.",
+      "Descend into a squat by pushing your hips back and bending the knees.",
+      "As you stand back up, reach both arms overhead in a fluid motion.",
+      "Lower the arms as you begin the next squat and repeat.",
+    ],
+  },
 };
 
 /** Look up media for a catalog movement name (null when we have none yet). */
