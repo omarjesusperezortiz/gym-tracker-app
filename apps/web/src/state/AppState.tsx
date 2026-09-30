@@ -3,8 +3,8 @@
 // globals, persisted to localStorage so a reload never loses unsaved sets.
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { catalog } from '@gym-tracker/core';
-import type { AddedSlot, Kind, PlanKey } from '@gym-tracker/core';
-import { LS_DRAFT, LS_ONEOFF, LS_PLAN, LS_PREF, readJSON, writeJSON } from '../lib/storage';
+import type { AddedSlot, Kind, LevelKey, PlanKey } from '@gym-tracker/core';
+import { LS_DRAFT, LS_ONEOFF, LS_PLAN, LS_PREF, LS_TRAVEL_LEVEL, readJSON, writeJSON } from '../lib/storage';
 
 export type View = 'today' | 'home' | 'train' | 'calendar' | 'progress' | 'meals' | 'exercises' | 'profile';
 
@@ -29,6 +29,9 @@ export type PrefMap = Record<string, Kind>;
  *  session for rendering and saved with the workout, but never written to the
  *  session_customizations overlay. */
 export type OneOffMap = Record<string, AddedSlot[]>;
+/** User-chosen travel difficulty per split (e.g. `fullbody` → 'hard'). A split
+ *  missing here uses the auto level picked from history (lib/travelLevel.ts). */
+export type TravelLevelMap = Record<string, LevelKey>;
 
 export function keyOf(plan: string, sess: string | null, slot: string): string {
   return `${plan}|${sess ?? ''}|${slot}`;
@@ -41,6 +44,7 @@ export interface State {
   live: LiveMap;
   pref: PrefMap;
   oneOff: OneOffMap;
+  travelLevel: TravelLevelMap;
   // Set while re-opening a PAST, already-finished workout for editing (Calendar's
   // "Continue / edit this workout"). editingKey is `${plan}|${sess}` — Finish updates
   // that workout row instead of inserting a new one only while it still matches.
@@ -65,7 +69,9 @@ type Action =
   | { type: 'EDIT_ENTRY'; plan: PlanKey; sess: string; entryId: string; live: LiveMap }
   | { type: 'CANCEL_EDIT'; keys: string[]; sessionKey?: string }
   | { type: 'ADD_LIVE_SLOT'; sessionKey: string; slot: AddedSlot }
-  | { type: 'REMOVE_LIVE_SLOT'; sessionKey: string; slot: string; key: string };
+  | { type: 'REMOVE_LIVE_SLOT'; sessionKey: string; slot: string; key: string }
+  // level null clears the override, handing the split back to auto-level.
+  | { type: 'SET_TRAVEL_LEVEL'; split: string; level: LevelKey | null };
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -180,6 +186,12 @@ export function reducer(state: State, action: Action): State {
         oneOff: { ...state.oneOff, [action.sessionKey]: existing.filter((a) => a.slot !== action.slot) },
       };
     }
+    case 'SET_TRAVEL_LEVEL': {
+      const travelLevel = { ...state.travelLevel };
+      if (action.level) travelLevel[action.split] = action.level;
+      else delete travelLevel[action.split];
+      return { ...state, travelLevel };
+    }
     default:
       return state;
   }
@@ -199,6 +211,7 @@ function initialState(): State {
   // Persisted alongside the draft: without it a reload would drop the added
   // exercise while its typed sets stayed in `live`, orphaned and unsaveable.
   const oneOff = readJSON<OneOffMap>(LS_ONEOFF, {});
+  const travelLevel = readJSON<TravelLevelMap>(LS_TRAVEL_LEVEL, {});
   return {
     plan: catalog.plans[plan] ? plan : 'gym',
     view: 'today',
@@ -206,6 +219,7 @@ function initialState(): State {
     live,
     pref,
     oneOff,
+    travelLevel,
     editingId: null,
     editingKey: null,
   };
@@ -225,6 +239,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => writeJSON(LS_PREF, state.pref), [state.pref]);
   useEffect(() => writeJSON(LS_DRAFT, state.live), [state.live]);
   useEffect(() => writeJSON(LS_ONEOFF, state.oneOff), [state.oneOff]);
+  useEffect(() => writeJSON(LS_TRAVEL_LEVEL, state.travelLevel), [state.travelLevel]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

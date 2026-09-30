@@ -28,6 +28,7 @@ import { CompletionCelebration, type CompletionSummary } from '../components/Com
 import { ExerciseCard } from './ExerciseCard';
 import { AddExerciseSheet, type AddScope } from './AddExerciseSheet';
 import { IconBack, IconClose, IconEdit, IconPlus } from '../lib/icons';
+import { availableLevels, LEVEL_LABEL, resolveLevel } from '../lib/travelLevel';
 import '../styles/train-extras.css';
 
 const EMPTY_ONE_OFFS: AddedSlot[] = [];
@@ -115,7 +116,21 @@ export function TrainView() {
   const sessionKey = `${state.plan}|${cur}`;
   const storedOverlay = overlayFor(state.plan, cur);
   const oneOffs = useMemo(() => state.oneOff[sessionKey] ?? EMPTY_ONE_OFFS, [state.oneOff, sessionKey]);
-  const base = P.sessions[cur];
+  const catalogSession = P.sessions[cur];
+  // Travel sessions come in levels: train the user's override for this split,
+  // else the auto pick from history. The chosen level's slots stand in for the
+  // session's own, so everything below is level-agnostic.
+  const isTravel = state.plan === 'travel';
+  const storedLevel = isTravel ? state.travelLevel[cur] : undefined;
+  const resolved = useMemo(
+    () => resolveLevel(catalogSession, isTravel ? history : [], cur, storedLevel),
+    [catalogSession, isTravel, history, cur, storedLevel]
+  );
+  const levelKeys = isTravel ? availableLevels(catalogSession.levels) : [];
+  const base = useMemo(
+    () => (resolved.level ? { ...catalogSession, slots: resolved.slots, muscles: resolved.muscles } : catalogSession),
+    [catalogSession, resolved]
+  );
   const session = useMemo(
     () => effectiveSession(base, withOneOffs(storedOverlay, oneOffs)),
     [base, storedOverlay, oneOffs]
@@ -383,6 +398,38 @@ export function TrainView() {
           <div className="ps">Log your sets · tap ⬤ when done</div>
         </div>
       </div>
+
+      {levelKeys.length > 1 && (
+        <div className="seg lvlseg" role="radiogroup" aria-label="Difficulty level">
+          {levelKeys.map((lv) => {
+            const active = lv === resolved.level;
+            return (
+              <button
+                key={lv}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                className={`segi${active ? ' active' : ''}`}
+                onClick={() => {
+                  if (!active) dispatch({ type: 'SET_TRAVEL_LEVEL', split: cur, level: lv });
+                }}
+              >
+                {LEVEL_LABEL[lv]}
+                {active && resolved.isAuto && <span className="lvl-auto">Auto</span>}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {levelKeys.length > 1 && !resolved.isAuto && (
+        <button
+          type="button"
+          className="lvl-reset"
+          onClick={() => dispatch({ type: 'SET_TRAVEL_LEVEL', split: cur, level: null })}
+        >
+          Back to auto level
+        </button>
+      )}
 
       {session.slots.map((sl, i) => {
         const key = keyOf(state.plan, cur, sl[0]);

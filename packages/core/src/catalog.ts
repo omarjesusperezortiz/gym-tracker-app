@@ -1559,41 +1559,8 @@ export const catalog = {
    "label": "Travel",
    "icon": "✈️",
    "sessions": {
-    "fullbody_easy": {
-     "name": "Full Body · Easy",
-     "emoji": "🔥",
-     "group": "broad",
-     "muscles": "everything · beginner · 15 min",
-     "slots": [
-      [
-       "Squat",
-       "3 × 12",
-       ""
-      ],
-      [
-       "Push-up",
-       "3 × 8",
-       ""
-      ],
-      [
-       "Lunge",
-       "3 × 10 each",
-       ""
-      ],
-      [
-       "Superman",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Plank",
-       "3 × 30s",
-       ""
-      ]
-     ]
-    },
-    "fullbody_med": {
-     "name": "Full Body · Medium",
+    "fullbody": {
+     "name": "Full Body",
      "emoji": "🔥",
      "group": "broad",
      "muscles": "everything · intermediate · 25 min",
@@ -1633,76 +1600,117 @@ export const catalog = {
        "3 × 20",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "everything · beginner · 15 min",
+       "slots": [
+        [
+         "Squat",
+         "3 × 12",
+         ""
+        ],
+        [
+         "Push-up",
+         "3 × 8",
+         ""
+        ],
+        [
+         "Lunge",
+         "3 × 10 each",
+         ""
+        ],
+        [
+         "Superman",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Plank",
+         "3 × 30s",
+         ""
+        ]
+       ]
+      },
+      "med": {
+       "muscles": "everything · intermediate · 25 min",
+       "slots": [
+        [
+         "Squat",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Push-up",
+         "4 × 12",
+         ""
+        ],
+        [
+         "Lunge",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Diamond Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Superman",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Plank",
+         "3 × 45s",
+         ""
+        ],
+        [
+         "Bicycle Crunch",
+         "3 × 20",
+         ""
+        ]
+       ]
+      },
+      "hard": {
+       "muscles": "everything · advanced · 35 min",
+       "slots": [
+        [
+         "Pistol Squat",
+         "3 × 6 each",
+         ""
+        ],
+        [
+         "Archer Push-up",
+         "3 × 6 each",
+         ""
+        ],
+        [
+         "Sissy Squat",
+         "3 × 12",
+         ""
+        ],
+        [
+         "Handstand Push-up",
+         "4 × 8",
+         ""
+        ],
+        [
+         "Plyo Push-up",
+         "3 × 8",
+         ""
+        ],
+        [
+         "L-Sit Hold",
+         "3 × 20s",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "fullbody_hard": {
-     "name": "Full Body · Hard",
-     "emoji": "🔥",
-     "group": "broad",
-     "muscles": "everything · advanced · 35 min",
-     "slots": [
-      [
-       "Pistol Squat",
-       "3 × 6 each",
-       ""
-      ],
-      [
-       "Archer Push-up",
-       "3 × 6 each",
-       ""
-      ],
-      [
-       "Sissy Squat",
-       "3 × 12",
-       ""
-      ],
-      [
-       "Handstand Push-up",
-       "4 × 8",
-       ""
-      ],
-      [
-       "Plyo Push-up",
-       "3 × 8",
-       ""
-      ],
-      [
-       "L-Sit Hold",
-       "3 × 20s",
-       ""
-      ]
-     ]
-    },
-    "push_easy": {
-     "name": "Push · Easy",
-     "emoji": "💥",
-     "group": "broad",
-     "muscles": "chest · shoulders · triceps · beginner · 15 min",
-     "slots": [
-      [
-       "Push-up",
-       "3 × 8",
-       ""
-      ],
-      [
-       "Diamond Push-up",
-       "3 × 6",
-       ""
-      ],
-      [
-       "Kneeling Triceps Ext",
-       "3 × 10",
-       ""
-      ],
-      [
-       "Rear Delt Stretch",
-       "3 × 30s",
-       ""
-      ]
-     ]
-    },
-    "push_med": {
-     "name": "Push · Medium",
+    "push": {
+     "name": "Push",
      "emoji": "💥",
      "group": "broad",
      "muscles": "chest · shoulders · triceps · 25 min",
@@ -1737,76 +1745,107 @@ export const catalog = {
        "3 × 45s",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "chest · shoulders · triceps · beginner · 15 min",
+       "slots": [
+        [
+         "Push-up",
+         "3 × 8",
+         ""
+        ],
+        [
+         "Diamond Push-up",
+         "3 × 6",
+         ""
+        ],
+        [
+         "Kneeling Triceps Ext",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Rear Delt Stretch",
+         "3 × 30s",
+         ""
+        ]
+       ]
+      },
+      "med": {
+       "muscles": "chest · shoulders · triceps · 25 min",
+       "slots": [
+        [
+         "Push-up",
+         "4 × 12",
+         ""
+        ],
+        [
+         "Handstand Push-up",
+         "3 × 8",
+         ""
+        ],
+        [
+         "Diamond Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Hindu Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Close-grip Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Plank",
+         "3 × 45s",
+         ""
+        ]
+       ]
+      },
+      "hard": {
+       "muscles": "chest · shoulders · triceps · advanced · 35 min",
+       "slots": [
+        [
+         "Handstand Push-up",
+         "4 × 10",
+         ""
+        ],
+        [
+         "Archer Push-up",
+         "3 × 8 each",
+         ""
+        ],
+        [
+         "Plyo Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Diamond Push-up",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Clap Push-up",
+         "3 × 6",
+         ""
+        ],
+        [
+         "Single Arm Push-up",
+         "3 × 5 each",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "push_hard": {
-     "name": "Push · Hard",
-     "emoji": "💥",
-     "group": "broad",
-     "muscles": "chest · shoulders · triceps · advanced · 35 min",
-     "slots": [
-      [
-       "Handstand Push-up",
-       "4 × 10",
-       ""
-      ],
-      [
-       "Archer Push-up",
-       "3 × 8 each",
-       ""
-      ],
-      [
-       "Plyo Push-up",
-       "3 × 10",
-       ""
-      ],
-      [
-       "Diamond Push-up",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Clap Push-up",
-       "3 × 6",
-       ""
-      ],
-      [
-       "Single Arm Push-up",
-       "3 × 5 each",
-       ""
-      ]
-     ]
-    },
-    "pull_easy": {
-     "name": "Pull · Easy",
-     "emoji": "🎯",
-     "group": "broad",
-     "muscles": "back · rear delts · postural · 10 min",
-     "slots": [
-      [
-       "Cobra (Upward Dog)",
-       "3 × 12",
-       ""
-      ],
-      [
-       "Rear Delt Stretch",
-       "3 × 30s",
-       ""
-      ],
-      [
-       "Sphinx",
-       "3 × 30s",
-       ""
-      ],
-      [
-       "Standing Archer",
-       "3 × 10 each",
-       ""
-      ]
-     ]
-    },
-    "pull_med": {
-     "name": "Pull · Medium",
+    "pull": {
+     "name": "Pull",
      "emoji": "🎯",
      "group": "broad",
      "muscles": "back · rear delts · postural · 15 min",
@@ -1836,38 +1875,67 @@ export const catalog = {
        "3 × 30s",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "back · rear delts · postural · 10 min",
+       "slots": [
+        [
+         "Cobra (Upward Dog)",
+         "3 × 12",
+         ""
+        ],
+        [
+         "Rear Delt Stretch",
+         "3 × 30s",
+         ""
+        ],
+        [
+         "Sphinx",
+         "3 × 30s",
+         ""
+        ],
+        [
+         "Standing Archer",
+         "3 × 10 each",
+         ""
+        ]
+       ]
+      },
+      "med": {
+       "muscles": "back · rear delts · postural · 15 min",
+       "slots": [
+        [
+         "Cobra (Upward Dog)",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Lower Back Curl",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Standing Archer",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Plank (postural)",
+         "3 × 45s",
+         ""
+        ],
+        [
+         "Rear Delt Stretch",
+         "3 × 30s",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "legs_easy": {
-     "name": "Legs · Easy",
-     "emoji": "🦵",
-     "group": "broad",
-     "muscles": "legs · glutes · beginner · 15 min",
-     "slots": [
-      [
-       "Squat",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Walking Lunge",
-       "3 × 12 each",
-       ""
-      ],
-      [
-       "Glute Bridge",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Standing Calf Raise",
-       "3 × 20",
-       ""
-      ]
-     ]
-    },
-    "legs_med": {
-     "name": "Legs · Medium",
+    "legs": {
+     "name": "Legs",
      "emoji": "🦵",
      "group": "broad",
      "muscles": "legs · glutes · 25 min",
@@ -1902,81 +1970,112 @@ export const catalog = {
        "3 × 15",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "legs · glutes · beginner · 15 min",
+       "slots": [
+        [
+         "Squat",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Walking Lunge",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Glute Bridge",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Standing Calf Raise",
+         "3 × 20",
+         ""
+        ]
+       ]
+      },
+      "med": {
+       "muscles": "legs · glutes · 25 min",
+       "slots": [
+        [
+         "Squat",
+         "4 × 20",
+         ""
+        ],
+        [
+         "Walking Lunge",
+         "3 × 15 each",
+         ""
+        ],
+        [
+         "Split Squats",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Standing Single Leg Curl",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Standing Calf Raise",
+         "4 × 20",
+         ""
+        ],
+        [
+         "Glute Bridge",
+         "3 × 15",
+         ""
+        ]
+       ]
+      },
+      "hard": {
+       "muscles": "legs · glutes · advanced · 35 min",
+       "slots": [
+        [
+         "Pistol Squat",
+         "4 × 8 each",
+         ""
+        ],
+        [
+         "Sissy Squat",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Split Squats",
+         "3 × 15 each",
+         ""
+        ],
+        [
+         "Curtsey Squat",
+         "3 × 10 each",
+         ""
+        ],
+        [
+         "Single Leg Bridge",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Standing Single Leg Curl",
+         "3 × 15 each",
+         ""
+        ],
+        [
+         "Standing Calf Raise",
+         "4 × 25",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "legs_hard": {
-     "name": "Legs · Hard",
-     "emoji": "🦵",
-     "group": "broad",
-     "muscles": "legs · glutes · advanced · 35 min",
-     "slots": [
-      [
-       "Pistol Squat",
-       "4 × 8 each",
-       ""
-      ],
-      [
-       "Sissy Squat",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Split Squats",
-       "3 × 15 each",
-       ""
-      ],
-      [
-       "Curtsey Squat",
-       "3 × 10 each",
-       ""
-      ],
-      [
-       "Single Leg Bridge",
-       "3 × 12 each",
-       ""
-      ],
-      [
-       "Standing Single Leg Curl",
-       "3 × 15 each",
-       ""
-      ],
-      [
-       "Standing Calf Raise",
-       "4 × 25",
-       ""
-      ]
-     ]
-    },
-    "core_easy": {
-     "name": "Core · Easy",
-     "emoji": "🎯",
-     "group": "broad",
-     "muscles": "abs · core · beginner · 12 min",
-     "slots": [
-      [
-       "Plank",
-       "3 × 30s",
-       ""
-      ],
-      [
-       "Bicycle Crunch",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Russian Twist",
-       "3 × 20",
-       ""
-      ],
-      [
-       "Glute Bridge",
-       "3 × 12",
-       ""
-      ]
-     ]
-    },
-    "core_med": {
-     "name": "Core · Medium",
+    "core": {
+     "name": "Core",
      "emoji": "🎯",
      "group": "broad",
      "muscles": "abs · core · obliques · 20 min",
@@ -2011,48 +2110,107 @@ export const catalog = {
        "3 × 12",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "abs · core · beginner · 12 min",
+       "slots": [
+        [
+         "Plank",
+         "3 × 30s",
+         ""
+        ],
+        [
+         "Bicycle Crunch",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Russian Twist",
+         "3 × 20",
+         ""
+        ],
+        [
+         "Glute Bridge",
+         "3 × 12",
+         ""
+        ]
+       ]
+      },
+      "med": {
+       "muscles": "abs · core · obliques · 20 min",
+       "slots": [
+        [
+         "Plank",
+         "3 × 60s",
+         ""
+        ],
+        [
+         "Side Plank",
+         "3 × 45s each",
+         ""
+        ],
+        [
+         "Reverse Crunch",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Bicycle Crunch",
+         "3 × 20",
+         ""
+        ],
+        [
+         "Russian Twist",
+         "3 × 25",
+         ""
+        ],
+        [
+         "Lying Leg-Hip Raise",
+         "3 × 12",
+         ""
+        ]
+       ]
+      },
+      "hard": {
+       "muscles": "abs · core · elite · 25 min",
+       "slots": [
+        [
+         "L-Sit Hold",
+         "5 × 20s",
+         ""
+        ],
+        [
+         "V-Sit Hold",
+         "3 × 30s",
+         ""
+        ],
+        [
+         "Plank with Twist",
+         "3 × 12 each",
+         ""
+        ],
+        [
+         "Side Plank",
+         "3 × 60s each",
+         ""
+        ],
+        [
+         "Decline Crunch",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Reverse Crunch",
+         "3 × 20",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "core_hard": {
-     "name": "Core · Hard",
-     "emoji": "🎯",
-     "group": "broad",
-     "muscles": "abs · core · elite · 25 min",
-     "slots": [
-      [
-       "L-Sit Hold",
-       "5 × 20s",
-       ""
-      ],
-      [
-       "V-Sit Hold",
-       "3 × 30s",
-       ""
-      ],
-      [
-       "Plank with Twist",
-       "3 × 12 each",
-       ""
-      ],
-      [
-       "Side Plank",
-       "3 × 60s each",
-       ""
-      ],
-      [
-       "Decline Crunch",
-       "3 × 15",
-       ""
-      ],
-      [
-       "Reverse Crunch",
-       "3 × 20",
-       ""
-      ]
-     ]
-    },
-    "hiit_med": {
-     "name": "HIIT · Medium",
+    "hiit": {
+     "name": "HIIT",
      "emoji": "⚡",
      "group": "broad",
      "muscles": "legs · everything · cardio · 20 min",
@@ -2082,52 +2240,81 @@ export const catalog = {
        "5 × 20",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "med": {
+       "muscles": "legs · everything · cardio · 20 min",
+       "slots": [
+        [
+         "Burpee",
+         "5 × 10",
+         ""
+        ],
+        [
+         "Jack Jump",
+         "5 × 20",
+         ""
+        ],
+        [
+         "Bear Crawl",
+         "5 × 30s",
+         ""
+        ],
+        [
+         "Plyo Push-up",
+         "4 × 8",
+         ""
+        ],
+        [
+         "Squat",
+         "5 × 20",
+         ""
+        ]
+       ]
+      },
+      "hard": {
+       "muscles": "legs · everything · cardio advanced · 30 min",
+       "slots": [
+        [
+         "Burpee",
+         "6 × 15",
+         ""
+        ],
+        [
+         "Clap Push-up",
+         "5 × 8",
+         ""
+        ],
+        [
+         "Star Jump",
+         "5 × 20",
+         ""
+        ],
+        [
+         "Bear Crawl",
+         "5 × 45s",
+         ""
+        ],
+        [
+         "Plyo Push-up",
+         "5 × 10",
+         ""
+        ],
+        [
+         "Pistol Squat",
+         "4 × 6 each",
+         ""
+        ],
+        [
+         "Jack Jump",
+         "5 × 25",
+         ""
+        ]
+       ]
+      }
+     }
     },
-    "hiit_hard": {
-     "name": "HIIT · Hard",
-     "emoji": "⚡",
-     "group": "broad",
-     "muscles": "legs · everything · cardio advanced · 30 min",
-     "slots": [
-      [
-       "Burpee",
-       "6 × 15",
-       ""
-      ],
-      [
-       "Clap Push-up",
-       "5 × 8",
-       ""
-      ],
-      [
-       "Star Jump",
-       "5 × 20",
-       ""
-      ],
-      [
-       "Bear Crawl",
-       "5 × 45s",
-       ""
-      ],
-      [
-       "Plyo Push-up",
-       "5 × 10",
-       ""
-      ],
-      [
-       "Pistol Squat",
-       "4 × 6 each",
-       ""
-      ],
-      [
-       "Jack Jump",
-       "5 × 25",
-       ""
-      ]
-     ]
-    },
-    "quick_easy": {
+    "quick": {
      "name": "Quick 15",
      "emoji": "⚡",
      "group": "broad",
@@ -2153,7 +2340,34 @@ export const catalog = {
        "3 × 15",
        ""
       ]
-     ]
+     ],
+     "levels": {
+      "easy": {
+       "muscles": "everything · quick · 10-15 min",
+       "slots": [
+        [
+         "Push-up",
+         "3 × 10",
+         ""
+        ],
+        [
+         "Squat",
+         "3 × 15",
+         ""
+        ],
+        [
+         "Plank",
+         "3 × 30s",
+         ""
+        ],
+        [
+         "Bicycle Crunch",
+         "3 × 15",
+         ""
+        ]
+       ]
+      }
+     }
     }
    },
    "variations": {

@@ -598,3 +598,27 @@
     animation: none;
   }
 }
+
+/* ── Travel level picker — equipment-tab (.seg) look above the slot list ── */
+.seg.lvlseg .segi { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.lvl-auto {
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: rgba(6, 42, 28, 0.18);
+  color: var(--acc-ink);
+}
+.lvl-reset {
+  display: block;
+  margin: -8px 16px 12px auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--mut);
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+}

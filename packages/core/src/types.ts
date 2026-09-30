@@ -19,12 +19,24 @@ export interface Variation {
 // slots are tuples: [slotName, scheme, force] e.g. ["Flat chest press", "4 × 8–10", ""]
 export type Slot = [string, string, string];
 
+export type LevelKey = 'easy' | 'med' | 'hard';
+
+/** One difficulty variant of a session (travel plan). */
+export interface Level {
+  /** Optional per-level subtitle (e.g. "everything · beginner · 15 min"). */
+  muscles?: string;
+  slots: Slot[];
+}
+
 export interface Session {
   name: string;
   emoji: string;
   group: 'broad' | 'focused';
   muscles: string;
+  /** Default slots — the medium level when the session has levels, else the only one. */
   slots: Slot[];
+  /** Difficulty variants (travel only). Absent = single fixed session. */
+  levels?: Partial<Record<LevelKey, Level>>;
 }
 
 export interface Plan {

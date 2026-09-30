@@ -42,6 +42,10 @@ function buildMaps(): { nameToId: Map<string, string>; idToName: Map<string, str
     for (const name of Object.keys(plan.variations || {})) add(name);
     for (const sess of Object.values(plan.sessions || {})) {
       for (const slot of sess.slots) add(slot[0]);
+      // Level variants (travel) carry exercises the default slots may not.
+      for (const lv of Object.values(sess.levels || {})) {
+        for (const slot of lv?.slots ?? []) add(slot[0]);
+      }
     }
   }
   return { nameToId, idToName };
