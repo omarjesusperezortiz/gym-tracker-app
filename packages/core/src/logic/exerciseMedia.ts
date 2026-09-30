@@ -412,6 +412,79 @@ export const exerciseMedia: Record<string, ExerciseMedia> = {
       "Bring your hands to your chest, keeping your elbows bent and close to your body.",
     ],
   },
+
+  "Push-up": {
+    id: "I4hDWkc",
+    target: "pectorals",
+    secondary: ["triceps", "shoulders", "core"],
+    equip: "body weight",
+    steps: [
+      "Start in a high plank, hands shoulder-width apart, body in a straight line.",
+      "Lower your chest to just above the floor by bending the elbows.",
+      "Press back up to full arm extension while keeping the core tight.",
+      "Repeat, breathing out on the press.",
+    ],
+  },
+  "Handstand Push-up": {
+    id: "rQxwMxO",
+    target: "delts",
+    secondary: ["triceps", "trapezius"],
+    equip: "body weight",
+    steps: [
+      "Kick into a handstand against a wall, hands slightly wider than shoulders.",
+      "Lower your head toward the floor by bending elbows, keeping the body vertical.",
+      "Press back up to full extension without arching the low back.",
+      "Come down safely under control.",
+    ],
+  },
+  "Diamond Push-up": {
+    id: "soIB2rj",
+    target: "triceps",
+    secondary: ["pectorals", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Get into push-up position, hands together under the chest forming a diamond.",
+      "Lower your chest to the hands with elbows tracking back at ~45°.",
+      "Press up to full extension, squeezing the triceps.",
+      "Repeat with strict form.",
+    ],
+  },
+  "Rear delt stretch": {
+    id: "xifhB5W",
+    target: "rear deltoids",
+    secondary: ["trapezius"],
+    equip: "body weight",
+    steps: [
+      "Stand tall, cross one arm across your body at shoulder height.",
+      "Use the opposite hand to pull the elbow toward the opposite shoulder.",
+      "Hold the stretch, feeling tension in the rear delt.",
+      "Switch sides and repeat.",
+    ],
+  },
+  "Standing Calf Raise": {
+    id: "bJYHBIN",
+    target: "calves",
+    secondary: [],
+    equip: "body weight",
+    steps: [
+      "Stand tall with feet hip-width apart.",
+      "Press through the balls of your feet to lift the heels as high as possible.",
+      "Squeeze the calves at the top for a beat.",
+      "Lower under control and repeat.",
+    ],
+  },
+  "Glute Bridge": {
+    id: "GibBPPg",
+    target: "glutes",
+    secondary: ["hamstrings", "core"],
+    equip: "body weight",
+    steps: [
+      "Lie on your back, knees bent, feet flat on the floor.",
+      "Drive through the heels to lift the hips into a bridge.",
+      "Squeeze the glutes at the top, keep the hips level.",
+      "Lower back down under control and repeat.",
+    ],
+  },
 };
 
 
