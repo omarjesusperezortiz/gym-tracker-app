@@ -1818,6 +1818,23 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/1.jpg"
      }
     }
+   },
+   "cues": {
+    "Squat to Overhead Reach": "Push hips back · knees track over toes · reach tall at top.",
+    "Pushups": "Hands under shoulders · elbows ~45° · lower chest to just above floor.",
+    "Bodyweight Walking Lunge": "Long step · back knee light kiss · torso tall.",
+    "Superman": "Prone · lift arms + legs · squeeze low back at top.",
+    "Plank": "Straight line head-to-heels · brace core · don't sag.",
+    "Air Bike": "Slow controlled twists · opposite elbow to opposite knee · full extension.",
+    "Handstand Push-Up": "Feet on wall · lower head to floor · press up strong · no low-back arch.",
+    "Diamond Push-Up": "Hands in triangle under chest · elbows track back · squeeze triceps top.",
+    "Rear Deltoid Stretch": "Arm across body · pull elbow toward opposite shoulder · isometric hold.",
+    "Standing Single Leg Curl": "One leg planted · curl heel to glute · squeeze hamstring.",
+    "Bodyweight Standing Calf Raise": "Push through balls of feet · squeeze at top · lower controlled.",
+    "Glute Bridge March": "Bridge held · slow knee lift · hips level · squeeze glute working side.",
+    "Side Bridge": "Stack shoulders · hips high · straight line from head to heels.",
+    "Reverse Crunch": "Lift hips · knees toward chest · controlled lower.",
+    "Russian Twist": "Sit tall · lean back slightly · rotate torso side to side."
    }
   },
  },
