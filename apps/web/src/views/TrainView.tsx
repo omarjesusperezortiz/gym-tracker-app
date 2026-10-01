@@ -456,6 +456,8 @@ export function TrainView() {
             autofill={autofill}
             onToggleAutofill={toggleAutofill}
             onRest={() => startRest()}
+            activeVariants={state.activeVariant}
+            onVariantChange={(name) => dispatch({ type: 'SET_ACTIVE_VARIANT', slot: sl[0], kind: st.kind, name })}
             onMoveUp={() => handleMove(sl[0], -1)}
             onMoveDown={() => handleMove(sl[0], 1)}
             onRemove={() => handleRemove(sl[0])}
