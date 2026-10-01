@@ -18,6 +18,8 @@ interface ExerciseGifProps {
   poster?: boolean;
   /** Fallback image URL (e.g. free-exercise-db photo) shown when we have no gif yet. */
   fallbackImg?: string | null;
+  /** Pre-resolved media (e.g. a style variant's) — skips the name lookup. */
+  media?: ExerciseMedia | null;
 }
 
 /**
@@ -36,8 +38,9 @@ export function ExerciseGif({
   hideWhenMissing = false,
   poster = false,
   fallbackImg = null,
+  media: mediaProp,
 }: ExerciseGifProps) {
-  const media = exercise ? mediaForExercise(exercise, name) : mediaFor(name);
+  const media = mediaProp ?? (exercise ? mediaForExercise(exercise, name) : mediaFor(name));
   // Re-mount the <img> when the resolved gif changes so a swap doesn't get stuck
   // on a stale error state.
   const [failedId, setFailedId] = useState<string | null>(null);

@@ -258,3 +258,52 @@
   background: var(--line2, rgba(255,255,255,.16));
   margin: 0 auto 12px;
 }
+
+/* Style-variant chips (same equipment, different movement style) — sit right
+   under the hero; tapping one swaps the hero, title and how-to. */
+.variants-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  margin: 14px 0 0;
+  scrollbar-width: none;
+}
+.variants-row::-webkit-scrollbar {
+  display: none;
+}
+.vchip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: var(--surf2);
+  color: var(--ink2);
+  border: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.vchip.on {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.vchip .d {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.vchip .d.easy {
+  background: var(--ok);
+}
+.vchip .d.med {
+  background: var(--warn);
+}
+.vchip .d.hard {
+  background: var(--danger);
+}
