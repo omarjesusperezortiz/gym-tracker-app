@@ -9,7 +9,6 @@ import {
   shortLabel,
   variantMedia,
   variantsFor,
-  KIND_LABEL,
   type Plan,
   type Kind,
   type ExerciseMedia,
@@ -17,12 +16,6 @@ import {
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
 const gym = catalog.plans.gym as unknown as Plan;
-
-interface Variation {
-  kind: Kind;
-  name: string;
-  img: string;
-}
 
 export interface ExerciseDetailSheetProps {
   /** The movement (catalog slot name), e.g. "Vertical pull (lats)". */
@@ -59,17 +52,7 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
   if (!movement) return null;
 
   const vars = (gym.variations[movement] || {}) as Partial<Record<Kind, { name: string; img: string }>>;
-  const kinds = Object.keys(vars) as Kind[];
-  const variations: Variation[] = kinds.map((k) => ({
-    kind: k,
-    name: vars[k]!.name,
-    img: vars[k]!.img,
-  }));
 
-  // Pick the correct demo for the CURRENTLY-selected variation, not the
-  // movement's default. mediaForExercise first tries the variation-specific
-  // media map, then falls back to the movement's media. Title reflects the
-  // specific variation name when we have one.
   // A style variant (same equipment, different movement style) takes over the
   // hero, title and steps when the slot has any for this kind.
   const variants = kind ? variantsFor(movement, kind) : null;
@@ -79,7 +62,7 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
   const media: ExerciseMedia | null = variant
     ? variantMedia(variant, movement)
     : (mediaForExercise(activeVarName, movement) ?? mediaFor(movement));
-  const fallbackImg = activeVar?.img ?? variations[0]?.img ?? null;
+  const fallbackImg = activeVar?.img ?? null;
   const displayTitle = activeVarName ?? movement;
   const displaySubtitle = activeVarName ? movement : null;
 
@@ -128,23 +111,6 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
               </button>
             ))}
           </div>
-        )}
-
-        {variations.length > 0 && (
-          <>
-            <div className="lib-detail-label">Equipment variations</div>
-            <div className="lib-vars">
-              {variations.map((v) => (
-                <div className={`lib-var${v.kind === kind ? ' on' : ''}`} key={v.kind}>
-                  <img className="lib-var-img" src={v.img} alt="" loading="lazy" />
-                  <div className="lib-var-info">
-                    <span className="lib-var-kind">{KIND_LABEL[v.kind] || v.kind}</span>
-                    <span className="lib-var-name">{v.name}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
         )}
 
         {media?.steps && media.steps.length > 0 && (

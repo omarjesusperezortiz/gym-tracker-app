@@ -1,0 +1,16 @@
+- generic [active] [ref=f8e1]:
+  - generic "3D preview of the character model" [ref=f8e2]
+  - banner:
+    - generic:
+      - generic: Model preview · not wired to exercises yet
+      - heading "Rep Room" [level=1]:
+        - text: Rep
+        - emphasis: Room
+  - region "About this preview" [ref=f8e4]:
+    - heading "Superhero Male · Quaternius" [level=2] [ref=f8e5]
+    - paragraph [ref=f8e6]: One continuous body with skin, a 65-bone humanoid skeleton and real proportions. Drag to rotate, scroll to zoom. If you like this look, the next step is driving its bones with the squat, push-up, lunge and jack jump, and painting the working muscles red on the skin.
+    - paragraph [ref=f8e7]:
+      - text: "Model:"
+      - link "Universal Base Characters" [ref=f8e8] [cursor=pointer]:
+        - /url: https://quaternius.itch.io/universal-base-characters
+      - text: by Quaternius, CC0. Light skin texture, short parted hair.

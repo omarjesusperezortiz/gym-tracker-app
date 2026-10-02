@@ -1,0 +1,40 @@
+- generic [active] [ref=f2e1]:
+  - generic "3D mannequin performing the selected exercise" [ref=f2e2]
+  - banner:
+    - generic:
+      - generic: Travel mode · bodyweight · Medium
+      - heading "Rep Room" [level=1]:
+        - text: Rep
+        - emphasis: Room
+    - generic:
+      - text: Working
+      - generic: quads · glutes · hamstrings
+  - region "Workout controls" [ref=f2e4]:
+    - group "Exercise" [ref=f2e5]:
+      - button "Squat 3 × 15" [pressed] [ref=f2e6] [cursor=pointer]:
+        - text: Squat
+        - generic [ref=f2e7]: 3 × 15
+      - button "Push-up 4 × 12" [ref=f2e8] [cursor=pointer]:
+        - text: Push-up
+        - generic [ref=f2e9]: 4 × 12
+      - button "Lunge 3 × 12 each" [ref=f2e10] [cursor=pointer]:
+        - text: Lunge
+        - generic [ref=f2e11]: 3 × 12 each
+      - button "Jack Jump 5 × 20" [ref=f2e12] [cursor=pointer]:
+        - text: Jack Jump
+        - generic [ref=f2e13]: 5 × 20
+    - generic [ref=f2e14]:
+      - generic [ref=f2e15]:
+        - generic [ref=f2e16]: "0"
+        - generic [ref=f2e17]: / 15
+      - generic [ref=f2e18]:
+        - generic [ref=f2e19]: Set 1 of 3
+        - generic [ref=f2e24]: Push hips back · knees over toes · reach tall at top.
+    - generic [ref=f2e25]:
+      - button "Pause" [ref=f2e26] [cursor=pointer]
+      - button "Orbit" [pressed] [ref=f2e30] [cursor=pointer]
+      - generic [ref=f2e34]:
+        - text: Tempo
+        - slider "Tempo" [ref=f2e35]: "1"
+        - status [ref=f2e36]: 1.0×
+      - generic [ref=f2e37]: Drag to rotate · scroll to zoom

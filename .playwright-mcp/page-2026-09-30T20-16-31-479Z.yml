@@ -1,0 +1,63 @@
+- generic [active] [ref=f23e1]:
+  - generic "3D character performing the selected exercise" [ref=f23e2]
+  - banner:
+    - generic:
+      - generic: Exercise demos · motion capture
+      - heading "Rep Room" [level=1]:
+        - text: Rep
+        - emphasis: Room
+    - generic:
+      - text: Working
+      - generic: quads · glutes · adductors
+      - generic: primary secondary
+      - generic: Tap the body to name a muscle
+  - region "Workout controls" [ref=f23e4]:
+    - generic [ref=f23e5]:
+      - generic "Drag to move · double-click to reset" [ref=f23e6]: Back Squat · 0 / 8
+      - button "Collapse controls" [expanded] [ref=f23e15] [cursor=pointer]
+    - generic [ref=f23e18]:
+      - tablist "Plan" [ref=f23e19]:
+        - tab "Travel · bodyweight" [selected] [ref=f23e20] [cursor=pointer]
+        - tab "Gym · Push · dumbbells" [ref=f23e21] [cursor=pointer]
+      - group "Exercise" [ref=f23e22]:
+        - button "Back Squat 4 × 8 · BB" [pressed] [ref=f23e23] [cursor=pointer]:
+          - text: Back Squat
+          - generic [ref=f23e24]: 4 × 8 · BB
+        - button "Push-up 4 × 12" [ref=f23e25] [cursor=pointer]:
+          - text: Push-up
+          - generic [ref=f23e26]: 4 × 12
+        - button "Lunge 3 × 12 each" [ref=f23e27] [cursor=pointer]:
+          - text: Lunge
+          - generic [ref=f23e28]: 3 × 12 each
+        - button "Jack Jump 5 × 20" [ref=f23e29] [cursor=pointer]:
+          - text: Jack Jump
+          - generic [ref=f23e30]: 5 × 20
+        - button "Hammer Curl 3 × 12 · DB" [ref=f23e31] [cursor=pointer]:
+          - text: Hammer Curl
+          - generic [ref=f23e32]: 3 × 12 · DB
+      - generic [ref=f23e33]:
+        - generic [ref=f23e34]:
+          - generic [ref=f23e35]: "0"
+          - generic [ref=f23e36]: / 8
+        - generic [ref=f23e37]:
+          - generic [ref=f23e38]: Set 1 of 4
+          - generic [ref=f23e44]: Bar on the upper back · brace · sit deep between the heels · drive up.
+      - generic [ref=f23e45]:
+        - button "Pause" [ref=f23e46] [cursor=pointer]
+        - button "Orbit" [pressed] [ref=f23e50] [cursor=pointer]
+        - generic [ref=f23e54]:
+          - text: Tempo
+          - slider "Tempo" [ref=f23e55]: "1"
+          - status [ref=f23e56]: 1.0×
+        - generic [ref=f23e57]: Drag to rotate · scroll to zoom
+      - paragraph [ref=f23e58]:
+        - text: "Character:"
+        - link "Universal Base Characters" [ref=f23e59] [cursor=pointer]:
+          - /url: https://quaternius.itch.io/universal-base-characters
+        - text: by Quaternius (CC0). Muscle map derived from
+        - link "Z-Anatomy" [ref=f23e60] [cursor=pointer]:
+          - /url: https://www.z-anatomy.com/
+        - text: (
+        - link "CC BY-SA 4.0" [ref=f23e61] [cursor=pointer]:
+          - /url: https://creativecommons.org/licenses/by-sa/4.0/
+        - text: "). Motion: Mixamo."
