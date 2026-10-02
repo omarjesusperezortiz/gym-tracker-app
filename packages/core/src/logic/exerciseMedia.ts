@@ -609,6 +609,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Push back up through the palms to full lockout, keeping tension in the triceps.",
     ],
   },
+  "Bent Knee Lying Twist": {
+    id: "6sYyrRX",
+    target: "glutes",
+    secondary: ["obliques", "hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Extend your arms out to the sides, perpendicular to your body.",
+      "Keeping your knees together, slowly lower them to one side, aiming to touch the ground with your knees.",
+      "Pause for a moment, then engage your core and slowly lift your knees back to the starting position.",
+    ],
+  },
   "Bent Over Barbell Row": {
     id: "eZyBC3j",
     target: "upper back",
@@ -814,6 +826,42 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
     ],
   },
+  "Crab Twist Toe Touch": {
+    id: "xgsGFVM",
+    target: "abs",
+    secondary: ["obliques", "hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Start by sitting on the ground with your knees bent and feet flat on the floor.",
+      "Place your hands behind you, fingers pointing towards your feet, and lift your hips off the ground.",
+      "Extend one leg straight out in front of you while simultaneously reaching your opposite hand towards your toes.",
+      "Return to the starting position and repeat on the other side.",
+    ],
+  },
+  "Cross Body Crunch": {
+    id: "rbu5UUb",
+    target: "abs",
+    secondary: ["obliques"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your hands behind your head with your elbows pointing outwards.",
+      "Engaging your abs, lift your upper body off the ground and twist to bring your right elbow towards your left knee.",
+      "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
+    ],
+  },
+  "Crunch Floor": {
+    id: "TFqbd8t",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your hands behind your head with your elbows pointing outwards.",
+      "Engage your abs and lift your shoulders off the ground, curling forward towards your knees.",
+      "Pause for a moment at the top, then slowly lower your shoulders back down to the starting position.",
+    ],
+  },
   "Decline Push-Up": {
     id: "i5cEhka",
     target: "pectorals",
@@ -967,6 +1015,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
     ],
   },
+  "Forward Lunge": {
+    id: "kMzUs9Y",
+    target: "glutes",
+    secondary: ["quadriceps", "hamstrings", "calves"],
+    equip: "body weight",
+    steps: [
+      "Stand with your feet hip-width apart and hands on your hips.",
+      "Take a big step forward with your right foot, lowering your body into a lunge position.",
+      "Bend your right knee to about 90 degrees, keeping your knee aligned with your ankle.",
+      "Push off with your right foot and return to the starting position.",
+    ],
+  },
   "Front Cable Raise": {
     id: "u2X71Np",
     target: "delts",
@@ -1027,6 +1087,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
     ],
   },
+  "Hip Raise Bent Knee": {
+    id: "196HJGw",
+    target: "abs",
+    secondary: ["glutes", "hamstrings"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your hands by your sides, palms facing down.",
+      "Engage your core and glutes, then lift your hips off the ground until your body forms a straight line from your knees to your shoulders.",
+      "Pause for a moment at the top, then slowly lower your hips back down to the starting position.",
+    ],
+  },
   "Incline Dumbbell Press": {
     id: "ns0SIbU",
     target: "pectorals",
@@ -1039,6 +1111,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Slowly lower the dumbbells to the sides of your chest, keeping your elbows at a 90-degree angle.",
     ],
   },
+  "Incline Side Plank": {
+    id: "5VXmnV5",
+    target: "abs",
+    secondary: ["obliques", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Start by lying on your side with your legs extended and stacked on top of each other.",
+      "Place your forearm on the ground directly below your shoulder, with your elbow bent at a 90-degree angle.",
+      "Engage your core and lift your hips off the ground, creating a straight line from your head to your feet.",
+      "Hold this position for the desired amount of time.",
+    ],
+  },
   "Inverted Row": {
     id: "bZGHsAZ",
     target: "upper back",
@@ -1049,6 +1133,30 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Stand facing the bar or suspension trainer, with your feet shoulder-width apart.",
       "Grab the bar or handles with an overhand grip, slightly wider than shoulder-width apart.",
       "Lean back, keeping your body straight and your heels on the ground.",
+    ],
+  },
+  "Jack Burpee": {
+    id: "mr7pkqP",
+    target: "cardiovascular system",
+    secondary: ["quadriceps", "hamstrings", "calves", "shoulders", "triceps", "core"],
+    equip: "body weight",
+    steps: [
+      "Start in a standing position with your feet shoulder-width apart.",
+      "Lower your body into a squat position, placing your hands on the ground in front of you.",
+      "Kick your feet back, landing in a push-up position.",
+      "Perform a push-up, lowering your chest to the ground and then pushing back up.",
+    ],
+  },
+  "Knee Touch Crunch": {
+    id: "dTg95eZ",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your hands behind your head with your elbows pointing outwards.",
+      "Engaging your abs, lift your shoulder blades off the ground and reach your right hand towards your left knee.",
+      "Return to the starting position and repeat, this time reaching your left hand towards your right knee.",
     ],
   },
   "Lateral Raise - With Bands": {
@@ -1123,6 +1231,42 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Stand in the middle of the machine with your feet shoulder-width apart and a slight bend in your knees.",
       "Grasp the handles with an overhand grip and extend your arms out to the sides, keeping a slight bend in your elbows.",
       "Maintaining control, slowly bring your arms forward in a sweeping motion, crossing them in front of your body.",
+    ],
+  },
+  "Low Glute Bridge": {
+    id: "u0cNiij",
+    target: "glutes",
+    secondary: ["hamstrings", "core"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your arms by your sides, palms facing down.",
+      "Engage your glutes and core, then lift your hips off the ground until your body forms a straight line from your knees to your shoulders.",
+      "Pause for a moment at the top, squeezing your glutes.",
+    ],
+  },
+  "Lunge with Jump": {
+    id: "PM1PZjg",
+    target: "glutes",
+    secondary: ["quadriceps", "hamstrings", "calves"],
+    equip: "body weight",
+    steps: [
+      "Start by standing with your feet shoulder-width apart.",
+      "Take a step forward with your right foot, lowering your body into a lunge position.",
+      "Push off with your right foot and jump into the air, switching the position of your feet mid-air.",
+      "Land softly with your left foot forward and immediately lower your body into a lunge position.",
+    ],
+  },
+  "Lunge with Twist": {
+    id: "K9VL0Jq",
+    target: "abs",
+    secondary: ["quadriceps", "glutes", "hamstrings"],
+    equip: "body weight",
+    steps: [
+      "Start by standing with your feet shoulder-width apart.",
+      "Take a step forward with your right foot, lowering your body into a lunge position.",
+      "As you lunge, twist your torso to the right, bringing your left elbow towards your right knee.",
+      "Pause for a moment, then return to the starting position.",
     ],
   },
   "Lying Leg Curls": {
@@ -1205,6 +1349,30 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the bottom, then push the handles back up to the starting position by extending your arms.",
     ],
   },
+  "One Leg Donkey Calf Raise": {
+    id: "A2upspL",
+    target: "calves",
+    secondary: ["hamstrings", "glutes"],
+    equip: "body weight",
+    steps: [
+      "Stand with your feet shoulder-width apart, toes pointing forward.",
+      "Place your hands on a stable surface for support, such as a wall or a bar.",
+      "Lift one leg off the ground, keeping your knee slightly bent.",
+      "Raise your heel as high as possible, using your calf muscles.",
+    ],
+  },
+  "One Leg Floor Calf Raise": {
+    id: "0jp9Rlz",
+    target: "calves",
+    secondary: ["ankles", "feet"],
+    equip: "body weight",
+    steps: [
+      "Stand with your feet hip-width apart and place your hands on a wall or sturdy object for balance.",
+      "Lift one foot off the ground and balance on the other foot.",
+      "Slowly raise your heel off the ground, lifting your body up onto the ball of your foot.",
+      "Pause for a moment at the top, then slowly lower your heel back down to the starting position.",
+    ],
+  },
   "One-Arm Dumbbell Row": {
     // Was wrongly mapped to id "6cKQC5E" which is actually "dumbbell one arm
     // UPRIGHT row" (a lateral-raise-like shoulder movement), so the 3D anatomy
@@ -1258,6 +1426,30 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Allow the barbell to roll down to your fingertips, keeping your wrists straight.",
       "Slowly curl the barbell up towards your forearms by flexing your wrists.",
       "Pause for a moment at the top, then slowly lower the barbell back down to the starting position.",
+    ],
+  },
+  "Pelvic Tilt into Bridge": {
+    id: "D9qe7CM",
+    target: "glutes",
+    secondary: ["hamstrings", "core"],
+    equip: "body weight",
+    steps: [
+      "Lie on your back with your knees bent and feet flat on the ground.",
+      "Place your arms by your sides with your palms facing down.",
+      "Engage your glutes and core muscles.",
+      "Tilt your pelvis upward, lifting your hips off the ground.",
+    ],
+  },
+  "Pike-to-Cobra Push-up": {
+    id: "XPUDTt7",
+    target: "glutes",
+    secondary: ["core", "shoulders", "triceps"],
+    equip: "body weight",
+    steps: [
+      "Start in a push-up position with your hands slightly wider than shoulder-width apart and your feet together.",
+      "Engage your core and lift your hips up towards the ceiling, forming an inverted V shape with your body.",
+      "Lower your upper body towards the ground by bending your elbows, keeping them close to your body.",
+      "As you lower down, shift your weight forward and transition into a cobra pose by straightening your arms and lifting your chest up.",
     ],
   },
   "Plank": {
@@ -1320,6 +1512,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the peak contraction, then inhale and slowly return to the starting position.",
     ],
   },
+  "Reverse Plank with Leg Lift": {
+    id: "tFToB7l",
+    target: "abs",
+    secondary: ["glutes", "hamstrings", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Sit on the ground with your legs extended in front of you and your hands resting on the ground behind you, fingers pointing towards your feet.",
+      "Press through your hands and lift your hips off the ground, coming into a reverse plank position.",
+      "Engage your core and lift one leg off the ground, extending it straight up towards the ceiling.",
+      "Hold for a moment, then lower your leg back down.",
+    ],
+  },
   "Romanian Deadlift": {
     id: "rR0LJzx",
     target: "glutes",
@@ -1373,6 +1577,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Pause for a moment at the peak of the movement, then slowly release the handles back to the starting position.",
     ],
   },
+  "Self Assisted Inverse Leg Curl (Floor)": {
+    id: "ZSY3MsL",
+    target: "hamstrings",
+    secondary: ["glutes", "calves"],
+    equip: "body weight",
+    steps: [
+      "Kneel on a soft surface with your ankles hooked under a sturdy anchor (bed frame, couch, or a partner).",
+      "Keep your body in a straight line from knees to head, hips extended and hands ready in front of your chest.",
+      "Slowly lean forward, resisting with your hamstrings for as long as you can control the descent.",
+      "Catch yourself with your hands, then push lightly off the floor and curl back up to kneeling.",
+    ],
+  },
   "Side Bridge": {
     id: "RKjH6Lt",
     target: "abs",
@@ -1385,6 +1601,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Hold this position for the desired amount of time.",
     ],
   },
+  "Side Bridge Hip Abduction": {
+    id: "WL4EmxJ",
+    target: "abductors",
+    secondary: ["glutes", "obliques"],
+    equip: "body weight",
+    steps: [
+      "Lie on your side with your legs extended and stacked on top of each other.",
+      "Prop yourself up on your forearm, keeping your elbow directly below your shoulder.",
+      "Engage your core and lift your hips off the ground, creating a straight line from your head to your feet.",
+      "While keeping your core engaged, lift your top leg as high as possible without rotating your hips.",
+    ],
+  },
   "Side Lateral Raise": {
     id: "DsgkuIt",
     target: "delts",
@@ -1395,6 +1623,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Keep your back straight and engage your core.",
       "Raise your arms out to the sides until they are parallel to the floor, keeping a slight bend in your elbows.",
       "Pause for a moment at the top, then slowly lower your arms back down to the starting position.",
+    ],
+  },
+  "Side Plank Hip Adduction": {
+    id: "VO2qeJg",
+    target: "adductors",
+    secondary: ["obliques", "glutes"],
+    equip: "body weight",
+    steps: [
+      "Start by lying on your side with your legs extended and stacked on top of each other.",
+      "Prop yourself up on your forearm, keeping your elbow directly below your shoulder.",
+      "Engage your core and lift your hips off the ground, creating a straight line from your head to your feet.",
+      "While maintaining the side plank position, lift your top leg towards the ceiling, keeping it straight.",
     ],
   },
   "Smith Machine Upright Row": {
@@ -1564,6 +1804,30 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Keep your back straight and your core engaged throughout the exercise.",
       "Pull the cable attachment straight up towards your chin, leading with your elbows.",
       "Pause for a moment at the top, squeezing your shoulder blades together.",
+    ],
+  },
+  "Upward Facing Dog": {
+    id: "01qpYSe",
+    target: "spine",
+    secondary: ["shoulders", "chest"],
+    equip: "body weight",
+    steps: [
+      "Lie face-down on the floor, hands under your shoulders, tops of the feet on the ground.",
+      "Press through your hands to lift your chest and hips off the floor, arms nearly straight.",
+      "Squeeze your glutes and open your chest, keeping shoulders down away from ears.",
+      "Lower back down with control and repeat.",
+    ],
+  },
+  "Walking High Knees Lunge": {
+    id: "J9zIWig",
+    target: "cardiovascular system",
+    secondary: ["quadriceps", "hamstrings", "glutes", "calves"],
+    equip: "body weight",
+    steps: [
+      "Stand with your feet hip-width apart.",
+      "Lift your right knee up towards your chest as high as you can while balancing on your left leg.",
+      "Step forward with your right foot and lower your body into a lunge position, bending both knees to a 90-degree angle.",
+      "Push off with your right foot and bring your left knee up towards your chest.",
     ],
   },
   "Weighted Crunches": {

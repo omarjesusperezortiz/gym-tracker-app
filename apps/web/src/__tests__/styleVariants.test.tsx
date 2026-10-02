@@ -63,7 +63,7 @@ describe('ExerciseDetailSheet variant chips', () => {
   });
 
   it('hides the chip row for slots without variants', () => {
-    render(<SheetHarness movement="Side Plank" />);
+    render(<SheetHarness movement="Bear Crawl" />);
     expect(screen.queryByRole('group', { name: 'Variants' })).toBeNull();
   });
 
