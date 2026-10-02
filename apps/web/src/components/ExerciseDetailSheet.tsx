@@ -97,20 +97,23 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
         </div>
 
         {onVariantChange && variants && variants.length > 1 && (
-          <div className="variants-row" role="group" aria-label="Variants">
-            {variants.map((v) => (
-              <button
-                key={v.name}
-                type="button"
-                className={`vchip${v.name === variant?.name ? ' on' : ''}`}
-                aria-pressed={v.name === variant?.name}
-                onClick={() => onVariantChange(v.name)}
-              >
-                <span className={`d ${v.difficulty}`} aria-hidden="true" />
-                {shortLabel(v.name)}
-              </button>
-            ))}
-          </div>
+          <>
+            <div className="lib-detail-label">Variations</div>
+            <div className="variants-row" role="group" aria-label="Variants">
+              {variants.map((v) => (
+                <button
+                  key={v.name}
+                  type="button"
+                  className={`vchip${v.name === variant?.name ? ' on' : ''}`}
+                  aria-pressed={v.name === variant?.name}
+                  onClick={() => onVariantChange(v.name)}
+                >
+                  <span className={`d ${v.difficulty}`} aria-hidden="true" />
+                  {shortLabel(v.name)}
+                </button>
+              ))}
+            </div>
+          </>
         )}
 
         {media?.steps && media.steps.length > 0 && (
