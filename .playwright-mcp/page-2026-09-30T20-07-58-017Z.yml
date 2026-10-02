@@ -1,0 +1,17 @@
+- generic [active] [ref=f22e1]:
+  - generic "3D character performing the selected exercise" [ref=f22e2]
+  - banner:
+    - generic:
+      - generic: Exercise demos · motion capture
+      - heading "Rep Room" [level=1]:
+        - text: Rep
+        - emphasis: Room
+    - generic:
+      - text: Working
+      - generic: quads · glutes · adductors
+      - generic: primary secondary
+      - generic: Tap the body to name a muscle
+  - region "Workout controls" [ref=f22e4]:
+    - generic [ref=f22e5]:
+      - generic "Drag to move · double-click to reset" [ref=f22e6]: Back Squat · 0 / 8
+      - button "Expand controls" [ref=f22e15] [cursor=pointer]

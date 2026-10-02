@@ -1,0 +1,51 @@
+- generic [active] [ref=f4e1]:
+  - generic "3D anatomical figure performing the selected exercise" [ref=f4e2]
+  - banner:
+    - generic:
+      - generic: Travel mode · bodyweight · Medium
+      - heading "Rep Room" [level=1]:
+        - text: Rep
+        - emphasis: Room
+    - generic:
+      - text: Working
+      - generic: quads · glutes · hamstrings
+  - region "Workout controls" [ref=f4e4]:
+    - group "Exercise" [ref=f4e5]:
+      - button "Squat 3 × 15" [pressed] [ref=f4e6] [cursor=pointer]:
+        - text: Squat
+        - generic [ref=f4e7]: 3 × 15
+      - button "Push-up 4 × 12" [ref=f4e8] [cursor=pointer]:
+        - text: Push-up
+        - generic [ref=f4e9]: 4 × 12
+      - button "Lunge 3 × 12 each" [ref=f4e10] [cursor=pointer]:
+        - text: Lunge
+        - generic [ref=f4e11]: 3 × 12 each
+      - button "Jack Jump 5 × 20" [ref=f4e12] [cursor=pointer]:
+        - text: Jack Jump
+        - generic [ref=f4e13]: 5 × 20
+    - generic [ref=f4e14]:
+      - generic [ref=f4e15]:
+        - generic [ref=f4e16]: "1"
+        - generic [ref=f4e17]: / 15
+      - generic [ref=f4e18]:
+        - generic [ref=f4e19]: Set 1 of 3
+        - generic [ref=f4e24]: Push hips back · knees over toes · reach tall at top.
+    - generic [ref=f4e25]:
+      - button "Pause" [ref=f4e26] [cursor=pointer]
+      - button "Orbit" [pressed] [ref=f4e30] [cursor=pointer]
+      - generic [ref=f4e34]:
+        - text: Tempo
+        - slider "Tempo" [ref=f4e35]: "1"
+        - status [ref=f4e36]: 1.0×
+      - generic [ref=f4e37]: Drag to rotate · scroll to zoom
+    - paragraph [ref=f4e38]:
+      - text: 3D anatomy from
+      - link "Z-Anatomy" [ref=f4e39] [cursor=pointer]:
+        - /url: https://www.z-anatomy.com/
+      - text: via
+      - link "hpfrei/body-anatomy-3d-viewer" [ref=f4e40] [cursor=pointer]:
+        - /url: https://github.com/hpfrei/body-anatomy-3d-viewer
+      - text: ","
+      - link "CC BY-SA 4.0" [ref=f4e41] [cursor=pointer]:
+        - /url: https://creativecommons.org/licenses/by-sa/4.0/
+      - text: . Trimmed, grouped and rigged for this demo.
