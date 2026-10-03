@@ -289,17 +289,15 @@ export const exerciseMedia: Record<string, ExerciseMedia> = {
     ],
   },
   "Plank": {
-    // Pure bodyweight forearm plank. (hCjGsRQ is EDB "power point plank" — standing
-    // plank on hands + toes with core braced; the closest to a classic plank.)
-    id: "hCjGsRQ",
+    id: "VBAWRPG",
     target: "abs",
     secondary: ["shoulders", "lower back"],
-    equip: "body weight",
+    equip: "weighted",
     steps: [
-      "Start face down with forearms on the ground, elbows directly under your shoulders.",
-      "Extend your legs behind you, resting on your toes.",
-      "Engage core and glutes to lift your body in a straight line from head to heels.",
-      "Hold the position, breathing steadily, for the prescribed time.",
+      "Start by lying face down on the floor.",
+      "Place your forearms on the ground, with your elbows directly under your shoulders.",
+      "Extend your legs straight out behind you, with your toes on the ground.",
+      "Engage your core and lift your body off the ground, balancing on your forearms and toes.",
     ],
   },
   "Plank (core)": {
@@ -1454,6 +1452,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "As you lower down, shift your weight forward and transition into a cobra pose by straightening your arms and lifting your chest up.",
     ],
   },
+  "Plank": {
+    id: "CosupLu",
+    target: "abs",
+    secondary: ["obliques", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Start in a high plank position with your hands directly under your shoulders and your body in a straight line from head to toe.",
+      "Engage your core and glutes to maintain a stable position.",
+      "Rotate your torso to the right, lifting your right arm and extending it towards the ceiling.",
+      "Keep your hips and legs stable as you twist.",
+    ],
+  },
   "Pullups": {
     id: "0V2YQjW",
     target: "lats",
@@ -1476,6 +1486,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Engage your core and lower your body towards the ground by bending your elbows, keeping your body in a straight line.",
       "Pause for a moment when your chest is just above the ground, then push yourself back up to the starting position by straightening your arms.",
       "Repeat for the desired number of repetitions.",
+    ],
+  },
+  "Reverse Crunch": {
+    id: "nCU1Ekp",
+    target: "abs",
+    secondary: ["hip flexors"],
+    equip: "body weight",
+    steps: [
+      "Lie flat on your back with your arms extended along your sides.",
+      "Bend your knees and lift your feet off the ground, bringing your thighs perpendicular to the floor.",
+      "Contract your abs and curl your hips off the floor, bringing your knees towards your chest.",
+      "Pause for a moment at the top, then slowly lower your hips back down to the starting position.",
     ],
   },
   "Reverse Machine Flyes": {
@@ -1512,6 +1534,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Keeping your back straight and your core engaged, hinge at the hips and lower the dumbbells towards the ground, allowing your knees to bend slightly.",
       "Lower the dumbbells until you feel a stretch in your hamstrings, then push through your heels and engage your glutes to return to the starting position.",
       "Repeat for the desired number of repetitions.",
+    ],
+  },
+  "Russian Twist": {
+    id: "XVDdcoj",
+    target: "abs",
+    secondary: ["obliques"],
+    equip: "body weight",
+    steps: [
+      "Sit on the ground with your knees bent and feet flat on the floor.",
+      "Lean back slightly while keeping your back straight and your core engaged.",
+      "Hold your hands together in front of your chest or hold a weight if desired.",
+      "Lift your feet off the ground, balancing on your sit bones.",
     ],
   },
   "Seated Bent-Over Rear Delt Raise": {
@@ -2169,6 +2203,18 @@ export const variationMedia: Record<string, ExerciseMedia> = {
       "Press through forearms to lift the chest.",
       "Feel a passive stretch in the low back and abs.",
       "Hold for the target time, breathing normally.",
+    ],
+  },
+  "Squat": {
+    id: "QChZi3x",
+    target: "quadriceps",
+    secondary: ["glutes", "hamstrings", "shoulders"],
+    equip: "body weight",
+    steps: [
+      "Stand with feet shoulder-width apart, toes slightly turned out.",
+      "Push hips back and bend knees to squat down.",
+      "Reach both arms overhead as you stand back up.",
+      "Lower the arms as you begin the next squat.",
     ],
   },
   "Standing Archer": {
