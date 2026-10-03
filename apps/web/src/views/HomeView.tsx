@@ -126,8 +126,10 @@ export function HomeView() {
             const s = catalog.plans[x.plan].sessions[x.day];
             const col = dayColor(x.plan, x.day);
             const pl = catalog.plans[x.plan];
+            const sessionKey = `${x.plan}|${x.day}`;
+            const sessionSlotKeys = Object.keys(state.live).filter((k) => k.startsWith(`${sessionKey}|`));
             return (
-              <div className="resume" key={`${x.plan}|${x.day}`} onClick={() => openSession(x.plan, x.day)}>
+              <div className="resume" key={sessionKey} onClick={() => openSession(x.plan, x.day)}>
                 <div className="rbar" style={{ background: col }} />
                 <div className="rico">{s.emoji}</div>
                 <div className="rinfo">
@@ -136,6 +138,19 @@ export function HomeView() {
                   </div>
                   <div className="rmus">{x.done} of {x.total} done · tap to resume</div>
                 </div>
+                <button
+                  type="button"
+                  className="rdismiss"
+                  aria-label={`Discard progress on ${s.name}`}
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    if (confirm(`Discard progress on ${s.name}?`)) {
+                      dispatch({ type: 'CLEAR_SLOTS', keys: sessionSlotKeys, sessionKey });
+                    }
+                  }}
+                >
+                  ✕
+                </button>
                 <div className="rplay">▶</div>
               </div>
             );
