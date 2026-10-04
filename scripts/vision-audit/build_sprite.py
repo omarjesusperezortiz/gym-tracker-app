@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build numbered sprite sheets of EDB posters for the vision audit.
 
-Reads /tmp/vision-audit/entries.json (extracted from exerciseMedia.ts), groups
+Reads /tmp/vision-audit/entries.json (extracted from packages/core/src/exercises/exercises.ts), groups
 slots by EDB id, and writes /tmp/audit-sprite-NN.jpg + .json (tile -> meta).
 """
 import json, sys, os
