@@ -1,8 +1,17 @@
 import { useMemo, useState } from 'react';
-import { addableByGroup, addableExercises, KIND_LABEL, type AddedSlot, type Plan, type Session } from '@gym-tracker/core';
+import {
+  addableByGroup,
+  addableExercises,
+  KIND_LABEL,
+  type AddedSlot,
+  type Plan,
+  type PlanKey,
+  type Session,
+} from '@gym-tracker/core';
 import { Sheet } from '../components/Sheet';
 import { Segmented } from '../components/PrefControls';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { exerciseFor } from '../lib/exerciseFor';
 import { IconChev } from '../lib/icons';
 // Owns the .add-thumb-empty placeholder styling; importing here guarantees the
 // picker's polish applies wherever the sheet mounts, independent of Home.
@@ -19,6 +28,8 @@ export interface AddExerciseSheetProps {
   open: boolean;
   onClose: () => void;
   plan: Plan;
+  /** Which plan `plan` is — thumbnails resolve under its equipment rule. */
+  planKey: PlanKey;
   /** The session as currently trained, so what's already in it isn't offered. */
   session: Session;
   sessionName: string;
@@ -26,7 +37,7 @@ export interface AddExerciseSheetProps {
   busy?: boolean;
 }
 
-export function AddExerciseSheet({ open, onClose, plan, session, sessionName, onAdd, busy }: AddExerciseSheetProps) {
+export function AddExerciseSheet({ open, onClose, plan, planKey, session, sessionName, onAdd, busy }: AddExerciseSheetProps) {
   const [scope, setScope] = useState<AddScope>('today');
   const [query, setQuery] = useState('');
 
@@ -45,7 +56,7 @@ export function AddExerciseSheet({ open, onClose, plan, session, sessionName, on
     const preview = addable.find((a) => a.slot === slot)?.preview ?? null;
     return (
       <button className="add-row" onClick={() => add(slot)} disabled={busy}>
-        <ExerciseGif name={slot} size="thumb" poster fallbackImg={preview?.img} />
+        <ExerciseGif name={slot} exercise={exerciseFor(planKey, slot)} size="thumb" poster fallbackImg={preview?.img} />
         <span className="add-info">
           <span className="add-name">{slot}</span>
           <span className="add-kinds">

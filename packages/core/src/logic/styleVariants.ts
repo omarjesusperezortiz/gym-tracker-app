@@ -1,18 +1,15 @@
 // Style variants: different movement styles of the SAME slot under the SAME
 // equipment kind (e.g. bodyweight Push-up → Standard / Diamond / Archer …).
 // Distinct from equipment variations (plan.variations), which swap the kind.
-// Every id here is a mirrored EDB demo on disk and every name is a
-// variationMedia key: steps/muscles come from variationMedia[name], the demo
-// image from the variant's own id (see variantMedia).
-
-import { mediaForExercise, type ExerciseMedia } from './exerciseMedia';
+// Every id here is an exercise id (../exercises) and one of its slot's variants
+// for that kind; resolveExercise turns a chosen name into that exercise.
 
 export type VariantDifficulty = 'easy' | 'med' | 'hard';
 
 export interface StyleVariant {
-  /** EDB id (must exist on disk). */
+  /** Exercise id (../exercises) — must be in the slot's variants for this kind. */
   id: string;
-  /** Display name — matches the variationMedia key. */
+  /** Chip name — what AppState.activeVariant stores. */
   name: string;
   difficulty: VariantDifficulty;
 }
@@ -159,16 +156,6 @@ export function resolveVariant(
   if (!list || list.length === 0) return null;
   const chosen = active?.[variantKey(slot, kind)];
   return list.find((v) => v.name === chosen) ?? list[0];
-}
-
-/**
- * Media for a style variant: variationMedia[name] (steps, muscles) with the
- * demo pinned to the variant's own EDB id — some names share a media entry
- * (e.g. "Plank" and "Plank with Twist"), and the chip must still swap the hero.
- */
-export function variantMedia(variant: StyleVariant, slot: string): ExerciseMedia | null {
-  const media = mediaForExercise(variant.name, slot);
-  return media ? { ...media, id: variant.id, imgOverride: undefined } : null;
 }
 
 // Chip labels: the default variant reads "Standard"; the rest drop the

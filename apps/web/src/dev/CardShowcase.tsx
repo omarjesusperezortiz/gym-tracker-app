@@ -26,6 +26,7 @@ export function CardShowcase() {
         index={0}
         slotDef={SLOT}
         plan={PLAN}
+        planKey="gym"
         state={state}
         onToggleDone={() => {}}
         onToggleForce={() => {}}
