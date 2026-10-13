@@ -24,6 +24,7 @@ function Harness() {
       index={0}
       slotDef={SLOT_DEF}
       plan={PLAN}
+      planKey="gym"
       state={state}
       onToggleDone={() => setState((s) => ({ ...s, done: !s.done }))}
       onToggleForce={() => setState((s) => ({ ...s, force: !s.force }))}

@@ -2,24 +2,23 @@ import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 import {
   catalog,
-  mediaFor,
-  mediaForExercise,
-  gifUrl,
+  exerciseDemoUrl,
   resolveVariant,
   shortLabel,
-  variantMedia,
   variantsFor,
-  type Plan,
   type Kind,
-  type ExerciseMedia,
+  type PlanKey,
 } from '@gym-tracker/core';
+import { exerciseFor } from '../lib/exerciseFor';
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
-const gym = catalog.plans.gym as unknown as Plan;
 
 export interface ExerciseDetailSheetProps {
   /** The movement (catalog slot name), e.g. "Vertical pull (lats)". */
   movement: string | null;
+  /** The plan the movement is shown in (titles + equipment rule). Defaults to
+   *  gym — the Exercise Library browses the gym catalog. */
+  planKey?: PlanKey;
   /** Optional: the equipment kind currently selected on the card. When set,
    *  the sheet shows THAT variation's demo image + title (e.g. "Machine Bench
    *  Press"). Without it, we show the movement's default. */
@@ -36,7 +35,14 @@ export interface ExerciseDetailSheetProps {
 // Reusable "how to do this exercise" sheet — big demo, target/secondary muscles,
 // all equipment variations, and the numbered how-to steps. Used by the Exercise
 // Library (tap a card) AND by ExerciseCard on Train (tap the demo image).
-export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantChange, onClose }: ExerciseDetailSheetProps) {
+export function ExerciseDetailSheet({
+  movement,
+  planKey = 'gym',
+  kind,
+  activeVariants,
+  onVariantChange,
+  onClose,
+}: ExerciseDetailSheetProps) {
   // Lock body scroll while the sheet is open — MUST run before any early return
   // (Rules of Hooks) so the cleanup fires when movement transitions to null.
   // Otherwise body.overflow='hidden' sticks and you can't scroll after closing.
@@ -51,7 +57,7 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
 
   if (!movement) return null;
 
-  const vars = (gym.variations[movement] || {}) as Partial<Record<Kind, { name: string; img: string }>>;
+  const vars = (catalog.plans[planKey].variations[movement] || {}) as Partial<Record<Kind, { name: string; img: string }>>;
 
   // A style variant (same equipment, different movement style) takes over the
   // hero, title and steps when the slot has any for this kind.
@@ -59,9 +65,8 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
   const variant = kind ? resolveVariant(movement, kind, activeVariants) : null;
   const activeVar = kind ? vars[kind] : undefined;
   const activeVarName = variant?.name ?? activeVar?.name;
-  const media: ExerciseMedia | null = variant
-    ? variantMedia(variant, movement)
-    : (mediaForExercise(activeVarName, movement) ?? mediaFor(movement));
+  // Without a kind (Library), the plan's default tab for the movement.
+  const media = exerciseFor(planKey, movement, kind, activeVariants);
   const fallbackImg = activeVar?.img ?? null;
   const displayTitle = activeVarName ?? movement;
   const displaySubtitle = activeVarName ? movement : null;
@@ -78,7 +83,7 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
         </button>
         <div className="lib-detail-media">
           {media ? (
-            <img src={gifUrl(media, MEDIA_BASE)} alt={displayTitle} />
+            <img src={exerciseDemoUrl(media, MEDIA_BASE)} alt={displayTitle} />
           ) : fallbackImg ? (
             <img src={fallbackImg} alt={displayTitle} />
           ) : (
@@ -116,7 +121,7 @@ export function ExerciseDetailSheet({ movement, kind, activeVariants, onVariantC
           </>
         )}
 
-        {media?.steps && media.steps.length > 0 && (
+        {media && media.steps.length > 0 && (
           <>
             <div className="lib-detail-label">How to</div>
             <ol className="lib-steps">

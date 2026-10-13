@@ -3,13 +3,14 @@ import {
   catalog,
   muscleGroups,
   groupForMovement,
-  mediaFor,
   KIND_LABEL,
   type Plan,
   type Kind,
   type MuscleGroup,
+  type Exercise,
 } from '@gym-tracker/core';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { exerciseFor } from '../lib/exerciseFor';
 import '../styles/exercise-gif.css';
 import '../styles/exercise-audit.css';
 
@@ -25,8 +26,7 @@ interface MovementRow {
   group: MuscleGroup;
   kinds: Kind[];
   variations: { kind: Kind; name: string; img: string }[];
-  hasGif: boolean;
-  gifTarget: string | null;
+  exercise: Exercise | null;
 }
 
 export function ExerciseAudit() {
@@ -35,20 +35,19 @@ export function ExerciseAudit() {
   const rows: MovementRow[] = useMemo(() => {
     return Object.entries(gym.variations).map(([movement, vars]) => {
       const kinds = Object.keys(vars) as Kind[];
-      const media = mediaFor(movement);
+      const exercise = exerciseFor('gym', movement);
       return {
         movement,
         group: groupForMovement(movement),
         kinds,
         variations: kinds.map((k) => ({ kind: k, name: vars[k]!.name, img: vars[k]!.img })),
-        hasGif: media != null,
-        gifTarget: media?.target ?? null,
+        exercise,
       };
     });
   }, []);
 
   const total = rows.length;
-  const withGif = rows.filter((r) => r.hasGif).length;
+  const withGif = rows.filter((r) => r.exercise).length;
 
   const byGroup = muscleGroups
     .map((g) => ({ group: g, rows: rows.filter((r) => r.group === g.key) }))
@@ -100,13 +99,13 @@ export function ExerciseAudit() {
           {b.rows.map((r) => (
             <div className="aud-mv" key={r.movement}>
               <div className="aud-mv-media">
-                <ExerciseGif name={r.movement} size="card" badge fallbackImg={r.variations[0]?.img} />
+                <ExerciseGif name={r.movement} exercise={r.exercise} size="card" badge fallbackImg={r.variations[0]?.img} />
               </div>
               <div className="aud-mv-body">
                 <div className="aud-mv-top">
                   <span className="aud-mv-name">{r.movement}</span>
-                  {r.hasGif ? (
-                    <span className="aud-flag ok">gif ✓{r.gifTarget ? ` · ${r.gifTarget}` : ''}</span>
+                  {r.exercise ? (
+                    <span className="aud-flag ok">gif ✓ · {r.exercise.target}</span>
                   ) : (
                     <span className="aud-flag warn">gif pending</span>
                   )}

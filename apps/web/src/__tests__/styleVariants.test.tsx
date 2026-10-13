@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { catalog, variationMedia } from '@gym-tracker/core';
+import { catalog, exercises } from '@gym-tracker/core';
 import type { Slot } from '@gym-tracker/core';
 import { ExerciseDetailSheet } from '../components/ExerciseDetailSheet';
 import { ExerciseCard } from '../views/ExerciseCard';
@@ -63,7 +63,7 @@ describe('ExerciseDetailSheet variant chips', () => {
   });
 
   it('hides the chip row for slots without variants', () => {
-    render(<SheetHarness movement="Side Plank" />);
+    render(<SheetHarness movement="Bear Crawl" />);
     expect(screen.queryByRole('group', { name: 'Variants' })).toBeNull();
   });
 
@@ -78,7 +78,7 @@ describe('ExerciseDetailSheet variant chips', () => {
     await user.click(screen.getByRole('button', { name: 'Diamond' }));
     expect(hero().src).toContain('soIB2rj.webp');
     expect(screen.getByRole('heading', { name: 'Diamond Push-Up' })).toBeInTheDocument();
-    expect(screen.getByText(variationMedia['Diamond Push-Up'].steps![0])).toBeInTheDocument();
+    expect(screen.getByText(exercises.soIB2rj.steps[0])).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Diamond' })).toHaveAttribute('aria-pressed', 'true');
   });
 
@@ -101,6 +101,7 @@ describe('ExerciseCard uses the active variant', () => {
         index={0}
         slotDef={PUSHUP}
         plan={TRAVEL}
+        planKey="travel"
         state={st}
         activeVariants={{ 'Push-up|bw': 'Archer Push-up' }}
         onToggleDone={noop}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { catalog, type Plan, type PlanKey } from '@gym-tracker/core';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { exerciseFor } from '../lib/exerciseFor';
 import { Avatar } from '../components/Avatar';
 import '../styles/exercise-gif.css';
 import '../styles/home2.css';
@@ -75,7 +76,7 @@ export function Home2Showcase() {
     <button className="h2-wc" key={s.key} style={{ ['--bar' as string]: s.bar }}>
       <span className="h2-bar" />
       <span className="h2-wt">
-        <ExerciseGif name={s.firstExercise} size="thumb" poster hideWhenMissing />
+        <ExerciseGif name={s.firstExercise} exercise={exerciseFor(plan, s.firstExercise)} size="thumb" poster hideWhenMissing />
         <span className="h2-wt-emoji">{s.emoji}</span>
       </span>
       <span className="h2-wi">

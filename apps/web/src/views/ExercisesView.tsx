@@ -3,14 +3,14 @@ import {
   catalog,
   muscleGroups,
   groupForMovement,
-  mediaFor,
   type Plan,
   type Kind,
   type MuscleGroup,
-  type ExerciseMedia,
+  type Exercise,
 } from '@gym-tracker/core';
 import { PageHeader } from '../components/PageHeader';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { exerciseFor } from '../lib/exerciseFor';
 import { ExerciseDetailSheet } from '../components/ExerciseDetailSheet';
 import '../styles/exercise-gif.css';
 import '../styles/exercise-library.css';
@@ -22,7 +22,7 @@ interface LibEntry {
   group: MuscleGroup;
   kinds: Kind[];
   variations: { kind: Kind; name: string; img: string }[];
-  media: ExerciseMedia | null;
+  exercise: Exercise | null;
   fallbackImg: string | null;
 }
 
@@ -43,7 +43,7 @@ export function ExercisesView() {
           group: groupForMovement(movement),
           kinds,
           variations: kinds.map((k) => ({ kind: k, name: vars[k]!.name, img: vars[k]!.img })),
-          media: mediaFor(movement),
+          exercise: exerciseFor('gym', movement),
           fallbackImg: vars[kinds[0]]?.img ?? null,
         };
       })
@@ -102,12 +102,12 @@ export function ExercisesView() {
             {b.items.map((e) => (
               <button className="lib-card" key={e.movement} onClick={() => setOpen(e.movement)}>
                 <div className="lib-card-media">
-                  <ExerciseGif name={e.movement} size="card" poster fallbackImg={e.fallbackImg} />
+                  <ExerciseGif name={e.movement} exercise={e.exercise} size="card" poster fallbackImg={e.fallbackImg} />
                 </div>
                 <div className="lib-card-body">
                   <div className="lib-card-name">{e.movement}</div>
                   <div className="lib-card-tags">
-                    {e.media?.target && <span className="lib-tag on">{e.media.target}</span>}
+                    {e.exercise?.target && <span className="lib-tag on">{e.exercise.target}</span>}
                     <span className="lib-tag">{e.kinds.length} options</span>
                   </div>
                 </div>

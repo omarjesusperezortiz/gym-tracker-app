@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { mediaFor, mediaForExercise, gifUrl, posterUrl, type ExerciseMedia } from '@gym-tracker/core';
+import { exerciseDemoUrl, exercisePosterUrl, type Exercise } from '@gym-tracker/core';
 
 const MEDIA_BASE = `${import.meta.env.BASE_URL}exercise-media/`;
 
 interface ExerciseGifProps {
-  /** Catalog movement name (slot[0]). */
+  /** Label for the image (slot or exercise name). */
   name: string;
-  /** Specific exercise (equipment variation) name — when set, its own gif is used. */
-  exercise?: string;
+  /** The resolved exercise (see lib/exerciseFor); null when there is none. */
+  exercise: Exercise | null;
   /** Visual size preset. */
   size?: 'thumb' | 'card' | 'detail';
   /** Show the small "Demo" badge (card/detail only). */
@@ -18,17 +18,14 @@ interface ExerciseGifProps {
   poster?: boolean;
   /** Fallback image URL (e.g. free-exercise-db photo) shown when we have no gif yet. */
   fallbackImg?: string | null;
-  /** Pre-resolved media (e.g. a style variant's) — skips the name lookup. */
-  media?: ExerciseMedia | null;
 }
 
 /**
  * Renders an exercise demonstration on a white tile — animated gif by default,
  * or a static poster frame when `poster` is set (used in list contexts like
- * Today where motion is distracting). When `exercise` is given, the demo tracks
- * that specific variation (e.g. the selected equipment tab); otherwise it falls
- * back to the movement's gif. When we have no gif it shows `fallbackImg` if
- * provided, else a muscle glyph — so the UI never shows a broken image.
+ * Today where motion is distracting). When there is no exercise (or its image
+ * fails) it shows `fallbackImg` if provided, else a muscle glyph — so the UI
+ * never shows a broken image.
  */
 export function ExerciseGif({
   name,
@@ -38,15 +35,13 @@ export function ExerciseGif({
   hideWhenMissing = false,
   poster = false,
   fallbackImg = null,
-  media: mediaProp,
 }: ExerciseGifProps) {
-  const media = mediaProp ?? (exercise ? mediaForExercise(exercise, name) : mediaFor(name));
   // Re-mount the <img> when the resolved gif changes so a swap doesn't get stuck
   // on a stale error state.
   const [failedId, setFailedId] = useState<string | null>(null);
-  const failed = media != null && failedId === media.id;
+  const failed = exercise != null && failedId === exercise.id;
 
-  if (!media || failed) {
+  if (!exercise || failed) {
     if (fallbackImg) {
       return (
         <div className={`exgif exgif-${size}`}>
@@ -62,19 +57,17 @@ export function ExerciseGif({
     );
   }
 
-  const src = poster
-    ? posterUrl(media as ExerciseMedia, MEDIA_BASE)
-    : gifUrl(media as ExerciseMedia, MEDIA_BASE);
+  const src = poster ? exercisePosterUrl(exercise, MEDIA_BASE) : exerciseDemoUrl(exercise, MEDIA_BASE);
 
   return (
     <div className={`exgif exgif-${size}`}>
       {badge && <span className="exgif-badge">Demo</span>}
       <img
-        key={media.id}
+        key={exercise.id}
         src={src}
-        alt={`${exercise || name} demonstration`}
+        alt={`${name} demonstration`}
         loading="lazy"
-        onError={() => setFailedId(media.id)}
+        onError={() => setFailedId(exercise.id)}
       />
     </div>
   );
