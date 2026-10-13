@@ -97,6 +97,20 @@ describe('styleVariants data', () => {
     expect(new Set(list.map((v) => shortLabel(v.name))).size).toBe(list.length);
   });
 
+  // The highlighted chip (first entry when nothing is chosen) and the exercise
+  // the resolver shows must agree, or the card/hero drift from the chip row.
+  it.each(lists)('%s / %s: resolver default is the first chip', (slot, kind, list) => {
+    expect(resolveExercise({ plan: getPlan('travel'), slotKey: slot, kind: kind as 'bw' }).id).toBe(list[0].id);
+  });
+
+  it.each([
+    ['Glute Bridge', 'u0cNiij'], // Low Glute Bridge
+    ['Superman', '01qpYSe'], // Upward Facing Dog
+    ['Cobra (Upward Dog)', '01qpYSe'],
+  ])('%s defaults to %s', (slot, id) => {
+    expect(resolveExercise({ plan: getPlan('travel'), slotKey: slot, kind: 'bw' }).id).toBe(id);
+  });
+
   it('aliases share their family list', () => {
     expect(variantsFor('Walking Lunge', 'bw')).toBe(variantsFor('Lunge', 'bw'));
     expect(variantsFor('Cobra (Upward Dog)', 'bw')).toBe(variantsFor('Superman', 'bw'));
