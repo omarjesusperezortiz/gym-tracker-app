@@ -142,6 +142,8 @@ export function TrainView() {
 
   // Populate any not-yet-seen slot with its default equipment + a fresh set of
   // inputs pre-filled with the "last time" hint, exactly once per slot.
+  // Re-run when cards lose their live entry while open (midnight draft expiry).
+  const slotsMissing = session.slots.some((sl) => !state.live[keyOf(state.plan, cur, sl[0])]);
   useEffect(() => {
     if (loading) return;
     session.slots.forEach((sl) => {
@@ -171,7 +173,7 @@ export function TrainView() {
       dispatch({ type: 'ENSURE_SLOT', key, slot: { kind, done: false, force: false, sets } });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, state.plan, cur, historyEntries, slotNames.join('|')]);
+  }, [loading, state.plan, cur, historyEntries, slotNames.join('|'), slotsMissing]);
 
   const done = session.slots.filter((sl) => state.live[keyOf(state.plan, cur, sl[0])]?.done).length;
   const total = session.slots.length;
