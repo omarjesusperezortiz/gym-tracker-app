@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { isTimeScheme, KIND_LABEL, mediaForExercise, resolveVariant, variantMedia } from '@gym-tracker/core';
-import type { Kind, Plan, Slot } from '@gym-tracker/core';
+import { isTimeScheme, KIND_LABEL, resolveVariant } from '@gym-tracker/core';
+import type { Kind, Plan, PlanKey, Slot } from '@gym-tracker/core';
 import type { LiveSlotState } from '../state/AppState';
 import { SetRow } from './SetRow';
 import { ExerciseGif } from '../components/ExerciseGif';
 import { ExerciseDetailSheet } from '../components/ExerciseDetailSheet';
 import '../styles/exercise-gif.css';
 import { ghostFor } from '../lib/ghost';
+import { exerciseFor } from '../lib/exerciseFor';
 import type { ProgressionSuggestion } from '../lib/progression';
 import { IconArrowDown, IconArrowUp, IconCheck, IconTrash } from '../lib/icons';
 
@@ -15,6 +16,8 @@ export interface ExerciseCardProps {
   index: number;
   slotDef: Slot;
   plan: Plan;
+  /** Which plan `plan` is — exercises resolve under its equipment rule. */
+  planKey: PlanKey;
   state: LiveSlotState;
   loggedKinds?: Set<Kind>;
   onToggleDone: () => void;
@@ -54,6 +57,7 @@ export function ExerciseCard({
   index,
   slotDef,
   plan,
+  planKey,
   state,
   loggedKinds,
   onToggleDone,
@@ -92,9 +96,10 @@ export function ExerciseCard({
   const exName = variant?.name ?? vr?.name;
   const cue = exName ? plan.cues[exName] || '' : '';
   const kinds = Object.keys(variationsForSlot) as Kind[];
-  const media = variant ? variantMedia(variant, slot) : mediaForExercise(vr?.name, slot);
-  // A demo gif exists if the selected variation has one, or the movement does.
-  const hasGif = media != null;
+  // Same tab `vr` falls back to when a stale stored kind isn't offered here.
+  const tabKind = variationsForSlot[kind] ? kind : (kinds[0] ?? kind);
+  const exercise = exerciseFor(planKey, slot, tabKind, activeVariants);
+  const hasGif = exercise != null;
 
   return (
     <div className={`ex${done ? ' done' : ''}`}>
@@ -168,7 +173,7 @@ export function ExerciseCard({
             onClick={() => setDetailOpen(true)}
             aria-label={`Show ${slot} instructions and variations`}
           >
-            <ExerciseGif name={slot} exercise={exName} media={media} size="card" badge />
+            <ExerciseGif name={exName ?? slot} exercise={exercise} size="card" badge />
           </button>
         ) : (
           vr && (
@@ -281,7 +286,8 @@ export function ExerciseCard({
       </div>
       <ExerciseDetailSheet
         movement={detailOpen ? slot : null}
-        kind={kind}
+        planKey={planKey}
+        kind={tabKind}
         activeVariants={activeVariants}
         onVariantChange={onVariantChange}
         onClose={() => setDetailOpen(false)}

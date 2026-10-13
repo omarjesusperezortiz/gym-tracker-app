@@ -17,6 +17,7 @@ export function PickerShowcase() {
         open={open}
         onClose={() => setOpen(false)}
         plan={gym}
+        planKey="gym"
         session={session}
         sessionName="Pull"
         onAdd={() => {}}

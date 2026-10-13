@@ -1,8 +1,10 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { catalog } from '../catalog';
-import { variationMedia } from '../logic/exerciseMedia';
-import { resolveVariant, shortLabel, styleVariants, variantMedia, variantsFor } from '../logic/styleVariants';
+import { exercises } from '../exercises';
+import { getPlan } from '../plans';
+import { resolveExercise } from '../resolver';
+import { resolveVariant, shortLabel, styleVariants, variantsFor } from '../logic/styleVariants';
 
 const MEDIA_DIR = join(__dirname, '../../../../apps/web/public/exercise-media');
 
@@ -72,15 +74,15 @@ describe('styleVariants data', () => {
     Object.values(byKind).flatMap((list) => list.map((v) => ({ slot, v }))),
   );
 
-  it.each(all.map(({ slot, v }) => [slot, v.name, v]))('%s / %s has media + a demo on disk', (slot, _name, v) => {
-    expect(variationMedia[v.name]).toBeDefined();
+  it.each(all.map(({ slot, v }) => [slot, v.name, v]))('%s / %s is an exercise with a demo on disk', (slot, _name, v) => {
+    expect(exercises[v.id]).toBeDefined();
     expect(existsSync(join(MEDIA_DIR, `${v.id}.webp`))).toBe(true);
-    expect(variantMedia(v, slot)?.id).toBe(v.id);
+    expect(resolveExercise({ plan: getPlan('travel'), slotKey: slot, kind: 'bw', activeVariantPref: v.name }).id).toBe(v.id);
   });
 
   it.each(all.map(({ slot, v }) => [slot, v.name, v]))('%s / %s has a poster and is bodyweight', (_slot, _name, v) => {
     expect(existsSync(join(MEDIA_DIR, 'posters', `${v.id}.jpg`))).toBe(true);
-    expect(variationMedia[v.name].equip).toBe('body weight');
+    expect(exercises[v.id].equipment).toBe('bodyweight');
   });
 
   const travel = catalog.plans.travel;

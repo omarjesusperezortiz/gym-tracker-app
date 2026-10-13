@@ -186,7 +186,7 @@ describe('AddExerciseSheet', () => {
   const onAdd = vi.fn();
   const renderSheet = () =>
     render(
-      <AddExerciseSheet open onClose={vi.fn()} plan={PLAN} session={SESSION} sessionName={SESSION.name} onAdd={onAdd} />
+      <AddExerciseSheet open onClose={vi.fn()} plan={PLAN} planKey="gym" session={SESSION} sessionName={SESSION.name} onAdd={onAdd} />
     );
 
   beforeEach(() => onAdd.mockClear());

@@ -11,6 +11,7 @@ import { weeklyRecap } from '../lib/recap';
 import { dayColor } from '../lib/colors';
 import { Avatar } from '../components/Avatar';
 import { ExerciseGif } from '../components/ExerciseGif';
+import { exerciseFor } from '../lib/exerciseFor';
 import { IconChev } from '../lib/icons';
 
 interface InProgress {
@@ -193,7 +194,7 @@ export function HomeView() {
                   <div className="dayrow" key={k} onClick={() => openSession(plan, k)}>
                     <div className="dbar" style={{ background: col }} />
                     <div className="dthumb">
-                      <ExerciseGif name={firstEx} size="thumb" poster hideWhenMissing />
+                      <ExerciseGif name={firstEx} exercise={exerciseFor(plan, firstEx)} size="thumb" poster hideWhenMissing />
                       <span className="dthumb-emoji">{s.emoji}</span>
                     </div>
                     <div className="dinfo">

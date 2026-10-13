@@ -445,6 +445,7 @@ export function TrainView() {
             index={i}
             slotDef={sl}
             plan={P}
+            planKey={state.plan}
             state={st}
             loggedKinds={kindsLoggedFor(historyEntries, sl[0])}
             editing={editing}
@@ -503,6 +504,7 @@ export function TrainView() {
         open={picking}
         onClose={() => setPicking(false)}
         plan={P}
+        planKey={state.plan}
         session={session}
         sessionName={session.name}
         onAdd={handleAdd}
