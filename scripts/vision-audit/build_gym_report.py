@@ -2,23 +2,21 @@
 """Build docs/gym-audit.md + docs/gym-audit.html from gym-matrix.json and gym_verdicts.py.
 
 Usage (repo root): python3 scripts/vision-audit/build_gym_report.py [/tmp/gt-audit-work/gym-matrix.json]
-The HTML embeds start + mid-rep thumbnails (base64) so it works as a single file on a phone.
+The HTML is a mobile review page (see review_page.py); its frames go to docs/gym-audit-frames/.
 """
-import base64, html, io, json, os, re, sys
+import json, os, sys
 from collections import OrderedDict
-from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 MEDIA = os.path.join(ROOT, "apps/web/public/exercise-media")
 sys.path.insert(0, HERE)
-from gym_verdicts import V, NOTES  # noqa: E402
+from gym_verdicts import ACTION, FED, NOTES, V  # noqa: E402
 
 matrix = sys.argv[1] if len(sys.argv) > 1 else "/tmp/gt-audit-work/gym-matrix.json"
 rows = json.load(open(matrix))["rows"]
 edb = {x["id"]: x["name"] for x in json.load(open(os.path.join(ROOT, "apps/web/public/edb/exercises.json")))}
 KIND = {"bar": "Barbell", "cable": "Cable", "machine": "Machine", "db": "Dumbbell", "bw": "Bodyweight"}
-ID_RE = re.compile(r"^([A-Za-z0-9]{7})\b")
 
 for r in rows:
     v = V.get(r["n"])
@@ -105,89 +103,7 @@ L += ["## Method notes", "",
 os.makedirs(os.path.join(ROOT, "docs"), exist_ok=True)
 open(os.path.join(ROOT, "docs/gym-audit.md"), "w").write("\n".join(L) + "\n")
 
-# ---------------- HTML ----------------
-thumb_cache = {}
-def thumbs(i):
-    if i in thumb_cache:
-        return thumb_cache[i]
-    out = []
-    p = os.path.join(MEDIA, f"{i}.webp")
-    if os.path.exists(p):
-        im = Image.open(p)
-        n = getattr(im, "n_frames", 1)
-        for fr in (0, n // 2):
-            im.seek(fr)
-            b = io.BytesIO()
-            im.convert("RGB").resize((120, 120), Image.LANCZOS).save(b, "JPEG", quality=70)
-            out.append("data:image/jpeg;base64," + base64.b64encode(b.getvalue()).decode())
-    thumb_cache[i] = out
-    return out
+from review_page import build_review_page  # noqa: E402
 
-def imgs(i, alt):
-    return "".join(f'<img src="{s}" alt="{html.escape(alt)} frame {k + 1}" width="60" height="60" loading="lazy">' for k, s in enumerate(thumbs(i)))
-
-esc = html.escape
-cards = []
-for slot, rs in by_slot.items():
-    items = []
-    for r in rs:
-        m = ID_RE.match(r["cand"])
-        cand_img = imgs(m.group(1), r["cand"]) if m and m.group(1) in edb else ""
-        items.append(f"""
-<li class="row v-{r['verdict'].lower()}{' other' if not r['inGymTabs'] else ''}" data-v="{r['verdict']}" data-scope="{'gym' if r['inGymTabs'] else 'other'}">
-  <div class="top"><span class="tab">{KIND[r['kind']]}</span><span class="where">{esc(r['where'])} · {r['role']}</span><span class="badge">{r['verdict']}</span></div>
-  <div class="ex"><div class="th">{imgs(r['id'], r['shown'])}</div>
-    <div><b>{esc(r['shown'])}</b><div class="mono">{r['id']} · {esc(edb.get(r['id'], ''))} · {esc(r['equipment'])} · {esc(r['target'])}</div></div></div>
-  {f'<p class="prob">{"<span class=chk>checks " + esc(r["checks"]) + "</span> " if r["checks"] else ""}{esc(r["problem"])}</p>' if r['problem'] else ''}
-  {f'<div class="cand"><div class="th">{cand_img}</div><div><span class="lbl">Replace with</span> {esc(r["cand"])}</div></div>' if r['cand'] else ''}
-</li>""")
-    bad = sum(1 for r in rs if r["verdict"] != "MATCH")
-    cards.append(f'<section class="slot"><h2>{esc(slot)} <small>{len(rs)} rows{f" · {bad} to review" if bad else ""}</small></h2><ul>{"".join(items)}</ul></section>')
-
-page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gym Visual Audit</title>
-<style>
-:root{{--bg:#f7f7f5;--card:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e4e4e0;--ok:#1f7a4d;--bad:#b42318;--unc:#a15c07;--okb:#e7f4ec;--badb:#fdecea;--uncb:#fdf3e2}}
-@media (prefers-color-scheme:dark){{:root:not([data-theme="light"]){{--bg:#111312;--card:#1a1d1c;--ink:#ecebe7;--mute:#9a9a95;--line:#2b2f2d;--ok:#5fd39a;--bad:#ff8a80;--unc:#f5b85c;--okb:#13281e;--badb:#331715;--uncb:#2f2412}}}}
-:root[data-theme="dark"]{{--bg:#111312;--card:#1a1d1c;--ink:#ecebe7;--mute:#9a9a95;--line:#2b2f2d;--ok:#5fd39a;--bad:#ff8a80;--unc:#f5b85c;--okb:#13281e;--badb:#331715;--uncb:#2f2412}}
-*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}}
-main{{max-width:880px;margin:0 auto;padding:16px}}h1{{font-size:22px;margin:4px 0 6px}}.lead{{color:var(--mute);margin:0 0 14px}}
-.stats{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}}.stat{{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}}
-.stat b{{display:block;font-size:22px}}.stat span{{color:var(--mute);font-size:12px}}
-.filters{{position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0;display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);margin-bottom:12px}}
-.filters button{{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}}
-.filters button[aria-pressed=true]{{background:var(--ink);color:var(--bg)}}
-.slot{{margin:0 0 18px}}.slot h2{{font-size:17px;margin:0 0 8px}}.slot h2 small{{color:var(--mute);font-weight:400;font-size:13px}}
-ul{{list-style:none;margin:0;padding:0;display:grid;gap:8px}}
-.row{{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:10px;padding:10px}}
-.row.v-mismatch{{border-left-color:var(--bad)}}.row.v-unclear{{border-left-color:var(--unc)}}.row.other{{opacity:.92}}
-.top{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--mute)}}.tab{{font-weight:600;color:var(--ink)}}
-.badge{{margin-left:auto;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--okb);color:var(--ok)}}
-.v-mismatch .badge{{background:var(--badb);color:var(--bad)}}.v-unclear .badge{{background:var(--uncb);color:var(--unc)}}
-.ex,.cand{{display:flex;gap:10px;align-items:center;margin-top:8px}}.th{{display:flex;gap:2px;flex:none}}
-.th img{{width:60px;height:60px;border-radius:6px;background:#fff;border:1px solid var(--line);object-fit:cover}}
-.mono{{font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--mute);word-break:break-word}}
-.prob{{margin:8px 0 0}}.chk{{font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 4px;color:var(--mute);margin-right:4px}}
-.cand{{background:var(--bg);border-radius:8px;padding:6px}}.lbl{{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);display:block}}
-@media (max-width:560px){{.stats{{grid-template-columns:repeat(2,1fr)}}.th img{{width:52px;height:52px}}}}
-</style></head><body><main>
-<h1>Gym exercise visual audit</h1>
-<p class="lead">Every slot × tab × exercise the gym plan can show, checked frame by frame for animation, muscle, equipment and text. Audit only — nothing changed.</p>
-<div class="stats"><div class="stat"><b>{len(rows)}</b><span>rows checked ({len(gym)} gym tabs)</span></div>
-<div class="stat"><b style="color:var(--ok)">{ca['MATCH']}</b><span>match</span></div>
-<div class="stat"><b style="color:var(--bad)">{ca['MISMATCH']}</b><span>mismatch ({cg['MISMATCH']} in gym tabs)</span></div>
-<div class="stat"><b style="color:var(--unc)">{ca['UNCLEAR']}</b><span>unclear ({cg['UNCLEAR']} in gym tabs)</span></div></div>
-<div class="filters" role="group" aria-label="Filter">
-<button data-f="all" aria-pressed="true">All</button><button data-f="MISMATCH" aria-pressed="false">Mismatch</button>
-<button data-f="UNCLEAR" aria-pressed="false">Unclear</button><button data-f="MATCH" aria-pressed="false">Match</button>
-<button data-f="gym" aria-pressed="false">Gym tabs only</button></div>
-{''.join(cards)}
-<p class="lead">⚠ = free-exercise-db photo, last resort. Thumbnails: start frame + mid-rep frame. Source: docs/gym-audit.md.</p>
-</main><script>
-const bs=[...document.querySelectorAll('.filters button')];
-bs.forEach(b=>b.onclick=()=>{{bs.forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
-document.querySelectorAll('.row').forEach(r=>{{r.hidden=!(f==='all'||r.dataset.v===f||(f==='gym'&&r.dataset.scope==='gym'))}});
-document.querySelectorAll('.slot').forEach(s=>{{s.hidden=![...s.querySelectorAll('.row')].some(r=>!r.hidden)}});}});
-</script></body></html>"""
-open(os.path.join(ROOT, "docs/gym-audit.html"), "w").write(page)
+build_review_page(rows, edb, ACTION, FED, KIND, ROOT, MEDIA)
 print(json.dumps({"total": len(rows), "gym": cg, "other": co, "all": ca, "known": len(known), "ids_gym": ids_gym, "ids_all": ids_all}))

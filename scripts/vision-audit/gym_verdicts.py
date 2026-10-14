@@ -59,3 +59,21 @@ NOTES = {
  115:"Knee-touch crunch chip", 29:"Correct bench dip", 34:"Decline push-up biases upper chest", 53:"Quads highlighted (EDB convention)",
  55:"Side view, dumbbells at sides", 91:"Quads highlighted (EDB convention)", 62:"", 
 }
+
+# Export code per non-MATCH row: what "Approve fix" means, in the form pasted
+# back to chat. An EDB id = swap to that exercise; MOVE-TO-BW:<id> = drop this
+# tab and offer <id> under Bodyweight; FED:<name> = free-exercise-db photo.
+ACTION = {
+ 14: "A6wtbuL", 15: "REMOVE-TAB", 16: "MOVE-TO-BW:0V2YQjW", 18: "REMOVE-TAB", 21: "G08RZcQ",
+ 24: "KEEP", 28: "W6PxUkg", 31: "Vh0GsK4", 35: "wEulIzp", 37: "REMOVE-TAB",
+ 38: "REMOVE-TAB+FED:Plank", 39: "FED:Plank", 43: "REMOVE-TAB", 48: "7xeukSt", 50: "OAguZoG",
+ 52: "REMOVE-TAB", 56: "KEEP", 60: "REMOVE-CHIP(travel)", 61: "MOVE-TO-BW:I3tsCnC", 62: "RqOtqD7",
+ 63: "REMOVE-TAB", 66: "v3xmPAR", 67: "yz9nUhF", 68: "REMOVE-TAB", 70: "REMOVE-ID",
+ 74: "REMOVE-TAB", 75: "RENAME:Barbell Front Raise", 78: "REMOVE-TAB", 81: "REMOVE-TAB", 83: "REMOVE-TAB",
+ 85: "REMOVE-TAB", 86: "PdmaD0N", 87: "REMOVE-TAB", 88: "REWRITE-STEPS", 90: "REMOVE-TAB",
+ 92: "9KU9TYF", 99: "wQ2c4XD", 102: "REMOVE-TAB", 104: "ykUOVze", 107: "FED:Plank",
+ 109: "MOVE-TO-BW:I3tsCnC", 110: "TXtXc84", 116: "REMOVE-TAB", 118: "REMOVE-CHIP", 119: "REMOVE-CHIP",
+ 125: "REMOVE-TAB", 126: "REMOVE-TAB", 128: "REMOVE-CHIP",
+}
+FED = {"Plank": ["https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
+                 "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"]}
