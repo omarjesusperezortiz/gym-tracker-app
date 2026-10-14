@@ -176,15 +176,16 @@ export function ExerciseCard({
             <ExerciseGif name={exName ?? slot} exercise={exercise} size="card" badge />
           </button>
         ) : (
-          vr && (
+          vr?.img &&
+          vr.img2 && (
             <div className="imgs">
               <div className="imgcell">
                 <span className="tag">Start</span>
-                <img loading="lazy" src={vr.img} alt={`${vr.name} start`} onClick={() => onZoom(vr.img)} />
+                <img loading="lazy" src={vr.img} alt={`${vr.name} start`} onClick={() => onZoom(vr.img!)} />
               </div>
               <div className="imgcell">
                 <span className="tag">Finish</span>
-                <img loading="lazy" src={vr.img2} alt={`${vr.name} finish`} onClick={() => onZoom(vr.img2)} />
+                <img loading="lazy" src={vr.img2} alt={`${vr.name} finish`} onClick={() => onZoom(vr.img2!)} />
               </div>
             </div>
           )

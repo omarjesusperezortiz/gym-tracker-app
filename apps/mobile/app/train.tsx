@@ -265,16 +265,18 @@ export default function TrainScreen() {
                 <>
                   <Text style={styles.varName}>{variation.name}</Text>
                   {!!cue && <Text style={styles.cue}>{cue}</Text>}
-                  <View style={styles.imgRow}>
-                    <Pressable style={styles.imgCell} onPress={() => setZoomUri(variation.img)}>
-                      <Text style={styles.imgTag}>Start</Text>
-                      <Image source={{ uri: variation.img }} style={styles.img} resizeMode="cover" />
-                    </Pressable>
-                    <Pressable style={styles.imgCell} onPress={() => setZoomUri(variation.img2)}>
-                      <Text style={styles.imgTag}>Finish</Text>
-                      <Image source={{ uri: variation.img2 }} style={styles.img} resizeMode="cover" />
-                    </Pressable>
-                  </View>
+                  {variation.img && variation.img2 && (
+                    <View style={styles.imgRow}>
+                      <Pressable style={styles.imgCell} onPress={() => setZoomUri(variation.img ?? null)}>
+                        <Text style={styles.imgTag}>Start</Text>
+                        <Image source={{ uri: variation.img }} style={styles.img} resizeMode="cover" />
+                      </Pressable>
+                      <Pressable style={styles.imgCell} onPress={() => setZoomUri(variation.img2 ?? null)}>
+                        <Text style={styles.imgTag}>Finish</Text>
+                        <Image source={{ uri: variation.img2 }} style={styles.img} resizeMode="cover" />
+                      </Pressable>
+                    </View>
+                  )}
                 </>
               )}
 

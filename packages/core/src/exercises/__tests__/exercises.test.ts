@@ -35,11 +35,8 @@ describe('exercise map', () => {
 // choices (e.g. pull-ups under Barbell, band raises under Bodyweight in
 // calisthenics). Listed so new ones fail and fixed ones get pruned.
 const KNOWN_MISMATCHES = [
-  'Chest fly|machine|bWlZvXh',
-  'Hamstring / RDL|bar|rR0LJzx',
   'Hanging/Lying Leg Raise|bar|I3tsCnC',
   'Leg raise (core)|bar|I3tsCnC',
-  'Leg raise (core)|db|s8nrDXF',
   'Pallof Press (anti-rotation)|cable|9pa4H5m',
   'Plank (core)|db|CosupLu',
   'Rear delts|bw|sTfvVsG',

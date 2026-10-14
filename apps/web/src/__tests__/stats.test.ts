@@ -35,6 +35,7 @@ describe('classifyMuscleGroup', () => {
     expect(classifyMuscleGroup('Flat chest press')).toBe('push');
     // A press that isn't a press.
     expect(classifyMuscleGroup('Pallof Press (anti-rotation)')).toBe('core');
+    expect(classifyMuscleGroup('Dead Bug')).toBe('core');
     // Legs, not a "leg raise".
     expect(classifyMuscleGroup('Calf raise')).toBe('legs');
     expect(classifyMuscleGroup('Hanging/Lying Leg Raise')).toBe('core');

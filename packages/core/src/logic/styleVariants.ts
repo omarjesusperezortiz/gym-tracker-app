@@ -109,17 +109,9 @@ export const styleVariants: Record<string, Record<string /* kind */, StyleVarian
     ],
   },
   // Seated Leg Raise (Hgs6Nl1) left out: its demo is on a bench.
-  'Reverse Crunch': {
-    bw: [
-      { id: 'nCU1Ekp', name: 'Reverse Crunch', difficulty: 'easy' },
-      { id: 'tFToB7l', name: 'Reverse Plank with Leg Lift', difficulty: 'med' },
-    ],
-  },
   'Russian Twist': {
     bw: [
       { id: 'XVDdcoj', name: 'Russian Twist', difficulty: 'easy' },
-      { id: '6sYyrRX', name: 'Bent Knee Lying Twist', difficulty: 'easy' },
-      { id: 'CosupLu', name: 'Plank with Twist', difficulty: 'med' },
       { id: 'xgsGFVM', name: 'Crab Twist Toe Touch', difficulty: 'hard' },
     ],
   },
@@ -189,10 +181,7 @@ const SHORT_LABEL: Record<string, string> = {
   'Crunch Floor': 'Crunch',
   'Cross Body Crunch': 'Cross Body',
   'Knee Touch Crunch': 'Knee Touch',
-  'Reverse Crunch': 'Standard',
-  'Reverse Plank with Leg Lift': 'Reverse Plank',
   'Russian Twist': 'Standard',
-  'Bent Knee Lying Twist': 'Lying Twist',
   'Crab Twist Toe Touch': 'Crab Twist',
   'Upward Facing Dog': 'Up Dog',
   Sphinx: 'Sphinx',

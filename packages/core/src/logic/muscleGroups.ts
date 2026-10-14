@@ -68,6 +68,7 @@ export const movementMuscleGroup: Record<string, MuscleGroup> = {
   'Bicycle Crunch': 'core',
   'Russian Twist': 'core',
   'Pallof Press (anti-rotation)': 'core',
+  'Dead Bug': 'core',
 };
 
 /** The muscle group for a movement (defaults to 'core' if unmapped). */

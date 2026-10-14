@@ -450,11 +450,6 @@ export const catalog = {
       "name": "Wide-Grip Lat Pulldown",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/1.jpg"
-     },
-     "db": {
-      "name": "Bent Over Two-Dumbbell Row",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row/1.jpg"
      }
     },
     "Biceps curl": {
@@ -464,9 +459,7 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Curl/1.jpg"
      },
      "cable": {
-      "name": "Cable Hammer Curls - Rope Attachment",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Hammer_Curls_-_Rope_Attachment/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Hammer_Curls_-_Rope_Attachment/1.jpg"
+      "name": "Cable Curl"
      },
      "machine": {
       "name": "Machine Bicep Curl",
@@ -508,9 +501,7 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Incline_Bench_Press_-_Medium_Grip/1.jpg"
      },
      "cable": {
-      "name": "Low Cable Crossover",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Low_Cable_Crossover/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Low_Cable_Crossover/1.jpg"
+      "name": "Cable Incline Bench Press"
      },
      "machine": {
       "name": "Leverage Incline Chest Press",
@@ -588,9 +579,7 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Hammer_Curls_-_Rope_Attachment/1.jpg"
      },
      "machine": {
-      "name": "Machine Bicep Curl",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Bicep_Curl/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Bicep_Curl/1.jpg"
+      "name": "Machine Hammer Curl"
      },
      "db": {
       "name": "Hammer Curls",
@@ -625,11 +614,6 @@ export const catalog = {
       "name": "Cable Crunch",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crunch/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crunch/1.jpg"
-     },
-     "db": {
-      "name": "Weighted Crunches",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Weighted_Crunches/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Weighted_Crunches/1.jpg"
      }
     },
     "Chest fly": {
@@ -675,9 +659,7 @@ export const catalog = {
     },
     "Front raise": {
      "bar": {
-      "name": "Front Plate Raise",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Front_Plate_Raise/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Front_Plate_Raise/1.jpg"
+      "name": "Barbell Front Raise"
      },
      "cable": {
       "name": "Front Cable Raise",
@@ -717,11 +699,6 @@ export const catalog = {
       "name": "Cable Rope Overhead Triceps Extension",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Rope_Overhead_Triceps_Extension/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Rope_Overhead_Triceps_Extension/1.jpg"
-     },
-     "machine": {
-      "name": "Machine Triceps Extension",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Triceps_Extension/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Triceps_Extension/1.jpg"
      },
      "db": {
       "name": "Standing Dumbbell Triceps Extension",
@@ -847,11 +824,6 @@ export const catalog = {
       "name": "Pallof Press",
       "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pallof_Press/0.jpg",
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pallof_Press/1.jpg"
-     },
-     "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
      }
     },
     "Reverse Crunch": {
@@ -863,6 +835,10 @@ export const catalog = {
     }
    },
    "cues": {
+    "Barbell Front Raise": "Arms straight, raise the bar to the front to eye level, lower slow.",
+    "Machine Hammer Curl": "Neutral grip on the preacher handles, curl up, slow negative.",
+    "Cable Incline Bench Press": "Incline bench between low cables, press up and together over upper chest.",
+    "Cable Curl": "Straight bar from a low pulley, elbows pinned, curl to shoulders, slow down.",
     "Barbell Bench Press - Medium Grip": "Bar to mid-chest, elbows ~45°, press up.",
     "Cable Chest Press": "Press cable handles forward, squeeze chest.",
     "Dumbbell Bench Press": "DBs at chest, press up and slightly together.",
@@ -882,7 +858,6 @@ export const catalog = {
     "Triceps Pushdown": "Elbows pinned, push down, full extension, control up.",
     "Standing Dumbbell Triceps Extension": "DB overhead, extend up, elbows still.",
     "Barbell Incline Bench Press - Medium Grip": "Incline bar press for upper chest.",
-    "Low Cable Crossover": "Low-to-high cable flye for upper chest.",
     "Incline Dumbbell Press": "Bench ~30°, press DBs up and together.",
     "Cable Seated Lateral Raise": "Seated cable raise out to the side.",
     "Side Lateral Raise": "Raise out to shoulder height, slight bend. Light.",
@@ -903,7 +878,6 @@ export const catalog = {
     "Dips - Chest Version": "Lean forward on dip bars, lower, press up (chest).",
     "Straight-Arm Pulldown": "Arms straight, pull bar down to thighs using lats.",
     "Bent-Arm Dumbbell Pullover": "",
-    "Front Plate Raise": "Raise plate to front to eye level.",
     "Front Cable Raise": "Cable raise to front, control.",
     "Front Dumbbell Raise": "Raise DB to front to shoulder height.",
     "Upright Barbell Row": "Pull bar up along body to chest, elbows high.",
@@ -1300,7 +1274,7 @@ export const catalog = {
        ""
       ],
       [
-       "Pallof Press (anti-rotation)",
+       "Dead Bug",
        "3 × 10/side",
        ""
       ],
@@ -1455,9 +1429,7 @@ export const catalog = {
     },
     "Forearm / wrist": {
      "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
+      "name": "Wrist Circles"
      }
     },
     "Lunge": {
@@ -1516,11 +1488,9 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/1.jpg"
      }
     },
-    "Pallof Press (anti-rotation)": {
+    "Dead Bug": {
      "bw": {
-      "name": "Plank",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
+      "name": "Dead Bug"
      }
     },
     "Reverse Crunch": {
@@ -1532,6 +1502,8 @@ export const catalog = {
     }
    },
    "cues": {
+    "Dead Bug": "Low back pressed down, lower opposite arm and leg slowly, alternate.",
+    "Wrist Circles": "Arms out front, loose fists, slow circles both ways.",
     "Pushups": "Body straight, chest to floor, press up. Feet up = harder.",
     "Inverted Row": "Under a bar/table, pull chest up, body straight.",
     "Decline Push-Up": "Feet elevated push-up — hits shoulders/upper chest.",
