@@ -68,7 +68,7 @@ export function classifyMuscles(slot: string): Muscle[] {
   const out = new Set<Muscle>();
 
   // Core / abs — anti-rotation "presses" (Pallof) must not read as chest.
-  if (/plank|crunch|russian twist|leg raise|pallof|sit.?up|ab wheel|hollow|bicycle|\bcore\b/.test(s)) {
+  if (/plank|crunch|russian twist|leg raise|pallof|dead bug|sit.?up|ab wheel|hollow|bicycle|\bcore\b/.test(s)) {
     out.add('abs');
   }
 

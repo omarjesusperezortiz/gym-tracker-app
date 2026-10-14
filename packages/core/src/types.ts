@@ -5,8 +5,13 @@ export type PlanKey = 'gym' | 'cal' | 'travel';
 
 export interface Variation {
   name: string;
-  img: string;
-  img2: string;
+  /**
+   * Start/finish photo pair, a fallback for when the exercise has no demo.
+   * Optional: tabs whose exercise was replaced drop the old photos rather
+   * than show a different exercise.
+   */
+  img?: string;
+  img2?: string;
   /**
    * Optional additional variations available for the SAME equipment kind
    * (e.g. within Dumbbell: Standing / Hammer / Incline / Concentration curl).

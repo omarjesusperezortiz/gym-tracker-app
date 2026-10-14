@@ -39,6 +39,7 @@ const CANONICAL: Array<[string, string[]]> = [
   ['Bicycle Crunch', ['abs']],
   ['Russian Twist', ['abs']],
   ['Pallof Press (anti-rotation)', ['abs']],
+  ['Dead Bug', ['abs']],
 ];
 
 const sorted = (m: string[]) => [...m].sort();

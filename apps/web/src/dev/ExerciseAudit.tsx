@@ -25,7 +25,7 @@ interface MovementRow {
   movement: string;
   group: MuscleGroup;
   kinds: Kind[];
-  variations: { kind: Kind; name: string; img: string }[];
+  variations: { kind: Kind; name: string; img?: string }[];
   exercise: Exercise | null;
 }
 
