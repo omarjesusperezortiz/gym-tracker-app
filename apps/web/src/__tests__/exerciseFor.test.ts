@@ -31,7 +31,7 @@ describe('exerciseFor', () => {
   });
 
   it('applies a chosen style variant', () => {
-    expect(exerciseFor('travel', 'Push-up', 'bw', { 'Push-up|bw': 'Archer Push-up' })?.id).toBe('A9qxk2F');
+    expect(exerciseFor('travel', 'Push-up', 'bw', { 'Push-up|bw': 'Wide Hand Push-up' })?.id).toBe('JmMVpR3');
   });
 
   it('is null for a slot outside the catalog', () => {

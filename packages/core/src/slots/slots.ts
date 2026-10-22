@@ -64,10 +64,10 @@ export const slots: Record<string, Slot> = {
         "A6wtbuL", // Dumbbell Standing Overhead Press
       ],
       bw: [
-        "i5cEhka", // Decline Push-Up
+        "rQxwMxO", // Handstand Push-Up
       ],
     },
-    defaultVariant: { bar: "wdRZISl", cable: "PzQanLE", machine: "dNFYIU1", db: "A6wtbuL", bw: "i5cEhka" },
+    defaultVariant: { bar: "wdRZISl", cable: "PzQanLE", machine: "dNFYIU1", db: "A6wtbuL", bw: "rQxwMxO" },
   },
   "Vertical pull (lats)": {
     key: "Vertical pull (lats)",
@@ -100,10 +100,10 @@ export const slots: Record<string, Slot> = {
         "xiA6lRr", // Dumbbell Bicep Curl
       ],
       bw: [
-        "T2mxWqc", // Chin-Up
+        "sJFIDIp", // Biceps Leg Concentration Curl
       ],
     },
-    defaultVariant: { bar: "25GPyDY", cable: "G08RZcQ", machine: "b6hQYMb", db: "xiA6lRr", bw: "T2mxWqc" },
+    defaultVariant: { bar: "25GPyDY", cable: "G08RZcQ", machine: "b6hQYMb", db: "xiA6lRr", bw: "sJFIDIp" },
   },
   "Triceps pushdown/ext": {
     key: "Triceps pushdown/ext",
@@ -156,11 +156,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "DsgkuIt", // Side Lateral Raise
       ],
-      bw: [
-        "sTg7iys", // Lateral Raise - With Bands
-      ],
     },
-    defaultVariant: { cable: "wEulIzp", db: "DsgkuIt", bw: "sTg7iys" },
+    defaultVariant: { cable: "wEulIzp", db: "DsgkuIt" },
   },
   "Plank (core)": {
     key: "Plank (core)",
@@ -186,11 +183,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "8DiFDVA", // Seated Bent-Over Rear Delt Raise
       ],
-      bw: [
-        "sTfvVsG", // Band Pull Apart
-      ],
     },
-    defaultVariant: { cable: "wqNPGCg", machine: "myfUsKf", db: "8DiFDVA", bw: "sTfvVsG" },
+    defaultVariant: { cable: "wqNPGCg", machine: "myfUsKf", db: "8DiFDVA" },
   },
   "Shrugs (traps)": {
     key: "Shrugs (traps)",
@@ -208,10 +202,10 @@ export const slots: Record<string, Slot> = {
         "NJzBsGJ", // Dumbbell Shrug
       ],
       bw: [
-        "01qpYSe", // Upward Facing Dog
+        "7xeukSt", // Scapula Dips
       ],
     },
-    defaultVariant: { bar: "dG7tG5y", cable: "Eg98Ft9", machine: "ZZKbeMw", db: "NJzBsGJ", bw: "01qpYSe" },
+    defaultVariant: { bar: "dG7tG5y", cable: "Eg98Ft9", machine: "ZZKbeMw", db: "NJzBsGJ", bw: "7xeukSt" },
   },
   "Hammer curl": {
     key: "Hammer curl",
@@ -225,11 +219,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "GNhAeJ0", // Hammer Curls
       ],
-      bw: [
-        "T2mxWqc", // Chin-Up
-      ],
     },
-    defaultVariant: { cable: "HPlPoQA", machine: "OAguZoG", db: "GNhAeJ0", bw: "T2mxWqc" },
+    defaultVariant: { cable: "HPlPoQA", machine: "OAguZoG", db: "GNhAeJ0" },
   },
   "Squat": {
     key: "Squat",
@@ -244,14 +235,12 @@ export const slots: Record<string, Slot> = {
         "HsvHqgf", // Dumbbell Squat
       ],
       bw: [
+        "75Bgtjy", // Bodyweight Squat
         "QChZi3x", // Squat to Overhead Reach
-        "9E25EOx", // Split Squats
-        "gUjqdei", // Curtsey Squat
-        "nqs5HGV", // Pistol Squat
-        "xdYPUtE", // Sissy Squat
+        "LIlE5Tn", // Jump Squat
       ],
     },
-    defaultVariant: { bar: "qXTaZnJ", machine: "10Z2DXU", db: "HsvHqgf", bw: "QChZi3x" },
+    defaultVariant: { bar: "qXTaZnJ", machine: "10Z2DXU", db: "HsvHqgf", bw: "75Bgtjy" },
   },
   "Leg raise (core)": {
     key: "Leg raise (core)",
@@ -280,11 +269,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "yz9nUhF", // Flat Dumbbell Fly
       ],
-      bw: [
-        "I4hDWkc", // Pushups
-      ],
     },
-    defaultVariant: { cable: "xLYSdtg", machine: "v3xmPAR", db: "yz9nUhF", bw: "I4hDWkc" },
+    defaultVariant: { cable: "xLYSdtg", machine: "v3xmPAR", db: "yz9nUhF" },
   },
   "Chest dip": {
     key: "Chest dip",
@@ -308,11 +294,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "9XjtHvS", // Bent-Arm Dumbbell Pullover
       ],
-      bw: [
-        "01qpYSe", // Upward Facing Dog
-      ],
     },
-    defaultVariant: { cable: "x69MAlq", db: "9XjtHvS", bw: "01qpYSe" },
+    defaultVariant: { cable: "x69MAlq", db: "9XjtHvS" },
   },
   "Front raise": {
     key: "Front raise",
@@ -326,11 +309,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "3eGE2JC", // Front Dumbbell Raise
       ],
-      bw: [
-        "i5cEhka", // Decline Push-Up
-      ],
     },
-    defaultVariant: { bar: "b2Uoz54", cable: "u2X71Np", db: "3eGE2JC", bw: "i5cEhka" },
+    defaultVariant: { bar: "b2Uoz54", cable: "u2X71Np", db: "3eGE2JC" },
   },
   "Upright row": {
     key: "Upright row",
@@ -347,11 +327,8 @@ export const slots: Record<string, Slot> = {
       db: [
         "ainizkb", // Standing Dumbbell Upright Row
       ],
-      bw: [
-        "sTfvVsG", // Band Pull Apart
-      ],
     },
-    defaultVariant: { bar: "UDlhcO8", cable: "cALKspW", machine: "1DN3iz4", db: "ainizkb", bw: "sTfvVsG" },
+    defaultVariant: { bar: "UDlhcO8", cable: "cALKspW", machine: "1DN3iz4", db: "ainizkb" },
   },
   "Overhead triceps": {
     key: "Overhead triceps",
@@ -363,10 +340,10 @@ export const slots: Record<string, Slot> = {
         "PdmaD0N", // Dumbbell Standing Triceps Extension
       ],
       bw: [
-        "RrLske5", // Bench Dips
+        "s0HKO2I", // Kneeling Triceps Extension
       ],
     },
-    defaultVariant: { cable: "2IxROQ1", db: "PdmaD0N", bw: "RrLske5" },
+    defaultVariant: { cable: "2IxROQ1", db: "PdmaD0N", bw: "s0HKO2I" },
   },
   "Forearm / wrist": {
     key: "Forearm / wrist",
@@ -396,14 +373,12 @@ export const slots: Record<string, Slot> = {
         "RRWFUcw", // Dumbbell Lunges
       ],
       bw: [
-        "IZVHb27", // Bodyweight Walking Lunge
         "kMzUs9Y", // Forward Lunge
         "K9VL0Jq", // Lunge with Twist
-        "J9zIWig", // Walking High Knees Lunge
         "PM1PZjg", // Lunge with Jump
       ],
     },
-    defaultVariant: { bar: "t8iSghb", machine: "10Z2DXU", db: "RRWFUcw", bw: "IZVHb27" },
+    defaultVariant: { bar: "t8iSghb", machine: "10Z2DXU", db: "RRWFUcw", bw: "kMzUs9Y" },
   },
   "Hamstring / RDL": {
     key: "Hamstring / RDL",
@@ -418,10 +393,10 @@ export const slots: Record<string, Slot> = {
         "5eLRITT", // Stiff-Legged Dumbbell Deadlift
       ],
       bw: [
-        "GibBPPg", // Glute Bridge March
+        "zkgRrbK", // Hyperextension (on Bench)
       ],
     },
-    defaultVariant: { bar: "wQ2c4XD", machine: "17lJ1kr", db: "5eLRITT", bw: "GibBPPg" },
+    defaultVariant: { bar: "wQ2c4XD", machine: "17lJ1kr", db: "5eLRITT", bw: "zkgRrbK" },
   },
   "Calf raise": {
     key: "Calf raise",
@@ -471,9 +446,7 @@ export const slots: Record<string, Slot> = {
     variants: {
       bw: [
         "1ZFqTDN", // Air Bike
-        "TFqbd8t", // Crunch Floor
         "rbu5UUb", // Cross Body Crunch
-        "dTg95eZ", // Knee Touch Crunch
       ],
     },
     defaultVariant: { bw: "1ZFqTDN" },
@@ -486,7 +459,6 @@ export const slots: Record<string, Slot> = {
       ],
       bw: [
         "XVDdcoj", // Russian Twist
-        "xgsGFVM", // Crab Twist Toe Touch
       ],
     },
     defaultVariant: { db: "XVDdcoj", bw: "XVDdcoj" },
@@ -581,9 +553,6 @@ export const slots: Record<string, Slot> = {
     variants: {
       bw: [
         "01qpYSe", // Upward Facing Dog
-        "DIVyqrU", // Sphinx
-        "ANbbry2", // Lower Back Curl
-        "XPUDTt7", // Pike-to-Cobra Push-up
       ],
     },
     defaultVariant: { bw: "01qpYSe" },
@@ -621,9 +590,7 @@ export const slots: Record<string, Slot> = {
       bw: [
         "u0cNiij", // Low Glute Bridge
         "GibBPPg", // Glute Bridge March
-        "196HJGw", // Hip Raise Bent Knee
         "D9qe7CM", // Pelvic Tilt into Bridge
-        "rmEukuS", // Single Leg Bridge
       ],
     },
     defaultVariant: { bw: "u0cNiij" },
@@ -732,10 +699,10 @@ export const slots: Record<string, Slot> = {
     variants: {
       bw: [
         "I4hDWkc", // Pushups
-        "soIB2rj", // Diamond Push-Up
-        "epOSYUZ", // Hindu Push-up
-        "A9qxk2F", // Archer Push-up
-        "Snj1wSv", // Plyo Push-up
+        "ZOuKWir", // Kneeling Push-up
+        "B1EVP9F", // Incline Push-up
+        "JmMVpR3", // Wide Hand Push-up
+        "qEse6fe", // Shoulder Tap Push-up
       ],
     },
     defaultVariant: { bw: "I4hDWkc" },
@@ -763,7 +730,6 @@ export const slots: Record<string, Slot> = {
     variants: {
       bw: [
         "rmEukuS", // Single Leg Bridge
-        "GibBPPg", // Glute Bridge March
       ],
     },
     defaultVariant: { bw: "rmEukuS" },
@@ -838,13 +804,10 @@ export const slots: Record<string, Slot> = {
     key: "Superman",
     variants: {
       bw: [
-        "01qpYSe", // Upward Facing Dog
-        "DIVyqrU", // Sphinx
         "ANbbry2", // Lower Back Curl
-        "XPUDTt7", // Pike-to-Cobra Push-up
       ],
     },
-    defaultVariant: { bw: "01qpYSe" },
+    defaultVariant: { bw: "ANbbry2" },
   },
   "V-Sit Hold": {
     key: "V-Sit Hold",
@@ -860,10 +823,7 @@ export const slots: Record<string, Slot> = {
     variants: {
       bw: [
         "IZVHb27", // Bodyweight Walking Lunge
-        "kMzUs9Y", // Forward Lunge
-        "K9VL0Jq", // Lunge with Twist
         "J9zIWig", // Walking High Knees Lunge
-        "PM1PZjg", // Lunge with Jump
       ],
     },
     defaultVariant: { bw: "IZVHb27" },

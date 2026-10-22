@@ -32,17 +32,14 @@ describe('exercise map', () => {
 
 // Each card tab stands for one kind of equipment. These slot entries file an
 // exercise under a tab whose equipment it doesn't use — inherited catalog
-// choices (e.g. pull-ups under Barbell, band raises under Bodyweight in
-// calisthenics). Listed so new ones fail and fixed ones get pruned.
+// choices (e.g. pull-ups under Barbell). Listed so new ones fail and fixed
+// ones get pruned.
 const KNOWN_MISMATCHES = [
   'Hanging/Lying Leg Raise|bar|I3tsCnC',
   'Leg raise (core)|bar|I3tsCnC',
   'Pallof Press (anti-rotation)|cable|9pa4H5m',
   'Plank (core)|db|CosupLu',
-  'Rear delts|bw|sTfvVsG',
   'Russian Twist|db|XVDdcoj',
-  'Side lateral raise|bw|sTg7iys',
-  'Upright row|bw|sTfvVsG',
   'Upright row|machine|1DN3iz4',
   'Vertical pull (lats)|bar|0V2YQjW',
 ];

@@ -32,6 +32,12 @@ export interface Exercise {
   equipment: Equipment;
   target: Muscle;
   secondary: Muscle[];
+  /**
+   * The demo hangs from or presses on a bar (pull-up bar, dip bars, rack bar).
+   * Equipment stays "bodyweight" for these, so this is what keeps them out of
+   * plans with no bar (travel).
+   */
+  needsBar?: boolean;
   /** Set only where we have a source for it (the style-variant chips). */
   difficulty?: Difficulty;
   steps: string[];
