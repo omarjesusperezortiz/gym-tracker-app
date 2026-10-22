@@ -187,8 +187,9 @@ function DaySheetContent({
               <span className="hbadge" style={{ color: hueOf(e) }}>
                 {pl ? pl.icon : ''} {pl ? pl.label : ''} · {e.name}
               </span>
+              {/* Auto-saved rows carry a placeholder time (noon), so say how it got here instead. */}
               <span className="htime">
-                {new Date(e.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {e.autoSaved ? 'auto-saved' : new Date(e.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
             <div className="hln">

@@ -142,7 +142,7 @@ export function TrainView() {
 
   // Populate any not-yet-seen slot with its default equipment + a fresh set of
   // inputs pre-filled with the "last time" hint, exactly once per slot.
-  // Re-run when cards lose their live entry while open (midnight draft expiry).
+  // Re-run when cards lose their live entry while open (midnight auto-save).
   const slotsMissing = session.slots.some((sl) => !state.live[keyOf(state.plan, cur, sl[0])]);
   useEffect(() => {
     if (loading) return;

@@ -14,6 +14,8 @@ export interface LoggedWorkout {
   name: string;
   type: 'workout' | 'rest';
   slots: LoggedSlot[];
+  /** Saved by the app because it was left unfinished past its day. */
+  autoSaved?: boolean;
 }
 
 interface WorkoutRow {
@@ -23,6 +25,7 @@ interface WorkoutRow {
   sess: string | null;
   name: string | null;
   type: string;
+  auto_saved?: boolean | null;
   workout_slots:
     | {
         slot: string;
@@ -35,22 +38,28 @@ interface WorkoutRow {
     | null;
 }
 
+const WORKOUT_COLUMNS =
+  'id, date, plan, sess, name, type, workout_slots(slot, kind, position, done, force, workout_sets(weight, reps, position))';
+
+function selectWorkouts(columns: string) {
+  return getSupabase().from('workouts').select(columns).order('date', { ascending: false });
+}
+
 export async function fetchWorkouts(): Promise<LoggedWorkout[]> {
-  const { data, error } = await getSupabase()
-    .from('workouts')
-    .select(
-      'id, date, plan, sess, name, type, workout_slots(slot, kind, position, done, force, workout_sets(weight, reps, position))'
-    )
-    .order('date', { ascending: false });
+  let { data, error } = await selectWorkouts(`auto_saved, ${WORKOUT_COLUMNS}`);
+  // 42703 = undefined column: the auto_saved migration (0008) isn't applied yet.
+  // Keep history loading without the flag rather than failing the whole app.
+  if (error?.code === '42703') ({ data, error } = await selectWorkouts(WORKOUT_COLUMNS));
   if (error) throw error;
 
-  return ((data ?? []) as WorkoutRow[]).map((w) => ({
+  return ((data ?? []) as unknown as WorkoutRow[]).map((w) => ({
     id: w.id,
     date: w.date,
     plan: w.plan,
     sess: w.sess,
     name: w.name ?? '',
     type: (w.type as LoggedWorkout['type']) || 'workout',
+    ...(w.auto_saved ? { autoSaved: true } : {}),
     slots: (w.workout_slots ?? [])
       .slice()
       .sort((a, b) => a.position - b.position)
