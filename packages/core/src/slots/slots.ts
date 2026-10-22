@@ -61,13 +61,13 @@ export const slots: Record<string, Slot> = {
         "dNFYIU1", // Machine Shoulder (Military) Press
       ],
       db: [
-        "3d7wHyd", // Standing Dumbbell Press
+        "A6wtbuL", // Dumbbell Standing Overhead Press
       ],
       bw: [
         "i5cEhka", // Decline Push-Up
       ],
     },
-    defaultVariant: { bar: "wdRZISl", cable: "PzQanLE", machine: "dNFYIU1", db: "3d7wHyd", bw: "i5cEhka" },
+    defaultVariant: { bar: "wdRZISl", cable: "PzQanLE", machine: "dNFYIU1", db: "A6wtbuL", bw: "i5cEhka" },
   },
   "Vertical pull (lats)": {
     key: "Vertical pull (lats)",
@@ -78,14 +78,11 @@ export const slots: Record<string, Slot> = {
       cable: [
         "qdRxqCj", // Wide-Grip Lat Pulldown
       ],
-      db: [
-        "BJ0Hz5L", // Bent Over Two-Dumbbell Row
-      ],
       bw: [
         "0V2YQjW", // Pullups
       ],
     },
-    defaultVariant: { bar: "0V2YQjW", cable: "qdRxqCj", db: "BJ0Hz5L", bw: "0V2YQjW" },
+    defaultVariant: { bar: "0V2YQjW", cable: "qdRxqCj", bw: "0V2YQjW" },
   },
   "Biceps curl": {
     key: "Biceps curl",
@@ -94,7 +91,7 @@ export const slots: Record<string, Slot> = {
         "25GPyDY", // Barbell Curl
       ],
       cable: [
-        "HPlPoQA", // Cable Hammer Curls - Rope Attachment
+        "G08RZcQ", // Cable Curl
       ],
       machine: [
         "b6hQYMb", // Machine Bicep Curl
@@ -106,7 +103,7 @@ export const slots: Record<string, Slot> = {
         "T2mxWqc", // Chin-Up
       ],
     },
-    defaultVariant: { bar: "25GPyDY", cable: "HPlPoQA", machine: "b6hQYMb", db: "xiA6lRr", bw: "T2mxWqc" },
+    defaultVariant: { bar: "25GPyDY", cable: "G08RZcQ", machine: "b6hQYMb", db: "xiA6lRr", bw: "T2mxWqc" },
   },
   "Triceps pushdown/ext": {
     key: "Triceps pushdown/ext",
@@ -136,7 +133,7 @@ export const slots: Record<string, Slot> = {
         "3TZduzM", // Barbell Incline Bench Press - Medium Grip
       ],
       cable: [
-        "FVmZVhk", // Low Cable Crossover
+        "Vh0GsK4", // Cable Incline Bench Press
       ],
       machine: [
         "jHAnWmT", // Leverage Incline Chest Press
@@ -148,13 +145,13 @@ export const slots: Record<string, Slot> = {
         "i5cEhka", // Decline Push-Up
       ],
     },
-    defaultVariant: { bar: "3TZduzM", cable: "FVmZVhk", machine: "jHAnWmT", db: "ns0SIbU", bw: "i5cEhka" },
+    defaultVariant: { bar: "3TZduzM", cable: "Vh0GsK4", machine: "jHAnWmT", db: "ns0SIbU", bw: "i5cEhka" },
   },
   "Side lateral raise": {
     key: "Side lateral raise",
     variants: {
       cable: [
-        "goJ6ezq", // Cable Lateral Raise
+        "wEulIzp", // Cable One-Arm Lateral Raise
       ],
       db: [
         "DsgkuIt", // Side Lateral Raise
@@ -163,7 +160,7 @@ export const slots: Record<string, Slot> = {
         "sTg7iys", // Lateral Raise - With Bands
       ],
     },
-    defaultVariant: { cable: "goJ6ezq", db: "DsgkuIt", bw: "sTg7iys" },
+    defaultVariant: { cable: "wEulIzp", db: "DsgkuIt", bw: "sTg7iys" },
   },
   "Plank (core)": {
     key: "Plank (core)",
@@ -223,7 +220,7 @@ export const slots: Record<string, Slot> = {
         "HPlPoQA", // Cable Hammer Curls - Rope Attachment
       ],
       machine: [
-        "b6hQYMb", // Machine Bicep Curl
+        "OAguZoG", // Machine Hammer Curl
       ],
       db: [
         "GNhAeJ0", // Hammer Curls
@@ -232,7 +229,7 @@ export const slots: Record<string, Slot> = {
         "T2mxWqc", // Chin-Up
       ],
     },
-    defaultVariant: { cable: "HPlPoQA", machine: "b6hQYMb", db: "GNhAeJ0", bw: "T2mxWqc" },
+    defaultVariant: { cable: "HPlPoQA", machine: "OAguZoG", db: "GNhAeJ0", bw: "T2mxWqc" },
   },
   "Squat": {
     key: "Squat",
@@ -265,14 +262,11 @@ export const slots: Record<string, Slot> = {
       cable: [
         "8xUv4J7", // Cable Crunch
       ],
-      db: [
-        "s8nrDXF", // Weighted Crunches
-      ],
       bw: [
         "WhuFnR7", // Flat Bench Lying Leg Raise
       ],
     },
-    defaultVariant: { bar: "I3tsCnC", cable: "8xUv4J7", db: "s8nrDXF", bw: "WhuFnR7" },
+    defaultVariant: { bar: "I3tsCnC", cable: "8xUv4J7", bw: "WhuFnR7" },
   },
   "Chest fly": {
     key: "Chest fly",
@@ -281,16 +275,16 @@ export const slots: Record<string, Slot> = {
         "xLYSdtg", // Cable Crossover
       ],
       machine: [
-        "bWlZvXh", // Butterfly
+        "v3xmPAR", // Pec Deck Fly
       ],
       db: [
-        "1PLE8e9", // Dumbbell Flyes
+        "yz9nUhF", // Flat Dumbbell Fly
       ],
       bw: [
         "I4hDWkc", // Pushups
       ],
     },
-    defaultVariant: { cable: "xLYSdtg", machine: "bWlZvXh", db: "1PLE8e9", bw: "I4hDWkc" },
+    defaultVariant: { cable: "xLYSdtg", machine: "v3xmPAR", db: "yz9nUhF", bw: "I4hDWkc" },
   },
   "Chest dip": {
     key: "Chest dip",
@@ -365,17 +359,14 @@ export const slots: Record<string, Slot> = {
       cable: [
         "2IxROQ1", // Cable Rope Overhead Triceps Extension
       ],
-      machine: [
-        "Ser9eQp", // Machine Triceps Extension
-      ],
       db: [
-        "kont8Ut", // Standing Dumbbell Triceps Extension
+        "PdmaD0N", // Dumbbell Standing Triceps Extension
       ],
       bw: [
         "RrLske5", // Bench Dips
       ],
     },
-    defaultVariant: { cable: "2IxROQ1", machine: "Ser9eQp", db: "kont8Ut", bw: "RrLske5" },
+    defaultVariant: { cable: "2IxROQ1", db: "PdmaD0N", bw: "RrLske5" },
   },
   "Forearm / wrist": {
     key: "Forearm / wrist",
@@ -387,10 +378,10 @@ export const slots: Record<string, Slot> = {
         "BLCvwr2", // Palms-Down Dumbbell Wrist Curl Over A Bench
       ],
       bw: [
-        "CosupLu", // Plank with Twist
+        "2zNKRUB", // Wrist Circles
       ],
     },
-    defaultVariant: { bar: "82LxxkW", db: "BLCvwr2", bw: "CosupLu" },
+    defaultVariant: { bar: "82LxxkW", db: "BLCvwr2", bw: "2zNKRUB" },
   },
   "Lunge": {
     key: "Lunge",
@@ -418,7 +409,7 @@ export const slots: Record<string, Slot> = {
     key: "Hamstring / RDL",
     variants: {
       bar: [
-        "rR0LJzx", // Romanian Deadlift
+        "wQ2c4XD", // Barbell Romanian Deadlift
       ],
       machine: [
         "17lJ1kr", // Lying Leg Curls
@@ -430,7 +421,7 @@ export const slots: Record<string, Slot> = {
         "GibBPPg", // Glute Bridge March
       ],
     },
-    defaultVariant: { bar: "rR0LJzx", machine: "17lJ1kr", db: "5eLRITT", bw: "GibBPPg" },
+    defaultVariant: { bar: "wQ2c4XD", machine: "17lJ1kr", db: "5eLRITT", bw: "GibBPPg" },
   },
   "Calf raise": {
     key: "Calf raise",
@@ -495,8 +486,6 @@ export const slots: Record<string, Slot> = {
       ],
       bw: [
         "XVDdcoj", // Russian Twist
-        "6sYyrRX", // Bent Knee Lying Twist
-        "CosupLu", // Plank with Twist
         "xgsGFVM", // Crab Twist Toe Touch
       ],
     },
@@ -520,18 +509,23 @@ export const slots: Record<string, Slot> = {
       cable: [
         "9pa4H5m", // Pallof Press
       ],
+    },
+    defaultVariant: { cable: "9pa4H5m" },
+  },
+  "Dead Bug": {
+    key: "Dead Bug",
+    variants: {
       bw: [
-        "CosupLu", // Plank with Twist
+        "iny3m5y", // Dead Bug
       ],
     },
-    defaultVariant: { cable: "9pa4H5m", bw: "CosupLu" },
+    defaultVariant: { bw: "iny3m5y" },
   },
   "Reverse Crunch": {
     key: "Reverse Crunch",
     variants: {
       bw: [
         "nCU1Ekp", // Reverse Crunch
-        "tFToB7l", // Reverse Plank with Leg Lift
       ],
     },
     defaultVariant: { bw: "nCU1Ekp" },

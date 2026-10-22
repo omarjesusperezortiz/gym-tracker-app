@@ -120,7 +120,7 @@ describe('styleVariants data', () => {
     expect(Object.keys(styleVariants).sort()).toEqual(
       [
         'Bicycle Crunch', 'Burpee', 'Cobra (Upward Dog)', 'Glute Bridge', 'Lunge', 'Plank', 'Push-up',
-        'Reverse Crunch', 'Russian Twist', 'Side Plank', 'Single Leg Bridge', 'Squat', 'Standing Calf Raise',
+        'Russian Twist', 'Side Plank', 'Single Leg Bridge', 'Squat', 'Standing Calf Raise',
         'Standing Single Leg Curl', 'Superman', 'Walking Lunge',
       ].sort(),
     );
