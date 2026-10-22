@@ -65,6 +65,7 @@ export function useFinishWorkout() {
         name: entry.name,
         type: 'workout',
         slots: entry.slots,
+        ...(entry.autoSaved ? { autoSaved: true } : {}),
       },
       ...history,
     ])

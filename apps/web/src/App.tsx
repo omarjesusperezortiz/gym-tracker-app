@@ -5,6 +5,7 @@ import { AuthGate } from './auth/AuthGate';
 import { createQueryClient } from './lib/queryClient';
 import { registerMutationDefaults } from './lib/mutationDefaults';
 import { useRealtimeSync } from './lib/useRealtimeSync';
+import { useDraftAutoSave } from './lib/useDraftAutoSave';
 import { AppStateProvider, useAppState } from './state/AppState';
 import { ToastProvider } from './components/Toast';
 import { Nav } from './components/Nav';
@@ -46,6 +47,7 @@ function Screens() {
 function Shell() {
   const { state } = useAppState();
   useRealtimeSync();
+  useDraftAutoSave();
   // Train brings its own sticky bar (which carries the notch padding), so only
   // the other screens need .wrap to reserve the safe-area inset at the top.
   const inTrain = state.view === 'train';

@@ -136,6 +136,8 @@ export interface FinishedWorkout {
   name: string;
   type?: 'workout' | 'rest';
   slots: LoggedSlot[];
+  /** Saved by the app because the workout was left unfinished past its day. */
+  autoSaved?: boolean;
 }
 
 // Saves a whole workout in ONE round-trip via the save_workout() RPC.
@@ -149,6 +151,7 @@ export async function finishWorkout(entry: FinishedWorkout): Promise<string> {
     sess: entry.sess,
     name: entry.name,
     type: entry.type ?? 'workout',
+    ...(entry.autoSaved ? { auto_saved: true } : {}),
     slots: entry.slots.map((sl) => ({
       slot: sl.slot,
       slot_id: exerciseId(sl.slot),
