@@ -81,3 +81,61 @@ describe('plans', () => {
     });
   }
 });
+
+// Omar's rule for the bodyweight plans: calisthenics may use a pull-up bar or
+// a bench, travel at most a bench/chair. Checked on what the resolver actually
+// shows — each tab's default plus every style chip — not on slot names.
+describe('calisthenics / travel equipment', () => {
+  const FORBIDDEN = ['band', 'dumbbell', 'cable', 'machine'];
+
+  const shown = (key: 'cal' | 'travel') => {
+    const plan = getPlan(key);
+    const used = new Set<string>();
+    for (const s of plan.sessions) {
+      for (const [k] of s.slots) used.add(k);
+      for (const lv of Object.values(s.levels ?? {})) for (const [k] of lv!.slots) used.add(k);
+    }
+    const rows: { slot: string; id: string }[] = [];
+    for (const slot of used) {
+      for (const kind of plan.slotKinds[slot]) {
+        rows.push({ slot, id: resolveExercise({ plan, slotKey: slot, kind }).id });
+        for (const v of styleVariants[slot]?.[kind] ?? []) {
+          rows.push({ slot, id: resolveExercise({ plan, slotKey: slot, kind, activeVariantPref: v.name }).id });
+        }
+      }
+    }
+    return rows;
+  };
+
+  it.each(['cal', 'travel'] as const)('%s never shows a band, dumbbell, cable or machine exercise', (key) => {
+    const bad = shown(key).filter((r) => exercises[r.id].equipment !== 'bodyweight');
+    expect(bad.map((r) => `${r.slot}: ${r.id} ${exercises[r.id].name} (${exercises[r.id].equipment})`)).toEqual([]);
+    for (const r of shown(key)) expect(FORBIDDEN).not.toContain(exercises[r.id].equipment);
+  });
+
+  it('travel never shows an exercise that needs a bar', () => {
+    const bad = shown('travel').filter((r) => exercises[r.id].needsBar);
+    expect(bad.map((r) => `${r.slot}: ${r.id} ${exercises[r.id].name}`)).toEqual([]);
+  });
+
+  it('every bar exercise is marked needsBar', () => {
+    const BAR = /pull-?ups?\b|chin-?ups?\b|hanging|inverted row|muscle-?up|dips - chest/i;
+    for (const ex of Object.values(exercises)) {
+      if (ex.equipment === 'bodyweight' && BAR.test(ex.name)) expect([ex.id, ex.needsBar]).toEqual([ex.id, true]);
+    }
+  });
+
+  // One exercise on two slots is only fine when both slots are the same
+  // movement. Chest dip + Triceps (RrLske5, bench dips) and the plank slots
+  // are Omar's call and left as they are.
+  const SAME_MOVEMENT: Record<string, string[]> = {
+    cal: ['Chest dip|Triceps pushdown/ext', 'Hanging/Lying Leg Raise|Leg raise (core)', 'Plank|Plank (core)'],
+    travel: ['Lower Back Curl|Superman', 'Plank|Plank (postural)|Plank with Twist'],
+  };
+  it.each(['cal', 'travel'] as const)('%s: an exercise is shown by one slot, bar the same-movement pairs', (key) => {
+    const slotsOf = new Map<string, Set<string>>();
+    for (const r of shown(key)) slotsOf.set(r.id, (slotsOf.get(r.id) ?? new Set()).add(r.slot));
+    const shared = [...slotsOf.values()].filter((s) => s.size > 1).map((s) => [...s].sort().join('|'));
+    expect(shared.sort()).toEqual([...SAME_MOVEMENT[key]].sort());
+  });
+});

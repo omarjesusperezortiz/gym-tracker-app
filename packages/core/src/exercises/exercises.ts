@@ -217,6 +217,19 @@ export const exercises: Record<string, Exercise> = {
       "Hold the contracted position for a brief pause as you squeeze your biceps.",
     ],
   },
+  sJFIDIp: {
+    id: "sJFIDIp",
+    name: "Biceps Leg Concentration Curl",
+    equipment: "bodyweight",
+    target: "biceps",
+    secondary: ["forearms"],
+    steps: [
+      "Sit on a bench, feet flat, and hook one hand under the opposite shin, palm up, upper arm still.",
+      "Curl that leg up toward your chest using the biceps; the leg is the weight.",
+      "Squeeze at the top, then lower the leg slowly until the arm is straight.",
+      "Use the planted leg only as much as you need to keep the reps going; switch arms.",
+    ],
+  },
   tZkGYZ9: {
     id: "tZkGYZ9",
     name: "Bicycle Crunch",
@@ -228,6 +241,20 @@ export const exercises: Record<string, Exercise> = {
       "Lift your feet off the ground and bring your right knee towards your chest while simultaneously twisting your torso to bring your left elbow towards your right knee.",
       "Straighten your right leg while bringing your left knee towards your chest and twisting your torso to bring your right elbow towards your left knee.",
       "Continue alternating the twisting motion, as if you are pedaling a bicycle, while keeping your core engaged throughout the movement.",
+    ],
+  },
+  "75Bgtjy": {
+    id: "75Bgtjy",
+    name: "Bodyweight Squat",
+    equipment: "bodyweight",
+    target: "quads",
+    secondary: ["glutes", "hamstrings"],
+    difficulty: "easy",
+    steps: [
+      "Stand with feet shoulder-width apart, toes slightly out, arms reaching forward.",
+      "Push your hips back and bend your knees as if sitting on a chair, chest up.",
+      "Lower until your thighs are about parallel to the floor.",
+      "Drive through your heels to stand back up.",
     ],
   },
   bJYHBIN: {
@@ -406,6 +433,7 @@ export const exercises: Record<string, Exercise> = {
     id: "T2mxWqc",
     name: "Chin-Up",
     equipment: "bodyweight",
+    needsBar: true,
     target: "lats",
     secondary: ["biceps", "forearms"],
     steps: [
@@ -554,6 +582,7 @@ export const exercises: Record<string, Exercise> = {
     id: "9WTm7dq",
     name: "Dips - Chest Version",
     equipment: "bodyweight",
+    needsBar: true,
     target: "pectorals",
     secondary: ["triceps", "shoulders"],
     steps: [
@@ -802,6 +831,7 @@ export const exercises: Record<string, Exercise> = {
     id: "I3tsCnC",
     name: "Hanging Leg Raise",
     equipment: "bodyweight",
+    needsBar: true,
     target: "abs",
     secondary: ["hip flexors"],
     steps: [
@@ -839,6 +869,19 @@ export const exercises: Record<string, Exercise> = {
       "Pause for a moment at the top, then slowly lower your hips back down to the starting position.",
     ],
   },
+  zkgRrbK: {
+    id: "zkgRrbK",
+    name: "Hyperextension (on Bench)",
+    equipment: "bodyweight",
+    target: "spine",
+    secondary: ["glutes", "hamstrings"],
+    steps: [
+      "Lie face down along a flat bench with your hips at the end and your upper body hanging off, feet anchored.",
+      "Cross your arms over your chest and hinge at the hips to lower your torso toward the floor, back flat.",
+      "Squeeze glutes and hamstrings to raise your torso until it is in line with your legs.",
+      "Do not arch past straight; lower with control and repeat.",
+    ],
+  },
   ns0SIbU: {
     id: "ns0SIbU",
     name: "Incline Dumbbell Press",
@@ -850,6 +893,20 @@ export const exercises: Record<string, Exercise> = {
       "Sit on the bench with your feet flat on the ground and your back pressed firmly against the bench.",
       "Hold a dumbbell in each hand, palms facing forward, and lift them to shoulder height.",
       "Slowly lower the dumbbells to the sides of your chest, keeping your elbows at a 90-degree angle.",
+    ],
+  },
+  B1EVP9F: {
+    id: "B1EVP9F",
+    name: "Incline Push-up",
+    equipment: "bodyweight",
+    target: "pectorals",
+    secondary: ["triceps", "shoulders"],
+    difficulty: "easy",
+    steps: [
+      "Place your hands on a step, bench or chair edge, slightly wider than shoulders, body straight.",
+      "Bend your elbows to lower your chest to the edge.",
+      "Keep your body in one line, hips neither sagging nor piked.",
+      "Press back up to straight arms.",
     ],
   },
   "5VXmnV5": {
@@ -870,6 +927,7 @@ export const exercises: Record<string, Exercise> = {
     id: "bZGHsAZ",
     name: "Inverted Row",
     equipment: "bodyweight",
+    needsBar: true,
     target: "upper back",
     secondary: ["biceps", "forearms"],
     steps: [
@@ -906,6 +964,20 @@ export const exercises: Record<string, Exercise> = {
       "Repeat at a steady pace for the target time.",
     ],
   },
+  LIlE5Tn: {
+    id: "LIlE5Tn",
+    name: "Jump Squat",
+    equipment: "bodyweight",
+    target: "glutes",
+    secondary: ["quads", "hamstrings", "calves"],
+    difficulty: "hard",
+    steps: [
+      "Stand with feet shoulder-width apart.",
+      "Squat down by pushing your hips back and bending your knees.",
+      "Jump explosively, extending hips, knees and ankles.",
+      "Land softly on the balls of your feet and sink straight into the next squat.",
+    ],
+  },
   dTg95eZ: {
     id: "dTg95eZ",
     name: "Knee Touch Crunch",
@@ -920,6 +992,20 @@ export const exercises: Record<string, Exercise> = {
       "Return to the starting position and repeat, this time reaching your left hand towards your right knee.",
     ],
   },
+  ZOuKWir: {
+    id: "ZOuKWir",
+    name: "Kneeling Push-up",
+    equipment: "bodyweight",
+    target: "pectorals",
+    secondary: ["triceps", "shoulders"],
+    difficulty: "easy",
+    steps: [
+      "Kneel with hands on the floor slightly wider than shoulders, knees behind hips, body straight from head to knees.",
+      "Bend your elbows to lower your chest toward the floor, elbows about 45° from your body.",
+      "Stop just above the floor.",
+      "Press back up to straight arms.",
+    ],
+  },
   s0HKO2I: {
     id: "s0HKO2I",
     name: "Kneeling Triceps Extension",
@@ -927,10 +1013,10 @@ export const exercises: Record<string, Exercise> = {
     target: "triceps",
     secondary: ["shoulders", "core"],
     steps: [
-      "Kneel on the floor with arms extended overhead, hands together.",
-      "Hinge slightly forward at the hips for stability.",
-      "Bend elbows to lower hands behind your head.",
-      "Extend arms back overhead by contracting the triceps.",
+      "Kneel on all fours, then walk your hands forward so your arms reach out ahead of your head.",
+      "Bend your elbows to lower your forearms to the floor, elbows narrow.",
+      "Press through your palms to straighten your arms and lift your upper body back up.",
+      "Keep your hips over your knees; only the elbows move.",
     ],
   },
   UpWmA5E: {
@@ -1047,7 +1133,7 @@ export const exercises: Record<string, Exercise> = {
     difficulty: "med",
     steps: [
       "Lie face-down with arms extended alongside body.",
-      "Lift your chest and legs off the floor by contracting the lower back.",
+      "Lift your chest off the floor by contracting the lower back; legs stay down.",
       "Hold briefly at the top, feeling the squeeze.",
       "Lower back down with control and repeat.",
     ],
@@ -1365,6 +1451,7 @@ export const exercises: Record<string, Exercise> = {
     id: "0V2YQjW",
     name: "Pullups",
     equipment: "bodyweight",
+    needsBar: true,
     target: "lats",
     secondary: ["biceps", "forearms"],
     steps: [
@@ -1495,6 +1582,19 @@ export const exercises: Record<string, Exercise> = {
       "Lift your feet off the ground, balancing on your sit bones.",
     ],
   },
+  "7xeukSt": {
+    id: "7xeukSt",
+    name: "Scapula Dips",
+    equipment: "bodyweight",
+    target: "traps",
+    secondary: ["rhomboids", "deltoids"],
+    steps: [
+      "Sit on the edge of a bench, hands on the edge beside your hips, and slide your hips just off it, arms straight.",
+      "Keeping your elbows locked, let your shoulders rise toward your ears so your body sinks a few centimetres.",
+      "Press your shoulders down away from your ears to lift your body back up.",
+      "Only the shoulder blades move; the arms stay straight throughout.",
+    ],
+  },
   "8DiFDVA": {
     id: "8DiFDVA",
     name: "Seated Bent-Over Rear Delt Raise",
@@ -1533,6 +1633,20 @@ export const exercises: Record<string, Exercise> = {
       "Keep your body in a straight line from knees to head, hips extended and hands ready in front of your chest.",
       "Slowly lean forward, resisting with your hamstrings for as long as you can control the descent.",
       "Catch yourself with your hands, then push lightly off the floor and curl back up to kneeling.",
+    ],
+  },
+  qEse6fe: {
+    id: "qEse6fe",
+    name: "Shoulder Tap Push-up",
+    equipment: "bodyweight",
+    target: "pectorals",
+    secondary: ["triceps", "core"],
+    difficulty: "med",
+    steps: [
+      "High plank, hands under shoulders, feet hip-width.",
+      "Do one push-up.",
+      "At the top, lift one hand and tap the opposite shoulder without twisting your hips.",
+      "Replace the hand, push up again and tap with the other hand.",
     ],
   },
   RKjH6Lt: {
@@ -1958,6 +2072,20 @@ export const exercises: Record<string, Exercise> = {
       "Hold a weight plate or dumbbell on your chest.",
       "Engage your abs and lift your upper body off the ground, curling forward until your shoulder blades are off the ground.",
       "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
+    ],
+  },
+  JmMVpR3: {
+    id: "JmMVpR3",
+    name: "Wide Hand Push-up",
+    equipment: "bodyweight",
+    target: "pectorals",
+    secondary: ["triceps", "shoulders"],
+    difficulty: "med",
+    steps: [
+      "High plank with your hands clearly wider than shoulder-width.",
+      "Lower your chest toward the floor, body in a straight line.",
+      "Stop just above the floor.",
+      "Press back up to straight arms.",
     ],
   },
   qdRxqCj: {

@@ -57,7 +57,7 @@ describe('ExerciseDetailSheet variant chips', () => {
   it('renders one chip per variant with the default active', () => {
     render(<SheetHarness />);
     const chips = Array.from(document.querySelectorAll('.vchip'));
-    expect(chips.map((c) => c.textContent)).toEqual(['Standard', 'Diamond', 'Hindu', 'Archer', 'Plyo']);
+    expect(chips.map((c) => c.textContent)).toEqual(['Standard', 'Kneeling', 'Incline', 'Wide Hand', 'Shoulder Tap']);
     expect(screen.getByRole('button', { name: 'Standard' })).toHaveAttribute('aria-pressed', 'true');
     expect(hero().src).toContain('I4hDWkc.webp');
   });
@@ -75,11 +75,11 @@ describe('ExerciseDetailSheet variant chips', () => {
   it('chip click swaps hero, title and how-to in the same render', async () => {
     const user = userEvent.setup();
     render(<SheetHarness />);
-    await user.click(screen.getByRole('button', { name: 'Diamond' }));
-    expect(hero().src).toContain('soIB2rj.webp');
-    expect(screen.getByRole('heading', { name: 'Diamond Push-Up' })).toBeInTheDocument();
-    expect(screen.getByText(exercises.soIB2rj.steps[0])).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Diamond' })).toHaveAttribute('aria-pressed', 'true');
+    await user.click(screen.getByRole('button', { name: 'Wide Hand' }));
+    expect(hero().src).toContain('JmMVpR3.webp');
+    expect(screen.getByRole('heading', { name: 'Wide Hand Push-up' })).toBeInTheDocument();
+    expect(screen.getByText(exercises.JmMVpR3.steps[0])).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Wide Hand' })).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('sits between the hero and the how-to steps', () => {
@@ -103,7 +103,7 @@ describe('ExerciseCard uses the active variant', () => {
         plan={TRAVEL}
         planKey="travel"
         state={st}
-        activeVariants={{ 'Push-up|bw': 'Archer Push-up' }}
+        activeVariants={{ 'Push-up|bw': 'Wide Hand Push-up' }}
         onToggleDone={noop}
         onToggleForce={noop}
         onKindChange={noop}
@@ -113,7 +113,7 @@ describe('ExerciseCard uses the active variant', () => {
       />,
     );
     expect(screen.getByText('Push-up')).toBeInTheDocument();
-    expect(screen.getByText('Archer Push-up')).toBeInTheDocument();
-    expect((screen.getByAltText('Archer Push-up demonstration') as HTMLImageElement).src).toContain('A9qxk2F.webp');
+    expect(screen.getByText('Wide Hand Push-up')).toBeInTheDocument();
+    expect((screen.getByAltText('Wide Hand Push-up demonstration') as HTMLImageElement).src).toContain('JmMVpR3.webp');
   });
 });

@@ -28,8 +28,8 @@ describe('resolveExercise', () => {
   });
 
   it('a chosen style variant overrides the default', () => {
-    const ex = resolveExercise({ plan: travel, slotKey: 'Push-up', kind: 'bw', activeVariantPref: 'Diamond Push-Up' });
-    expect(ex.id).toBe('soIB2rj');
+    const ex = resolveExercise({ plan: travel, slotKey: 'Push-up', kind: 'bw', activeVariantPref: 'Wide Hand Push-up' });
+    expect(ex.id).toBe('JmMVpR3');
   });
 
   it('falls back to the default for a stale or missing choice', () => {

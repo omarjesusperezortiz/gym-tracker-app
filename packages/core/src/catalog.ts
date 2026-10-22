@@ -980,11 +980,6 @@ export const catalog = {
        ""
       ],
       [
-       "Side lateral raise",
-       "3 × 12–15",
-       ""
-      ],
-      [
        "Triceps pushdown/ext",
        "3 × 10–12",
        ""
@@ -1013,22 +1008,12 @@ export const catalog = {
        ""
       ],
       [
-       "Rear delts",
-       "3 × 15",
-       ""
-      ],
-      [
        "Shrugs (traps)",
        "3 × 12–15",
        ""
       ],
       [
        "Biceps curl",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Hammer curl",
        "3 × 10–12",
        ""
       ]
@@ -1089,11 +1074,6 @@ export const catalog = {
        ""
       ],
       [
-       "Chest fly",
-       "3 × 12–15",
-       ""
-      ],
-      [
        "Chest dip",
        "3 × 8–12",
        ""
@@ -1122,18 +1102,8 @@ export const catalog = {
        ""
       ],
       [
-       "Lat pullover / straight-arm",
-       "3 × 12–15",
-       ""
-      ],
-      [
        "Shrugs (traps)",
        "3 × 12–15",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 × 15",
        ""
       ]
      ]
@@ -1148,26 +1118,6 @@ export const catalog = {
        "Overhead press",
        "4 × 6–10",
        "5 × 4–6 heavy"
-      ],
-      [
-       "Side lateral raise",
-       "4 × 12–20",
-       ""
-      ],
-      [
-       "Front raise",
-       "3 × 10–15",
-       ""
-      ],
-      [
-       "Upright row",
-       "3 × 10–12",
-       ""
-      ],
-      [
-       "Rear delts",
-       "3 × 15",
-       ""
       ]
      ]
     },
@@ -1185,11 +1135,6 @@ export const catalog = {
       [
        "Triceps pushdown/ext",
        "4 × 8–12",
-       ""
-      ],
-      [
-       "Hammer curl",
-       "3 × 10–12",
        ""
       ],
       [
@@ -1303,9 +1248,7 @@ export const catalog = {
     },
     "Overhead press": {
      "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
+      "name": "Handstand Push-Up"
      }
     },
     "Vertical pull (lats)": {
@@ -1317,9 +1260,7 @@ export const catalog = {
     },
     "Biceps curl": {
      "bw": {
-      "name": "Chin-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/1.jpg"
+      "name": "Biceps Leg Concentration Curl"
      }
     },
     "Triceps pushdown/ext": {
@@ -1336,13 +1277,6 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
      }
     },
-    "Side lateral raise": {
-     "bw": {
-      "name": "Lateral Raise - With Bands",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lateral_Raise_-_With_Bands/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lateral_Raise_-_With_Bands/1.jpg"
-     }
-    },
     "Plank (core)": {
      "bw": {
       "name": "Plank",
@@ -1350,25 +1284,9 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/1.jpg"
      }
     },
-    "Rear delts": {
-     "bw": {
-      "name": "Band Pull Apart",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/1.jpg"
-     }
-    },
     "Shrugs (traps)": {
      "bw": {
-      "name": "Superman",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
-     }
-    },
-    "Hammer curl": {
-     "bw": {
-      "name": "Chin-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/1.jpg"
+      "name": "Scapula Dips"
      }
     },
     "Squat": {
@@ -1385,13 +1303,6 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flat_Bench_Lying_Leg_Raise/1.jpg"
      }
     },
-    "Chest fly": {
-     "bw": {
-      "name": "Pushups",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pushups/1.jpg"
-     }
-    },
     "Chest dip": {
      "bw": {
       "name": "Bench Dips",
@@ -1399,32 +1310,9 @@ export const catalog = {
       "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/1.jpg"
      }
     },
-    "Lat pullover / straight-arm": {
-     "bw": {
-      "name": "Superman",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Superman/1.jpg"
-     }
-    },
-    "Front raise": {
-     "bw": {
-      "name": "Decline Push-Up",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Push-Up/1.jpg"
-     }
-    },
-    "Upright row": {
-     "bw": {
-      "name": "Band Pull Apart",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Band_Pull_Apart/1.jpg"
-     }
-    },
     "Overhead triceps": {
      "bw": {
-      "name": "Bench Dips",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/1.jpg"
+      "name": "Kneeling Triceps Extension"
      }
     },
     "Forearm / wrist": {
@@ -1434,16 +1322,12 @@ export const catalog = {
     },
     "Lunge": {
      "bw": {
-      "name": "Bodyweight Walking Lunge",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Walking_Lunge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Walking_Lunge/1.jpg"
+      "name": "Forward Lunge"
      }
     },
     "Hamstring / RDL": {
      "bw": {
-      "name": "Butt Lift (Bridge)",
-      "img": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Butt_Lift_Bridge/0.jpg",
-      "img2": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Butt_Lift_Bridge/1.jpg"
+      "name": "Hyperextension (on Bench)"
      }
     },
     "Calf raise": {
@@ -1508,23 +1392,27 @@ export const catalog = {
     "Inverted Row": "Under a bar/table, pull chest up, body straight.",
     "Decline Push-Up": "Feet elevated push-up — hits shoulders/upper chest.",
     "Pullups": "Pull chin over bar. Band-assist if needed.",
-    "Chin-Up": "Underhand pull-up — biceps + back.",
     "Bench Dips": "Hands on bench behind you, lower & press up.",
-    "Side Lateral Raise": "Raise out to shoulder height, slight bend. Light.",
     "Plank": "Forearms down, body straight, brace abs, hold. Don't let hips sag.",
-    "Band Pull Apart": "Band at chest, pull apart, squeeze blades.",
-    "Superman": "Face down, lift chest+legs, squeeze, lower.",
     "Bodyweight Squat": "Sit back and down, knees track toes, stand.",
     "Flat Bench Lying Leg Raise": "Lie down, raise legs with control, lower slow.",
     "Bodyweight Walking Lunge": "Step forward, drop back knee, alternate.",
-    "Butt Lift (Bridge)": "On back, drive hips up, squeeze glutes.",
     "Standing Calf Raises": "Rise onto toes, squeeze, lower slow. On a step for range.",
     "Air Bike": "Alternate elbow to opposite knee, slow and controlled.",
     "Russian Twist": "Seated, lean back, rotate side to side. Add weight to progress.",
     "Side Bridge": "On side, forearm down, hips up, straight line, hold.",
     "Reverse Crunch": "Knees up, curl hips toward chest, control down.",
-    "Lateral Raise - With Bands": "Hold bands underfoot, raise arms out to shoulder height, control down.",
-    "Donkey Calf Raises": "Bend at hips, raise onto toes, full squeeze, slow stretch — bodyweight."
+    "Donkey Calf Raises": "Bend at hips, raise onto toes, full squeeze, slow stretch — bodyweight.",
+    "Handstand Push-Up": "Feet on the wall, lower head to the floor, press back up. No arching.",
+    "Scapula Dips": "Arms locked on a bench edge, sink by letting shoulders rise, then press them down.",
+    "Biceps Leg Concentration Curl": "Hand under the opposite shin, curl the leg up with the biceps, slow down.",
+    "Kneeling Triceps Extension": "Hands ahead of your head, lower forearms to the floor, press back up with triceps.",
+    "Hyperextension (on Bench)": "Hips at the bench end, feet anchored, hinge down with a flat back, raise to straight.",
+    "Forward Lunge": "Step forward, drop back knee, push back to standing, alternate.",
+    "Squat to Overhead Reach": "Squat down, stand and reach both arms overhead.",
+    "Jump Squat": "Squat, jump explosively, land soft into the next rep.",
+    "Lunge with Twist": "Lunge forward, rotate the torso over the front leg, return.",
+    "Lunge with Jump": "Lunge, drive up into a knee lift, land back in the lunge."
    }
   },
   "travel": {
@@ -2464,9 +2352,7 @@ export const catalog = {
     },
     "Lunge": {
      "bw": {
-      "name": "Bodyweight Walking Lunge",
-      "img": "./exercise-media/posters/IZVHb27.jpg",
-      "img2": "./exercise-media/posters/IZVHb27.jpg"
+      "name": "Forward Lunge"
      }
     },
     "Lying Leg-Hip Raise": {
@@ -2618,9 +2504,7 @@ export const catalog = {
     },
     "Superman": {
      "bw": {
-      "name": "Superman",
-      "img": "./exercise-media/posters/01qpYSe.jpg",
-      "img2": "./exercise-media/posters/01qpYSe.jpg"
+      "name": "Lower Back Curl"
      }
     },
     "V-Sit Hold": {
@@ -2673,12 +2557,24 @@ export const catalog = {
     "Sissy Squat": "Lean back · knees forward · quads intense · balance.",
     "Sphinx": "Forearms down · lift chest · passive extension hold.",
     "Split Squats": "Feet split stance · back knee toward floor · vertical shin.",
-    "Squat": "Push hips back · knees over toes · reach tall at top.",
+    "Squat": "Push hips back · knees over toes · stand tall.",
     "Standing Archer": "Standing · one arm pulls · other extends · unilateral.",
     "Standing Single Leg Curl": "One leg planted · curl heel to glute · squeeze hamstring.",
     "Star Jump": "Explosive jump · arms + legs out.",
-    "Superman": "Prone · lift arms + legs · squeeze low back.",
-    "V-Sit on Floor": "Balance on sit bones · V-shape · hold."
+    "V-Sit on Floor": "Balance on sit bones · V-shape · hold.",
+    "Squat to Overhead Reach": "Squat down · stand · reach both arms overhead.",
+    "Jump Squat": "Squat · jump explosively · land soft into the next rep.",
+    "Kneeling Push-up": "Knees down · body straight knees to head · chest to floor.",
+    "Incline Push-up": "Hands on a chair/bench edge · body straight · chest to the edge.",
+    "Wide Hand Push-up": "Hands wide · body straight · chest to floor.",
+    "Shoulder Tap Push-up": "Push-up · at the top tap opposite shoulder · hips still.",
+    "Forward Lunge": "Step forward · back knee toward floor · push back to standing.",
+    "Lunge with Twist": "Lunge · rotate torso over front leg · return.",
+    "Lunge with Jump": "Lunge · drive up into a knee lift · land back in the lunge.",
+    "Walking High Knees Lunge": "Knee up high · step into a lunge · keep travelling.",
+    "Cross Body Crunch": "Elbow to opposite knee · curl up · alternate.",
+    "Low Glute Bridge": "On back · feet flat · drive hips up · squeeze glutes.",
+    "Pelvic Tilt into Bridge": "Tilt pelvis first · peel spine up into a bridge · lower slow."
    }
   },
  },

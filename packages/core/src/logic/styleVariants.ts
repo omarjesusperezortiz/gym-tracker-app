@@ -14,43 +14,27 @@ export interface StyleVariant {
   difficulty: VariantDifficulty;
 }
 
-// Shared by alias slots (same movement family under another catalog name).
-const LUNGE_BW: StyleVariant[] = [
-  { id: 'IZVHb27', name: 'Bodyweight Walking Lunge', difficulty: 'easy' },
-  { id: 'kMzUs9Y', name: 'Forward Lunge', difficulty: 'easy' },
-  { id: 'K9VL0Jq', name: 'Lunge with Twist', difficulty: 'med' },
-  { id: 'J9zIWig', name: 'Walking High Knees Lunge', difficulty: 'med' },
-  { id: 'PM1PZjg', name: 'Lunge with Jump', difficulty: 'hard' },
-];
-
-const BACK_EXTENSION_BW: StyleVariant[] = [
-  { id: '01qpYSe', name: 'Upward Facing Dog', difficulty: 'easy' },
-  { id: 'DIVyqrU', name: 'Sphinx', difficulty: 'easy' },
-  { id: 'ANbbry2', name: 'Lower Back Curl', difficulty: 'med' },
-  { id: 'XPUDTt7', name: 'Pike-to-Cobra Push-up', difficulty: 'hard' },
-];
-
 /**
  * Map: slot name → list of style variants under the SAME equipment kind.
  * First entry is the default. Only slots with 2+ variants need an entry.
+ * A chip is never an exercise that has its own slot in the plan (e.g. no
+ * Diamond chip under Push-up — Diamond Push-up is a slot of its own).
  */
 export const styleVariants: Record<string, Record<string /* kind */, StyleVariant[]>> = {
   'Push-up': {
     bw: [
       { id: 'I4hDWkc', name: 'Pushups', difficulty: 'easy' },
-      { id: 'soIB2rj', name: 'Diamond Push-Up', difficulty: 'med' },
-      { id: 'epOSYUZ', name: 'Hindu Push-up', difficulty: 'med' },
-      { id: 'A9qxk2F', name: 'Archer Push-up', difficulty: 'hard' },
-      { id: 'Snj1wSv', name: 'Plyo Push-up', difficulty: 'hard' },
+      { id: 'ZOuKWir', name: 'Kneeling Push-up', difficulty: 'easy' },
+      { id: 'B1EVP9F', name: 'Incline Push-up', difficulty: 'easy' },
+      { id: 'JmMVpR3', name: 'Wide Hand Push-up', difficulty: 'med' },
+      { id: 'qEse6fe', name: 'Shoulder Tap Push-up', difficulty: 'med' },
     ],
   },
   Squat: {
     bw: [
-      { id: 'QChZi3x', name: 'Squat', difficulty: 'easy' },
-      { id: '9E25EOx', name: 'Split Squats', difficulty: 'med' },
-      { id: 'gUjqdei', name: 'Curtsey Squat', difficulty: 'med' },
-      { id: 'nqs5HGV', name: 'Pistol Squat', difficulty: 'hard' },
-      { id: 'xdYPUtE', name: 'Sissy Squat', difficulty: 'hard' },
+      { id: '75Bgtjy', name: 'Squat', difficulty: 'easy' },
+      { id: 'QChZi3x', name: 'Squat to Overhead Reach', difficulty: 'easy' },
+      { id: 'LIlE5Tn', name: 'Jump Squat', difficulty: 'hard' },
     ],
   },
   Plank: {
@@ -59,21 +43,24 @@ export const styleVariants: Record<string, Record<string /* kind */, StyleVarian
       { id: 'CosupLu', name: 'Plank with Twist', difficulty: 'med' },
     ],
   },
-  Lunge: { bw: LUNGE_BW },
-  'Walking Lunge': { bw: LUNGE_BW },
+  Lunge: {
+    bw: [
+      { id: 'kMzUs9Y', name: 'Forward Lunge', difficulty: 'easy' },
+      { id: 'K9VL0Jq', name: 'Lunge with Twist', difficulty: 'med' },
+      { id: 'PM1PZjg', name: 'Lunge with Jump', difficulty: 'hard' },
+    ],
+  },
+  'Walking Lunge': {
+    bw: [
+      { id: 'IZVHb27', name: 'Bodyweight Walking Lunge', difficulty: 'easy' },
+      { id: 'J9zIWig', name: 'Walking High Knees Lunge', difficulty: 'med' },
+    ],
+  },
   'Glute Bridge': {
     bw: [
       { id: 'u0cNiij', name: 'Low Glute Bridge', difficulty: 'easy' },
-      { id: '196HJGw', name: 'Hip Raise Bent Knee', difficulty: 'easy' },
       { id: 'GibBPPg', name: 'Glute Bridge March', difficulty: 'med' },
       { id: 'D9qe7CM', name: 'Pelvic Tilt into Bridge', difficulty: 'med' },
-      { id: 'rmEukuS', name: 'Single Leg Bridge', difficulty: 'hard' },
-    ],
-  },
-  'Single Leg Bridge': {
-    bw: [
-      { id: 'rmEukuS', name: 'Single Leg Bridge', difficulty: 'med' },
-      { id: 'GibBPPg', name: 'Glute Bridge March', difficulty: 'easy' },
     ],
   },
   // Incline + adduction use a chair/bed edge — fine for travel.
@@ -103,20 +90,9 @@ export const styleVariants: Record<string, Record<string /* kind */, StyleVarian
   'Bicycle Crunch': {
     bw: [
       { id: '1ZFqTDN', name: 'Air Bike', difficulty: 'easy' },
-      { id: 'TFqbd8t', name: 'Crunch Floor', difficulty: 'easy' },
       { id: 'rbu5UUb', name: 'Cross Body Crunch', difficulty: 'med' },
-      { id: 'dTg95eZ', name: 'Knee Touch Crunch', difficulty: 'med' },
     ],
   },
-  // Seated Leg Raise (Hgs6Nl1) left out: its demo is on a bench.
-  'Russian Twist': {
-    bw: [
-      { id: 'XVDdcoj', name: 'Russian Twist', difficulty: 'easy' },
-      { id: 'xgsGFVM', name: 'Crab Twist Toe Touch', difficulty: 'hard' },
-    ],
-  },
-  Superman: { bw: BACK_EXTENSION_BW },
-  'Cobra (Upward Dog)': { bw: BACK_EXTENSION_BW },
   Burpee: {
     bw: [
       { id: 'dK9394r', name: 'Burpee', difficulty: 'med' },
@@ -155,8 +131,8 @@ export function resolveVariant(
 const SHORT_LABEL: Record<string, string> = {
   Pushups: 'Standard',
   Squat: 'Standard',
+  'Squat to Overhead Reach': 'Overhead Reach',
   Plank: 'Standard',
-  'Split Squats': 'Split',
   'Plank with Twist': 'Twist',
   'Bodyweight Walking Lunge': 'Walking',
   'Forward Lunge': 'Forward',
@@ -164,10 +140,8 @@ const SHORT_LABEL: Record<string, string> = {
   'Walking High Knees Lunge': 'High Knees',
   'Lunge with Jump': 'Jump',
   'Low Glute Bridge': 'Low',
-  'Hip Raise Bent Knee': 'Hip Raise',
   'Glute Bridge March': 'March',
   'Pelvic Tilt into Bridge': 'Pelvic Tilt',
-  'Single Leg Bridge': 'Single Leg',
   'Side Bridge': 'Standard',
   'Incline Side Plank': 'Incline',
   'Side Bridge Hip Abduction': 'Abduction',
@@ -178,15 +152,7 @@ const SHORT_LABEL: Record<string, string> = {
   'Standing Single Leg Curl': 'Standing',
   'Self Assisted Inverse Leg Curl (Floor)': 'Nordic',
   'Air Bike': 'Bicycle',
-  'Crunch Floor': 'Crunch',
   'Cross Body Crunch': 'Cross Body',
-  'Knee Touch Crunch': 'Knee Touch',
-  'Russian Twist': 'Standard',
-  'Crab Twist Toe Touch': 'Crab Twist',
-  'Upward Facing Dog': 'Up Dog',
-  Sphinx: 'Sphinx',
-  'Lower Back Curl': 'Back Curl',
-  'Pike-to-Cobra Push-up': 'Pike to Cobra',
   Burpee: 'Standard',
   'Jack Burpee': 'Jack',
 };
